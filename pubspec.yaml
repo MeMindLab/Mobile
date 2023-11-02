@@ -41,6 +41,7 @@ dependencies:
   #network
   dio: ^5.3.3
   retrofit: ^4.0.3
+  shared_preferences: ^2.2.2
 
 dev_dependencies:
   flutter_test:
@@ -63,6 +64,10 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
+    - assets/image/bottomNav/home.png
+    - assets/image/bottomNav/report.png
+    - assets/image/bottomNav/diary.png
+    - assets/image/bottomNav/setting.png
     - assets/image/
     - assets/svg/icon/
     - assets/image/flag/

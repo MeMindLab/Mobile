@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:me_mind/component/bottomNav.dart';
 
-class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+class Report extends StatefulWidget {
+  const Report({super.key});
 
   @override
-  State<MainScreen> createState() => _MainScreenState();
+  State<Report> createState() => _ReportState();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class _ReportState extends State<Report> {
   @override
   void initState() {
     super.initState();
@@ -23,9 +23,9 @@ class _MainScreenState extends State<MainScreen> {
         foregroundColor: Colors.black,
         backgroundColor: Colors.grey.shade50,
       ),
-      body: const Column(
+      body: Column(
         children: [
-          Text('1'),
+          Text('2'),
         ],
       ),
       backgroundColor: Colors.grey.shade50,
