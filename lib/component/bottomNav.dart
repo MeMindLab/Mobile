@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:me_mind/app.dart';
 import 'package:me_mind/common/store.dart';
+import 'package:me_mind/screen/main/s_diary.dart';
+import 'package:me_mind/screen/main/s_main.dart';
 import 'package:me_mind/screen/main/s_report.dart';
+import 'package:me_mind/screen/main/s_setting.dart';
 
 class MyBottomNav extends StatefulWidget {
   const MyBottomNav({super.key});
@@ -33,14 +36,14 @@ class _MyBottomNavState extends State<MyBottomNav> {
                         pageBuilder: ((BuildContext context,
                             Animation<double> animation1,
                             Animation<double> animation2) =>
-                        const MyApp()),
+                        const MainScreen()),
                         transitionDuration: Duration.zero,
                         reverseTransitionDuration: Duration.zero,
                       )
                   );
                 }
               ),
-              idx == 0 ? Text('홈', style: TextStyle(color: Colors.white)) : Text('홈', style: TextStyle(color: Colors.white)),
+              idx == 0 ? Text('홈', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)) : Text('홈', style: TextStyle(color: Colors.white)),
             ],
           ),
           Column(
@@ -64,7 +67,7 @@ class _MyBottomNavState extends State<MyBottomNav> {
                   );
                 }
               ),
-              idx == 1 ? Text('ai 리포트', style: TextStyle(color: Colors.white)) : Text('ai 리포트', style: TextStyle(color: Colors.white)),
+              idx == 1 ? Text('ai 리포트', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)) : Text('ai 리포트', style: TextStyle(color: Colors.white)),
             ],
           ),
           Column(
@@ -81,14 +84,14 @@ class _MyBottomNavState extends State<MyBottomNav> {
                         pageBuilder: ((BuildContext context,
                             Animation<double> animation1,
                             Animation<double> animation2) =>
-                        const MyApp()),
+                        const Diary()),
                         transitionDuration: Duration.zero,
                         reverseTransitionDuration: Duration.zero,
                       )
                   );
                 }
               ),
-              idx == 2 ? Text('ai 그림일기', style: TextStyle(color: Colors.white)) : Text('ai 일기그림', style: TextStyle(color: Colors.white)),
+              idx == 2 ? Text('ai 그림일기', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)) : Text('ai 그림일기', style: TextStyle(color: Colors.white)),
             ],
           ),
           Column(
@@ -105,14 +108,14 @@ class _MyBottomNavState extends State<MyBottomNav> {
                         pageBuilder: ((BuildContext context,
                             Animation<double> animation1,
                             Animation<double> animation2) =>
-                        const MyApp()),
+                        const Setting()),
                         transitionDuration: Duration.zero,
                         reverseTransitionDuration: Duration.zero,
                       )
                   );
                 }
               ),
-              idx == 3 ? Text('설정', style: TextStyle(color: Colors.white)) : Text('설정', style: TextStyle(color: Colors.white)),
+              idx == 3 ? Text('설정', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)) : Text('설정', style: TextStyle(color: Colors.white)),
             ],
           ),
         ],
