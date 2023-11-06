@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 
 import '../../app.dart';
 import 'custom_theme.dart';
@@ -14,8 +15,7 @@ class CustomThemeApp extends StatefulWidget {
 }
 
 class _CustomThemeAppState extends State<CustomThemeApp> {
-  final CustomTheme? defaultTheme = App.defaultTheme;
-  late CustomTheme? theme = defaultTheme;
+  late CustomTheme theme = App.defaultTheme ?? systemTheme; //디폴트를 주시거나, 시스템을 따라가게 합니다.
 
   void handleChangeTheme(CustomTheme theme) {
     setState(() => this.theme = theme);
@@ -28,5 +28,14 @@ class _CustomThemeAppState extends State<CustomThemeApp> {
       theme: theme,
       child: widget.child,
     );
+  }
+
+  CustomTheme get systemTheme {
+    switch (SchedulerBinding.instance.platformDispatcher.platformBrightness) {
+      case Brightness.dark:
+        return CustomTheme.dark;
+      case Brightness.light:
+        return CustomTheme.light;
+    }
   }
 }

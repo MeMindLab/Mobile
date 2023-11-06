@@ -6,7 +6,7 @@ import 'color/abs_theme_colors.dart';
 class CustomThemeHolder extends InheritedWidget {
   final AbstractThemeColors appColors;
   final AbsThemeShadows appShadows;
-  final CustomTheme? theme;
+  final CustomTheme theme;
   final Function(CustomTheme) changeTheme;
 
   CustomThemeHolder({
@@ -14,7 +14,7 @@ class CustomThemeHolder extends InheritedWidget {
     required this.theme,
     required this.changeTheme,
     Key? key,
-  })  : appColors = theme!.appColors,
+  })  : appColors = theme.appColors,
         appShadows = theme.appShadows,
         super(key: key, child: child);
 
@@ -28,7 +28,7 @@ class CustomThemeHolder extends InheritedWidget {
 
   static CustomThemeHolder of(BuildContext context) {
     CustomThemeHolder inherited =
-        (context.dependOnInheritedWidgetOfExactType<CustomThemeHolder>())!;
+    (context.dependOnInheritedWidgetOfExactType<CustomThemeHolder>())!;
     return inherited;
   }
 }
