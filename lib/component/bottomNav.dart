@@ -36,7 +36,7 @@ class _MyBottomNavState extends State<MyBottomNav> {
                         pageBuilder: ((BuildContext context,
                             Animation<double> animation1,
                             Animation<double> animation2) =>
-                        const MainScreen()),
+                        MainScreen()),
                         transitionDuration: Duration.zero,
                         reverseTransitionDuration: Duration.zero,
                       )
@@ -52,7 +52,7 @@ class _MyBottomNavState extends State<MyBottomNav> {
                         pageBuilder: ((BuildContext context,
                             Animation<double> animation1,
                             Animation<double> animation2) =>
-                        const MainScreen()),
+                        MainScreen()),
                         transitionDuration: Duration.zero,
                         reverseTransitionDuration: Duration.zero,
                       )

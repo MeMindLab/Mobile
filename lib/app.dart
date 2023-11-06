@@ -39,7 +39,7 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
       supportedLocales: context.supportedLocales,
       locale: context.locale,
       title: 'Memind',
-      home: const MainScreen(),
+      home: MainScreen(),
     );
   }
 
