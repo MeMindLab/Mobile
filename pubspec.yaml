@@ -70,6 +70,10 @@ flutter:
     - assets/svg/icon/report.svg
     - assets/svg/icon/picture3.svg
     - assets/svg/icon/setting.svg
+    - assets/svg/icon/bar.svg
+    - assets/svg/icon/upload.svg
+    - assets/svg/icon/book.svg
+    - assets/image/report/picture1.png
     - assets/image/
     - assets/svg/icon/
     - assets/image/flag/
