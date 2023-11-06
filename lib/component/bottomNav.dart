@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:me_mind/app.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:me_mind/common/store.dart';
 import 'package:me_mind/screen/main/s_diary.dart';
 import 'package:me_mind/screen/main/s_main.dart';
@@ -27,7 +27,7 @@ class _MyBottomNavState extends State<MyBottomNav> {
             children: [
               IconButton(
                 tooltip: '홈',
-                icon: idx == 0 ? Image.asset('assets/image/bottomNav/home.png', width: 24, height: 24) : Image.asset('assets/image/bottomNav/home.png', width: 24, height: 24),
+                icon: idx == 0 ? SvgPicture.asset('assets/svg/icon/home.svg', colorFilter: ColorFilter.mode(Color(0xff959CD6), BlendMode.srcIn), width: 24, height: 24) : SvgPicture.asset('assets/svg/icon/home.svg', width: 24, height: 24),
                 onPressed: () async {
                   await setBottomIdx(0);
                   Navigator.pushReplacement(
@@ -43,7 +43,23 @@ class _MyBottomNavState extends State<MyBottomNav> {
                   );
                 }
               ),
-              idx == 0 ? Text('홈', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)) : Text('홈', style: TextStyle(color: Colors.white)),
+              InkWell(
+                onTap: () async {
+                  await setBottomIdx(0);
+                  Navigator.pushReplacement(
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: ((BuildContext context,
+                            Animation<double> animation1,
+                            Animation<double> animation2) =>
+                        const MainScreen()),
+                        transitionDuration: Duration.zero,
+                        reverseTransitionDuration: Duration.zero,
+                      )
+                  );
+                },
+                child: idx == 0 ? Text('홈', style: TextStyle(color: Color(0xff959CD6), fontWeight: FontWeight.bold)) : Text('홈', style: TextStyle(color: Colors.white)),
+              )
             ],
           ),
           Column(
@@ -51,7 +67,7 @@ class _MyBottomNavState extends State<MyBottomNav> {
             children: [
               IconButton(
                 tooltip: 'ai 리포트',
-                icon: idx == 1 ? Image.asset('assets/image/bottomNav/report.png', width: 24, height: 24) : Image.asset('assets/image/bottomNav/report.png', width: 24, height: 24),
+                icon: idx == 1 ? SvgPicture.asset('assets/svg/icon/report.svg', colorFilter: ColorFilter.mode(Color(0xff959CD6), BlendMode.srcIn), width: 24, height: 24) : SvgPicture.asset('assets/svg/icon/report.svg', width: 24, height: 24),
                 onPressed: () async {
                   await setBottomIdx(1);
                   Navigator.pushReplacement(
@@ -67,7 +83,23 @@ class _MyBottomNavState extends State<MyBottomNav> {
                   );
                 }
               ),
-              idx == 1 ? Text('ai 리포트', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)) : Text('ai 리포트', style: TextStyle(color: Colors.white)),
+              InkWell(
+                onTap: () async {
+                  await setBottomIdx(1);
+                  Navigator.pushReplacement(
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: ((BuildContext context,
+                            Animation<double> animation1,
+                            Animation<double> animation2) =>
+                        const Report()),
+                        transitionDuration: Duration.zero,
+                        reverseTransitionDuration: Duration.zero,
+                      )
+                  );
+                },
+                child: idx == 1 ? Text('ai 리포트', style: TextStyle(color: Color(0xff959CD6), fontWeight: FontWeight.bold)) : Text('ai 리포트', style: TextStyle(color: Colors.white)),
+              )
             ],
           ),
           Column(
@@ -75,7 +107,7 @@ class _MyBottomNavState extends State<MyBottomNav> {
             children: [
               IconButton(
                 tooltip: 'ai 그림일기',
-                icon: idx == 2 ? Image.asset('assets/image/bottomNav/diary.png', width: 24, height: 24) : Image.asset('assets/image/bottomNav/diary.png', width: 24, height: 24),
+                icon: idx == 2 ? SvgPicture.asset('assets/svg/icon/picture3.svg', colorFilter: ColorFilter.mode(Color(0xff959CD6), BlendMode.srcIn), width: 24, height: 24) : SvgPicture.asset('assets/svg/icon/picture3.svg', width: 24, height: 24),
                 onPressed: () async {
                   await setBottomIdx(2);
                   Navigator.pushReplacement(
@@ -91,7 +123,23 @@ class _MyBottomNavState extends State<MyBottomNav> {
                   );
                 }
               ),
-              idx == 2 ? Text('ai 그림일기', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)) : Text('ai 그림일기', style: TextStyle(color: Colors.white)),
+              InkWell(
+                onTap: () async {
+                  await setBottomIdx(2);
+                  Navigator.pushReplacement(
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: ((BuildContext context,
+                            Animation<double> animation1,
+                            Animation<double> animation2) =>
+                        const Diary()),
+                        transitionDuration: Duration.zero,
+                        reverseTransitionDuration: Duration.zero,
+                      )
+                  );
+                },
+                child: idx == 2 ? Text('ai 그림일기', style: TextStyle(color: Color(0xff959CD6), fontWeight: FontWeight.bold)) : Text('ai 그림일기', style: TextStyle(color: Colors.white)),
+              ),
             ],
           ),
           Column(
@@ -99,7 +147,7 @@ class _MyBottomNavState extends State<MyBottomNav> {
             children: [
               IconButton(
                 tooltip: '설정',
-                icon: idx == 3 ? Image.asset('assets/image/bottomNav/setting.png', width: 24, height: 24) : Image.asset('assets/image/bottomNav/setting.png', width: 24, height: 24),
+                icon: idx == 3 ? SvgPicture.asset('assets/svg/icon/setting.svg', colorFilter: ColorFilter.mode(Color(0xff959CD6), BlendMode.srcIn), width: 24, height: 24) : SvgPicture.asset('assets/svg/icon/setting.svg', width: 24, height: 24),
                 onPressed: () async {
                   await setBottomIdx(3);
                   Navigator.pushReplacement(
@@ -115,7 +163,23 @@ class _MyBottomNavState extends State<MyBottomNav> {
                   );
                 }
               ),
-              idx == 3 ? Text('설정', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)) : Text('설정', style: TextStyle(color: Colors.white)),
+              InkWell(
+                onTap: () async {
+                  await setBottomIdx(3);
+                  Navigator.pushReplacement(
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: ((BuildContext context,
+                            Animation<double> animation1,
+                            Animation<double> animation2) =>
+                        const Setting()),
+                        transitionDuration: Duration.zero,
+                        reverseTransitionDuration: Duration.zero,
+                      )
+                  );
+                },
+                child: idx == 3 ? Text('설정', style: TextStyle(color: Color(0xff959CD6), fontWeight: FontWeight.bold)) : Text('설정', style: TextStyle(color: Colors.white)),
+              ),
             ],
           ),
         ],
