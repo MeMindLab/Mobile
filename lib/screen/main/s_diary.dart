@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:me_mind/common/store.dart';
 import 'package:me_mind/component/bottomNav.dart';
 
 class Diary extends StatefulWidget {
@@ -12,6 +13,7 @@ class _DiaryState extends State<Diary> {
   @override
   void initState() {
     super.initState();
+    setBottomIdx(2);
   }
 
   @override

@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:me_mind/common/store.dart';
 import 'package:me_mind/component/bottomNav.dart';
 
 class MainScreen extends StatefulWidget {
@@ -20,6 +21,8 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
+
+    setBottomIdx(0);
 
     pullToRefreshController = PullToRefreshController(
       onRefresh: () async {
