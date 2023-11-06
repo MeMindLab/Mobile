@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/screen/main/s_main.dart';
 
+import 'common/theme/custom_theme_app.dart';
 import 'common/theme/custom_theme_holder.dart';
 
 class App extends StatefulWidget {
@@ -20,8 +21,6 @@ class App extends StatefulWidget {
 
 class AppState extends State<App> with WidgetsBindingObserver {
   GlobalKey<NavigatorState> get navigatorKey => App.navigatorKey;
-  // extendsion dart파일 없이 사용하기 위해 customthem Data 변수 부름.
-  final CustomTheme theme = CustomThemeHolder.of(context).theme!;
 
   @override
   void initState() {
@@ -37,15 +36,19 @@ class AppState extends State<App> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      navigatorKey: App.navigatorKey,
-      localizationsDelegates: context.localizationDelegates,
-      supportedLocales: context.supportedLocales,
-      debugShowCheckedModeBanner: false,
-      locale: context.locale,
-      title: 'Me mind',
-      theme: theme.themeData,
-      home: const MainScreen(),
+    return CustomThemeApp(
+      child: Builder(builder: (context) {
+        return MaterialApp(
+          navigatorKey: App.navigatorKey,
+          localizationsDelegates: context.localizationDelegates,
+          supportedLocales: context.supportedLocales,
+          debugShowCheckedModeBanner: false,
+          locale: context.locale,
+          title: 'Me mind',
+          theme: CustomThemeHolder.of(context).theme.themeData,
+          home: const MainScreen(),
+        );
+      }),
     );
   }
 
