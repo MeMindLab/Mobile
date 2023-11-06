@@ -5,6 +5,12 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Text("메인 스크린");
+    return MaterialApp(
+      home: Scaffold(
+        body: Center(
+          child: Text("main screen"),
+        ),
+      ),
+    );
   }
 }
