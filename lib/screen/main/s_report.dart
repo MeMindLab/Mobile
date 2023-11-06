@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:me_mind/common/store.dart';
 import 'package:me_mind/component/bottomNav.dart';
 
 class Report extends StatefulWidget {
@@ -13,6 +14,8 @@ class _ReportState extends State<Report> {
   @override
   void initState() {
     super.initState();
+
+    setBottomIdx(1);
   }
 
   @override
