@@ -19,171 +19,195 @@ class _MyBottomNavState extends State<MyBottomNav> {
       color: Colors.black,
       height: 98.5,
       elevation: 0.0,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+      child: Column(
         children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              IconButton(
-                tooltip: '홈',
-                icon: idx == 0 ? SvgPicture.asset('assets/svg/icon/home.svg', colorFilter: ColorFilter.mode(Color(0xff959CD6), BlendMode.srcIn), width: 24, height: 24) : SvgPicture.asset('assets/svg/icon/home.svg', width: 24, height: 24),
-                onPressed: () async {
-                  await setBottomIdx(0);
-                  Navigator.pushReplacement(
-                      context,
-                      PageRouteBuilder(
-                        pageBuilder: ((BuildContext context,
-                            Animation<double> animation1,
-                            Animation<double> animation2) =>
-                        MainScreen()),
-                        transitionDuration: Duration.zero,
-                        reverseTransitionDuration: Duration.zero,
-                      )
-                  );
-                }
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Stack(
+                    children: [
+                      idx == 0 ? SvgPicture.asset('assets/svg/icon/bar.svg', colorFilter: ColorFilter.mode(Color(0xff959CD6), BlendMode.srcIn)) : SvgPicture.asset('assets/svg/icon/bar.svg', colorFilter: ColorFilter.mode(Colors.black, BlendMode.srcIn)),
+                    ],
+                  ),
+                  IconButton(
+                      tooltip: '홈',
+                      icon: idx == 0 ? SvgPicture.asset('assets/svg/icon/home.svg', colorFilter: ColorFilter.mode(Color(0xff959CD6), BlendMode.srcIn), width: 24, height: 24) : SvgPicture.asset('assets/svg/icon/home.svg', width: 24, height: 24),
+                      onPressed: () async {
+                        await setBottomIdx(0);
+                        Navigator.pushReplacement(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder: ((BuildContext context,
+                                  Animation<double> animation1,
+                                  Animation<double> animation2) =>
+                                  MainScreen()),
+                              transitionDuration: Duration.zero,
+                              reverseTransitionDuration: Duration.zero,
+                            )
+                        );
+                      }
+                  ),
+                  InkWell(
+                    onTap: () async {
+                      await setBottomIdx(0);
+                      Navigator.pushReplacement(
+                          context,
+                          PageRouteBuilder(
+                            pageBuilder: ((BuildContext context,
+                                Animation<double> animation1,
+                                Animation<double> animation2) =>
+                                MainScreen()),
+                            transitionDuration: Duration.zero,
+                            reverseTransitionDuration: Duration.zero,
+                          )
+                      );
+                    },
+                    child: idx == 0 ? Text('홈', style: TextStyle(color: Color(0xff959CD6), fontWeight: FontWeight.bold)) : Text('홈', style: TextStyle(color: Colors.white)),
+                  ),
+                ],
               ),
-              InkWell(
-                onTap: () async {
-                  await setBottomIdx(0);
-                  Navigator.pushReplacement(
-                      context,
-                      PageRouteBuilder(
-                        pageBuilder: ((BuildContext context,
-                            Animation<double> animation1,
-                            Animation<double> animation2) =>
-                        MainScreen()),
-                        transitionDuration: Duration.zero,
-                        reverseTransitionDuration: Duration.zero,
-                      )
-                  );
-                },
-                child: idx == 0 ? Text('홈', style: TextStyle(color: Color(0xff959CD6), fontWeight: FontWeight.bold)) : Text('홈', style: TextStyle(color: Colors.white)),
-              )
-            ],
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(
-                tooltip: 'ai 리포트',
-                icon: idx == 1 ? SvgPicture.asset('assets/svg/icon/report.svg', colorFilter: ColorFilter.mode(Color(0xff959CD6), BlendMode.srcIn), width: 24, height: 24) : SvgPicture.asset('assets/svg/icon/report.svg', width: 24, height: 24),
-                onPressed: () async {
-                  await setBottomIdx(1);
-                  Navigator.pushReplacement(
-                      context,
-                      PageRouteBuilder(
-                        pageBuilder: ((BuildContext context,
-                            Animation<double> animation1,
-                            Animation<double> animation2) =>
-                        const Report()),
-                        transitionDuration: Duration.zero,
-                        reverseTransitionDuration: Duration.zero,
-                      )
-                  );
-                }
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Stack(
+                    children: [
+                      idx == 1 ? SvgPicture.asset('assets/svg/icon/bar.svg', colorFilter: ColorFilter.mode(Color(0xff959CD6), BlendMode.srcIn)) : SvgPicture.asset('assets/svg/icon/bar.svg', colorFilter: ColorFilter.mode(Colors.black, BlendMode.srcIn)),
+                    ],
+                  ),
+                  IconButton(
+                      tooltip: '리포트',
+                      icon: idx == 1 ? SvgPicture.asset('assets/svg/icon/report.svg', colorFilter: ColorFilter.mode(Color(0xff959CD6), BlendMode.srcIn), width: 24, height: 24) : SvgPicture.asset('assets/svg/icon/report.svg', width: 24, height: 24),
+                      onPressed: () async {
+                        await setBottomIdx(1);
+                        Navigator.pushReplacement(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder: ((BuildContext context,
+                                  Animation<double> animation1,
+                                  Animation<double> animation2) =>
+                              const Report()),
+                              transitionDuration: Duration.zero,
+                              reverseTransitionDuration: Duration.zero,
+                            )
+                        );
+                      }
+                  ),
+                  InkWell(
+                    onTap: () async {
+                      await setBottomIdx(1);
+                      Navigator.pushReplacement(
+                          context,
+                          PageRouteBuilder(
+                            pageBuilder: ((BuildContext context,
+                                Animation<double> animation1,
+                                Animation<double> animation2) =>
+                            const Report()),
+                            transitionDuration: Duration.zero,
+                            reverseTransitionDuration: Duration.zero,
+                          )
+                      );
+                    },
+                    child: idx == 1 ? Text('리포트', style: TextStyle(color: Color(0xff959CD6), fontWeight: FontWeight.bold)) : Text('리포트', style: TextStyle(color: Colors.white)),
+                  )
+                ],
               ),
-              InkWell(
-                onTap: () async {
-                  await setBottomIdx(1);
-                  Navigator.pushReplacement(
-                      context,
-                      PageRouteBuilder(
-                        pageBuilder: ((BuildContext context,
-                            Animation<double> animation1,
-                            Animation<double> animation2) =>
-                        const Report()),
-                        transitionDuration: Duration.zero,
-                        reverseTransitionDuration: Duration.zero,
-                      )
-                  );
-                },
-                child: idx == 1 ? Text('ai 리포트', style: TextStyle(color: Color(0xff959CD6), fontWeight: FontWeight.bold)) : Text('ai 리포트', style: TextStyle(color: Colors.white)),
-              )
-            ],
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(
-                tooltip: 'ai 그림일기',
-                icon: idx == 2 ? SvgPicture.asset('assets/svg/icon/picture3.svg', colorFilter: ColorFilter.mode(Color(0xff959CD6), BlendMode.srcIn), width: 24, height: 24) : SvgPicture.asset('assets/svg/icon/picture3.svg', width: 24, height: 24),
-                onPressed: () async {
-                  await setBottomIdx(2);
-                  Navigator.pushReplacement(
-                      context,
-                      PageRouteBuilder(
-                        pageBuilder: ((BuildContext context,
-                            Animation<double> animation1,
-                            Animation<double> animation2) =>
-                        const Diary()),
-                        transitionDuration: Duration.zero,
-                        reverseTransitionDuration: Duration.zero,
-                      )
-                  );
-                }
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Stack(
+                    children: [
+                      idx == 2 ? SvgPicture.asset('assets/svg/icon/bar.svg', colorFilter: ColorFilter.mode(Color(0xff959CD6), BlendMode.srcIn)) : SvgPicture.asset('assets/svg/icon/bar.svg', colorFilter: ColorFilter.mode(Colors.black, BlendMode.srcIn)),
+                    ],
+                  ),
+                  IconButton(
+                      tooltip: '그림일기',
+                      icon: idx == 2 ? SvgPicture.asset('assets/svg/icon/picture3.svg', colorFilter: ColorFilter.mode(Color(0xff959CD6), BlendMode.srcIn), width: 24, height: 24) : SvgPicture.asset('assets/svg/icon/picture3.svg', width: 24, height: 24),
+                      onPressed: () async {
+                        await setBottomIdx(2);
+                        Navigator.pushReplacement(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder: ((BuildContext context,
+                                  Animation<double> animation1,
+                                  Animation<double> animation2) =>
+                              const Diary()),
+                              transitionDuration: Duration.zero,
+                              reverseTransitionDuration: Duration.zero,
+                            )
+                        );
+                      }
+                  ),
+                  InkWell(
+                    onTap: () async {
+                      await setBottomIdx(2);
+                      Navigator.pushReplacement(
+                          context,
+                          PageRouteBuilder(
+                            pageBuilder: ((BuildContext context,
+                                Animation<double> animation1,
+                                Animation<double> animation2) =>
+                            const Diary()),
+                            transitionDuration: Duration.zero,
+                            reverseTransitionDuration: Duration.zero,
+                          )
+                      );
+                    },
+                    child: idx == 2 ? Text('그림일기', style: TextStyle(color: Color(0xff959CD6), fontWeight: FontWeight.bold)) : Text('그림일기', style: TextStyle(color: Colors.white)),
+                  ),
+                ],
               ),
-              InkWell(
-                onTap: () async {
-                  await setBottomIdx(2);
-                  Navigator.pushReplacement(
-                      context,
-                      PageRouteBuilder(
-                        pageBuilder: ((BuildContext context,
-                            Animation<double> animation1,
-                            Animation<double> animation2) =>
-                        const Diary()),
-                        transitionDuration: Duration.zero,
-                        reverseTransitionDuration: Duration.zero,
-                      )
-                  );
-                },
-                child: idx == 2 ? Text('ai 그림일기', style: TextStyle(color: Color(0xff959CD6), fontWeight: FontWeight.bold)) : Text('ai 그림일기', style: TextStyle(color: Colors.white)),
-              ),
-            ],
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(
-                tooltip: '설정',
-                icon: idx == 3 ? SvgPicture.asset('assets/svg/icon/setting.svg', colorFilter: ColorFilter.mode(Color(0xff959CD6), BlendMode.srcIn), width: 24, height: 24) : SvgPicture.asset('assets/svg/icon/setting.svg', width: 24, height: 24),
-                onPressed: () async {
-                  await setBottomIdx(3);
-                  Navigator.pushReplacement(
-                      context,
-                      PageRouteBuilder(
-                        pageBuilder: ((BuildContext context,
-                            Animation<double> animation1,
-                            Animation<double> animation2) =>
-                        const Setting()),
-                        transitionDuration: Duration.zero,
-                        reverseTransitionDuration: Duration.zero,
-                      )
-                  );
-                }
-              ),
-              InkWell(
-                onTap: () async {
-                  await setBottomIdx(3);
-                  Navigator.pushReplacement(
-                      context,
-                      PageRouteBuilder(
-                        pageBuilder: ((BuildContext context,
-                            Animation<double> animation1,
-                            Animation<double> animation2) =>
-                        const Setting()),
-                        transitionDuration: Duration.zero,
-                        reverseTransitionDuration: Duration.zero,
-                      )
-                  );
-                },
-                child: idx == 3 ? Text('설정', style: TextStyle(color: Color(0xff959CD6), fontWeight: FontWeight.bold)) : Text('설정', style: TextStyle(color: Colors.white)),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Stack(
+                    children: [
+                      idx == 3 ? SvgPicture.asset('assets/svg/icon/bar.svg', colorFilter: ColorFilter.mode(Color(0xff959CD6), BlendMode.srcIn)) : SvgPicture.asset('assets/svg/icon/bar.svg', colorFilter: ColorFilter.mode(Colors.black, BlendMode.srcIn)),
+                    ],
+                  ),
+                  IconButton(
+                      tooltip: '설정',
+                      icon: idx == 3 ? SvgPicture.asset('assets/svg/icon/setting.svg', colorFilter: ColorFilter.mode(Color(0xff959CD6), BlendMode.srcIn), width: 24, height: 24) : SvgPicture.asset('assets/svg/icon/setting.svg', width: 24, height: 24),
+                      onPressed: () async {
+                        await setBottomIdx(3);
+                        Navigator.pushReplacement(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder: ((BuildContext context,
+                                  Animation<double> animation1,
+                                  Animation<double> animation2) =>
+                              const Setting()),
+                              transitionDuration: Duration.zero,
+                              reverseTransitionDuration: Duration.zero,
+                            )
+                        );
+                      }
+                  ),
+                  InkWell(
+                    onTap: () async {
+                      await setBottomIdx(3);
+                      Navigator.pushReplacement(
+                          context,
+                          PageRouteBuilder(
+                            pageBuilder: ((BuildContext context,
+                                Animation<double> animation1,
+                                Animation<double> animation2) =>
+                            const Setting()),
+                            transitionDuration: Duration.zero,
+                            reverseTransitionDuration: Duration.zero,
+                          )
+                      );
+                    },
+                    child: idx == 3 ? Text('설정', style: TextStyle(color: Color(0xff959CD6), fontWeight: FontWeight.bold)) : Text('설정', style: TextStyle(color: Colors.white)),
+                  ),
+                ],
               ),
             ],
           ),
         ],
-      ),
+      )
     );
   }
 
