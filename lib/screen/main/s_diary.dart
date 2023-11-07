@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/store.dart';
-import 'package:me_mind/component/bottomNav.dart';
+import 'package:me_mind/component/root_tab.dart';
 
 class Diary extends StatefulWidget {
   const Diary({super.key});
@@ -18,20 +19,13 @@ class _DiaryState extends State<Diary> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0.0,
-        centerTitle: false,
-        foregroundColor: Colors.black,
-        backgroundColor: Colors.grey.shade50,
-      ),
-      body: Column(
+    return const DefaultLayout(
+      child: Column(
         children: [
           Text('3'),
         ],
       ),
-      backgroundColor: Colors.grey.shade50,
-      bottomNavigationBar: const MyBottomNav(),
+      bottomNavigationBar: RootTab(),
     );
   }
 }

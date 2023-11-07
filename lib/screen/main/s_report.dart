@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/store.dart';
-import 'package:me_mind/component/bottomNav.dart';
+import 'package:me_mind/component/root_tab.dart';
 
 class Report extends StatefulWidget {
   const Report({super.key});
@@ -20,21 +21,17 @@ class _ReportState extends State<Report> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0.0,
-        centerTitle: true,
-        title: Text('리포트', style: TextStyle()),
-        foregroundColor: Colors.white,
-        backgroundColor: Colors.black,
-        actions: [
-          Container(
-            margin: EdgeInsets.fromLTRB(0, 10, 10, 0),
-            child: Text('10', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
-          ),
-        ],
-      ),
-      body: Center(
+    return DefaultLayout(
+      title: "리포트",
+      appBarActions: [
+        Container(
+          margin: EdgeInsets.fromLTRB(0, 10, 10, 0),
+          child: Text('10',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
+        ),
+      ],
+      bottomNavigationBar: const RootTab(),
+      child: Center(
         child: Column(
           children: [
             Expanded(
@@ -48,9 +45,7 @@ class _ReportState extends State<Report> {
                       ),
                       width: 354,
                       height: 302.11,
-                      child: Column(
-
-                      ),
+                      child: Column(),
                     ),
                     Padding(padding: EdgeInsets.only(top: 20)),
                     Container(
@@ -66,7 +61,11 @@ class _ReportState extends State<Report> {
                             padding: EdgeInsets.fromLTRB(20, 20, 0, 20),
                             child: Align(
                               alignment: Alignment.centerLeft,
-                              child: Text('Ai 그림일기', style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600)),
+                              child: Text('Ai 그림일기',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600)),
                             ),
                           ),
                           Stack(
@@ -75,7 +74,10 @@ class _ReportState extends State<Report> {
                                 width: 306,
                                 height: 199,
                                 decoration: BoxDecoration(
-                                  image: DecorationImage(image: AssetImage("assets/image/report/picture1.png"), fit: BoxFit.cover),
+                                  image: DecorationImage(
+                                      image: AssetImage(
+                                          "assets/image/report/picture1.png"),
+                                      fit: BoxFit.cover),
                                   borderRadius: BorderRadius.circular(10),
                                   color: Colors.black,
                                 ),
@@ -83,7 +85,10 @@ class _ReportState extends State<Report> {
                               Positioned(
                                 right: 10,
                                 bottom: 10,
-                                child: SvgPicture.asset('assets/svg/icon/upload.svg', colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn)),
+                                child: SvgPicture.asset(
+                                    'assets/svg/icon/upload.svg',
+                                    colorFilter: ColorFilter.mode(
+                                        Colors.white, BlendMode.srcIn)),
                               ),
                             ],
                           ),
@@ -104,7 +109,11 @@ class _ReportState extends State<Report> {
                             padding: EdgeInsets.fromLTRB(20, 20, 0, 20),
                             child: Align(
                               alignment: Alignment.centerLeft,
-                              child: Text('일기 요약', style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600)),
+                              child: Text('일기 요약',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600)),
                             ),
                           ),
                         ],
@@ -127,12 +136,19 @@ class _ReportState extends State<Report> {
                                 padding: EdgeInsets.fromLTRB(20, 20, 0, 20),
                                 child: Align(
                                   alignment: Alignment.centerLeft,
-                                  child: Text('오늘일기 전체보기', style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600)),
+                                  child: Text('오늘일기 전체보기',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w600)),
                                 ),
                               ),
                               Padding(
                                 padding: EdgeInsets.only(right: 20),
-                                child: SvgPicture.asset('assets/svg/icon/book.svg', colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn)),
+                                child: SvgPicture.asset(
+                                    'assets/svg/icon/book.svg',
+                                    colorFilter: ColorFilter.mode(
+                                        Colors.white, BlendMode.srcIn)),
                               ),
                             ],
                           ),
@@ -140,39 +156,72 @@ class _ReportState extends State<Report> {
                             padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
                             child: Column(
                               children: [
-                                Text("ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                                Text("ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                                Text("ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                                Text("ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                                Text("ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                                Text("ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                                Text("ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                                Text("ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                                Text("ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                                Text("ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                                Text("ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                                Text("ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                                Text("ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                                Text("ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                                Text("ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                                Text("ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                                Text("ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                                Text("ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                                Text("ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                                Text("ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                                Text("ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                                Text("ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                                Text("ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                                Text("ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                                Text("ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                                Text("ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                                Text("ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                                Text("ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                                Text("ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                                Text("ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                                Text("ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                                Text("ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                                Text("ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                                Text(
+                                    "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                                Text(
+                                    "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                                Text(
+                                    "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                                Text(
+                                    "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                                Text(
+                                    "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                                Text(
+                                    "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                                Text(
+                                    "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                                Text(
+                                    "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                                Text(
+                                    "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                                Text(
+                                    "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                                Text(
+                                    "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                                Text(
+                                    "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                                Text(
+                                    "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                                Text(
+                                    "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                                Text(
+                                    "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                                Text(
+                                    "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                                Text(
+                                    "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                                Text(
+                                    "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                                Text(
+                                    "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                                Text(
+                                    "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                                Text(
+                                    "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                                Text(
+                                    "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                                Text(
+                                    "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                                Text(
+                                    "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                                Text(
+                                    "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                                Text(
+                                    "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                                Text(
+                                    "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                                Text(
+                                    "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                                Text(
+                                    "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                                Text(
+                                    "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                                Text(
+                                    "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                                Text(
+                                    "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                                Text(
+                                    "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
                               ],
                             ),
                           ),
@@ -193,7 +242,11 @@ class _ReportState extends State<Report> {
                             padding: EdgeInsets.fromLTRB(20, 20, 0, 20),
                             child: Align(
                               alignment: Alignment.centerLeft,
-                              child: Text('일기에 첨부한 사진', style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600)),
+                              child: Text('일기에 첨부한 사진',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600)),
                             ),
                           ),
                           Container(
@@ -201,24 +254,27 @@ class _ReportState extends State<Report> {
                             child: Column(
                               children: [
                                 GridView.count(
-                                  mainAxisSpacing: 10,
-                                  crossAxisSpacing: 10,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  crossAxisCount: 2,
-                                  shrinkWrap: true,
-                                  children: List.generate(4, (index) {
-                                    return Container(
-                                      decoration: BoxDecoration(
-                                        border: Border.all(width: 0.4, color: Colors.white),
-                                        borderRadius: BorderRadius.circular(8),
-                                        image: DecorationImage(
-                                          image: NetworkImage("https://buffer.com/library/content/images/2023/10/free-images-for-commercial-use--20-.png"),
-                                          fit: BoxFit.cover,
+                                    mainAxisSpacing: 10,
+                                    crossAxisSpacing: 10,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    crossAxisCount: 2,
+                                    shrinkWrap: true,
+                                    children: List.generate(4, (index) {
+                                      return Container(
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                              width: 0.4, color: Colors.white),
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          image: DecorationImage(
+                                            image: NetworkImage(
+                                                "https://buffer.com/library/content/images/2023/10/free-images-for-commercial-use--20-.png"),
+                                            fit: BoxFit.cover,
+                                          ),
                                         ),
-                                      ),
-                                    );
-                                  }).toList()
-                                ),
+                                      );
+                                    }).toList()),
                               ],
                             ),
                           ),
@@ -232,8 +288,6 @@ class _ReportState extends State<Report> {
           ],
         ),
       ),
-      backgroundColor: Colors.black,
-      bottomNavigationBar: const MyBottomNav(),
     );
   }
 }

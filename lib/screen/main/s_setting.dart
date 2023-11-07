@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:me_mind/common/store.dart';
-import 'package:me_mind/component/bottomNav.dart';
+import 'package:me_mind/component/root_tab.dart';
 
 class Setting extends StatefulWidget {
   const Setting({super.key});
@@ -31,7 +31,7 @@ class _SettingState extends State<Setting> {
         ],
       ),
       backgroundColor: Colors.grey.shade50,
-      bottomNavigationBar: const MyBottomNav(),
+      bottomNavigationBar: const RootTab(),
     );
   }
 }

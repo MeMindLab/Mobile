@@ -3,19 +3,24 @@ import 'package:flutter/material.dart';
 class DefaultLayout extends StatelessWidget {
   final Widget child;
   final String? title;
+  final Color? backgroundColor;
   final Widget? bottomNavigationBar;
+  final List<Widget>? appBarActions;
 
   const DefaultLayout({
     super.key,
     required this.child,
     this.title,
     this.bottomNavigationBar,
+    this.backgroundColor,
+    this.appBarActions,
   });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: child,
+      backgroundColor: backgroundColor ?? Colors.white,
       appBar: renderAppBar(),
       bottomNavigationBar: bottomNavigationBar,
     );
@@ -27,6 +32,7 @@ class DefaultLayout extends StatelessWidget {
     } else {
       return AppBar(
         elevation: 0,
+        centerTitle: true,
         title: Text(
           title!,
           style: const TextStyle(
@@ -35,6 +41,8 @@ class DefaultLayout extends StatelessWidget {
           ),
         ),
         foregroundColor: Colors.black,
+        backgroundColor: Colors.grey.shade50,
+        actions: appBarActions,
       );
     }
   }
