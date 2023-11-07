@@ -36,7 +36,6 @@ class AppState extends State<App> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD
     return CustomThemeApp(
       child: Builder(builder: (context) {
         return MaterialApp(
@@ -47,18 +46,9 @@ class AppState extends State<App> with WidgetsBindingObserver {
           locale: context.locale,
           title: 'Me mind',
           theme: CustomThemeHolder.of(context).theme.themeData,
-          home: const MainScreen(),
+          home: MainScreen(),
         );
       }),
-=======
-    return MaterialApp(
-      // navigatorKey: MyApp.navigatorKey,
-      localizationsDelegates: context.localizationDelegates,
-      supportedLocales: context.supportedLocales,
-      locale: context.locale,
-      title: 'Memind',
-      home: MainScreen(),
->>>>>>> d3c46c5 (add:webview)
     );
   }
 
