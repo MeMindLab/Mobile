@@ -1,6 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
+import 'package:me_mind/common/view/onBoard.dart';
+import 'package:me_mind/common/view/on_boading.dart';
 import 'package:me_mind/screen/main/s_main.dart';
 
 import 'common/theme/custom_theme_app.dart';
@@ -46,7 +48,7 @@ class AppState extends State<App> with WidgetsBindingObserver {
           locale: context.locale,
           title: 'Me mind',
           theme: CustomThemeHolder.of(context).theme.themeData,
-          home: MainScreen(),
+          home: OnBoard(),
         );
       }),
     );

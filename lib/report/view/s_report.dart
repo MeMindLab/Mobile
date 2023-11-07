@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/store.dart';
-import 'package:me_mind/common/view/root_tab.dart';
+import 'package:me_mind/common/component/root_tab.dart';
 
 class Report extends StatefulWidget {
   const Report({super.key});
