@@ -31,6 +31,9 @@ dependencies:
   flutter:
     sdk: flutter
 
+  #splash creator
+  flutter_native_splash: ^2.3.5
+
   #ui - resource
   google_fonts: ^6.1.0
   easy_localization: ^3.0.3
@@ -65,6 +68,7 @@ flutter:
     - assets/image/flag/
     - assets/translations/
     - assets/
+    - assets/image/splash/
 
   # To add assets to your application, add an assets section, like this:
   # assets:
