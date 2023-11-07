@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/store.dart';
-import 'package:me_mind/component/root_tab.dart';
+import 'package:me_mind/common/view/root_tab.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});

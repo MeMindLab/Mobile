@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/store.dart';
-import 'package:me_mind/component/root_tab.dart';
+import 'package:me_mind/common/view/root_tab.dart';
 
 class Setting extends StatefulWidget {
   const Setting({super.key});
@@ -18,20 +19,13 @@ class _SettingState extends State<Setting> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0.0,
-        centerTitle: false,
-        foregroundColor: Colors.black,
-        backgroundColor: Colors.grey.shade50,
-      ),
-      body: Column(
+    return const DefaultLayout(
+      child: Column(
         children: [
-          Text('4'),
+          Text('셋팅 스크린'),
         ],
       ),
-      backgroundColor: Colors.grey.shade50,
-      bottomNavigationBar: const RootTab(),
+      bottomNavigationBar: RootTab(),
     );
   }
 }
