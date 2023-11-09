@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
+import 'package:me_mind/user/view/signup_screen.dart';
 
 class OnBoardingScreen extends StatelessWidget {
   const OnBoardingScreen({super.key});
@@ -33,12 +34,26 @@ class OnBoardingScreen extends StatelessWidget {
     ];
 
     return IntroductionScreen(
+      // theme변수 이용해서 변경 필요!
+      globalBackgroundColor: Color(0xFF161B22),
       pages: pages,
-      done: const Text('NEXT'),
+      done: const Text(
+        "NEXT",
+        style: TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w400,
+          color: Colors.white,
+        ),
+      ),
       onDone: () {
-        // Navigator.of(context).pushReplacement(
-        //   MaterialPageRoute(builder: (context) => const SignUp()),
-        // );
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const SignUpScreen()),
+        );
+      },
+      onSkip: () {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const SignUpScreen()),
+        );
       },
       next: const Text(
         "NEXT",
