@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 
-class OnBoard extends StatefulWidget {
-  const OnBoard({super.key});
+class OnBoardScreen extends StatefulWidget {
+  const OnBoardScreen({super.key});
 
   @override
-  State<OnBoard> createState() => _OnBoardState();
+  State<OnBoardScreen> createState() => _OnBoardScreenState();
 }
 
-class _OnBoardState extends State<OnBoard> {
+class _OnBoardScreenState extends State<OnBoardScreen> {
   // build Dots
 
   AnimatedContainer _buildDots({int? index}) {
