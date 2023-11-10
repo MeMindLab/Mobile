@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
+import 'package:me_mind/common/view/on_boarding_last.dart';
 import 'package:me_mind/user/view/signup_screen.dart';
 
 class OnBoardingScreen extends StatelessWidget {
@@ -36,6 +37,7 @@ class OnBoardingScreen extends StatelessWidget {
     return IntroductionScreen(
       // theme변수 이용해서 변경 필요!
       globalBackgroundColor: Color(0xFF161B22),
+
       pages: pages,
       done: const Text(
         "NEXT",
@@ -47,12 +49,16 @@ class OnBoardingScreen extends StatelessWidget {
       ),
       onDone: () {
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const SignUpScreen()),
+          MaterialPageRoute(
+            builder: (context) => OnBoardingLastScreen(),
+          ),
         );
       },
       onSkip: () {
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const SignUpScreen()),
+          MaterialPageRoute(
+            builder: (context) => OnBoardingLastScreen(),
+          ),
         );
       },
       next: const Text(
@@ -74,8 +80,6 @@ class OnBoardingScreen extends StatelessWidget {
       ),
       dotsDecorator: const DotsDecorator(
         color: Color(0xFFCCCCCC),
-        size: Size(10, 10),
-        activeSize: Size(12, 12),
         activeColor: Color(0xFFA9D0FF),
       ),
       curve: Curves.bounceOut,
@@ -92,7 +96,7 @@ PageDecoration getPageDecoration(ThemeData theme) {
     ),
     bodyTextStyle: TextStyle(fontSize: 18, color: Colors.white),
     // pageColor: theme의 asb theme color에 추가 된고 app colors에 있는 다크테마의 메인 배경색 사용
-    pageColor: Color(0xFF161B22),
     imageFlex: 2,
+    pageColor: Color(0xFF161B22),
   );
 }

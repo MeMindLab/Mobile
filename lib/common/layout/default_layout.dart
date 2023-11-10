@@ -20,7 +20,8 @@ class DefaultLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: child,
-      backgroundColor: backgroundColor ?? Colors.white,
+      backgroundColor:
+          backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
       appBar: renderAppBar(),
       bottomNavigationBar: bottomNavigationBar,
     );

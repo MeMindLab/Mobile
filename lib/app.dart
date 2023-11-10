@@ -11,7 +11,7 @@ class App extends StatefulWidget {
 
   static bool isForeground = true;
 
-  static CustomTheme? defaultTheme;
+  static CustomTheme? defaultTheme = CustomTheme.dark;
 
   const App({super.key});
 
@@ -65,8 +65,6 @@ class AppState extends State<App> with WidgetsBindingObserver {
         break;
       case AppLifecycleState.detached:
         break;
-      case AppLifecycleState.hidden:
-        // TODO: Handle this case.
     }
     super.didChangeAppLifecycleState(state);
   }
