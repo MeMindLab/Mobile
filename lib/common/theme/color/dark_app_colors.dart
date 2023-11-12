@@ -18,9 +18,6 @@ class DarkAppColors extends AbstractThemeColors {
   Color get divider => const Color.fromARGB(255, 93, 93, 93);
 
   @override
-  Color get drawerBg => const Color.fromARGB(255, 42, 42, 42);
-
-  @override
   Color get hintText => AppColors.grey;
 
   @override
@@ -36,10 +33,7 @@ class DarkAppColors extends AbstractThemeColors {
   Color get text => Colors.white;
 
   @override
-  Color get focusedBorder => AppColors.darkGrey;
-
-  @override
-  Color get confirmText => AppColors.brightBlue;
+  Color get focusedBorder => AppColors.paleCornFlowerBlue;
 
   @override
   Color get blueButtonBackground => AppColors.blue;

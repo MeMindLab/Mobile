@@ -8,10 +8,6 @@ abstract class AbstractThemeColors {
 
   Color get seedColor => const Color(0xff26ff8c);
 
-  Color get veryBrightGrey => AppColors.brightGrey;
-
-  Color get drawerBg => const Color.fromARGB(255, 255, 255, 255);
-
   Color get scrollableItem => const Color.fromARGB(255, 57, 57, 57);
 
   Color get iconButton => const Color.fromARGB(255, 0, 0, 0);
@@ -34,15 +30,17 @@ abstract class AbstractThemeColors {
 
   Color get hintText => AppColors.middleGrey;
 
-  Color get focusedBorder => AppColors.darkGrey;
+  Color get focusedBorder => const Color(0xff26ff8c);
 
   Color get confirmText => AppColors.blue;
 
   Color get drawerText => text;
 
-  Color get snackbarBgColor => AppColors.mediumBlue;
+  Color get blueButtonBackground => AppColors.paleCornFlowerBlue;
 
-  Color get blueButtonBackground => AppColors.darkBlue;
+  Color get grayButtonBackground => AppColors.middleGrey;
 
   Color get mainBackground => AppColors.blackPearl;
+
+  Color get userInputBackground => AppColors.brightGrey;
 }

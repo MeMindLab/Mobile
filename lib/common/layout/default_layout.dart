@@ -6,6 +6,7 @@ class DefaultLayout extends StatelessWidget {
   final Color? backgroundColor;
   final Widget? bottomNavigationBar;
   final List<Widget>? appBarActions;
+  final Widget? appBarLeading;
 
   const DefaultLayout({
     super.key,
@@ -14,6 +15,7 @@ class DefaultLayout extends StatelessWidget {
     this.bottomNavigationBar,
     this.backgroundColor,
     this.appBarActions,
+    this.appBarLeading,
   });
 
   @override
@@ -32,17 +34,17 @@ class DefaultLayout extends StatelessWidget {
       return null;
     } else {
       return AppBar(
+        leading: appBarLeading,
         elevation: 0,
         centerTitle: true,
         title: Text(
           title!,
           style: const TextStyle(
-            fontSize: 16,
+            fontSize: 20,
             fontWeight: FontWeight.w500,
           ),
         ),
-        foregroundColor: Colors.black,
-        backgroundColor: Colors.grey.shade50,
+        foregroundColor: Colors.white,
         actions: appBarActions,
       );
     }
