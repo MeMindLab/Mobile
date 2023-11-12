@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
-import 'package:me_mind/screen/main/s_main.dart';
+import 'package:me_mind/common/view/on_boarding.dart';
 
 import 'common/theme/custom_theme_app.dart';
 import 'common/theme/custom_theme_holder.dart';
@@ -11,7 +11,7 @@ class App extends StatefulWidget {
 
   static bool isForeground = true;
 
-  static CustomTheme? defaultTheme;
+  static CustomTheme? defaultTheme = CustomTheme.dark;
 
   const App({super.key});
 
@@ -46,7 +46,7 @@ class AppState extends State<App> with WidgetsBindingObserver {
           locale: context.locale,
           title: 'Me mind',
           theme: CustomThemeHolder.of(context).theme.themeData,
-          home: const MainScreen(),
+          home: OnBoardingScreen(),
         );
       }),
     );
