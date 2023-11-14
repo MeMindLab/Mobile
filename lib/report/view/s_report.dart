@@ -189,8 +189,8 @@ class _ReportState extends State<Report> {
                         borderRadius: BorderRadius.circular(10),
                         color: Color(0xff2C3642),
                       ),
-                      width: 354,
-                      height: 352.11,
+                      width: double.infinity,
+                      height: 362.11,
                       child: Padding(
                         padding: EdgeInsets.all(20),
                         child: Column(

@@ -14,7 +14,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   final GlobalKey webViewKey = GlobalKey();
-  Uri myUrl = Uri.parse("https://memind.me");
+  Uri myUrl = Uri.parse("https://diary-web-test.vercel.app");
   late final InAppWebViewController webViewController;
   late final PullToRefreshController pullToRefreshController;
   double progress = 0;
@@ -56,7 +56,32 @@ class _MainScreenState extends State<MainScreen> {
                     child: Stack(children: [
                   InAppWebView(
                     key: webViewKey,
-                    initialUrlRequest: URLRequest(url: myUrl),
+                      initialData: InAppWebViewInitialData(
+                          data: """
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    </head>
+    <body>
+        <h1>JavaScript Handlers (Channels) TEST</h1>
+        <script>
+            window.addEventListener("flutterInAppWebViewPlatformReady", function(event) {
+                window.flutter_inappwebview.callHandler('clickReport')
+                  .then(function(result) {
+                    // print to the console the data coming
+                    // from the Flutter side.
+                    console.log(JSON.stringify(result));
+                    
+                    window.flutter_inappwebview
+                      .callHandler('clickReport', 1, true, ['bar', 5], {foo: 'baz'}, result);
+                });
+            });
+        </script>
+    </body>
+</html>
+                      """),
                     initialOptions: InAppWebViewGroupOptions(
                       crossPlatform: InAppWebViewOptions(
                           javaScriptCanOpenWindowsAutomatically: true,
@@ -109,6 +134,18 @@ class _MainScreenState extends State<MainScreen> {
                     },
                     onWebViewCreated: (InAppWebViewController controller) {
                       webViewController = controller;
+                      webViewController.addJavaScriptHandler(handlerName: 'clickReport', callback: (args) {
+                        return {
+                          'bar': 'bar_value', 'baz': 'baz_value'
+                        };
+                      });
+
+                      webViewController.addJavaScriptHandler(handlerName: 'clickReport', callback: (args) {
+                        print(args);
+                      });
+                    },
+                    onConsoleMessage: (controller, consoleMessage) {
+                      print(consoleMessage);
                     },
                     onCreateWindow: (controller, createWindowRequest) async {
                       showDialog(
