@@ -14,7 +14,6 @@ class _DiaryState extends State<Diary> {
   @override
   void initState() {
     super.initState();
-    setBottomIdx(2);
   }
 
   @override

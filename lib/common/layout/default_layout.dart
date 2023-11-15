@@ -5,6 +5,7 @@ class DefaultLayout extends StatelessWidget {
   final String? title;
   final Color? backgroundColor;
   final Widget? bottomNavigationBar;
+  final Widget? bottomSheet;
   final List<Widget>? appBarActions;
   final Widget? appBarLeading;
 
@@ -13,6 +14,7 @@ class DefaultLayout extends StatelessWidget {
     required this.child,
     this.title,
     this.bottomNavigationBar,
+    this.bottomSheet,
     this.backgroundColor,
     this.appBarActions,
     this.appBarLeading,
@@ -25,6 +27,7 @@ class DefaultLayout extends StatelessWidget {
       backgroundColor:
           backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
       appBar: renderAppBar(),
+      bottomSheet: bottomSheet,
       bottomNavigationBar: bottomNavigationBar,
     );
   }
