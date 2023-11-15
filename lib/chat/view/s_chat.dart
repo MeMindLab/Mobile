@@ -1,8 +1,10 @@
+import 'package:chat_bubbles/bubbles/bubble_special_three.dart';
+import 'package:chat_bubbles/bubbles/bubble_special_two.dart';
+import 'package:chat_bubbles/chat_bubbles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:me_mind/common/component/datetime_to_text.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
-import 'package:me_mind/common/component/root_tab.dart';
 
 class Chat extends StatefulWidget {
   const Chat({super.key});
@@ -42,6 +44,7 @@ class _ChatState extends State<Chat> {
                 border: Border.all(color: Color(0xff2C3642)),
                 color: Color(0xff2C3642),
               ),
+              margin: EdgeInsets.only(bottom: 10),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -61,9 +64,123 @@ class _ChatState extends State<Chat> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-
+                    Container(
+                        padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
+                        child: Row(
+                          children: [
+                            Column(
+                              children: [
+                                SvgPicture.asset('assets/svg/icon/robot.svg'),
+                                Text('쓸봇AI'),
+                              ],
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                BubbleNormal(
+                                  text: 'bubble normalsdfdsfasdfads with tail',
+                                  isSender: false,
+                                  color: Colors.white,
+                                  tail: true,
+                                  textStyle: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(left: 20),
+                                  child: Text(datetimeType2()),
+                                ),
+                              ],
+                            ),
+                          ],
+                        )
+                    ),
+                    Container(
+                        padding: EdgeInsets.fromLTRB(70, 10, 0, 0),
+                        child: Row(
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                BubbleNormal(
+                                  text: 'bubble normalsdfdsfasdfads with tail',
+                                  isSender: false,
+                                  color: Colors.white,
+                                  tail: true,
+                                  textStyle: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(left: 20),
+                                  child: Text(datetimeType2()),
+                                ),
+                              ],
+                            ),
+                          ],
+                        )
+                    ),
+                    Container(
+                      padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          BubbleNormal(
+                            text: 'bubble normalsdfdsfasdfads with tail',
+                            isSender: true,
+                            color: Color(0xffA9D0FF),
+                            tail: false,
+                            textStyle: TextStyle(
+                              fontSize: 20,
+                              color: Colors.black,
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(right: 20),
+                            child: Text(datetimeType2()),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                        padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
+                        child: Row(
+                          children: [
+                            Column(
+                              children: [
+                                SvgPicture.asset('assets/svg/icon/robot.svg'),
+                                Text('쓸봇AI'),
+                              ],
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                BubbleNormal(
+                                  text: 'bubble normalsdfdsfasdfads with tail',
+                                  isSender: false,
+                                  color: Colors.white,
+                                  tail: true,
+                                  textStyle: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(left: 20),
+                                  child: Text(datetimeType2()),
+                                ),
+                              ],
+                            ),
+                          ],
+                        )
+                    ),
+                    SizedBox(
+                      height: 100,
+                    ),
                   ],
-                )
+                ),
               ),
             ),
           ],
