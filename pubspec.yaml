@@ -46,7 +46,6 @@ dependencies:
   flutter_inappwebview: ^5.8.0
   introduction_screen: ^3.1.12
   fl_chart: ^0.64.0
-  chat_bubbles: ^1.5.0
 
 dev_dependencies:
   flutter_test:
@@ -78,9 +77,9 @@ flutter:
     - assets/svg/icon/book.svg
     - assets/svg/icon/vitamin.svg
     - assets/svg/icon/robot.svg
-    - assets/svg/icon/mic.svg
     - assets/svg/icon/imageUpload.svg
     - assets/svg/icon/circleUp.svg
+    - assets/svg/chat/micBg1.svg
     - assets/svg/report/resPoint.svg
     - assets/image/report/picture1.png
     - assets/image/

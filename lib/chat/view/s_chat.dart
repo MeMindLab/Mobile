@@ -1,6 +1,3 @@
-import 'package:chat_bubbles/bubbles/bubble_special_three.dart';
-import 'package:chat_bubbles/bubbles/bubble_special_two.dart';
-import 'package:chat_bubbles/chat_bubbles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:me_mind/common/component/datetime_to_text.dart';
@@ -14,6 +11,9 @@ class Chat extends StatefulWidget {
 }
 
 class _ChatState extends State<Chat> {
+  bool isMicOpen = false;
+  double micWidth = 61.63;
+
   @override
   void initState() {
     super.initState();
@@ -64,117 +64,150 @@ class _ChatState extends State<Chat> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    Container(
-                        padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
-                        child: Row(
-                          children: [
-                            Column(
-                              children: [
-                                SvgPicture.asset('assets/svg/icon/robot.svg'),
-                                Text('쓸봇AI'),
-                              ],
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                BubbleNormal(
-                                  text: 'bubble normalsdfdsfasdfads with tail',
-                                  isSender: false,
-                                  color: Colors.white,
-                                  tail: true,
-                                  textStyle: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(left: 20),
-                                  child: Text(datetimeType2()),
-                                ),
-                              ],
-                            ),
-                          ],
-                        )
-                    ),
-                    Container(
-                        padding: EdgeInsets.fromLTRB(70, 10, 0, 0),
-                        child: Row(
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                BubbleNormal(
-                                  text: 'bubble normalsdfdsfasdfads with tail',
-                                  isSender: false,
-                                  color: Colors.white,
-                                  tail: true,
-                                  textStyle: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(left: 20),
-                                  child: Text(datetimeType2()),
-                                ),
-                              ],
-                            ),
-                          ],
-                        )
-                    ),
-                    Container(
-                      padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          BubbleNormal(
-                            text: 'bubble normalsdfdsfasdfads with tail',
-                            isSender: true,
-                            color: Color(0xffA9D0FF),
-                            tail: false,
-                            textStyle: TextStyle(
-                              fontSize: 20,
-                              color: Colors.black,
-                            ),
+                    Row(
+                      children: [
+                        Container(
+                          constraints: BoxConstraints(
+                            minWidth: MediaQuery.of(context).size.width * 0.1,
                           ),
-                          Container(
-                            margin: EdgeInsets.only(right: 20),
-                            child: Text(datetimeType2()),
+                          margin: EdgeInsets.only(left: 10),
+                          child: Column(
+                            children: [
+                              SvgPicture.asset('assets/svg/icon/robot.svg'),
+                              Text('쓸봇AI'),
+                            ],
                           ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                        padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
-                        child: Row(
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Column(
-                              children: [
-                                SvgPicture.asset('assets/svg/icon/robot.svg'),
-                                Text('쓸봇AI'),
-                              ],
+                            Container(
+                              margin: EdgeInsets.only(left: 10),
+                              padding: EdgeInsets.all(20),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(32),
+                                  bottomLeft: Radius.circular(0),
+                                  topRight: Radius.circular(32),
+                                  bottomRight: Radius.circular(32),
+                                ),
+                              ),
+                              constraints: BoxConstraints(
+                                maxWidth: MediaQuery.of(context).size.width * 0.7,
+                              ),
+                              child: Text(
+                                'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.black,
+                                ),
+                              ),
                             ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                BubbleNormal(
-                                  text: 'bubble normalsdfdsfasdfads with tail',
-                                  isSender: false,
-                                  color: Colors.white,
-                                  tail: true,
-                                  textStyle: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(left: 20),
-                                  child: Text(datetimeType2()),
-                                ),
-                              ],
+                            Container(
+                              margin: EdgeInsets.only(left: 10),
+                              child: Text(datetimeType2()),
                             ),
                           ],
-                        )
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Container(
+                          constraints: BoxConstraints(
+                            minWidth: MediaQuery.of(context).size.width * 0.1,
+                          ),
+                          margin: EdgeInsets.only(left: 10),
+                          child: Column(
+                            children: [
+                              SvgPicture.asset('assets/svg/icon/robot.svg'),
+                              Text('쓸봇AI'),
+                            ],
+                          ),
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(left: 10),
+                              padding: EdgeInsets.all(20),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(32),
+                                  bottomLeft: Radius.circular(0),
+                                  topRight: Radius.circular(32),
+                                  bottomRight: Radius.circular(32),
+                                ),
+                              ),
+                              constraints: BoxConstraints(
+                                maxWidth: MediaQuery.of(context).size.width * 0.7,
+                              ),
+                              child: Text(
+                                'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(left: 10),
+                              child: Text(datetimeType2()),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Container(
+                          constraints: BoxConstraints(
+                            minWidth: MediaQuery.of(context).size.width * 0.2,
+                          ),
+                          margin: EdgeInsets.only(left: 10),
+                          child: Column(
+                            children: [
+                            ],
+                          ),
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.fromLTRB(10, 30, 0, 0),
+                              padding: EdgeInsets.all(20),
+                              decoration: BoxDecoration(
+                                color: Color(0xffA9D0FF),
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(32),
+                                  bottomLeft: Radius.circular(32),
+                                  topRight: Radius.circular(32),
+                                  bottomRight: Radius.circular(0),
+                                ),
+                              ),
+                              constraints: BoxConstraints(
+                                maxWidth: MediaQuery.of(context).size.width * 0.7,
+                              ),
+                              child: Text(
+                                'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(left: 10),
+                              child: Text(datetimeType2()),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                     SizedBox(
                       height: 100,
@@ -188,53 +221,94 @@ class _ChatState extends State<Chat> {
         appBarLeading: Icon(Icons.keyboard_backspace),
         bottomSheet: Container(
           width: double.infinity,
-          height: 61.63,
-          child: Row(
+          height: micWidth,
+          child: Column(
             children: [
               Container(
-                padding: EdgeInsets.fromLTRB(20, 10, 10, 10),
-                child: SvgPicture.asset('assets/svg/icon/imageUpload.svg',
-                    colorFilter: ColorFilter.mode(
-                        Colors.white, BlendMode.srcIn)),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width - 155,
-                height: 40,
-                child: TextField(
-                  cursorWidth: 0,
-                  style: TextStyle(fontSize: 12),
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Color(0xff999999),
-                    labelText: '',
-                    hintText: '',
-                    labelStyle: TextStyle(color: Color(0xff999999)),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(100)),
-                      borderSide: BorderSide(width: 1, color: Color(0xff999999)),
+                height: 61.63,
+                child: Row(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.fromLTRB(20, 10, 10, 10),
+                      child: SvgPicture.asset('assets/svg/icon/imageUpload.svg',
+                          colorFilter: ColorFilter.mode(
+                              Colors.white, BlendMode.srcIn)),
                     ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(100)),
-                      borderSide: BorderSide(width: 1, color: Color(0xff999999)),
+                    Container(
+                      width: MediaQuery.of(context).size.width - 155,
+                      height: 40,
+                      child: TextField(
+                        cursorWidth: 0,
+                        style: TextStyle(fontSize: 12),
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Color(0xff999999),
+                          labelText: '',
+                          hintText: '',
+                          labelStyle: TextStyle(color: Color(0xff999999)),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(100)),
+                            borderSide: BorderSide(width: 1, color: Color(0xff999999)),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(100)),
+                            borderSide: BorderSide(width: 1, color: Color(0xff999999)),
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(100)),
+                          ),
+                        ),
+                        keyboardType: TextInputType.multiline,
+                      ),
                     ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(100)),
+                    InkWell(
+                      onTap: () {
+                        setState(() {
+                          micWidth += isMicOpen ? -272.1 : 272.1;
+                          isMicOpen = isMicOpen ? false : true;
+                        });
+                      },
+                      child: Container(
+                        padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                        child: SvgPicture.asset('assets/svg/icon/mic.svg',
+                            colorFilter: ColorFilter.mode(
+                                Colors.white, BlendMode.srcIn)),
+                      ),
                     ),
-                  ),
-                  keyboardType: TextInputType.multiline,
+                    SvgPicture.asset('assets/svg/icon/circleUp.svg',
+                        colorFilter: ColorFilter.mode(
+                            Color(0xff959CD6), BlendMode.srcIn)),
+                  ],
                 ),
               ),
-              Container(
-                padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                child: SvgPicture.asset('assets/svg/icon/mic.svg',
-                    colorFilter: ColorFilter.mode(
-                        Colors.white, BlendMode.srcIn)),
-              ),
-              SvgPicture.asset('assets/svg/icon/circleUp.svg',
-                  colorFilter: ColorFilter.mode(
-                      Color(0xff959CD6), BlendMode.srcIn)),
+              if (isMicOpen == true)...[
+                Container(
+                  width: double.infinity,
+                  height: 272.1,
+                  color: Color(0xff595E66),
+                  child: Center(
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        SvgPicture.asset('assets/svg/chat/micBg1.svg', width: 300),
+                        Positioned(
+                          child: SvgPicture.asset('assets/svg/icon/mic.svg', width: 40),
+                        ),
+                        Positioned(
+                          bottom: 20,
+                          child: Text(
+                            '마이크를 입에 가깝게 위치하고 말씀해주세요.\n화면을 터치하면 음성인식이 중단됩니다.',
+                            style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16, color: Colors.white),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ),
+              ],
             ],
-          ),
+          )
         ),
       ),
     );
