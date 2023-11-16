@@ -3,7 +3,7 @@ import "package:me_mind/common/theme/custom_theme.dart";
 
 import "../theme/custom_theme_holder.dart";
 
-class RoundedButton extends StatefulWidget {
+class RoundedButton extends StatelessWidget {
   final Color? backgroundColor;
   final Color? foregroundColor;
   final String text;
@@ -20,27 +20,22 @@ class RoundedButton extends StatefulWidget {
   });
 
   @override
-  State<RoundedButton> createState() => _RoundedButtonState();
-}
-
-class _RoundedButtonState extends State<RoundedButton> {
-  @override
   Widget build(BuildContext context) {
     CustomTheme theme = CustomThemeHolder.of(context).theme;
 
     return ElevatedButton(
-      onPressed: widget.onPressed,
+      onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         backgroundColor:
-            widget.backgroundColor ?? theme.appColors.blueButtonBackground,
-        foregroundColor: widget.foregroundColor ?? Colors.black,
+            backgroundColor ?? theme.appColors.blueButtonBackground,
+        foregroundColor: foregroundColor ?? Colors.black,
         padding: const EdgeInsets.all(10.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(13),
         ),
-        minimumSize: Size(double.infinity, widget.height ?? 55),
+        minimumSize: Size(double.infinity, height ?? 55),
       ),
-      child: Text(widget.text),
+      child: Text(text),
     );
   }
 }

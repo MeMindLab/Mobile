@@ -17,7 +17,7 @@ class CustomTextFormField extends StatefulWidget {
     this.maxLength,
     this.labelText,
     this.obscureText = false,
-    this.autoFocus = true,
+    this.autoFocus = false,
     required this.onChanged,
   });
 

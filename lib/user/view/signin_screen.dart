@@ -70,8 +70,9 @@ class _SignInScreenState extends State<SignInScreen> {
                       const SizedBox(
                         height: 40,
                       ),
-                      const RoundedButton(
+                      RoundedButton(
                         text: "가입하기",
+                        onPressed: () {},
                       ),
                       CustomCheckBox(
                         label: '자동로그인에 동의합니다 ',
