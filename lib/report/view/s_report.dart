@@ -1,3 +1,4 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
@@ -19,15 +20,160 @@ class _ReportState extends State<Report> {
     setBottomIdx(1);
   }
 
+  List<Color> gradientColors = [
+    Colors.blue,
+    Colors.lightBlue,
+  ];
+
+  Widget bottomTitleWidgets(double value, TitleMeta meta) {
+    const style = TextStyle(
+      fontWeight: FontWeight.bold,
+      fontSize: 16,
+    );
+    Widget text;
+    switch (value.toInt()) {
+      case 2:
+        text = const Text('MAR', style: style);
+        break;
+      case 5:
+        text = const Text('JUN', style: style);
+        break;
+      case 8:
+        text = const Text('SEP', style: style);
+        break;
+      default:
+        text = const Text('', style: style);
+        break;
+    }
+
+    return SideTitleWidget(
+      axisSide: meta.axisSide,
+      child: text,
+    );
+  }
+
+  Widget leftTitleWidgets(double value, TitleMeta meta) {
+    const style = TextStyle(
+      fontWeight: FontWeight.bold,
+      fontSize: 15,
+    );
+    String text;
+    switch (value.toInt()) {
+      case 1:
+        text = '10K';
+        break;
+      case 3:
+        text = '30k';
+        break;
+      case 5:
+        text = '50k';
+        break;
+      default:
+        return Container();
+    }
+
+    return Text(text, style: style, textAlign: TextAlign.left);
+  }
+
+  LineChartData mainData() {
+    return LineChartData(
+      gridData: FlGridData(
+        show: true,
+        drawVerticalLine: true,
+        horizontalInterval: 1,
+        verticalInterval: 1,
+        getDrawingHorizontalLine: (value) {
+          return const FlLine(
+            color: Colors.black,
+            strokeWidth: 1,
+          );
+        },
+        getDrawingVerticalLine: (value) {
+          return const FlLine(
+            color: Colors.red,
+            strokeWidth: 1,
+          );
+        },
+      ),
+      titlesData: FlTitlesData(
+        show: true,
+        rightTitles: const AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
+        topTitles: const AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
+        bottomTitles: AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: true,
+            reservedSize: 30,
+            interval: 1,
+            getTitlesWidget: bottomTitleWidgets,
+          ),
+        ),
+        leftTitles: AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: true,
+            interval: 1,
+            getTitlesWidget: leftTitleWidgets,
+            reservedSize: 42,
+          ),
+        ),
+      ),
+      borderData: FlBorderData(
+        show: true,
+        border: Border.all(color: const Color(0xff37434d)),
+      ),
+      minX: 0,
+      maxX: 11,
+      minY: 0,
+      maxY: 6,
+      lineBarsData: [
+        LineChartBarData(
+          spots: const [
+            FlSpot(0, 3),
+            FlSpot(2.6, 2),
+            FlSpot(4.9, 5),
+            FlSpot(6.8, 3.1),
+            FlSpot(8, 4),
+            FlSpot(9.5, 3),
+            FlSpot(11, 4),
+          ],
+          isCurved: true,
+          gradient: LinearGradient(
+            colors: gradientColors,
+          ),
+          barWidth: 5,
+          isStrokeCapRound: true,
+          dotData: const FlDotData(
+            show: false,
+          ),
+          belowBarData: BarAreaData(
+            show: true,
+            gradient: LinearGradient(
+              colors: gradientColors
+                  .map((color) => color.withOpacity(0.3))
+                  .toList(),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(
       title: "리포트",
       appBarActions: [
         Container(
-          margin: EdgeInsets.fromLTRB(0, 10, 10, 0),
-          child: Text('10',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
+          margin: EdgeInsets.fromLTRB(0, 0, 20, 0),
+          child: Row(
+            children: [
+              SvgPicture.asset('assets/svg/icon/vitamin.svg'),
+              Text('10', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
+            ],
+          ),
         ),
       ],
       bottomNavigationBar: const RootTab(),
@@ -38,6 +184,53 @@ class _ReportState extends State<Report> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Color(0xff2C3642),
+                      ),
+                      width: double.infinity,
+                      height: 362.11,
+                      child: Padding(
+                        padding: EdgeInsets.all(20),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Stack(
+                                  children: [
+                                    SvgPicture.asset('assets/svg/report/resPoint.svg'),
+                                    Positioned(child: Text('80점', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16)), left: 15, top: 22),
+                                  ],
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 20),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text('7.31 (월)', style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18)),
+                                      Text('#213123123 #213123123', style: TextStyle(fontWeight: FontWeight.w400, fontSize: 14)),
+                                      Text('#213123123 #213123123', style: TextStyle(fontWeight: FontWeight.w400, fontSize: 14)),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(0, 20, 0, 10),
+                              child: Divider(thickness: 2),
+                            ),
+                            AspectRatio(
+                              aspectRatio: 1.70,
+                              child: LineChart(
+                                mainData(),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Padding(padding: EdgeInsets.only(top: 20)),
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
