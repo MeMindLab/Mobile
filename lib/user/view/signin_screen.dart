@@ -15,6 +15,22 @@ class SignInScreen extends StatefulWidget {
 
 class _SignInScreenState extends State<SignInScreen> {
   bool _isChecked = false;
+  late FocusNode _emailFocusNode;
+  late FocusNode _passwordFocusNode;
+
+  @override
+  void initState() {
+    super.initState();
+    _emailFocusNode = FocusNode();
+    _passwordFocusNode = FocusNode();
+  }
+
+  @override
+  void dispose() {
+    _emailFocusNode.dispose();
+    _passwordFocusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +41,7 @@ class _SignInScreenState extends State<SignInScreen> {
             SliverFillRemaining(
               hasScrollBody: false,
               child: SafeArea(
+                bottom: false,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: Column(
@@ -47,6 +64,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       ),
                       CustomTextFormField(
                         labelText: "비밀번호",
+                        obscureText: true,
                         onChanged: (String value) {},
                       ),
                       const SizedBox(

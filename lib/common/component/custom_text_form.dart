@@ -8,7 +8,6 @@ class CustomTextFormField extends StatefulWidget {
   final bool autoFocus;
   final int? maxLength;
   final String? labelText;
-
   final ValueChanged<String> onChanged;
 
   const CustomTextFormField({
@@ -18,7 +17,7 @@ class CustomTextFormField extends StatefulWidget {
     this.maxLength,
     this.labelText,
     this.obscureText = false,
-    this.autoFocus = false,
+    this.autoFocus = true,
     required this.onChanged,
   });
 
@@ -27,6 +26,14 @@ class CustomTextFormField extends StatefulWidget {
 }
 
 class _CustomTextFormFieldState extends State<CustomTextFormField> {
+  late bool _obscureText;
+
+  @override
+  void initState() {
+    super.initState();
+    _obscureText = widget.obscureText;
+  }
+
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
@@ -50,7 +57,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (widget.labelText != null) // 추가된 부분
+        if (widget.labelText != null)
           Padding(
             padding: const EdgeInsets.only(bottom: 6),
             child: Text(
@@ -62,8 +69,9 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
             ),
           ),
         TextFormField(
+          textInputAction: TextInputAction.next,
           maxLength: widget.maxLength,
-          obscureText: widget.obscureText,
+          obscureText: _obscureText,
           autofocus: widget.autoFocus,
           cursorColor: theme.focusColor,
           onChanged: widget.onChanged,
@@ -86,6 +94,19 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                 color: focusedBorderColor,
               ),
             ),
+            suffixIcon: widget.obscureText
+                ? GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _obscureText = !_obscureText;
+                      });
+                    },
+                    child: Icon(
+                      _obscureText ? Icons.visibility : Icons.visibility_off,
+                      color: hintTextColor,
+                    ),
+                  )
+                : null, // 변경된 부분
           ),
         )
       ],
