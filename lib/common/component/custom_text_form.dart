@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 
 class CustomTextFormField extends StatefulWidget {
@@ -53,10 +52,10 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       children: [
         if (widget.labelText != null) // 추가된 부분
           Padding(
-            padding: EdgeInsets.only(bottom: 6),
+            padding: const EdgeInsets.only(bottom: 6),
             child: Text(
               widget.labelText!,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
               ),

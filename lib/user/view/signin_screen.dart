@@ -35,7 +35,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           '${baseImageSvgPath}/icon/logo.svg',
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 54,
                       ),
                       CustomTextFormField(
@@ -52,7 +52,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       const SizedBox(
                         height: 40,
                       ),
-                      RoundedButton(
+                      const RoundedButton(
                         text: "가입하기",
                       ),
                       CustomCheckBox(
