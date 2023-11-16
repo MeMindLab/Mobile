@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:me_mind/common/component/custom_text_form.dart';
+import 'package:me_mind/common/component/rounded_button.dart';
+import 'package:me_mind/common/constant/constant.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
+import 'package:me_mind/user/component/custom_checkbox.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -10,33 +14,59 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
+  bool _isChecked = false;
+
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(
         title: "로그인",
-        child: Column(
-          children: [
-            CustomTextFormField(
-              labelText: "이메일",
-              onChanged: (String value) {},
-            ),
-            CustomTextFormField(
-              labelText: "비밀번호",
-              onChanged: (String value) {},
-            ),
-            ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.orange,
-                foregroundColor: Colors.black,
-                padding: const EdgeInsets.all(10.0),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(13),
+        child: CustomScrollView(
+          slivers: [
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 49.5),
+                        child: SvgPicture.asset(
+                          '${baseImageSvgPath}/icon/logo.svg',
+                        ),
+                      ),
+                      SizedBox(
+                        height: 54,
+                      ),
+                      CustomTextFormField(
+                        labelText: "이메일",
+                        onChanged: (String value) {},
+                      ),
+                      const SizedBox(
+                        height: 12.0,
+                      ),
+                      CustomTextFormField(
+                        labelText: "비밀번호",
+                        onChanged: (String value) {},
+                      ),
+                      const SizedBox(
+                        height: 40,
+                      ),
+                      RoundedButton(
+                        text: "가입하기",
+                      ),
+                      CustomCheckBox(
+                        label: '자동로그인에 동의합니다 ',
+                        onChanged: (bool isChecked) {
+                          // 부모 위젯에서 체크 상태에 따른 로직 추가
+                          print('Checkbox is checked: $isChecked');
+                        },
+                      ),
+                    ],
+                  ),
                 ),
-                minimumSize: const Size(double.infinity, 55),
               ),
-              child: const Text("가입하기"),
-            ),
+            )
           ],
         ));
   }

@@ -36,8 +36,5 @@ class DarkAppColors extends AbstractThemeColors {
   Color get focusedBorder => AppColors.paleCornFlowerBlue;
 
   @override
-  Color get blueButtonBackground => AppColors.blue;
-
-  @override
   Color get mainBackground => AppColors.blackPearl;
 }
