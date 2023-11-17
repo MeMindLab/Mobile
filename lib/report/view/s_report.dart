@@ -167,11 +167,12 @@ class _ReportState extends State<Report> {
       title: "리포트",
       appBarActions: [
         Container(
-          margin: EdgeInsets.fromLTRB(0, 0, 20, 0),
+          margin: const EdgeInsets.fromLTRB(0, 0, 20, 0),
           child: Row(
             children: [
               SvgPicture.asset('assets/svg/icon/vitamin.svg'),
-              Text('10', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
+              const Text('10',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
             ],
           ),
         ),
@@ -187,36 +188,53 @@ class _ReportState extends State<Report> {
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        color: Color(0xff2C3642),
+                        color: const Color(0xff2C3642),
                       ),
                       width: double.infinity,
                       height: 362.11,
                       child: Padding(
-                        padding: EdgeInsets.all(20),
+                        padding: const EdgeInsets.all(20),
                         child: Column(
                           children: [
                             Row(
                               children: [
                                 Stack(
                                   children: [
-                                    SvgPicture.asset('assets/svg/report/resPoint.svg'),
-                                    Positioned(child: Text('80점', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16)), left: 15, top: 22),
+                                    SvgPicture.asset(
+                                        'assets/svg/report/resPoint.svg'),
+                                    const Positioned(
+                                        left: 15,
+                                        top: 22,
+                                        child: Text('80점',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 16))),
                                   ],
                                 ),
-                                Padding(
+                                const Padding(
                                   padding: EdgeInsets.only(left: 20),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      Text('7.31 (월)', style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18)),
-                                      Text('#213123123 #213123123', style: TextStyle(fontWeight: FontWeight.w400, fontSize: 14)),
-                                      Text('#213123123 #213123123', style: TextStyle(fontWeight: FontWeight.w400, fontSize: 14)),
+                                      Text('7.31 (월)',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 18)),
+                                      Text('#213123123 #213123123',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 14)),
+                                      Text('#213123123 #213123123',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 14)),
                                     ],
                                   ),
                                 ),
                               ],
                             ),
-                            Padding(
+                            const Padding(
                               padding: EdgeInsets.fromLTRB(0, 20, 0, 10),
                               child: Divider(thickness: 2),
                             ),
@@ -230,29 +248,29 @@ class _ReportState extends State<Report> {
                         ),
                       ),
                     ),
-                    Padding(padding: EdgeInsets.only(top: 20)),
+                    const Padding(padding: EdgeInsets.only(top: 20)),
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        color: Color(0xff2C3642),
+                        color: const Color(0xff2C3642),
                       ),
                       width: 354,
                       height: 302.11,
-                      child: Column(),
+                      child: const Column(),
                     ),
-                    Padding(padding: EdgeInsets.only(top: 20)),
+                    const Padding(padding: EdgeInsets.only(top: 20)),
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        color: Color(0xff2C3642),
+                        color: const Color(0xff2C3642),
                       ),
                       width: 354,
                       height: 289.42,
                       child: Column(
                         children: [
                           Container(
-                            padding: EdgeInsets.fromLTRB(20, 20, 0, 20),
-                            child: Align(
+                            padding: const EdgeInsets.fromLTRB(20, 20, 0, 20),
+                            child: const Align(
                               alignment: Alignment.centerLeft,
                               child: Text('Ai 그림일기',
                                   style: TextStyle(
@@ -267,7 +285,7 @@ class _ReportState extends State<Report> {
                                 width: 306,
                                 height: 199,
                                 decoration: BoxDecoration(
-                                  image: DecorationImage(
+                                  image: const DecorationImage(
                                       image: AssetImage(
                                           "assets/image/report/picture1.png"),
                                       fit: BoxFit.cover),
@@ -280,7 +298,7 @@ class _ReportState extends State<Report> {
                                 bottom: 10,
                                 child: SvgPicture.asset(
                                     'assets/svg/icon/upload.svg',
-                                    colorFilter: ColorFilter.mode(
+                                    colorFilter: const ColorFilter.mode(
                                         Colors.white, BlendMode.srcIn)),
                               ),
                             ],
@@ -288,15 +306,15 @@ class _ReportState extends State<Report> {
                         ],
                       ),
                     ),
-                    Padding(padding: EdgeInsets.only(top: 20)),
+                    const Padding(padding: EdgeInsets.only(top: 20)),
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        color: Color(0xff2C3642),
+                        color: const Color(0xff2C3642),
                       ),
                       width: 354,
                       height: 190.82,
-                      child: Column(
+                      child: const Column(
                         children: [
                           Padding(
                             padding: EdgeInsets.fromLTRB(20, 20, 0, 20),
@@ -312,11 +330,11 @@ class _ReportState extends State<Report> {
                         ],
                       ),
                     ),
-                    Padding(padding: EdgeInsets.only(top: 20)),
+                    const Padding(padding: EdgeInsets.only(top: 20)),
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        color: Color(0xff2C3642),
+                        color: const Color(0xff2C3642),
                       ),
                       width: 354,
                       child: Column(
@@ -325,7 +343,7 @@ class _ReportState extends State<Report> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Padding(
+                              const Padding(
                                 padding: EdgeInsets.fromLTRB(20, 20, 0, 20),
                                 child: Align(
                                   alignment: Alignment.centerLeft,
@@ -337,17 +355,17 @@ class _ReportState extends State<Report> {
                                 ),
                               ),
                               Padding(
-                                padding: EdgeInsets.only(right: 20),
+                                padding: const EdgeInsets.only(right: 20),
                                 child: SvgPicture.asset(
                                     'assets/svg/icon/book.svg',
-                                    colorFilter: ColorFilter.mode(
+                                    colorFilter: const ColorFilter.mode(
                                         Colors.white, BlendMode.srcIn)),
                               ),
                             ],
                           ),
                           Container(
-                            padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
-                            child: Column(
+                            padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+                            child: const Column(
                               children: [
                                 Text(
                                     "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
@@ -421,17 +439,17 @@ class _ReportState extends State<Report> {
                         ],
                       ),
                     ),
-                    Padding(padding: EdgeInsets.only(top: 20)),
+                    const Padding(padding: EdgeInsets.only(top: 20)),
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        color: Color(0xff2C3642),
+                        color: const Color(0xff2C3642),
                       ),
                       width: 354,
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Padding(
+                          const Padding(
                             padding: EdgeInsets.fromLTRB(20, 20, 0, 20),
                             child: Align(
                               alignment: Alignment.centerLeft,
@@ -443,7 +461,7 @@ class _ReportState extends State<Report> {
                             ),
                           ),
                           Container(
-                            padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
+                            padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
                             child: Column(
                               children: [
                                 GridView.count(
@@ -460,7 +478,7 @@ class _ReportState extends State<Report> {
                                               width: 0.4, color: Colors.white),
                                           borderRadius:
                                               BorderRadius.circular(8),
-                                          image: DecorationImage(
+                                          image: const DecorationImage(
                                             image: NetworkImage(
                                                 "https://buffer.com/library/content/images/2023/10/free-images-for-commercial-use--20-.png"),
                                             fit: BoxFit.cover,

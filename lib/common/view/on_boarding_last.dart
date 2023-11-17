@@ -23,7 +23,7 @@ class OnBoardingLastScreen extends StatelessWidget {
                   height: MediaQuery.of(context).size.height * 0.32,
                 ),
               ),
-              Expanded(
+              const Expanded(
                 flex: 1,
                 child: Column(
                   children: [
@@ -47,13 +47,6 @@ class OnBoardingLastScreen extends StatelessWidget {
                 ),
               ),
               ElevatedButton(
-                child: Text(
-                  "시작하기",
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
                 onPressed: () {
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
@@ -64,9 +57,16 @@ class OnBoardingLastScreen extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFFA9D0FF),
                   foregroundColor: Colors.black,
-                  padding: EdgeInsets.all(10.0),
+                  padding: const EdgeInsets.all(10.0),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(13),
+                  ),
+                ),
+                child: const Text(
+                  "시작하기",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
                   ),
                 ),
               )

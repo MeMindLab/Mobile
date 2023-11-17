@@ -31,10 +31,10 @@ class _RootTabState extends State<RootTab> {
                       children: [
                         idx == 0
                             ? SvgPicture.asset('assets/svg/icon/bar.svg',
-                                colorFilter: ColorFilter.mode(
+                                colorFilter: const ColorFilter.mode(
                                     Color(0xff959CD6), BlendMode.srcIn))
                             : SvgPicture.asset('assets/svg/icon/bar.svg',
-                                colorFilter: ColorFilter.mode(
+                                colorFilter: const ColorFilter.mode(
                                     Colors.black, BlendMode.srcIn)),
                       ],
                     ),
@@ -42,7 +42,7 @@ class _RootTabState extends State<RootTab> {
                         tooltip: '홈',
                         icon: idx == 0
                             ? SvgPicture.asset('assets/svg/icon/home.svg',
-                                colorFilter: ColorFilter.mode(
+                                colorFilter: const ColorFilter.mode(
                                     Color(0xff959CD6), BlendMode.srcIn),
                                 width: 24,
                                 height: 24)
@@ -56,7 +56,7 @@ class _RootTabState extends State<RootTab> {
                                 pageBuilder: ((BuildContext context,
                                         Animation<double> animation1,
                                         Animation<double> animation2) =>
-                                    MainScreen()),
+                                    const MainScreen()),
                                 transitionDuration: Duration.zero,
                                 reverseTransitionDuration: Duration.zero,
                               ));
@@ -70,17 +70,18 @@ class _RootTabState extends State<RootTab> {
                               pageBuilder: ((BuildContext context,
                                       Animation<double> animation1,
                                       Animation<double> animation2) =>
-                                  MainScreen()),
+                                  const MainScreen()),
                               transitionDuration: Duration.zero,
                               reverseTransitionDuration: Duration.zero,
                             ));
                       },
                       child: idx == 0
-                          ? Text('홈',
+                          ? const Text('홈',
                               style: TextStyle(
                                   color: Color(0xff959CD6),
                                   fontWeight: FontWeight.bold))
-                          : Text('홈', style: TextStyle(color: Colors.white)),
+                          : const Text('홈',
+                              style: TextStyle(color: Colors.white)),
                     ),
                   ],
                 ),
@@ -91,10 +92,10 @@ class _RootTabState extends State<RootTab> {
                       children: [
                         idx == 1
                             ? SvgPicture.asset('assets/svg/icon/bar.svg',
-                                colorFilter: ColorFilter.mode(
+                                colorFilter: const ColorFilter.mode(
                                     Color(0xff959CD6), BlendMode.srcIn))
                             : SvgPicture.asset('assets/svg/icon/bar.svg',
-                                colorFilter: ColorFilter.mode(
+                                colorFilter: const ColorFilter.mode(
                                     Colors.black, BlendMode.srcIn)),
                       ],
                     ),
@@ -102,7 +103,7 @@ class _RootTabState extends State<RootTab> {
                         tooltip: '리포트',
                         icon: idx == 1
                             ? SvgPicture.asset('assets/svg/icon/report.svg',
-                                colorFilter: ColorFilter.mode(
+                                colorFilter: const ColorFilter.mode(
                                     Color(0xff959CD6), BlendMode.srcIn),
                                 width: 24,
                                 height: 24)
@@ -136,11 +137,12 @@ class _RootTabState extends State<RootTab> {
                             ));
                       },
                       child: idx == 1
-                          ? Text('리포트',
+                          ? const Text('리포트',
                               style: TextStyle(
                                   color: Color(0xff959CD6),
                                   fontWeight: FontWeight.bold))
-                          : Text('리포트', style: TextStyle(color: Colors.white)),
+                          : const Text('리포트',
+                              style: TextStyle(color: Colors.white)),
                     )
                   ],
                 ),
@@ -151,10 +153,10 @@ class _RootTabState extends State<RootTab> {
                       children: [
                         idx == 2
                             ? SvgPicture.asset('assets/svg/icon/bar.svg',
-                                colorFilter: ColorFilter.mode(
+                                colorFilter: const ColorFilter.mode(
                                     Color(0xff959CD6), BlendMode.srcIn))
                             : SvgPicture.asset('assets/svg/icon/bar.svg',
-                                colorFilter: ColorFilter.mode(
+                                colorFilter: const ColorFilter.mode(
                                     Colors.black, BlendMode.srcIn)),
                       ],
                     ),
@@ -162,7 +164,7 @@ class _RootTabState extends State<RootTab> {
                         tooltip: '그림일기',
                         icon: idx == 2
                             ? SvgPicture.asset('assets/svg/icon/picture3.svg',
-                                colorFilter: ColorFilter.mode(
+                                colorFilter: const ColorFilter.mode(
                                     Color(0xff959CD6), BlendMode.srcIn),
                                 width: 24,
                                 height: 24)
@@ -196,11 +198,12 @@ class _RootTabState extends State<RootTab> {
                             ));
                       },
                       child: idx == 2
-                          ? Text('그림일기',
+                          ? const Text('그림일기',
                               style: TextStyle(
                                   color: Color(0xff959CD6),
                                   fontWeight: FontWeight.bold))
-                          : Text('그림일기', style: TextStyle(color: Colors.white)),
+                          : const Text('그림일기',
+                              style: TextStyle(color: Colors.white)),
                     ),
                   ],
                 ),
@@ -211,10 +214,10 @@ class _RootTabState extends State<RootTab> {
                       children: [
                         idx == 3
                             ? SvgPicture.asset('assets/svg/icon/bar.svg',
-                                colorFilter: ColorFilter.mode(
+                                colorFilter: const ColorFilter.mode(
                                     Color(0xff959CD6), BlendMode.srcIn))
                             : SvgPicture.asset('assets/svg/icon/bar.svg',
-                                colorFilter: ColorFilter.mode(
+                                colorFilter: const ColorFilter.mode(
                                     Colors.black, BlendMode.srcIn)),
                       ],
                     ),
@@ -222,7 +225,7 @@ class _RootTabState extends State<RootTab> {
                         tooltip: '설정',
                         icon: idx == 3
                             ? SvgPicture.asset('assets/svg/icon/setting.svg',
-                                colorFilter: ColorFilter.mode(
+                                colorFilter: const ColorFilter.mode(
                                     Color(0xff959CD6), BlendMode.srcIn),
                                 width: 24,
                                 height: 24)
@@ -256,11 +259,12 @@ class _RootTabState extends State<RootTab> {
                             ));
                       },
                       child: idx == 3
-                          ? Text('설정',
+                          ? const Text('설정',
                               style: TextStyle(
                                   color: Color(0xff959CD6),
                                   fontWeight: FontWeight.bold))
-                          : Text('설정', style: TextStyle(color: Colors.white)),
+                          : const Text('설정',
+                              style: TextStyle(color: Colors.white)),
                     ),
                   ],
                 ),

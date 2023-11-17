@@ -80,7 +80,10 @@ flutter:
     - assets/svg/icon/imageUpload.svg
     - assets/svg/icon/circleUp.svg
     - assets/svg/chat/micBg1.svg
+    - assets/svg/icon/logo.svg
     - assets/svg/report/resPoint.svg
+    - assets/svg/icon/check.svg
+    - assets/svg/icon/search.svg
     - assets/image/report/picture1.png
     - assets/image/
     - assets/svg/icon/
