@@ -76,7 +76,9 @@ flutter:
     - assets/svg/icon/upload.svg
     - assets/svg/icon/book.svg
     - assets/svg/icon/vitamin.svg
+    - assets/svg/icon/logo.svg
     - assets/svg/report/resPoint.svg
+    - assets/svg/icon/check.svg
     - assets/image/report/picture1.png
     - assets/image/
     - assets/svg/icon/

@@ -14,8 +14,7 @@ class AppColors {
   static const Color darkBlue = Color.fromARGB(255, 0, 70, 111);
   static const Color mediumBlue = Color.fromARGB(255, 60, 140, 180);
   static const Color darkOrange = Color.fromARGB(255, 222, 112, 48);
-  static const Color faleBlue = Color.fromARGB(255, 160, 206, 222);
-  static const Color brightBlue = Color.fromARGB(255, 123, 182, 212);
+
   static const Color salmon = Color(0xffff6666);
   static const Color blackPearl = Color(0xFF161B22);
   static const Color paleCornFlowerBlue = Color(0xFFA9D0FF);
