@@ -1,15 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:me_mind/common/component/custom_text_form.dart';
+import 'package:me_mind/common/component/rounded_button.dart';
+import 'package:me_mind/common/constant/constant.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 
-class SignUpScreen extends StatelessWidget {
+class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
+
+  @override
+  State<SignUpScreen> createState() => _SignUpScreenState();
+}
+
+class _SignUpScreenState extends State<SignUpScreen> {
+  late bool is_submitted;
+
+  @override
+  void initState() {
+    super.initState();
+    is_submitted = true;
+  }
 
   @override
   Widget build(BuildContext context) {
     CustomTheme theme = CustomThemeHolder.of(context).theme;
+
+    Color blueButtonColor = theme.appColors.blueButtonBackground;
 
     return DefaultLayout(
       title: "회원가입",
@@ -32,15 +50,30 @@ class SignUpScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 23,
                       ),
                       CustomTextFormField(
                         labelText: "이메일",
                         hintText: "example@gamil.com",
                         onChanged: (String value) {},
+                        borderColor: blueButtonColor,
+                        suffixIcon: Container(
+                          width: 40.0,
+                          height: 40.0,
+                          color: Colors.transparent,
+                          child: Center(
+                            child: SvgPicture.asset(
+                              '$baseImageSvgPath/icon/check.svg',
+                              colorFilter: ColorFilter.mode(
+                                theme.appColors.blueButtonBackground,
+                                BlendMode.srcIn,
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 33,
                       ),
                       CustomTextFormField(
@@ -49,7 +82,7 @@ class SignUpScreen extends StatelessWidget {
                         maxLength: 10,
                         onChanged: (String value) {},
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 33,
                       ),
                       CustomTextFormField(
@@ -59,7 +92,7 @@ class SignUpScreen extends StatelessWidget {
                         obscureText: true,
                         onChanged: (String value) {},
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 13,
                       ),
                       CustomTextFormField(
@@ -67,33 +100,30 @@ class SignUpScreen extends StatelessWidget {
                         obscureText: true,
                         onChanged: (String value) {},
                       ),
-                      Padding(
+                      const Padding(
                         padding: EdgeInsets.only(top: 10),
                         child: Text(
-                          "• 비밀번호는 특수문자 포함 최소8자입니다",
+                          "•  비밀번호는 특수문자 포함 최소8자입니다",
                           style: TextStyle(
                             fontSize: 12,
                             color: Colors.grey,
                           ),
                         ),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Padding(
                         padding: const EdgeInsets.only(bottom: 32),
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          child: Text("가입하기"),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                theme.appColors.grayButtonBackground,
-                            foregroundColor: Colors.black,
-                            padding: EdgeInsets.all(10.0),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(13),
-                            ),
-                            minimumSize: Size(double.infinity, 55),
-                          ),
-                        ),
+                        child: is_submitted
+                            ? RoundedButton(
+                                text: "가입하기",
+                                onPressed: () {},
+                              )
+                            : RoundedButton(
+                                text: "가입하기",
+                                onPressed: () {},
+                                backgroundColor:
+                                    theme.appColors.grayButtonBackground,
+                              ),
                       ),
                     ],
                   ),

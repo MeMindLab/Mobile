@@ -14,7 +14,7 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
-  bool _isChecked = false;
+  final bool _isChecked = false;
   late FocusNode _emailFocusNode;
   late FocusNode _passwordFocusNode;
 
@@ -49,7 +49,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       Padding(
                         padding: const EdgeInsets.only(top: 49.5),
                         child: SvgPicture.asset(
-                          '${baseImageSvgPath}/icon/logo.svg',
+                          '$baseImageSvgPath/icon/logo.svg',
                         ),
                       ),
                       const SizedBox(

@@ -9,6 +9,8 @@ class CustomTextFormField extends StatefulWidget {
   final int? maxLength;
   final String? labelText;
   final ValueChanged<String> onChanged;
+  final Widget? suffixIcon;
+  final Color? borderColor;
 
   const CustomTextFormField({
     super.key,
@@ -19,6 +21,8 @@ class CustomTextFormField extends StatefulWidget {
     this.obscureText = false,
     this.autoFocus = false,
     required this.onChanged,
+    this.suffixIcon,
+    this.borderColor,
   });
 
   @override
@@ -48,7 +52,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         CustomThemeHolder.of(context).theme.appColors.userInputBackground;
 
     final baseBorder = OutlineInputBorder(
-      borderSide: BorderSide(
+      borderSide: const BorderSide(
         width: 1.0,
       ),
       borderRadius: BorderRadius.circular(13),
@@ -68,45 +72,53 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
               ),
             ),
           ),
-        TextFormField(
-          textInputAction: TextInputAction.next,
-          maxLength: widget.maxLength,
-          obscureText: _obscureText,
-          autofocus: widget.autoFocus,
-          cursorColor: theme.focusColor,
-          onChanged: widget.onChanged,
-          decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(20.0),
-            counterText: '',
-            hintText: widget.hintText,
-            errorText: widget.errorText,
-            hintStyle: TextStyle(
-              color: hintTextColor,
-              fontSize: 14.0,
-              fontWeight: FontWeight.w400,
-            ),
-            fillColor: inputBackground,
-            filled: true, // false 배경색 없음 true 있음
-            border: baseBorder,
-            enabledBorder: baseBorder,
-            focusedBorder: baseBorder.copyWith(
-              borderSide: baseBorder.borderSide.copyWith(
-                color: focusedBorderColor,
+        SizedBox(
+          height: 53,
+          child: TextFormField(
+            textInputAction: TextInputAction.next,
+            maxLength: widget.maxLength,
+            obscureText: _obscureText,
+            autofocus: widget.autoFocus,
+            cursorColor: theme.focusColor,
+            onChanged: widget.onChanged,
+            decoration: InputDecoration(
+              contentPadding: const EdgeInsets.all(20.0),
+              counterText: '',
+              hintText: widget.hintText,
+              errorText: widget.errorText,
+              hintStyle: TextStyle(
+                color: hintTextColor,
+                fontSize: 14.0,
+                fontWeight: FontWeight.w400,
               ),
+              fillColor: inputBackground,
+              filled: true, // false 배경색 없음 true 있음
+              border: baseBorder,
+              enabledBorder: baseBorder.copyWith(
+                borderSide: baseBorder.borderSide.copyWith(
+                  color: widget.borderColor,
+                ),
+              ),
+              focusedBorder: baseBorder.copyWith(
+                borderSide: baseBorder.borderSide.copyWith(
+                  color: focusedBorderColor,
+                ),
+              ),
+
+              suffixIcon: _obscureText
+                  ? GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _obscureText = !_obscureText;
+                        });
+                      },
+                      child: Icon(
+                        _obscureText ? Icons.visibility : Icons.visibility_off,
+                        color: hintTextColor,
+                      ),
+                    )
+                  : widget.suffixIcon,
             ),
-            suffixIcon: widget.obscureText
-                ? GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _obscureText = !_obscureText;
-                      });
-                    },
-                    child: Icon(
-                      _obscureText ? Icons.visibility : Icons.visibility_off,
-                      color: hintTextColor,
-                    ),
-                  )
-                : null, // 변경된 부분
           ),
         )
       ],
