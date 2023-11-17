@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:me_mind/common/store.dart';
-import 'package:me_mind/chat/view/s_diary.dart';
+import 'package:me_mind/diary/view/s_diary.dart';
 import 'package:me_mind/screen/main/s_main.dart';
 import 'package:me_mind/report/view/s_report.dart';
 import 'package:me_mind/settings/view/s_setting.dart';

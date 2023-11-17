@@ -76,6 +76,10 @@ flutter:
     - assets/svg/icon/upload.svg
     - assets/svg/icon/book.svg
     - assets/svg/icon/vitamin.svg
+    - assets/svg/icon/robot.svg
+    - assets/svg/icon/imageUpload.svg
+    - assets/svg/icon/circleUp.svg
+    - assets/svg/chat/micBg1.svg
     - assets/svg/icon/logo.svg
     - assets/svg/report/resPoint.svg
     - assets/svg/icon/check.svg
