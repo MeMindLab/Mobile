@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/theme/color/abs_theme_colors.dart';
 import 'package:me_mind/common/theme/shadows/abs_theme_shadows.dart';
@@ -34,11 +35,17 @@ enum CustomTheme {
 }
 
 ThemeData lightTheme = ThemeData(
-    useMaterial3: true,
-    visualDensity: VisualDensity.adaptivePlatformDensity,
-    brightness: Brightness.light,
-    colorScheme:
-        ColorScheme.fromSeed(seedColor: CustomTheme.light.appColors.seedColor));
+  useMaterial3: true,
+  visualDensity: VisualDensity.adaptivePlatformDensity,
+  brightness: Brightness.light,
+  scaffoldBackgroundColor: Colors.white,
+  appBarTheme: AppBarTheme(
+      backgroundColor: Colors.transparent,
+      systemOverlayStyle: SystemUiOverlayStyle.dark),
+  colorScheme: ColorScheme.fromSeed(
+      seedColor: darkColorSeed, brightness: Brightness.light),
+  //dialogTheme: DialogTheme(backgroundColor: Colors.white),
+);
 
 const darkColorSeed = Color(0xFF161B22);
 ThemeData darkTheme = ThemeData(

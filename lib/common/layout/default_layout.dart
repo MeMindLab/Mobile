@@ -47,7 +47,7 @@ class DefaultLayout extends StatelessWidget {
             fontWeight: FontWeight.w500,
           ),
         ),
-        foregroundColor: Colors.white,
+        foregroundColor: Colors.black,
         actions: appBarActions,
       );
     }
