@@ -23,8 +23,8 @@ class SettingMenu extends StatelessWidget {
               ? const LinearGradient(
                   colors: [
                     Color.fromRGBO(119, 181, 255, 1),
-                    Color.fromRGBO(185, 216, 249, 1),
-                    Color.fromRGBO(255, 254, 242, 1)
+                    // Color.fromRGBO(185, 216, 249, 1),
+                    Color.fromRGBO(29, 125, 240, 1)
                   ],
                   begin: Alignment(-0.3, -0.8),
                   end: Alignment(1, 0.9),
