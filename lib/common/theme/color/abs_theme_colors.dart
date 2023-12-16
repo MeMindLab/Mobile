@@ -6,7 +6,7 @@ typedef ColorProvider = Color Function();
 abstract class AbstractThemeColors {
   const AbstractThemeColors();
 
-  Color get seedColor => Colors.black;
+  Color get seedColor => Colors.white;
 
   Color get scrollableItem => const Color.fromARGB(255, 57, 57, 57);
 
@@ -30,7 +30,7 @@ abstract class AbstractThemeColors {
 
   Color get confirmText => AppColors.blue6;
 
-  Color get blueButtonBackground => const Color(0xffBBD7FF);
+  Color get blueButtonBackground => AppColors.blueMain;
 
   Color get grayButtonBackground => AppColors.gray3;
 

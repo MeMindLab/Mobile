@@ -15,7 +15,7 @@ class App extends StatefulWidget {
 
   static bool isForeground = true;
 
-  static CustomTheme? defaultTheme = CustomTheme.dark;
+  static CustomTheme? defaultTheme = CustomTheme.light;
 
   const App({super.key});
 

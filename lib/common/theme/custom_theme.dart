@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/theme/color/abs_theme_colors.dart';
 import 'package:me_mind/common/theme/shadows/abs_theme_shadows.dart';
 import 'package:me_mind/common/theme/shadows/dark_app_shadows.dart';
@@ -38,7 +39,7 @@ ThemeData lightTheme = ThemeData(
   brightness: Brightness.light,
   colorScheme:
       ColorScheme.fromSeed(seedColor: CustomTheme.light.appColors.seedColor),
-  scaffoldBackgroundColor: Colors.white,
+  scaffoldBackgroundColor: AppColors.blue1,
 );
 
 ThemeData darkTheme = ThemeData(

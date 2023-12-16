@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:me_mind/common/component/rounded_button.dart';
+import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/user/view/signup_screen.dart';
 
@@ -7,8 +9,6 @@ class OnBoardingLastScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = Theme.of(context);
-
     return DefaultLayout(
       child: SafeArea(
         child: Padding(
@@ -23,30 +23,28 @@ class OnBoardingLastScreen extends StatelessWidget {
                   height: MediaQuery.of(context).size.height * 0.32,
                 ),
               ),
-              const Expanded(
+              Expanded(
                 flex: 1,
                 child: Column(
                   children: [
                     Text(
-                      "Connect",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                      "온보딩 내용 3",
+                      style: FontSizes.getHeadline1Style().copyWith(
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
-                    Text(
-                      "처음 7일간은 미마인드에서 제공하는\n 모든 기능을 사용하실 수 있어요.",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.white,
+                    Padding(
+                      padding: const EdgeInsets.only(top: 12.0),
+                      child: Text(
+                        "처음 7일간은 미마인드에서 제공하는\n 모든 기능을 사용하실 수 있어요.",
+                        style: FontSizes.getContentStyle(),
                       ),
                     ),
                   ],
                 ),
               ),
-              ElevatedButton(
+              RoundedButton(
+                text: "시작하기 ",
                 onPressed: () {
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
@@ -54,22 +52,7 @@ class OnBoardingLastScreen extends StatelessWidget {
                     ),
                   );
                 },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFFA9D0FF),
-                  foregroundColor: Colors.black,
-                  padding: const EdgeInsets.all(10.0),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(13),
-                  ),
-                ),
-                child: const Text(
-                  "시작하기",
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              )
+              ),
             ],
           ),
         ),
