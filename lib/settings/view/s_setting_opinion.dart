@@ -1,10 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:me_mind/common/component/rounded_button.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/store.dart';
 import 'package:me_mind/settings/component/settings_custom_text_form.dart';
+import 'package:me_mind/settings/repositories/imageRepository.dart';
 
 class SettingOpinion extends StatefulWidget {
   const SettingOpinion({super.key});
@@ -15,6 +19,16 @@ class SettingOpinion extends StatefulWidget {
 
 class _SettingOpinionState extends State<SettingOpinion> {
   bool infoCheck = false;
+  List opinionList = [];
+
+  setOpinionList(value) async {
+    if (value != null) {
+      setState(() {
+        opinionList.add(value);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(
@@ -35,16 +49,6 @@ class _SettingOpinionState extends State<SettingOpinion> {
         onPressed: () async {
           await setBottomIdx(1);
           Navigator.pop(context);
-          // Navigator.pushReplacement(
-          //     context,
-          //     PageRouteBuilder(
-          //       pageBuilder: ((BuildContext context,
-          //               Animation<double> animation1,
-          //               Animation<double> animation2) =>
-          //           const ReportDetailScreen()),
-          //       transitionDuration: Duration.zero,
-          //       reverseTransitionDuration: Duration.zero,
-          //     ));
         },
         icon: const Icon(Icons.arrow_back),
       ),
@@ -106,25 +110,51 @@ class _SettingOpinionState extends State<SettingOpinion> {
             width: double.infinity,
             height: 100,
             padding: const EdgeInsets.all(0),
-            child: GridView.count(
-              mainAxisSpacing: 10,
-              crossAxisSpacing: 10,
-              crossAxisCount: 4,
-              children: [
-                Container(
-                  width: 85,
-                  height: 85,
-                  decoration: const BoxDecoration(
-                      color: Color.fromRGBO(241, 243, 248, 1)),
-                  child: const Center(
-                      child: Icon(
-                    Icons.add,
-                    color: Colors.grey,
-                    size: 35,
-                  )),
+            // 0번째 idx는 사진 추가하는 버튼, 1부터 추가한 사진
+            child: GridView.builder(
+                itemCount: opinionList.length + 1,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 4,
+                  mainAxisSpacing: 10, //수평 Padding
+                  crossAxisSpacing: 10, //수직 Padding
                 ),
-              ],
-            ),
+                itemBuilder: (_, int idx) {
+                  if (idx == 0) {
+                    return InkWell(
+                      // 사진 추가 함수
+                      onTap: () async {
+                        XFile? result = await ImagePickerRepository(
+                                imagePicker: ImagePicker())
+                            .getImage(ImageSource.gallery);
+                        if (result != null) {
+                          await setOpinionList(result);
+                        }
+                      },
+                      child: Container(
+                        width: 85,
+                        height: 85,
+                        decoration: const BoxDecoration(
+                            color: Color.fromRGBO(241, 243, 248, 1)),
+                        child: const Center(
+                            child: Icon(
+                          Icons.add,
+                          color: Colors.grey,
+                          size: 35,
+                        )),
+                      ),
+                    );
+                  } else {
+                    return Container(
+                      width: 85,
+                      height: 85,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: FileImage(File(opinionList[idx - 1].path)),
+                              fit: BoxFit.cover)),
+                      child: Center(child: Text("${idx - 1}")),
+                    );
+                  }
+                }),
           ),
           const Expanded(
             child: SizedBox(),
