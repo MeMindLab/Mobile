@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:me_mind/common/component/custom_text_form.dart';
 import 'package:me_mind/common/component/rounded_button.dart';
 import 'package:me_mind/common/constant/constant.dart';
+import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
@@ -20,7 +21,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   void initState() {
     super.initState();
-    is_submitted = true;
+    is_submitted = false;
   }
 
   @override
@@ -55,12 +56,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       CustomTextFormField(
                         labelText: "이메일",
+                        errorText: "",
                         hintText: "example@gamil.com",
                         onChanged: (String value) {},
                         borderColor: blueButtonColor,
                         suffixIcon: Container(
-                          width: 40.0,
-                          height: 40.0,
+                          width: 24.0,
+                          height: 24.0,
                           color: Colors.transparent,
                           child: Center(
                             child: SvgPicture.asset(
@@ -74,7 +76,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                       ),
                       const SizedBox(
-                        height: 33,
+                        height: 1,
                       ),
                       CustomTextFormField(
                         labelText: "닉네임",
@@ -83,7 +85,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         onChanged: (String value) {},
                       ),
                       const SizedBox(
-                        height: 33,
+                        height: 15,
                       ),
                       CustomTextFormField(
                         labelText: "비밀번호",
@@ -92,23 +94,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         obscureText: true,
                         onChanged: (String value) {},
                       ),
-                      const SizedBox(
-                        height: 13,
-                      ),
                       CustomTextFormField(
                         hintText: "비밀번호를 한 번 더 입력해주세요",
                         obscureText: true,
                         onChanged: (String value) {},
                       ),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 10),
-                        child: Text(
-                          "•  비밀번호는 특수문자 포함 최소8자입니다",
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.grey,
-                          ),
-                        ),
+                      Text(
+                        "•  비밀번호는 특수문자 포함 최소8자입니다",
+                        style: FontSizes.getCapsuleStyle(),
                       ),
                       const Spacer(),
                       Padding(

@@ -31,11 +31,4 @@ class LightAppShadows extends AbsThemeShadows {
         blurRadius: 5,
         color: Color.fromARGB(255, 227, 227, 227),
       );
-
-  @override
-  BoxShadow get buttonShadowSmall => const BoxShadow(
-        offset: Offset(4, 4),
-        blurRadius: 5,
-        color: Color.fromARGB(255, 227, 227, 227),
-      );
 }

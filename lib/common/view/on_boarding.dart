@@ -36,7 +36,7 @@ class OnBoardingScreen extends StatelessWidget {
 
     return IntroductionScreen(
       // theme변수 이용해서 변경 필요!
-      globalBackgroundColor: Color(0xFF161B22),
+      globalBackgroundColor: const Color(0xFF161B22),
 
       pages: pages,
       done: const Text(
@@ -50,14 +50,14 @@ class OnBoardingScreen extends StatelessWidget {
       onDone: () {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => OnBoardingLastScreen(),
+            builder: (context) => const OnBoardingLastScreen(),
           ),
         );
       },
       onSkip: () {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => OnBoardingLastScreen(),
+            builder: (context) => const OnBoardingLastScreen(),
           ),
         );
       },
@@ -88,7 +88,7 @@ class OnBoardingScreen extends StatelessWidget {
 }
 
 PageDecoration getPageDecoration(ThemeData theme) {
-  return PageDecoration(
+  return const PageDecoration(
     titleTextStyle: TextStyle(
       fontSize: 20,
       fontWeight: FontWeight.bold,

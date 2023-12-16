@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 
 class CustomTextFormField extends StatefulWidget {
@@ -66,14 +67,13 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
             padding: const EdgeInsets.only(bottom: 6),
             child: Text(
               widget.labelText!,
-              style: const TextStyle(
-                fontSize: 16,
+              style: FontSizes.getContentStyle().copyWith(
                 fontWeight: FontWeight.w500,
               ),
             ),
           ),
         SizedBox(
-          height: 53,
+          height: 72,
           child: TextFormField(
             textInputAction: TextInputAction.next,
             maxLength: widget.maxLength,
@@ -82,15 +82,13 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
             cursorColor: theme.focusColor,
             onChanged: widget.onChanged,
             decoration: InputDecoration(
-              contentPadding: const EdgeInsets.all(20.0),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 20,
+              ),
               counterText: '',
               hintText: widget.hintText,
               errorText: widget.errorText,
-              hintStyle: TextStyle(
-                color: hintTextColor,
-                fontSize: 14.0,
-                fontWeight: FontWeight.w400,
-              ),
+              hintStyle: FontSizes.getContentStyle(),
               fillColor: inputBackground,
               filled: true, // false 배경색 없음 true 있음
               border: baseBorder,

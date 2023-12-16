@@ -18,7 +18,7 @@ class _CustomThemeAppState extends State<CustomThemeApp> {
   late CustomTheme theme =
       App.defaultTheme ?? systemTheme; //디폴트를 주시거나, 시스템을 따라가게 합니다.
 
-  final CustomTheme? defaultTheme = CustomTheme.dark;
+  final CustomTheme? defaultTheme = CustomTheme.light;
 
   void handleChangeTheme(CustomTheme theme) {
     setState(() => this.theme = theme);
