@@ -18,10 +18,13 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   late bool is_submitted;
 
+  late bool? passwordValidate;
+
   @override
   void initState() {
     super.initState();
     is_submitted = false;
+    passwordValidate = false;
   }
 
   @override
@@ -56,7 +59,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       CustomTextFormField(
                         labelText: "이메일",
-                        errorText: "",
                         hintText: "example@gamil.com",
                         onChanged: (String value) {},
                         borderColor: blueButtonColor,
@@ -76,7 +78,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                       ),
                       const SizedBox(
-                        height: 1,
+                        height: 15,
                       ),
                       CustomTextFormField(
                         labelText: "닉네임",
@@ -94,14 +96,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         obscureText: true,
                         onChanged: (String value) {},
                       ),
+                      const SizedBox(
+                        height: 10,
+                      ),
                       CustomTextFormField(
                         hintText: "비밀번호를 한 번 더 입력해주세요",
                         obscureText: true,
+                        errorText: "",
                         onChanged: (String value) {},
                       ),
-                      Text(
-                        "•  비밀번호는 특수문자 포함 최소8자입니다",
-                        style: FontSizes.getCapsuleStyle(),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 7.0, horizontal: 9),
+                        child: Text(
+                          "•  비밀번호는 특수문자 포함 최소8자입니다",
+                          style:
+                              _getValidationTextStyle(passwordValidate, theme),
+                        ),
                       ),
                       const Spacer(),
                       Padding(
@@ -127,5 +138,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ],
       ),
     );
+  }
+}
+
+TextStyle _getValidationTextStyle(bool? validateResult, CustomTheme theme) {
+  if (validateResult == true) {
+    return FontSizes.getCapsuleStyle().copyWith(
+      color: theme.appColors.checkColor,
+    );
+  } else if (validateResult == false) {
+    return FontSizes.getCapsuleStyle().copyWith(
+      color: const Color(0xFFEA3030),
+    );
+  } else {
+    return FontSizes.getCapsuleStyle();
   }
 }

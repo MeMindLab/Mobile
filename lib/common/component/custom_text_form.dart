@@ -72,51 +72,49 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
               ),
             ),
           ),
-        SizedBox(
-          height: 72,
-          child: TextFormField(
-            textInputAction: TextInputAction.next,
-            maxLength: widget.maxLength,
-            obscureText: _obscureText,
-            autofocus: widget.autoFocus,
-            cursorColor: theme.focusColor,
-            onChanged: widget.onChanged,
-            decoration: InputDecoration(
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: 20,
-              ),
-              counterText: '',
-              hintText: widget.hintText,
-              errorText: widget.errorText,
-              hintStyle: FontSizes.getContentStyle(),
-              fillColor: inputBackground,
-              filled: true, // false 배경색 없음 true 있음
-              border: baseBorder,
-              enabledBorder: baseBorder.copyWith(
-                borderSide: baseBorder.borderSide.copyWith(
-                  color: widget.borderColor,
-                ),
-              ),
-              focusedBorder: baseBorder.copyWith(
-                borderSide: baseBorder.borderSide.copyWith(
-                  color: focusedBorderColor,
-                ),
-              ),
-
-              suffixIcon: _obscureText
-                  ? GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          _obscureText = !_obscureText;
-                        });
-                      },
-                      child: Icon(
-                        _obscureText ? Icons.visibility : Icons.visibility_off,
-                        color: hintTextColor,
-                      ),
-                    )
-                  : widget.suffixIcon,
+        TextFormField(
+          textInputAction: TextInputAction.next,
+          maxLength: widget.maxLength,
+          obscureText: _obscureText,
+          autofocus: widget.autoFocus,
+          cursorColor: theme.focusColor,
+          onChanged: widget.onChanged,
+          decoration: InputDecoration(
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 20,
             ),
+            counterText: '',
+            hintText: widget.hintText,
+            errorText: widget.errorText,
+            errorStyle: const TextStyle(height: 0),
+            hintStyle: FontSizes.getContentStyle(),
+            fillColor: inputBackground,
+            filled: true, // false 배경색 없음 true 있음
+            border: baseBorder,
+            enabledBorder: baseBorder.copyWith(
+              borderSide: baseBorder.borderSide.copyWith(
+                color: widget.borderColor,
+              ),
+            ),
+            focusedBorder: baseBorder.copyWith(
+              borderSide: baseBorder.borderSide.copyWith(
+                color: focusedBorderColor,
+              ),
+            ),
+
+            suffixIcon: _obscureText
+                ? GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _obscureText = !_obscureText;
+                      });
+                    },
+                    child: Icon(
+                      _obscureText ? Icons.visibility : Icons.visibility_off,
+                      color: hintTextColor,
+                    ),
+                  )
+                : widget.suffixIcon,
           ),
         )
       ],
