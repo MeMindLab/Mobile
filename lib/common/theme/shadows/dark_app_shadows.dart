@@ -31,11 +31,4 @@ class DarkAppShadows extends AbsThemeShadows {
         blurRadius: 3,
         color: Color.fromARGB(255, 81, 81, 81),
       );
-
-  @override
-  BoxShadow get buttonShadowSmall => const BoxShadow(
-        offset: Offset(1, 1),
-        blurRadius: 3,
-        color: Color.fromARGB(255, 81, 81, 81),
-      );
 }

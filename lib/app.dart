@@ -50,7 +50,7 @@ class AppState extends State<App> with WidgetsBindingObserver {
           locale: context.locale,
           title: 'Me mind',
           theme: CustomThemeHolder.of(context).theme.themeData,
-          home: const ReportDetailScreen(),
+          home: const OnBoardingScreen(),
         );
       }),
     );
