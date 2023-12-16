@@ -7,19 +7,23 @@ class SeetingCustomTextFormField extends StatefulWidget {
   final bool obscureText;
   final bool autoFocus;
   final int? maxLength;
+  final int? maxLines;
+  final Color? bgColor;
   final String? labelText;
   final ValueChanged<String> onChanged;
 
   const SeetingCustomTextFormField({
-    super.key,
+    Key? key,
     this.hintText,
     this.errorText,
-    this.maxLength,
-    this.labelText,
     this.obscureText = false,
     this.autoFocus = false,
+    this.maxLength,
+    this.maxLines,
+    this.bgColor,
+    this.labelText,
     required this.onChanged,
-  });
+  }) : super(key: key);
 
   @override
   State<SeetingCustomTextFormField> createState() =>
@@ -45,7 +49,7 @@ class _CustomTextFormFieldState extends State<SeetingCustomTextFormField> {
     Color hintTextColor =
         CustomThemeHolder.of(context).theme.appColors.hintText;
 
-    Color inputBackground = Colors.white;
+    Color inputBackground = widget.bgColor ?? Colors.white;
 
     final baseBorder = OutlineInputBorder(
       borderSide: BorderSide(
@@ -71,6 +75,7 @@ class _CustomTextFormFieldState extends State<SeetingCustomTextFormField> {
         TextFormField(
           textInputAction: TextInputAction.next,
           maxLength: widget.maxLength,
+          maxLines: widget.maxLines,
           obscureText: _obscureText,
           autofocus: widget.autoFocus,
           cursorColor: theme.focusColor,
@@ -79,6 +84,7 @@ class _CustomTextFormFieldState extends State<SeetingCustomTextFormField> {
             contentPadding: const EdgeInsets.all(20.0),
             counterText: '',
             hintText: widget.hintText,
+
             errorText: widget.errorText,
             hintStyle: TextStyle(
               color: hintTextColor,

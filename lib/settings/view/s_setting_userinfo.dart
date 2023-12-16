@@ -44,6 +44,7 @@ class _SettingUserInfoState extends State<SettingUserInfo> {
                               height: 54,
                             ),
                             SeetingCustomTextFormField(
+                              bgColor: Colors.white,
                               labelText: "닉네임",
                               onChanged: (String value) {},
                             ),
@@ -51,6 +52,7 @@ class _SettingUserInfoState extends State<SettingUserInfo> {
                               height: 12.0,
                             ),
                             SeetingCustomTextFormField(
+                              bgColor: Colors.white,
                               labelText: "비밀번호",
                               onChanged: (String value) {},
                             ),
@@ -58,6 +60,7 @@ class _SettingUserInfoState extends State<SettingUserInfo> {
                               height: 12.0,
                             ),
                             SeetingCustomTextFormField(
+                              bgColor: Colors.white,
                               labelText: "이메일",
                               onChanged: (String value) {},
                             ),
@@ -65,6 +68,7 @@ class _SettingUserInfoState extends State<SettingUserInfo> {
                               height: 12.0,
                             ),
                             SeetingCustomTextFormField(
+                              bgColor: Colors.white,
                               labelText: "연락처",
                               hintText: "번호를 입력해주세요",
                               onChanged: (String value) {},

@@ -7,6 +7,7 @@ import 'package:me_mind/common/component/root_tab.dart';
 import 'package:me_mind/report/view/s_report_detail.dart';
 import 'package:me_mind/settings/component/settings_dialog.dart';
 import 'package:me_mind/settings/component/settings_menu.dart';
+import 'package:me_mind/settings/view/s_setting_opinion.dart';
 import 'package:me_mind/settings/view/s_setting_userinfo.dart';
 
 class Setting extends StatefulWidget {
@@ -125,10 +126,16 @@ class _SettingState extends State<Setting> {
                 ),
               ),
             ),
-            const SettingMenu(
+            SettingMenu(
               subscribe: false,
               height: 66,
               content: ListTile(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => SettingOpinion()));
+                },
                 title: Text(
                   "의견 보내기",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
