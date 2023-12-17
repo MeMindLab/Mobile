@@ -1,5 +1,4 @@
 // ignore_for_file: sort_child_properties_last
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:me_mind/common/component/custom_dialog.dart';
@@ -160,8 +159,10 @@ class _SettingState extends State<Setting> {
                   children: [
                     const Text(
                       "계정정보",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.blue8),
                     ),
                     CertifiedBox(certi: true),
                   ],
@@ -175,7 +176,10 @@ class _SettingState extends State<Setting> {
                 onTap: () {},
                 title: Text(
                   "테마 설정하기",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.blue8),
                 ),
               ),
             ),
@@ -191,7 +195,10 @@ class _SettingState extends State<Setting> {
                 },
                 title: Text(
                   "의견 보내기",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.blue8),
                 ),
               ),
             ),
@@ -206,7 +213,9 @@ class _SettingState extends State<Setting> {
                         title: Text(
                           settingmenus[idx],
                           style: const TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.w500),
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.blue8),
                         ),
                       );
                     },
@@ -221,7 +230,10 @@ class _SettingState extends State<Setting> {
               content: ListTile(
                 title: const Text(
                   "로그아웃",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.blue8),
                 ),
                 // onTap: () => showDialog(
                 //     context: context,

@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:me_mind/common/component/custom_dialog.dart';
 import 'package:me_mind/common/component/rounded_button.dart';
+import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/store.dart';
 import 'package:me_mind/settings/component/settings_custom_text_form.dart';
@@ -64,7 +65,7 @@ class _SettingOpinionState extends State<SettingOpinion> {
             ),
             child: const Text(
               "memind를 이용하며 생긴 궁금한 점이나, 관련하여 전달하고픈 피드백을 넘겨주세요.",
-              style: TextStyle(fontSize: 16),
+              style: TextStyle(fontSize: 16, color: AppColors.blue8),
             ),
           ),
           const SizedBox(
@@ -74,7 +75,10 @@ class _SettingOpinionState extends State<SettingOpinion> {
             alignment: Alignment.centerLeft,
             child: const Text(
               "제목",
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.blue8),
             ),
           ),
           const SizedBox(
@@ -94,7 +98,10 @@ class _SettingOpinionState extends State<SettingOpinion> {
             alignment: Alignment.centerLeft,
             child: const Text(
               "내용",
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.blue8),
             ),
           ),
           const SizedBox(
@@ -192,7 +199,9 @@ class _SettingOpinionState extends State<SettingOpinion> {
                   child: Container(
                 padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
                 child: const Text(
-                    "수집된 정보는 의견에 대한 답변 목적으로 활용되며, 의견을 보내시면 정보 수집에 동의하게 됩니다"),
+                  "수집된 정보는 의견에 대한 답변 목적으로 활용되며, 의견을 보내시면 정보 수집에 동의하게 됩니다",
+                  style: TextStyle(color: AppColors.blue8),
+                ),
               ))
             ]),
           ),
