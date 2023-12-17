@@ -38,21 +38,16 @@ ThemeData lightTheme = ThemeData(
   useMaterial3: true,
   visualDensity: VisualDensity.adaptivePlatformDensity,
   brightness: Brightness.light,
-  scaffoldBackgroundColor: Colors.white,
-  appBarTheme: AppBarTheme(
-      backgroundColor: Colors.transparent,
-      systemOverlayStyle: SystemUiOverlayStyle.dark),
-  colorScheme: ColorScheme.fromSeed(
-      seedColor: darkColorSeed, brightness: Brightness.light),
-  //dialogTheme: DialogTheme(backgroundColor: Colors.white),
+  colorScheme:
+      ColorScheme.fromSeed(seedColor: CustomTheme.light.appColors.seedColor),
+  scaffoldBackgroundColor: AppColors.blue1,
 );
 
-const darkColorSeed = Color(0xFF161B22);
 ThemeData darkTheme = ThemeData(
   useMaterial3: true,
   visualDensity: VisualDensity.adaptivePlatformDensity,
   brightness: Brightness.dark,
-  scaffoldBackgroundColor: AppColors.blackPearl,
   colorScheme: ColorScheme.fromSeed(
-      seedColor: darkColorSeed, brightness: Brightness.dark),
+      seedColor: CustomTheme.dark.appColors.seedColor,
+      brightness: Brightness.dark),
 );

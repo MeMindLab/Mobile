@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:me_mind/common/component/custom_dialog.dart';
+import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/store.dart';
 import 'package:me_mind/common/component/root_tab.dart';
@@ -31,7 +33,7 @@ class _SettingState extends State<Setting> {
     final settingmenus = ['FAQ', '이용 약관', '개인정보 처리방침'];
     return DefaultLayout(
       title: "설정",
-      backgroundColor: const Color.fromRGBO(241, 243, 248, 1),
+      backgroundColor: AppColors.blue1,
       appBarActions: [
         Container(
           margin: const EdgeInsets.fromLTRB(0, 0, 20, 0),
@@ -80,14 +82,14 @@ class _SettingState extends State<Setting> {
                       Text(
                         "구독플랜",
                         style: TextStyle(
-                            color: Colors.white,
+                            color: AppColors.whiteColor,
                             fontSize: 20,
                             fontWeight: FontWeight.w600),
                       ),
                       Text(
                         "무료 멤버십",
                         style: TextStyle(
-                            color: Colors.white,
+                            color: AppColors.whiteColor,
                             fontSize: 18,
                             fontWeight: FontWeight.w400),
                       ),
@@ -131,7 +133,7 @@ class _SettingState extends State<Setting> {
                     children: [
                       Icon(
                         Icons.ios_share,
-                        color: Colors.white,
+                        color: AppColors.whiteColor,
                       ),
                       Text(
                         "1월 중 오픈 예정",
@@ -221,7 +223,21 @@ class _SettingState extends State<Setting> {
                   "로그아웃",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                 ),
-                onTap: () => settingDialog(context, DialogStatus.logout),
+                // onTap: () => showDialog(
+                //     context: context,
+                //     builder: (BuildContext context) {
+                //       return CustomDialog(
+                //         contentdetailText: "로그아웃 하시겠습니까?",
+                //         buttonText: '취소',
+                //         buttonSubText: "확인",
+                //       );
+                //     })
+                onTap: () => getCustomDialog(
+                  context,
+                  buttonText: "취소",
+                  buttonSubText: "확인",
+                  contentdetailText: "로그아웃 하시겠습니까?",
+                ),
               ),
             )
           ],

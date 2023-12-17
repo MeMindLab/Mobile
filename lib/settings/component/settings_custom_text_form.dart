@@ -4,6 +4,7 @@ import 'package:me_mind/common/theme/custom_theme_holder.dart';
 class SeetingCustomTextFormField extends StatefulWidget {
   final String? hintText;
   final String? errorText;
+  final String? initialText;
   final bool obscureText;
   final bool autoFocus;
   final int? maxLength;
@@ -16,6 +17,7 @@ class SeetingCustomTextFormField extends StatefulWidget {
     Key? key,
     this.hintText,
     this.errorText,
+    this.initialText,
     this.obscureText = false,
     this.autoFocus = false,
     this.maxLength,
@@ -73,6 +75,7 @@ class _CustomTextFormFieldState extends State<SeetingCustomTextFormField> {
             ),
           ),
         TextFormField(
+          initialValue: widget.initialText,
           textInputAction: TextInputAction.next,
           maxLength: widget.maxLength,
           maxLines: widget.maxLines,
@@ -84,7 +87,6 @@ class _CustomTextFormFieldState extends State<SeetingCustomTextFormField> {
             contentPadding: const EdgeInsets.all(20.0),
             counterText: '',
             hintText: widget.hintText,
-
             errorText: widget.errorText,
             hintStyle: TextStyle(
               color: hintTextColor,
@@ -94,10 +96,12 @@ class _CustomTextFormFieldState extends State<SeetingCustomTextFormField> {
             fillColor: inputBackground,
             filled: true, // false 배경색 없음 true 있음
             //border: baseBorder,
-            enabledBorder:
-                const OutlineInputBorder(borderSide: BorderSide.none),
-            focusedBorder:
-                const OutlineInputBorder(borderSide: BorderSide.none),
+            enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide.none,
+                borderRadius: BorderRadius.circular(13)),
+            focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide.none,
+                borderRadius: BorderRadius.circular(13)),
             // enabledBorder: baseBorder,
             // focusedBorder: baseBorder.copyWith(
             //   borderSide: baseBorder.borderSide.copyWith(

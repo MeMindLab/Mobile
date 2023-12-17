@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:me_mind/common/component/custom_dialog.dart';
 import 'package:me_mind/common/component/rounded_button.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/store.dart';
@@ -79,10 +80,13 @@ class _SettingOpinionState extends State<SettingOpinion> {
           const SizedBox(
             height: 5,
           ),
-          SeetingCustomTextFormField(
-              hintText: "제목을 입력해주세요",
-              onChanged: (String? value) {},
-              bgColor: Color.fromRGBO(241, 243, 248, 1)),
+          Container(
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(13)),
+            child: SeetingCustomTextFormField(
+                hintText: "제목을 입력해주세요",
+                onChanged: (String? value) {},
+                bgColor: Color.fromRGBO(241, 243, 248, 1)),
+          ),
           const SizedBox(
             height: 20,
           ),
@@ -96,11 +100,14 @@ class _SettingOpinionState extends State<SettingOpinion> {
           const SizedBox(
             height: 5,
           ),
-          SeetingCustomTextFormField(
-              hintText: "내용을 입력해주세요",
-              maxLines: 8,
-              onChanged: (String? value) {},
-              bgColor: Color.fromRGBO(241, 243, 248, 1)),
+          Container(
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(13)),
+            child: SeetingCustomTextFormField(
+                hintText: "내용을 입력해주세요",
+                maxLines: 8,
+                onChanged: (String? value) {},
+                bgColor: Color.fromRGBO(241, 243, 248, 1)),
+          ),
           const SizedBox(
             height: 10,
           ),
@@ -193,7 +200,10 @@ class _SettingOpinionState extends State<SettingOpinion> {
             height: 10,
           ),
           RoundedButton(
-            onPressed: () {},
+            onPressed: () => getCustomDialog(context,
+                buttonText: "닫기",
+                contentTitleText: "의견을 성공적으로 보냈습니다!",
+                contentdetailText: "답변은 추후 등록한 이메일로 전송됩니다."),
             text: "의견 보내기",
           )
         ]),
