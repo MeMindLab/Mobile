@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  static const Color veryDarkGrey = Color.fromARGB(255, 18, 18, 18);
-  static const Color darkGrey = Color.fromARGB(255, 45, 45, 45);
-  static const Color grey = Color(0xFF626262);
-  static const Color middleGrey = Color(0xFFB3B3B3);
-  static const Color brightGrey = Color(0xFF2C3642);
+  static const Color gray3 = Color(0xFFCCCCCC);
+  static const Color gray4 = Color(0xFFB3B3B3);
+  static const Color gray5 = Color(0xFF999999);
+  static const Color gray6 = Color(0xFF7B7B7B);
+  static const Color gray7 = Color(0xFF626262);
+  static const Color gray9 = Color(0xFF313131);
 
-  static const Color blueGreen = Color.fromARGB(255, 0, 185, 206);
-  static const Color green = Color.fromARGB(255, 132, 206, 191);
-  static const Color darkGreen = Color.fromARGB(255, 101, 160, 149);
-  static const Color blue = Color.fromARGB(255, 0, 125, 203);
-  static const Color darkBlue = Color.fromARGB(255, 0, 70, 111);
-  static const Color mediumBlue = Color.fromARGB(255, 60, 140, 180);
-  static const Color darkOrange = Color.fromARGB(255, 222, 112, 48);
-
-  static const Color salmon = Color(0xffff6666);
-  static const Color blackPearl = Color(0xFF161B22);
-  static const Color paleCornFlowerBlue = Color(0xFFA9D0FF);
-  static const Color Licorice = Color(0xFF2C3642);
+  static const Color whiteColor = Colors.white;
+  static const Color blueMain = Color.fromARGB(255, 169, 208, 255);
+  static const Color blue1 = Color(0xFFF1F3F8);
+  static const Color blue2 = Color(0xFFEBEEF5);
+  static const Color blue3 = Color(0xFFE0E6F6);
+  static const Color blue4 = Color(0xFFDCE1F0);
+  static const Color blue5 = Color(0xFFBBD7FF);
+  static const Color blue6 = Color(0xFF2F8CFA);
+  static const Color blue7 = Color(0xFF596271);
+  static const Color blue8 = Color(0xFF202835);
+  static const Color yellow = Color.fromRGBO(255, 238, 151, 1.0);
+  static const Color lemonYellow = Color.fromRGBO(255, 199, 0, 1.0);
 }

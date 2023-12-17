@@ -32,7 +32,7 @@ class SignUpScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 23,
                       ),
                       CustomTextFormField(
@@ -40,7 +40,7 @@ class SignUpScreen extends StatelessWidget {
                         hintText: "example@gamil.com",
                         onChanged: (String value) {},
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 33,
                       ),
                       CustomTextFormField(
@@ -49,7 +49,7 @@ class SignUpScreen extends StatelessWidget {
                         maxLength: 10,
                         onChanged: (String value) {},
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 33,
                       ),
                       CustomTextFormField(
@@ -59,7 +59,7 @@ class SignUpScreen extends StatelessWidget {
                         obscureText: true,
                         onChanged: (String value) {},
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 13,
                       ),
                       CustomTextFormField(
@@ -67,7 +67,7 @@ class SignUpScreen extends StatelessWidget {
                         obscureText: true,
                         onChanged: (String value) {},
                       ),
-                      Padding(
+                      const Padding(
                         padding: EdgeInsets.only(top: 10),
                         child: Text(
                           "• 비밀번호는 특수문자 포함 최소8자입니다",
@@ -77,22 +77,22 @@ class SignUpScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Padding(
                         padding: const EdgeInsets.only(bottom: 32),
                         child: ElevatedButton(
                           onPressed: () {},
-                          child: Text("가입하기"),
                           style: ElevatedButton.styleFrom(
                             backgroundColor:
                                 theme.appColors.grayButtonBackground,
                             foregroundColor: Colors.black,
-                            padding: EdgeInsets.all(10.0),
+                            padding: const EdgeInsets.all(10.0),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(13),
                             ),
-                            minimumSize: Size(double.infinity, 55),
+                            minimumSize: const Size(double.infinity, 55),
                           ),
+                          child: const Text("가입하기"),
                         ),
                       ),
                     ],

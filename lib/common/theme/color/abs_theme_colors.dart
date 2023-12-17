@@ -6,7 +6,7 @@ typedef ColorProvider = Color Function();
 abstract class AbstractThemeColors {
   const AbstractThemeColors();
 
-  Color get seedColor => const Color(0xff26ff8c);
+  Color get seedColor => Colors.white;
 
   Color get scrollableItem => const Color.fromARGB(255, 57, 57, 57);
 
@@ -18,29 +18,21 @@ abstract class AbstractThemeColors {
 
   Color get activate => const Color.fromARGB(255, 63, 72, 95);
 
-  Color get badgeBg => AppColors.blueGreen;
-
-  Color get textBadgeText => Colors.white;
-
   Color get badgeBorder => Colors.transparent;
 
   Color get divider => const Color.fromARGB(255, 228, 228, 228);
 
-  Color get text => AppColors.darkGrey;
+  Color get text => AppColors.gray9;
 
-  Color get hintText => AppColors.middleGrey;
+  Color get hintText => AppColors.gray6;
 
   Color get focusedBorder => const Color(0xff26ff8c);
 
-  Color get confirmText => AppColors.blue;
+  Color get confirmText => AppColors.blue6;
 
-  Color get drawerText => text;
+  Color get blueButtonBackground => AppColors.blueMain;
 
-  Color get blueButtonBackground => AppColors.paleCornFlowerBlue;
+  Color get grayButtonBackground => AppColors.gray3;
 
-  Color get grayButtonBackground => AppColors.middleGrey;
-
-  Color get mainBackground => AppColors.blackPearl;
-
-  Color get userInputBackground => AppColors.brightGrey;
+  Color get userInputBackground => AppColors.blue2;
 }
