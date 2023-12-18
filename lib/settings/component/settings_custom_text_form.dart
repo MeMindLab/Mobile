@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:me_mind/common/constant/app_colors.dart';
+import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 
 class SeetingCustomTextFormField extends StatefulWidget {
@@ -50,7 +51,8 @@ class _CustomTextFormFieldState extends State<SeetingCustomTextFormField> {
     Color focusedBorderColor =
         CustomThemeHolder.of(context).theme.appColors.focusedBorder;
 
-    Color hintTextColor = AppColors.gray9;
+    Color hintTextColor =
+        CustomThemeHolder.of(context).theme.appColors.hintText;
     // CustomThemeHolder.of(context).theme.appColors.hintText;
 
     Color inputBackground = widget.bgColor ?? Colors.white;
@@ -70,11 +72,7 @@ class _CustomTextFormFieldState extends State<SeetingCustomTextFormField> {
             padding: const EdgeInsets.only(bottom: 6),
             child: Text(
               widget.labelText!,
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                color: hintTextColor,
-              ),
+              style: FontSizes.getContentStyle().copyWith(color: hintTextColor),
             ),
           ),
         TextFormField(
@@ -99,19 +97,12 @@ class _CustomTextFormFieldState extends State<SeetingCustomTextFormField> {
             ),
             fillColor: inputBackground,
             filled: true, // false 배경색 없음 true 있음
-            //border: baseBorder,
             enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide.none,
                 borderRadius: BorderRadius.circular(13)),
             focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide.none,
                 borderRadius: BorderRadius.circular(13)),
-            // enabledBorder: baseBorder,
-            // focusedBorder: baseBorder.copyWith(
-            //   borderSide: baseBorder.borderSide.copyWith(
-            //     color: focusedBorderColor,
-            //   ),
-            // ),
 
             suffixIcon: widget.obscureText
                 ? GestureDetector(

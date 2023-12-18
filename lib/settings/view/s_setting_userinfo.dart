@@ -3,12 +3,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:me_mind/common/component/rounded_button.dart';
-import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/constant.dart';
+import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
+import 'package:me_mind/common/theme/custom_theme.dart';
+import 'package:me_mind/common/theme/custom_theme_holder.dart';
 import 'package:me_mind/settings/component/settings_custom_text_form.dart';
-import 'package:intl/intl.dart';
-import 'dart:math';
 
 class SettingUserInfo extends StatefulWidget {
   const SettingUserInfo({super.key});
@@ -44,9 +44,10 @@ class _SettingUserInfoState extends State<SettingUserInfo> {
   // form validate need?
   @override
   Widget build(BuildContext context) {
+    CustomTheme theme = CustomThemeHolder.of(context).theme;
     return DefaultLayout(
         title: "계정정보",
-        backgroundColor: AppColors.whiteColor,
+        backgroundColor: theme.appColors.seedColor,
         child: CustomScrollView(
           slivers: [
             SliverFillRemaining(
@@ -61,7 +62,7 @@ class _SettingUserInfoState extends State<SettingUserInfo> {
                       children: [
                         Container(
                           decoration: BoxDecoration(
-                              color: AppColors.blue1,
+                              color: theme.appColors.userInputBackground,
                               borderRadius: BorderRadius.circular(13.0)),
                           padding: const EdgeInsets.symmetric(horizontal: 15),
                           child: Column(
@@ -77,7 +78,7 @@ class _SettingUserInfoState extends State<SettingUserInfo> {
                               ),
                               SeetingCustomTextFormField(
                                 initialText: "구르미조아",
-                                bgColor: Colors.white,
+                                bgColor: theme.appColors.seedColor,
                                 labelText: "닉네임",
                                 onChanged: (String value) {},
                               ),
@@ -86,7 +87,7 @@ class _SettingUserInfoState extends State<SettingUserInfo> {
                               ),
                               SeetingCustomTextFormField(
                                 initialText: "1234",
-                                bgColor: Colors.white,
+                                bgColor: theme.appColors.seedColor,
                                 labelText: "비밀번호",
                                 onChanged: (String value) {},
                               ),
@@ -95,7 +96,7 @@ class _SettingUserInfoState extends State<SettingUserInfo> {
                               ),
                               SeetingCustomTextFormField(
                                 initialText: "brainz.paek@gmail.com",
-                                bgColor: Colors.white,
+                                bgColor: theme.appColors.seedColor,
                                 labelText: "이메일",
                                 onChanged: (String value) {},
                               ),
@@ -103,7 +104,7 @@ class _SettingUserInfoState extends State<SettingUserInfo> {
                                 height: 12.0,
                               ),
                               SeetingCustomTextFormField(
-                                bgColor: Colors.white,
+                                bgColor: theme.appColors.seedColor,
                                 labelText: "연락처",
                                 hintText: "번호를 입력해주세요",
                                 onChanged: (String value) {},
@@ -117,8 +118,10 @@ class _SettingUserInfoState extends State<SettingUserInfo> {
                                         child: RoundedButton(
                                           height: 35,
                                           text: "인증요청",
-                                          foregroundColor: AppColors.blue8,
-                                          backgroundColor: AppColors.yellow,
+                                          foregroundColor:
+                                              theme.appColors.iconButton,
+                                          backgroundColor:
+                                              lightTheme.primaryColor,
                                           onPressed: () {
                                             if (isUpdated == true) {
                                               setState(() {
@@ -138,7 +141,7 @@ class _SettingUserInfoState extends State<SettingUserInfo> {
                                       height: 10,
                                     ),
                                     SeetingCustomTextFormField(
-                                      bgColor: Colors.white,
+                                      bgColor: theme.appColors.seedColor,
                                       onChanged: (String value) {},
                                       suffixWidget: Align(
                                         alignment: Alignment.centerRight,
@@ -151,9 +154,8 @@ class _SettingUserInfoState extends State<SettingUserInfo> {
                                                 ":" +
                                                 "${timerCount % 60}"
                                                     .padLeft(2, "0"),
-                                            style: const TextStyle(
-                                                color: Colors.red,
-                                                fontSize: 16),
+                                            style: FontSizes.getContentStyle()
+                                                .copyWith(color: Colors.red),
                                           ),
                                         ),
                                       ),
@@ -181,12 +183,14 @@ class _SettingUserInfoState extends State<SettingUserInfo> {
                             : isTimerStart == false
                                 ? RoundedButton(
                                     text: "저장",
-                                    backgroundColor: AppColors.gray3,
+                                    backgroundColor:
+                                        theme.appColors.grayButtonBackground,
                                     onPressed: () {},
                                   )
                                 : RoundedButton(
                                     text: "저장",
-                                    backgroundColor: AppColors.blue5,
+                                    backgroundColor:
+                                        theme.appColors.blueButtonBackground,
                                     onPressed: () {
                                       _timer.cancel();
                                       setState(() {
@@ -199,9 +203,10 @@ class _SettingUserInfoState extends State<SettingUserInfo> {
                           height: 20,
                         ),
                         if (isUpdated == false)
-                          const Text(
+                          Text(
                             "계정 탈퇴하기",
-                            style: TextStyle(color: AppColors.blue7),
+                            style: FontSizes.getCapsuleStyle()
+                                .copyWith(color: theme.appColors.iconButton),
                           )
                       ],
                     ),

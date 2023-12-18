@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:me_mind/common/theme/custom_theme.dart';
+import 'package:me_mind/common/theme/custom_theme_holder.dart';
 
 class SettingMenu extends StatelessWidget {
   final num height;
@@ -14,21 +16,21 @@ class SettingMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    CustomTheme theme = CustomThemeHolder.of(context).theme;
     return Container(
       width: double.infinity,
       height: height.toDouble(),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(13)),
+          borderRadius: const BorderRadius.all(Radius.circular(13)),
           color: subscribe == false ? Colors.white : null,
           gradient: subscribe == true
-              ? const LinearGradient(
+              ? LinearGradient(
                   colors: [
-                    Color.fromRGBO(119, 181, 255, 1),
-                    // Color.fromRGBO(185, 216, 249, 1),
-                    Color.fromRGBO(29, 125, 240, 1)
+                    theme.appColors.blueButtonBackground,
+                    theme.appColors.confirmText,
                   ],
-                  begin: Alignment(-0.3, -0.8),
-                  end: Alignment(1, 0.9),
+                  begin: const Alignment(-0.3, -0.8),
+                  end: const Alignment(1, 0.9),
                 )
               : null),
       margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:me_mind/common/component/rounded_button.dart';
 import 'package:me_mind/common/constant/app_colors.dart';
+import 'package:me_mind/common/constant/font_sizes.dart';
+import 'package:me_mind/common/theme/custom_theme.dart';
+import 'package:me_mind/common/theme/custom_theme_holder.dart';
 
 void getCustomDialog(
   BuildContext context, {
@@ -41,9 +44,10 @@ class CustomDialog extends StatefulWidget {
 class _CustomDialogState extends State<CustomDialog> {
   @override
   Widget build(BuildContext context) {
+    CustomTheme theme = CustomThemeHolder.of(context).theme;
     return AlertDialog(
-      backgroundColor: AppColors.whiteColor,
-      surfaceTintColor: Colors.transparent,
+      backgroundColor: theme.appColors.seedColor,
+      surfaceTintColor: theme.appColors.badgeBorder,
       contentPadding: const EdgeInsets.fromLTRB(0, 30, 0, 15),
       actionsPadding: const EdgeInsets.fromLTRB(15, 5, 15, 15),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
@@ -57,10 +61,8 @@ class _CustomDialogState extends State<CustomDialog> {
                 if (widget.contentTitleText != null)
                   Text(
                     widget.contentTitleText!,
-                    style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.blue8),
+                    style: FontSizes.getContentStyle()
+                        .copyWith(color: theme.appColors.iconButton),
                   ),
                 if (widget.contentTitleText != null)
                   const SizedBox(
@@ -69,10 +71,8 @@ class _CustomDialogState extends State<CustomDialog> {
                 if (widget.contentdetailText != null)
                   Text(
                     widget.contentdetailText!,
-                    style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.blue8),
+                    style: FontSizes.getCapsuleStyle()
+                        .copyWith(color: theme.appColors.iconButton),
                   )
               ],
             )
@@ -84,8 +84,8 @@ class _CustomDialogState extends State<CustomDialog> {
           Center(
             child: RoundedButton(
               text: widget.buttonText,
-              backgroundColor: AppColors.yellow,
-              foregroundColor: AppColors.blue8,
+              backgroundColor: lightTheme.primaryColor,
+              foregroundColor: theme.appColors.iconButton,
               onPressed: () {},
             ),
           ),
@@ -98,12 +98,14 @@ class _CustomDialogState extends State<CustomDialog> {
                   // 첫번째 버튼 너비
                   width: 180,
                   height: 41,
-                  decoration: const BoxDecoration(
-                      color: Color.fromRGBO(255, 238, 151, 1),
-                      borderRadius: BorderRadius.all(Radius.circular(10))),
+                  decoration: BoxDecoration(
+                      color: lightTheme.primaryColor,
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(10))),
                   child: TextButton(
                     child: Text(widget.buttonText,
-                        style: const TextStyle(color: Colors.black)),
+                        style: FontSizes.getCapsuleStyle()
+                            .copyWith(color: theme.appColors.iconButton)),
                     onPressed: () {
                       Navigator.pop(context);
                     },
@@ -116,13 +118,15 @@ class _CustomDialogState extends State<CustomDialog> {
                   // 2번째 버튼 너비
                   width: 90,
                   height: 41,
-                  decoration: const BoxDecoration(
-                      color: Color.fromRGBO(229, 229, 229, 1),
-                      borderRadius: BorderRadius.all(Radius.circular(10))),
+                  decoration: BoxDecoration(
+                      color: theme.appColors.grayButtonBackground,
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(10))),
                   child: TextButton(
                     child: Text(
                       widget.buttonSubText!,
-                      style: const TextStyle(color: Colors.black),
+                      style: FontSizes.getCapsuleStyle()
+                          .copyWith(color: theme.appColors.iconButton),
                     ),
                     onPressed: () {},
                   ),
