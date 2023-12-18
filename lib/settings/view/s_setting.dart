@@ -13,14 +13,14 @@ import 'package:me_mind/settings/component/settings_menu.dart';
 import 'package:me_mind/settings/view/s_setting_opinion.dart';
 import 'package:me_mind/settings/view/s_setting_userinfo.dart';
 
-class Setting extends StatefulWidget {
-  const Setting({super.key});
+class Settings extends StatefulWidget {
+  const Settings({super.key});
 
   @override
-  State<Setting> createState() => _SettingState();
+  State<Settings> createState() => _SettingState();
 }
 
-class _SettingState extends State<Setting> {
+class _SettingState extends State<Settings> {
   @override
   void initState() {
     super.initState();
@@ -63,8 +63,7 @@ class _SettingState extends State<Setting> {
       ),
 
       // 설정 화면 Body
-      child: Container(
-        // 배경 색
+      child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
           children: [
@@ -164,7 +163,7 @@ class _SettingState extends State<Setting> {
                           fontWeight: FontWeight.w500,
                           color: AppColors.blue8),
                     ),
-                    CertifiedBox(certi: true),
+                    CertifiedBox(isCertified: true),
                   ],
                 ),
               ),

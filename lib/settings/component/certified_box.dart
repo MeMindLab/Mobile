@@ -1,16 +1,14 @@
 import 'package:flutter/cupertino.dart';
+import 'package:me_mind/common/constant/app_colors.dart';
 
 // 인증완료, 미인증 컴포넌트
 class CertifiedBox extends StatelessWidget {
-  bool certi;
-  CertifiedBox({
-    Key? key,
-    required this.certi,
-  }) : super(key: key);
+  bool isCertified;
 
+  CertifiedBox({super.key, required this.isCertified});
   @override
   Widget build(BuildContext context) {
-    if (certi == false) {
+    if (isCertified == false) {
       return Container(
         width: 52,
         height: 21,
@@ -21,7 +19,7 @@ class CertifiedBox extends StatelessWidget {
         child: const Center(
             child: Text(
           "미인증",
-          style: TextStyle(fontSize: 12),
+          style: TextStyle(fontSize: 12, color: AppColors.blue8),
         )),
       );
     } else {
@@ -35,7 +33,7 @@ class CertifiedBox extends StatelessWidget {
         child: const Center(
             child: Text(
           "인증완료",
-          style: TextStyle(fontSize: 12),
+          style: TextStyle(fontSize: 12, color: AppColors.blue8),
         )),
       );
     }

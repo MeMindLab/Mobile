@@ -17,7 +17,7 @@ class _RootTabState extends State<RootTab> {
   Widget bottom(int idx, BuildContext context) {
     return BottomAppBar(
         padding: const EdgeInsets.fromLTRB(5, 10, 5, 10),
-        color: Color.fromRGBO(220, 225, 240, 1),
+        color: Colors.transparent,
         height: 98.5,
         elevation: 0.0,
         // 바텀 앱바 흰색 테두리
@@ -185,7 +185,7 @@ class _RootTabState extends State<RootTab> {
                             pageBuilder: ((BuildContext context,
                                     Animation<double> animation1,
                                     Animation<double> animation2) =>
-                                const Setting()),
+                                const Settings()),
                             transitionDuration: Duration.zero,
                             reverseTransitionDuration: Duration.zero,
                           ));

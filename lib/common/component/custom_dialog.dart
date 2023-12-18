@@ -58,7 +58,9 @@ class _CustomDialogState extends State<CustomDialog> {
                   Text(
                     widget.contentTitleText!,
                     style: const TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.w600),
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.blue8),
                   ),
                 if (widget.contentTitleText != null)
                   const SizedBox(
@@ -68,7 +70,9 @@ class _CustomDialogState extends State<CustomDialog> {
                   Text(
                     widget.contentdetailText!,
                     style: const TextStyle(
-                        fontSize: 14, fontWeight: FontWeight.w400),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: AppColors.blue8),
                   )
               ],
             )
@@ -84,20 +88,6 @@ class _CustomDialogState extends State<CustomDialog> {
               foregroundColor: AppColors.blue8,
               onPressed: () {},
             ),
-            // child: Container(
-            //   width: 470 * 0.8,
-            //   height: 41,
-            //   decoration: const BoxDecoration(
-            //       color: Color.fromRGBO(255, 238, 151, 1),
-            //       borderRadius: BorderRadius.all(Radius.circular(10))),
-            //   child: TextButton(
-            //     child: Text(widget.buttonText,
-            //         style: const TextStyle(color: Colors.black)),
-            //     onPressed: () {
-            //       Navigator.pop(context);
-            //     },
-            //   ),
-            // ),
           ),
         if (widget.buttonSubText != null)
           Center(
@@ -105,6 +95,7 @@ class _CustomDialogState extends State<CustomDialog> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
+                  // 첫번째 버튼 너비
                   width: 180,
                   height: 41,
                   decoration: const BoxDecoration(
@@ -122,7 +113,8 @@ class _CustomDialogState extends State<CustomDialog> {
                   width: 10,
                 ),
                 Container(
-                  width: 100,
+                  // 2번째 버튼 너비
+                  width: 90,
                   height: 41,
                   decoration: const BoxDecoration(
                       color: Color.fromRGBO(229, 229, 229, 1),

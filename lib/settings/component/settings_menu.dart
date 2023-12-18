@@ -4,12 +4,13 @@ class SettingMenu extends StatelessWidget {
   final num height;
   final Widget content;
   final bool subscribe;
+
   const SettingMenu({
-    Key? key,
+    super.key,
     required this.height,
     required this.content,
     required this.subscribe,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

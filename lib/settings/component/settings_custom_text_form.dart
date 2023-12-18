@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 
 class SeetingCustomTextFormField extends StatefulWidget {
@@ -11,10 +12,11 @@ class SeetingCustomTextFormField extends StatefulWidget {
   final int? maxLines;
   final Color? bgColor;
   final String? labelText;
+  final Widget? suffixWidget;
   final ValueChanged<String> onChanged;
 
   const SeetingCustomTextFormField({
-    Key? key,
+    super.key,
     this.hintText,
     this.errorText,
     this.initialText,
@@ -24,9 +26,9 @@ class SeetingCustomTextFormField extends StatefulWidget {
     this.maxLines,
     this.bgColor,
     this.labelText,
+    this.suffixWidget,
     required this.onChanged,
-  }) : super(key: key);
-
+  });
   @override
   State<SeetingCustomTextFormField> createState() =>
       _CustomTextFormFieldState();
@@ -48,8 +50,8 @@ class _CustomTextFormFieldState extends State<SeetingCustomTextFormField> {
     Color focusedBorderColor =
         CustomThemeHolder.of(context).theme.appColors.focusedBorder;
 
-    Color hintTextColor =
-        CustomThemeHolder.of(context).theme.appColors.hintText;
+    Color hintTextColor = AppColors.gray9;
+    // CustomThemeHolder.of(context).theme.appColors.hintText;
 
     Color inputBackground = widget.bgColor ?? Colors.white;
 
@@ -68,9 +70,10 @@ class _CustomTextFormFieldState extends State<SeetingCustomTextFormField> {
             padding: const EdgeInsets.only(bottom: 6),
             child: Text(
               widget.labelText!,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
+                color: hintTextColor,
               ),
             ),
           ),
@@ -83,13 +86,14 @@ class _CustomTextFormFieldState extends State<SeetingCustomTextFormField> {
           autofocus: widget.autoFocus,
           cursorColor: theme.focusColor,
           onChanged: widget.onChanged,
+          style: TextStyle(color: hintTextColor),
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.all(20.0),
             counterText: '',
             hintText: widget.hintText,
             errorText: widget.errorText,
-            hintStyle: TextStyle(
-              color: hintTextColor,
+            hintStyle: const TextStyle(
+              color: AppColors.gray9,
               fontSize: 14.0,
               fontWeight: FontWeight.w400,
             ),
@@ -108,6 +112,7 @@ class _CustomTextFormFieldState extends State<SeetingCustomTextFormField> {
             //     color: focusedBorderColor,
             //   ),
             // ),
+
             suffixIcon: widget.obscureText
                 ? GestureDetector(
                     onTap: () {
@@ -120,7 +125,9 @@ class _CustomTextFormFieldState extends State<SeetingCustomTextFormField> {
                       color: hintTextColor,
                     ),
                   )
-                : null, // 변경된 부분
+                : widget.suffixWidget != null
+                    ? widget.suffixWidget
+                    : null, // 변경된 부분
           ),
         )
       ],
