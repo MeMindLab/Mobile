@@ -108,28 +108,32 @@ class _SettingUserInfoState extends State<SettingUserInfo> {
                                 labelText: "연락처",
                                 hintText: "번호를 입력해주세요",
                                 onChanged: (String value) {},
-                                suffixWidget: isUpdated == true
+                                suffixWidget: isUpdated
                                     ? Container(
                                         width: 83,
-                                        padding: const EdgeInsets.fromLTRB(
-                                            0, 10, 0, 10),
+                                        height: 35,
+                                        // padding: const EdgeInsets.fromLTRB(
+                                        //     0, 10, 0, 10),
                                         margin:
                                             const EdgeInsets.only(right: 15),
-                                        child: RoundedButton(
-                                          height: 35,
-                                          text: "인증요청",
-                                          foregroundColor:
-                                              theme.appColors.iconButton,
-                                          backgroundColor:
-                                              lightTheme.primaryColor,
-                                          onPressed: () {
-                                            if (isUpdated == true) {
-                                              setState(() {
-                                                isphoneAuthenticated = true;
-                                              });
-                                              _startTimer();
-                                            }
-                                          },
+                                        child: SizedBox(
+                                          width: double.infinity,
+                                          height: double.infinity,
+                                          child: RoundedButton(
+                                            text: "인증요청",
+                                            foregroundColor:
+                                                theme.appColors.iconButton,
+                                            backgroundColor:
+                                                lightTheme.primaryColor,
+                                            onPressed: () {
+                                              if (isUpdated == true) {
+                                                setState(() {
+                                                  isphoneAuthenticated = true;
+                                                });
+                                                _startTimer();
+                                              }
+                                            },
+                                          ),
                                         ),
                                       )
                                     : null,
@@ -172,32 +176,41 @@ class _SettingUserInfoState extends State<SettingUserInfo> {
                           height: 20,
                         ),
                         isUpdated == false
-                            ? RoundedButton(
-                                text: "수정",
-                                onPressed: () {
-                                  setState(() {
-                                    isUpdated = true;
-                                  });
-                                },
+                            ? SizedBox(
+                                width: double.infinity,
+                                child: RoundedButton(
+                                  text: "수정",
+                                  onPressed: () {
+                                    setState(() {
+                                      isUpdated = true;
+                                    });
+                                  },
+                                ),
                               )
                             : isTimerStart == false
-                                ? RoundedButton(
-                                    text: "저장",
-                                    backgroundColor:
-                                        theme.appColors.grayButtonBackground,
-                                    onPressed: () {},
+                                ? SizedBox(
+                                    width: double.infinity,
+                                    child: RoundedButton(
+                                      text: "저장",
+                                      backgroundColor:
+                                          theme.appColors.grayButtonBackground,
+                                      onPressed: () {},
+                                    ),
                                   )
-                                : RoundedButton(
-                                    text: "저장",
-                                    backgroundColor:
-                                        theme.appColors.blueButtonBackground,
-                                    onPressed: () {
-                                      _timer.cancel();
-                                      setState(() {
-                                        isUpdated = false;
-                                        isphoneAuthenticated = false;
-                                      });
-                                    },
+                                : SizedBox(
+                                    width: double.infinity,
+                                    child: RoundedButton(
+                                      text: "저장",
+                                      backgroundColor:
+                                          theme.appColors.blueButtonBackground,
+                                      onPressed: () {
+                                        _timer.cancel();
+                                        setState(() {
+                                          isUpdated = false;
+                                          isphoneAuthenticated = false;
+                                        });
+                                      },
+                                    ),
                                   ),
                         const SizedBox(
                           height: 20,

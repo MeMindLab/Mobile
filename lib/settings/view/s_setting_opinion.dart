@@ -219,12 +219,15 @@ class _SettingOpinionState extends State<SettingOpinion> {
                   const SizedBox(
                     height: 10,
                   ),
-                  RoundedButton(
-                    onPressed: () => getCustomDialog(context,
-                        buttonText: "닫기",
-                        contentTitleText: "의견을 성공적으로 보냈습니다!",
-                        contentdetailText: "답변은 추후 등록한 이메일로 전송됩니다."),
-                    text: "의견 보내기",
+                  SizedBox(
+                    width: double.infinity,
+                    child: RoundedButton(
+                      onPressed: () => getCustomDialog(context,
+                          buttonText: "닫기",
+                          contentTitleText: "의견을 성공적으로 보냈습니다!",
+                          contentdetailText: "답변은 추후 등록한 이메일로 전송됩니다."),
+                      text: "의견 보내기",
+                    ),
                   )
                 ]),
               ))
