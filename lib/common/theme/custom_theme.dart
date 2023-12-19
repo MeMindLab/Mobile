@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/theme/color/abs_theme_colors.dart';
 import 'package:me_mind/common/theme/shadows/abs_theme_shadows.dart';
@@ -40,6 +41,8 @@ ThemeData lightTheme = ThemeData(
   colorScheme:
       ColorScheme.fromSeed(seedColor: CustomTheme.light.appColors.seedColor),
   scaffoldBackgroundColor: AppColors.blue1,
+  primaryColor: AppColors.yellow,
+  cardColor: AppColors.blue3,
 );
 
 ThemeData darkTheme = ThemeData(

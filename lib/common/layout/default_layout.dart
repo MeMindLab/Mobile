@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:me_mind/common/constant/app_colors.dart';
 
 class DefaultLayout extends StatelessWidget {
   final Widget child;
@@ -29,6 +30,7 @@ class DefaultLayout extends StatelessWidget {
       appBar: renderAppBar(),
       bottomSheet: bottomSheet,
       bottomNavigationBar: bottomNavigationBar,
+      resizeToAvoidBottomInset: false,
     );
   }
 
@@ -37,6 +39,7 @@ class DefaultLayout extends StatelessWidget {
       return null;
     } else {
       return AppBar(
+        backgroundColor: backgroundColor,
         leading: appBarLeading,
         elevation: 0,
         centerTitle: true,
@@ -47,7 +50,7 @@ class DefaultLayout extends StatelessWidget {
             fontWeight: FontWeight.w500,
           ),
         ),
-        foregroundColor: Colors.white,
+        foregroundColor: Colors.black,
         actions: appBarActions,
       );
     }
