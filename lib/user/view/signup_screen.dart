@@ -16,15 +16,24 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  // ignore: non_constant_identifier_names
   late bool is_submitted;
 
   late bool? passwordValidate;
+  late bool isPasswordObscured;
 
   @override
   void initState() {
     super.initState();
     is_submitted = false;
     passwordValidate = false;
+    isPasswordObscured = true;
+  }
+
+  void toggleObscureText() {
+    setState(() {
+      isPasswordObscured = !isPasswordObscured;
+    });
   }
 
   @override
@@ -32,6 +41,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
     CustomTheme theme = CustomThemeHolder.of(context).theme;
 
     Color blueButtonColor = theme.appColors.blueButtonBackground;
+
+    print(isPasswordObscured);
 
     return DefaultLayout(
       title: "회원가입",
@@ -93,7 +104,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         labelText: "비밀번호",
                         hintText: "비밀번호를 설정해주세요(최소8자)",
                         maxLength: 8,
-                        obscureText: true,
+                        obscureText: isPasswordObscured,
+                        onToggleObscureText: toggleObscureText,
+                        isToggle: true,
                         onChanged: (String value) {},
                       ),
                       const SizedBox(
@@ -101,7 +114,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       CustomTextFormField(
                         hintText: "비밀번호를 한 번 더 입력해주세요",
-                        obscureText: true,
+                        obscureText: isPasswordObscured,
                         errorText: "",
                         onChanged: (String value) {},
                       ),

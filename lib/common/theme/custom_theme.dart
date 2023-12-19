@@ -37,10 +37,10 @@ ThemeData lightTheme = ThemeData(
   useMaterial3: true,
   visualDensity: VisualDensity.adaptivePlatformDensity,
   brightness: Brightness.light,
-  focusColor: AppColors.gray9,
   colorScheme:
       ColorScheme.fromSeed(seedColor: CustomTheme.light.appColors.seedColor),
-  scaffoldBackgroundColor: Colors.white,
+  scaffoldBackgroundColor: AppColors.blue1,
+  primaryColor: AppColors.yellow,
 );
 
 ThemeData darkTheme = ThemeData(
