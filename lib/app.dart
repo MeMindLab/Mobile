@@ -15,7 +15,7 @@ class App extends StatefulWidget {
 
   static bool isForeground = true;
 
-  static CustomTheme? defaultTheme = CustomTheme.dark;
+  static CustomTheme? defaultTheme = CustomTheme.light;
 
   const App({super.key});
 
@@ -50,7 +50,7 @@ class AppState extends State<App> with WidgetsBindingObserver {
           locale: context.locale,
           title: 'Me mind',
           theme: CustomThemeHolder.of(context).theme.themeData,
-          home: const ReportDetailScreen(),
+          home: const OnBoardingScreen(),
         );
       }),
     );
