@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:me_mind/common/component/custom_dialog.dart';
 import 'package:me_mind/common/component/rounded_button.dart';
+import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/store.dart';
@@ -39,18 +40,6 @@ class _SettingOpinionState extends State<SettingOpinion> {
     return DefaultLayout(
       title: "의견보내기",
       backgroundColor: theme.appColors.seedColor,
-      appBarActions: [
-        Container(
-          margin: const EdgeInsets.fromLTRB(0, 0, 20, 0),
-          child: Row(
-            children: [
-              Text('10',
-                  style: FontSizes.getHeadline2Style()
-                      .copyWith(color: theme.appColors.iconButton)),
-            ],
-          ),
-        ),
-      ],
       appBarLeading: IconButton(
         onPressed: () async {
           await setBottomIdx(1);
@@ -67,14 +56,25 @@ class _SettingOpinionState extends State<SettingOpinion> {
                 child: Column(children: [
                   Container(
                     padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                    width: double.infinity,
                     decoration: BoxDecoration(
-                      color: lightTheme.cardColor,
+                      color: AppColors.blue7,
                       borderRadius: BorderRadius.circular(13),
                     ),
-                    child: Text(
-                      "memind를 이용하며 생긴 궁금한 점이나, 관련하여 전달하고픈 피드백을 넘겨주세요.",
-                      style: FontSizes.getContentStyle()
-                          .copyWith(color: theme.appColors.iconButton),
+                    child: Row(
+                      children: [
+                        SvgPicture.asset('assets/svg/icon/volume-up.svg'),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Flexible(
+                          child: Text(
+                            "memind를 이용하며 생긴 궁금한 점이나,\n관련하여 전달하고픈 피드백을 넘겨주세요.",
+                            style: FontSizes.getContentStyle()
+                                .copyWith(color: theme.appColors.seedColor),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   const SizedBox(
@@ -156,6 +156,7 @@ class _SettingOpinionState extends State<SettingOpinion> {
                                 width: 85,
                                 height: 85,
                                 decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
                                     color: theme.appColors.userInputBackground),
                                 child: Center(
                                     child: Icon(
@@ -170,11 +171,30 @@ class _SettingOpinionState extends State<SettingOpinion> {
                               width: 85,
                               height: 85,
                               decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
                                   image: DecorationImage(
                                       image: FileImage(
                                           File(opinionList[idx - 1].path)),
                                       fit: BoxFit.cover)),
-                              child: Center(child: Text("${idx - 1}")),
+                              child: Stack(children: [
+                                Center(child: Text("${idx - 1}")),
+                                Positioned(
+                                  child: InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        opinionList = [];
+                                      });
+                                    },
+                                    child: Icon(
+                                      Icons.close,
+                                      color: theme.appColors.seedColor,
+                                      size: 30,
+                                    ),
+                                  ),
+                                  top: 1,
+                                  right: 1,
+                                ),
+                              ]),
                             );
                           }
                         }),
