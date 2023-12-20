@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:me_mind/common/component/custom_text_form.dart';
-import 'package:me_mind/common/component/rounded_button.dart';
+
 import 'package:me_mind/common/constant/constant.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
@@ -86,7 +86,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                       ),
                       const SizedBox(
-                        height: 15,
+                        height: 33,
                       ),
                       CustomTextFormField(
                         labelText: "닉네임",
@@ -95,7 +95,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         onChanged: (String value) {},
                       ),
                       const SizedBox(
-                        height: 15,
+                        height: 33,
                       ),
                       CustomTextFormField(
                         labelText: "비밀번호",
@@ -107,7 +107,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         onChanged: (String value) {},
                       ),
                       const SizedBox(
-                        height: 10,
+                        height: 13,
                       ),
                       CustomTextFormField(
                         hintText: "비밀번호를 한 번 더 입력해주세요",
@@ -117,8 +117,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         onChanged: (String value) {},
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 7.0, horizontal: 9),
+                        padding: const EdgeInsets.only(top: 10),
                         child: Text(
                           "•  비밀번호는 특수문자 포함 최소8자입니다",
                           style:
@@ -128,17 +127,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       const Spacer(),
                       Padding(
                         padding: const EdgeInsets.only(bottom: 32),
-                        child: isSubmitted
-                            ? RoundedButton(
-                                text: "가입하기",
-                                onPressed: () {},
-                              )
-                            : RoundedButton(
-                                text: "가입하기",
-                                onPressed: () {},
-                                backgroundColor:
-                                    theme.appColors.grayButtonBackground,
-                              ),
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                theme.appColors.grayButtonBackground,
+                            foregroundColor: Colors.black,
+                            padding: const EdgeInsets.all(10.0),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(13),
+                            ),
+                            minimumSize: const Size(double.infinity, 55),
+                          ),
+                          child: const Text("가입하기"),
+                        ),
                       ),
                     ],
                   ),

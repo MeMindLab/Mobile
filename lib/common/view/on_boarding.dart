@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
+import 'package:me_mind/common/constant/app_colors.dart';
+import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/view/on_boarding_last.dart';
 
 class OnBoardingScreen extends StatelessWidget {
@@ -34,16 +36,11 @@ class OnBoardingScreen extends StatelessWidget {
     ];
 
     return IntroductionScreen(
-      // theme변수 이용해서 변경 필요!
-      globalBackgroundColor: const Color(0xFF161B22),
-
       pages: pages,
-      done: const Text(
+      done: Text(
         "NEXT",
-        style: TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.w400,
-          color: Colors.white,
+        style: FontSizes.getContentStyle().copyWith(
+          color: AppColors.gray9,
         ),
       ),
       onDone: () {
@@ -60,21 +57,17 @@ class OnBoardingScreen extends StatelessWidget {
           ),
         );
       },
-      next: const Text(
-        "NEXT",
-        style: TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.w400,
-          color: Colors.white,
+      next: Text(
+        'NEXT',
+        style: FontSizes.getContentStyle().copyWith(
+          color: AppColors.gray9,
         ),
       ),
       showSkipButton: true,
-      skip: const Text(
+      skip: Text(
         'SKIP',
-        style: TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.w400,
-          color: Colors.white,
+        style: FontSizes.getContentStyle().copyWith(
+          color: AppColors.gray9,
         ),
       ),
       dotsDecorator: const DotsDecorator(
@@ -87,15 +80,15 @@ class OnBoardingScreen extends StatelessWidget {
 }
 
 PageDecoration getPageDecoration(ThemeData theme) {
-  return const PageDecoration(
-    titleTextStyle: TextStyle(
-      fontSize: 20,
-      fontWeight: FontWeight.bold,
-      color: Colors.white,
+  return PageDecoration(
+    titleTextStyle: FontSizes.getHeadline1Style().copyWith(
+      fontWeight: FontWeight.w500,
+      color: AppColors.gray9,
     ),
-    bodyTextStyle: TextStyle(fontSize: 18, color: Colors.white),
-    // pageColor: theme의 asb theme color에 추가 된고 app colors에 있는 다크테마의 메인 배경색 사용
+    bodyTextStyle: FontSizes.getContentStyle().copyWith(
+      color: AppColors.gray9,
+    ),
     imageFlex: 2,
-    pageColor: Color(0xFF161B22),
+    pageColor: theme.scaffoldBackgroundColor,
   );
 }

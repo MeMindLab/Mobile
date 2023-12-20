@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:me_mind/common/constant/app_colors.dart';
 
 class FontSizes {
   // 다른 폰트 사이즈 추가
@@ -8,11 +9,15 @@ class FontSizes {
   static const double large = 18.0;
   static const double xLarge = 20.0;
 
-  static TextStyle getTextStyle(
-      {double size = medium, FontWeight fontWeight = FontWeight.normal}) {
+  static TextStyle getTextStyle({
+    double size = medium,
+    FontWeight fontWeight = FontWeight.normal,
+    Color color = AppColors.gray9,
+  }) {
     return TextStyle(
       fontSize: size,
       fontWeight: fontWeight,
+      color: color,
     );
   }
 
