@@ -3,6 +3,7 @@ import 'package:lottie/lottie.dart';
 import 'package:me_mind/common/component/rounded_button.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
+import 'package:me_mind/user/view/signin_screen.dart';
 
 class SignUpWelcome extends StatefulWidget {
   const SignUpWelcome({super.key});
@@ -17,17 +18,14 @@ class _SignUpWelcomeState extends State<SignUpWelcome>
 
   @override
   void initState() {
-    //컨트롤러 생성
     _lottieController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 3),
     );
     super.initState();
   }
 
   @override
   void dispose() {
-    //컨트롤러 해제
     _lottieController.dispose();
     super.dispose();
   }
@@ -71,7 +69,13 @@ class _SignUpWelcomeState extends State<SignUpWelcome>
                   textStyle: FontSizes.getContentStyle().copyWith(
                     fontWeight: FontWeight.w500,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (context) => const SignInScreen(),
+                      ),
+                    );
+                  },
                 ),
               ),
             ],
