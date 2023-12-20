@@ -132,36 +132,48 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                       ),
                       const Spacer(),
-                      const LinkText(
-                        text: "테스트1",
-                        url: "",
-                        linkColor: Colors.blue,
-                      ),
-                      const LinkText(
-                        text: "테스트1",
-                        url: "",
-                        textColor: Colors.green,
-                      ),
                       CustomCheckBox(
                         title: "전체 동의",
                         onChanged: (bool value) {},
                       ),
+                      const SizedBox(
+                        height: 12,
+                      ),
                       CustomCheckBox(
                         title: "[필수] 서비스 이용약관 동의",
                         onChanged: (bool value) {},
+                        trailing: LinkText(
+                          text: '보기',
+                          linkColor: theme.appColors.hintText,
+                          url: '',
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 12,
                       ),
                       CustomCheckBox(
                         title: "[필수] 개인정보 수집 및 이용 동의",
                         onChanged: (bool value) {},
-                        trailing: const Text("보기"),
+                        trailing: LinkText(
+                          text: '보기',
+                          linkColor: theme.appColors.hintText,
+                          url: '',
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 12,
                       ),
                       CustomCheckBox(
                         title: "[선택] 마케팅 수집 및 알림 동의",
-                        trailing: const LinkText(
+                        trailing: LinkText(
                           text: '보기',
+                          linkColor: theme.appColors.hintText,
                           url: '',
                         ),
                         onChanged: (bool value) {},
+                      ),
+                      const SizedBox(
+                        height: 26,
                       ),
                       Padding(
                         padding: const EdgeInsets.only(bottom: 32),
