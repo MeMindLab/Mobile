@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
+import 'package:me_mind/common/constant/app_colors.dart';
+
 
 class DefaultLayout extends StatelessWidget {
   final Widget child;

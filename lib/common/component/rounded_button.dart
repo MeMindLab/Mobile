@@ -1,6 +1,7 @@
 import "dart:math";
 
 import "package:flutter/material.dart";
+import "package:me_mind/common/constant/font_sizes.dart";
 import "package:me_mind/common/theme/custom_theme.dart";
 
 import "../theme/custom_theme_holder.dart";
@@ -35,12 +36,20 @@ class RoundedButton extends StatelessWidget {
         elevation: elevation,
         backgroundColor:
             backgroundColor ?? theme.appColors.blueButtonBackground,
-        foregroundColor: foregroundColor ?? Colors.black,
-        padding: const EdgeInsets.all(10.0),
+        foregroundColor: foregroundColor ?? theme.appColors.text,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(13),
         ),
-        minimumSize: Size(double.infinity, height ?? 55),
+        maximumSize: Size(double.infinity, height ?? 55),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 18),
+        child: Text(
+          text,
+          style: FontSizes.getContentStyle().copyWith(
+            fontWeight: FontWeight.w500,
+          ),
+        ),
       ),
       child: Text(
         text,

@@ -47,6 +47,7 @@ class AppState extends State<App> with WidgetsBindingObserver {
           title: 'Me mind',
           theme: CustomThemeHolder.of(context).theme.themeData,
           home: const SignUpScreen(),
+
         );
       }),
     );

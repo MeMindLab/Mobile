@@ -37,4 +37,5 @@ abstract class AbstractThemeColors {
   Color get userInputBackground => AppColors.blue2;
 
   Color get checkColor => AppColors.midnightBlue;
+
 }
