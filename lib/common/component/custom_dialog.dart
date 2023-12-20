@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:me_mind/common/component/rounded_button.dart';
 import 'package:me_mind/common/constant/app_colors.dart';
@@ -11,6 +13,7 @@ void getCustomDialog(
   String? contentTitleText,
   String? contentdetailText,
   String? buttonSubText,
+  VoidCallback? buttonSubFunc,
 }) {
   showDialog(
       context: context,
@@ -20,6 +23,7 @@ void getCustomDialog(
           contentdetailText: contentdetailText,
           buttonText: buttonText,
           buttonSubText: buttonSubText,
+          buttonSubFunc: buttonSubFunc,
         );
       });
 }
@@ -29,13 +33,16 @@ class CustomDialog extends StatefulWidget {
   final String? contentdetailText;
   final String buttonText;
   final String? buttonSubText;
-  const CustomDialog({
-    Key? key,
+  VoidCallback? buttonSubFunc;
+
+  CustomDialog({
+    super.key,
     this.contentTitleText,
     this.contentdetailText,
     required this.buttonText,
     this.buttonSubText,
-  }) : super(key: key);
+    this.buttonSubFunc,
+  });
 
   @override
   State<CustomDialog> createState() => _CustomDialogState();
@@ -128,7 +135,7 @@ class _CustomDialogState extends State<CustomDialog> {
                       style: FontSizes.getCapsuleStyle()
                           .copyWith(color: theme.appColors.iconButton),
                     ),
-                    onPressed: () {},
+                    onPressed: widget.buttonSubFunc ?? () {},
                   ),
                 ),
               ],

@@ -1,4 +1,5 @@
 // ignore_for_file: sort_child_properties_last
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:me_mind/common/component/custom_dialog.dart';
@@ -9,6 +10,7 @@ import 'package:me_mind/common/store.dart';
 import 'package:me_mind/common/component/root_tab.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
+import 'package:me_mind/common/view/on_boarding.dart';
 import 'package:me_mind/report/view/s_report_detail.dart';
 import 'package:me_mind/settings/component/certified_box.dart';
 import 'package:me_mind/settings/component/settings_menu.dart';
@@ -24,6 +26,7 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingState extends State<Settings> {
+  final dio = Dio();
   @override
   void initState() {
     super.initState();
@@ -240,12 +243,22 @@ class _SettingState extends State<Settings> {
                     style: FontSizes.getHeadline2Style()
                         .copyWith(color: theme.appColors.iconButton),
                   ),
-                  onTap: () => getCustomDialog(
-                    context,
-                    buttonText: "취소",
-                    buttonSubText: "확인",
-                    contentdetailText: "로그아웃 하시겠습니까?",
-                  ),
+                  onTap: () => getCustomDialog(context,
+                      buttonText: "취소",
+                      buttonSubText: "확인",
+                      contentdetailText: "로그아웃 하시겠습니까?",
+                      buttonSubFunc: () async {
+                    Response response;
+                    response =
+                        await dio.post('http://54.206.203.208/users/logout');
+                    print(response.data.toString());
+                    if (response.data["msg"] == "success") {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => OnBoardingScreen()));
+                    }
+                  }),
                 ),
               )
             ],
