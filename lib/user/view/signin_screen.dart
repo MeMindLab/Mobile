@@ -75,7 +75,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         onPressed: () {},
                       ),
                       CustomCheckBox(
-                        label: '자동로그인에 동의합니다 ',
+                        title: '자동로그인에 동의합니다 ',
                         onChanged: (bool isChecked) {
                           // 부모 위젯에서 체크 상태에 따른 로직 추가
                           print('Checkbox is checked: $isChecked');

@@ -7,7 +7,10 @@ import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
+import 'package:me_mind/user/component/custom_check.dart';
+
 import 'package:me_mind/user/component/custom_checkbox.dart';
+import 'package:me_mind/user/component/link_text.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -42,8 +45,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
     CustomTheme theme = CustomThemeHolder.of(context).theme;
 
     Color blueButtonColor = theme.appColors.blueButtonBackground;
-
-    print(isPasswordObscured);
+    bool isCheckService = false;
+    var checkboxValue = false;
 
     return DefaultLayout(
       title: "회원가입",
@@ -129,20 +132,35 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                       ),
                       const Spacer(),
+                      const LinkText(
+                        text: "테스트1",
+                        url: "",
+                        linkColor: Colors.blue,
+                      ),
+                      const LinkText(
+                        text: "테스트1",
+                        url: "",
+                        textColor: Colors.green,
+                      ),
                       CustomCheckBox(
-                        label: "전체 동의",
+                        title: "전체 동의",
                         onChanged: (bool value) {},
                       ),
                       CustomCheckBox(
-                        label: "[필수] 서비스 이용약관 동의",
+                        title: "[필수] 서비스 이용약관 동의",
                         onChanged: (bool value) {},
                       ),
                       CustomCheckBox(
-                        label: "[필수] 개인정보 수집 및 이용 동의",
+                        title: "[필수] 개인정보 수집 및 이용 동의",
                         onChanged: (bool value) {},
+                        trailing: const Text("보기"),
                       ),
                       CustomCheckBox(
-                        label: "[선택] 마케팅 수집 및 알림 동의",
+                        title: "[선택] 마케팅 수집 및 알림 동의",
+                        trailing: const LinkText(
+                          text: '보기',
+                          url: '',
+                        ),
                         onChanged: (bool value) {},
                       ),
                       Padding(

@@ -44,7 +44,6 @@ ThemeData lightTheme = ThemeData(
   scaffoldBackgroundColor: AppColors.blue1,
   primaryColor: AppColors.yellow,
   cardColor: AppColors.blue3,
-  //textTheme: GoogleFonts.sing
 );
 
 ThemeData darkTheme = ThemeData(
