@@ -58,7 +58,7 @@ class _SettingOpinionState extends State<SettingOpinion> {
                     padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      color: AppColors.blue7,
+                      color: lightTheme.primaryColorDark,
                       borderRadius: BorderRadius.circular(13),
                     ),
                     child: Row(
@@ -243,9 +243,12 @@ class _SettingOpinionState extends State<SettingOpinion> {
                     width: double.infinity,
                     child: RoundedButton(
                       onPressed: () => getCustomDialog(context,
+                          isTwinButton: false, OnSubmit: () {
+                        Navigator.pop(context);
+                      },
                           buttonText: "닫기",
                           contentTitleText: "의견을 성공적으로 보냈습니다!",
-                          contentdetailText: "답변은 추후 등록한 이메일로 전송됩니다."),
+                          contentDetailText: "답변은 추후 등록한 이메일로 전송됩니다."),
                       text: "의견 보내기",
                     ),
                   )

@@ -42,6 +42,7 @@ ThemeData lightTheme = ThemeData(
       ColorScheme.fromSeed(seedColor: CustomTheme.light.appColors.seedColor),
   scaffoldBackgroundColor: AppColors.blue1,
   primaryColor: AppColors.yellow,
+  primaryColorDark: AppColors.blue7,
   cardColor: AppColors.blue3,
 );
 

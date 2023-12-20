@@ -246,19 +246,23 @@ class _SettingState extends State<Settings> {
                   onTap: () => getCustomDialog(context,
                       buttonText: "취소",
                       buttonSubText: "확인",
-                      contentdetailText: "로그아웃 하시겠습니까?",
-                      buttonSubFunc: () async {
-                    Response response;
-                    response =
-                        await dio.post('http://54.206.203.208/users/logout');
-                    print(response.data.toString());
-                    if (response.data["msg"] == "success") {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => OnBoardingScreen()));
-                    }
-                  }),
+                      contentTitleText: "로그아웃 하시겠습니까?",
+                      OnSubmit: () {
+                        Navigator.pop(context);
+                      },
+                      isTwinButton: true,
+                      subOnSubmit: () async {
+                        Response response;
+                        response = await dio
+                            .post('http://54.206.203.208/users/logout');
+                        print(response.data.toString());
+                        if (response.data["msg"] == "success") {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => OnBoardingScreen()));
+                        }
+                      }),
                 ),
               )
             ],
