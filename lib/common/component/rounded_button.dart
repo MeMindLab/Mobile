@@ -9,6 +9,7 @@ class RoundedButton extends StatelessWidget {
   final String text;
   final double? height;
   final VoidCallback? onPressed;
+  final TextStyle? textStyle;
 
   const RoundedButton({
     super.key,
@@ -17,6 +18,7 @@ class RoundedButton extends StatelessWidget {
     required this.text,
     this.height,
     this.onPressed,
+    this.textStyle,
   });
 
   @override
@@ -35,7 +37,10 @@ class RoundedButton extends StatelessWidget {
         ),
         minimumSize: Size(double.infinity, height ?? 55),
       ),
-      child: Text(text),
+      child: Text(
+        text,
+        style: textStyle,
+      ),
     );
   }
 }

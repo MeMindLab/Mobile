@@ -16,8 +16,7 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  // ignore: non_constant_identifier_names
-  late bool is_submitted;
+  late bool isSubmitted = false;
 
   late bool? passwordValidate;
   late bool isPasswordObscured;
@@ -25,7 +24,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   void initState() {
     super.initState();
-    is_submitted = false;
+    isSubmitted = false;
     passwordValidate = false;
     isPasswordObscured = true;
   }
@@ -41,8 +40,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     CustomTheme theme = CustomThemeHolder.of(context).theme;
 
     Color blueButtonColor = theme.appColors.blueButtonBackground;
-
-    print(isPasswordObscured);
 
     return DefaultLayout(
       title: "회원가입",
@@ -115,6 +112,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       CustomTextFormField(
                         hintText: "비밀번호를 한 번 더 입력해주세요",
                         obscureText: isPasswordObscured,
+                        maxLength: 8,
                         errorText: "",
                         onChanged: (String value) {},
                       ),
@@ -130,7 +128,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       const Spacer(),
                       Padding(
                         padding: const EdgeInsets.only(bottom: 32),
-                        child: is_submitted
+                        child: isSubmitted
                             ? RoundedButton(
                                 text: "가입하기",
                                 onPressed: () {},
