@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:me_mind/common/component/custom_text_form.dart';
-
+import 'package:me_mind/common/component/rounded_button.dart';
 import 'package:me_mind/common/constant/constant.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
+import 'package:me_mind/user/component/custom_checkbox.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -16,7 +17,8 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  late bool isSubmitted = false;
+  // ignore: non_constant_identifier_names
+  late bool is_submitted = true;
 
   late bool? passwordValidate;
   late bool isPasswordObscured;
@@ -24,7 +26,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   void initState() {
     super.initState();
-    isSubmitted = false;
+
     passwordValidate = false;
     isPasswordObscured = true;
   }
@@ -40,6 +42,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
     CustomTheme theme = CustomThemeHolder.of(context).theme;
 
     Color blueButtonColor = theme.appColors.blueButtonBackground;
+
+    print(isPasswordObscured);
 
     return DefaultLayout(
       title: "회원가입",
@@ -86,7 +90,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                       ),
                       const SizedBox(
-                        height: 33,
+                        height: 15,
                       ),
                       CustomTextFormField(
                         labelText: "닉네임",
@@ -95,7 +99,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         onChanged: (String value) {},
                       ),
                       const SizedBox(
-                        height: 33,
+                        height: 15,
                       ),
                       CustomTextFormField(
                         labelText: "비밀번호",
@@ -107,17 +111,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         onChanged: (String value) {},
                       ),
                       const SizedBox(
-                        height: 13,
+                        height: 10,
                       ),
                       CustomTextFormField(
                         hintText: "비밀번호를 한 번 더 입력해주세요",
                         obscureText: isPasswordObscured,
-                        maxLength: 8,
                         errorText: "",
                         onChanged: (String value) {},
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 10),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 7.0, horizontal: 9),
                         child: Text(
                           "•  비밀번호는 특수문자 포함 최소8자입니다",
                           style:
@@ -125,22 +129,35 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                       ),
                       const Spacer(),
+                      CustomCheckBox(
+                        label: "전체 동의",
+                        onChanged: (bool value) {},
+                      ),
+                      CustomCheckBox(
+                        label: "[필수] 서비스 이용약관 동의",
+                        onChanged: (bool value) {},
+                      ),
+                      CustomCheckBox(
+                        label: "[필수] 개인정보 수집 및 이용 동의",
+                        onChanged: (bool value) {},
+                      ),
+                      CustomCheckBox(
+                        label: "[선택] 마케팅 수집 및 알림 동의",
+                        onChanged: (bool value) {},
+                      ),
                       Padding(
                         padding: const EdgeInsets.only(bottom: 32),
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                theme.appColors.grayButtonBackground,
-                            foregroundColor: Colors.black,
-                            padding: const EdgeInsets.all(10.0),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(13),
-                            ),
-                            minimumSize: const Size(double.infinity, 55),
-                          ),
-                          child: const Text("가입하기"),
-                        ),
+                        child: is_submitted
+                            ? RoundedButton(
+                                text: "가입하기",
+                                onPressed: () {},
+                              )
+                            : RoundedButton(
+                                text: "가입하기",
+                                onPressed: () {},
+                                backgroundColor:
+                                    theme.appColors.grayButtonBackground,
+                              ),
                       ),
                     ],
                   ),

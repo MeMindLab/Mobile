@@ -29,7 +29,7 @@ class _CustomCheckBoxState extends State<CustomCheckBox> {
       contentPadding: EdgeInsets.zero,
       title: Text(
         widget.label,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 12,
         ),
       ),
@@ -46,7 +46,7 @@ class _CustomCheckBoxState extends State<CustomCheckBox> {
           color: Colors.transparent,
           child: Center(
             child: SvgPicture.asset(
-              '${baseImageSvgPath}/icon/check.svg',
+              '$baseImageSvgPath/icon/check.svg',
               colorFilter: _isChecked
                   ? ColorFilter.mode(
                       theme.appColors.blueButtonBackground, BlendMode.srcIn)
