@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
@@ -33,24 +32,27 @@ class _SettingOpinionState extends State<SettingOpinion> {
     }
   }
 
+  Widget buildTextField(
+      {required Color bgColor,
+      int? maxLines,
+      String? hintText,
+      ValueChanged<String>? onChanged}) {
+    return Container(
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(13)),
+      child: SeetingCustomTextFormField(
+          hintText: hintText,
+          onChanged: onChanged!,
+          maxLines: maxLines,
+          bgColor: bgColor),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     CustomTheme theme = CustomThemeHolder.of(context).theme;
     return DefaultLayout(
       title: "의견보내기",
       backgroundColor: theme.appColors.seedColor,
-      appBarActions: [
-        Container(
-          margin: const EdgeInsets.fromLTRB(0, 0, 20, 0),
-          child: Row(
-            children: [
-              Text('10',
-                  style: FontSizes.getHeadline2Style()
-                      .copyWith(color: theme.appColors.iconButton)),
-            ],
-          ),
-        ),
-      ],
       appBarLeading: IconButton(
         onPressed: () async {
           await setBottomIdx(1);
@@ -67,14 +69,25 @@ class _SettingOpinionState extends State<SettingOpinion> {
                 child: Column(children: [
                   Container(
                     padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                    width: double.infinity,
                     decoration: BoxDecoration(
-                      color: lightTheme.cardColor,
+                      color: lightTheme.primaryColorDark,
                       borderRadius: BorderRadius.circular(13),
                     ),
-                    child: Text(
-                      "memind를 이용하며 생긴 궁금한 점이나, 관련하여 전달하고픈 피드백을 넘겨주세요.",
-                      style: FontSizes.getContentStyle()
-                          .copyWith(color: theme.appColors.iconButton),
+                    child: Row(
+                      children: [
+                        SvgPicture.asset('assets/svg/icon/volume-up.svg'),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Flexible(
+                          child: Text(
+                            "memind를 이용하며 생긴 궁금한 점이나,\n관련하여 전달하고픈 피드백을 넘겨주세요.",
+                            style: FontSizes.getContentStyle()
+                                .copyWith(color: theme.appColors.seedColor),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   const SizedBox(
@@ -91,14 +104,10 @@ class _SettingOpinionState extends State<SettingOpinion> {
                   const SizedBox(
                     height: 5,
                   ),
-                  Container(
-                    decoration:
-                        BoxDecoration(borderRadius: BorderRadius.circular(13)),
-                    child: SeetingCustomTextFormField(
-                        hintText: "제목을 입력해주세요",
-                        onChanged: (String? value) {},
-                        bgColor: theme.appColors.userInputBackground),
-                  ),
+                  buildTextField(
+                      onChanged: (String? value) {},
+                      hintText: "제목을 입력해주세요",
+                      bgColor: theme.appColors.userInputBackground),
                   const SizedBox(
                     height: 20,
                   ),
@@ -113,15 +122,11 @@ class _SettingOpinionState extends State<SettingOpinion> {
                   const SizedBox(
                     height: 5,
                   ),
-                  Container(
-                    decoration:
-                        BoxDecoration(borderRadius: BorderRadius.circular(13)),
-                    child: SeetingCustomTextFormField(
-                        hintText: "내용을 입력해주세요",
-                        maxLines: 8,
-                        onChanged: (String? value) {},
-                        bgColor: theme.appColors.userInputBackground),
-                  ),
+                  buildTextField(
+                      onChanged: (String? value) {},
+                      maxLines: 8,
+                      hintText: "내용을 입력해주세요",
+                      bgColor: theme.appColors.userInputBackground),
                   const SizedBox(
                     height: 10,
                   ),
@@ -156,6 +161,7 @@ class _SettingOpinionState extends State<SettingOpinion> {
                                 width: 85,
                                 height: 85,
                                 decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
                                     color: theme.appColors.userInputBackground),
                                 child: Center(
                                     child: Icon(
@@ -170,18 +176,35 @@ class _SettingOpinionState extends State<SettingOpinion> {
                               width: 85,
                               height: 85,
                               decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
                                   image: DecorationImage(
                                       image: FileImage(
                                           File(opinionList[idx - 1].path)),
                                       fit: BoxFit.cover)),
-                              child: Center(child: Text("${idx - 1}")),
+                              child: Stack(children: [
+                                Center(child: Text("${idx - 1}")),
+                                Positioned(
+                                  child: InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        opinionList = [];
+                                      });
+                                    },
+                                    child: Icon(
+                                      Icons.close,
+                                      color: theme.appColors.seedColor,
+                                      size: 30,
+                                    ),
+                                  ),
+                                  top: 1,
+                                  right: 1,
+                                ),
+                              ]),
                             );
                           }
                         }),
                   ),
-                  const Expanded(
-                    child: SizedBox(),
-                  ),
+                  const Spacer(),
                   // 수집 안내문
                   SizedBox(
                     width: double.infinity,
@@ -208,10 +231,19 @@ class _SettingOpinionState extends State<SettingOpinion> {
                       Flexible(
                           child: Container(
                         padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
-                        child: Text(
-                          "수집된 정보는 의견에 대한 답변 목적으로 활용되며, 의견을 보내시면 개인정보 수집 및 이용에 동의하게 됩니다",
-                          style: FontSizes.getCapsuleStyle()
-                              .copyWith(color: theme.appColors.iconButton),
+                        child: RichText(
+                          text: TextSpan(
+                              text: "수집된 정보는 의견에 대한 답변 목적으로 활용되며, 의견을 보내시면 ",
+                              style: FontSizes.getCapsuleStyle().copyWith(
+                                  color: theme.appColors.iconButton,
+                                  fontWeight: FontWeight.w400),
+                              children: const <TextSpan>[
+                                TextSpan(
+                                    text: "개인정보 수집 및 이용",
+                                    style: TextStyle(
+                                        decoration: TextDecoration.underline)),
+                                TextSpan(text: "에 동의하게 됩니다."),
+                              ]),
                         ),
                       ))
                     ]),
@@ -223,9 +255,12 @@ class _SettingOpinionState extends State<SettingOpinion> {
                     width: double.infinity,
                     child: RoundedButton(
                       onPressed: () => getCustomDialog(context,
+                          isTwinButton: false, OnSubmit: () {
+                        Navigator.pop(context);
+                      },
                           buttonText: "닫기",
                           contentTitleText: "의견을 성공적으로 보냈습니다!",
-                          contentdetailText: "답변은 추후 등록한 이메일로 전송됩니다."),
+                          contentDetailText: "답변은 추후 등록한 이메일로 전송됩니다."),
                       text: "의견 보내기",
                     ),
                   )
