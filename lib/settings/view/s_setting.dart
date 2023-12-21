@@ -155,7 +155,7 @@ class _SettingState extends State<Settings> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => SettingUserInfo()));
+                            builder: (context) => const SettingUserInfo()));
                   },
                   title: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -252,7 +252,7 @@ class _SettingState extends State<Settings> {
           ),
         ),
       ),
-      bottomNavigationBar: RootTab(),
+      bottomNavigationBar: const RootTab(),
     );
   }
 }

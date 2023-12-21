@@ -78,7 +78,6 @@ flutter:
     - assets/svg/icon/bar.svg
     - assets/svg/icon/upload.svg
     - assets/svg/icon/book.svg
-    - assets/svg/icon/vitamin.svg
     - assets/svg/icon/robot.svg
     - assets/svg/icon/imageUpload.svg
     - assets/svg/icon/circleUp.svg
@@ -87,6 +86,7 @@ flutter:
     - assets/svg/report/resPoint.svg
     - assets/svg/icon/check.svg
     - assets/svg/icon/search.svg
+    - assets/svg/icon/lemon.svg
     - assets/image/report/picture1.png
     - assets/image/
     - assets/svg/icon/
