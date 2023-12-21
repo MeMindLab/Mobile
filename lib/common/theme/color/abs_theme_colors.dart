@@ -35,4 +35,7 @@ abstract class AbstractThemeColors {
   Color get grayButtonBackground => AppColors.gray3;
 
   Color get userInputBackground => AppColors.blue2;
+
+  Color get checkColor => AppColors.midnightBlue;
+
 }

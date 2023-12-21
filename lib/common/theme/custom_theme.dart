@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/theme/color/abs_theme_colors.dart';
 import 'package:me_mind/common/theme/shadows/abs_theme_shadows.dart';

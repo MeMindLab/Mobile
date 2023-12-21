@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/constant/app_colors.dart';
+
 
 class DefaultLayout extends StatelessWidget {
   final Widget child;
@@ -45,8 +47,7 @@ class DefaultLayout extends StatelessWidget {
         centerTitle: true,
         title: Text(
           title!,
-          style: const TextStyle(
-            fontSize: 20,
+          style: FontSizes.getHeadline1Style().copyWith(
             fontWeight: FontWeight.w500,
           ),
         ),

@@ -48,6 +48,8 @@ dependencies:
   fl_chart: ^0.64.0
 
   image_picker: ^1.0.5
+  lottie: ^2.7.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -93,6 +95,7 @@ flutter:
     - assets/
     - assets/image/splash/
     - assets/image/onboarding/
+    - assets/json/
 
   # To add assets to your application, add an assets section, like this:
   # assets:

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 
-class CustomTextFormField extends StatefulWidget {
+class CustomTextFormField extends StatelessWidget {
   final String? hintText;
   final String? errorText;
   final bool obscureText;
@@ -9,6 +10,15 @@ class CustomTextFormField extends StatefulWidget {
   final int? maxLength;
   final String? labelText;
   final ValueChanged<String> onChanged;
+  final Widget? suffixIcon;
+  final Color? borderColor;
+  final FormFieldValidator? validator;
+  final TextEditingController? controller;
+  final ValueChanged<String>? onFieldSubmitted;
+  final bool readOnly;
+  final FocusNode? focusNode;
+  final VoidCallback? onToggleObscureText;
+  final bool isToggle;
 
   const CustomTextFormField({
     super.key,
@@ -18,21 +28,17 @@ class CustomTextFormField extends StatefulWidget {
     this.labelText,
     this.obscureText = false,
     this.autoFocus = false,
+    this.suffixIcon,
+    this.borderColor,
+    this.validator,
+    this.controller,
+    this.onFieldSubmitted,
+    this.focusNode,
     required this.onChanged,
+    this.readOnly = false,
+    this.onToggleObscureText,
+    this.isToggle = false,
   });
-
-  @override
-  State<CustomTextFormField> createState() => _CustomTextFormFieldState();
-}
-
-class _CustomTextFormFieldState extends State<CustomTextFormField> {
-  late bool _obscureText;
-
-  @override
-  void initState() {
-    super.initState();
-    _obscureText = widget.obscureText;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,65 +54,74 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         CustomThemeHolder.of(context).theme.appColors.userInputBackground;
 
     final baseBorder = OutlineInputBorder(
-      borderSide: BorderSide(
+      borderSide: const BorderSide(
         width: 1.0,
       ),
       borderRadius: BorderRadius.circular(13),
     );
 
+    print('isToggle: $isToggle, obscureText: $obscureText');
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (widget.labelText != null)
+        if (labelText != null)
           Padding(
             padding: const EdgeInsets.only(bottom: 6),
             child: Text(
-              widget.labelText!,
-              style: const TextStyle(
-                fontSize: 16,
+              labelText!,
+              style: FontSizes.getContentStyle().copyWith(
                 fontWeight: FontWeight.w500,
               ),
             ),
           ),
         TextFormField(
+          controller: controller,
+          validator: validator,
+          focusNode: focusNode,
+          onFieldSubmitted: onFieldSubmitted,
           textInputAction: TextInputAction.next,
-          maxLength: widget.maxLength,
-          obscureText: _obscureText,
-          autofocus: widget.autoFocus,
+          maxLength: maxLength,
+          obscureText: obscureText,
+          autofocus: autoFocus,
           cursorColor: theme.focusColor,
-          onChanged: widget.onChanged,
+          onChanged: onChanged,
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(20.0),
-            counterText: '',
-            hintText: widget.hintText,
-            errorText: widget.errorText,
-            hintStyle: TextStyle(
-              color: hintTextColor,
-              fontSize: 14.0,
-              fontWeight: FontWeight.w400,
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 20,
             ),
+            counterText: '',
+            hintText: hintText,
+            errorText: errorText,
+            errorStyle: const TextStyle(height: 0),
+            hintStyle: FontSizes.getContentStyle(),
             fillColor: inputBackground,
             filled: true, // false 배경색 없음 true 있음
             border: baseBorder,
-            enabledBorder: baseBorder,
+            enabledBorder: baseBorder.copyWith(
+              borderSide: baseBorder.borderSide.copyWith(
+                color: borderColor,
+              ),
+            ),
             focusedBorder: baseBorder.copyWith(
               borderSide: baseBorder.borderSide.copyWith(
                 color: focusedBorderColor,
               ),
             ),
-            suffixIcon: widget.obscureText
+
+            suffixIcon: isToggle
                 ? GestureDetector(
                     onTap: () {
-                      setState(() {
-                        _obscureText = !_obscureText;
-                      });
+                      if (onToggleObscureText != null) {
+                        onToggleObscureText!();
+                      }
                     },
                     child: Icon(
-                      _obscureText ? Icons.visibility : Icons.visibility_off,
+                      obscureText ? Icons.visibility : Icons.visibility_off,
                       color: hintTextColor,
                     ),
                   )
-                : null, // 변경된 부분
+                : suffixIcon,
           ),
         )
       ],

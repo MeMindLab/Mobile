@@ -14,7 +14,7 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
-  bool _isChecked = false;
+  final bool _isChecked = false;
   late FocusNode _emailFocusNode;
   late FocusNode _passwordFocusNode;
 
@@ -49,7 +49,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       Padding(
                         padding: const EdgeInsets.only(top: 49.5),
                         child: SvgPicture.asset(
-                          '${baseImageSvgPath}/icon/logo.svg',
+                          '$baseImageSvgPath/icon/logo.svg',
                         ),
                       ),
                       const SizedBox(
@@ -75,7 +75,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         onPressed: () {},
                       ),
                       CustomCheckBox(
-                        label: '자동로그인에 동의합니다 ',
+                        title: '자동로그인에 동의합니다 ',
                         onChanged: (bool isChecked) {
                           // 부모 위젯에서 체크 상태에 따른 로직 추가
                           print('Checkbox is checked: $isChecked');
