@@ -1,4 +1,4 @@
-iimport 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:me_mind/common/component/custom_text_form.dart';
 import 'package:me_mind/common/component/rounded_button.dart';
@@ -136,4 +136,3 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 }
-

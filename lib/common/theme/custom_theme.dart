@@ -51,6 +51,7 @@ ThemeData darkTheme = ThemeData(
   useMaterial3: true,
   visualDensity: VisualDensity.adaptivePlatformDensity,
   brightness: Brightness.dark,
+  scaffoldBackgroundColor: Colors.white,
   colorScheme: ColorScheme.fromSeed(
       seedColor: CustomTheme.dark.appColors.seedColor,
       brightness: Brightness.dark),
