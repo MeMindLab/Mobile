@@ -14,13 +14,16 @@ class BackArrowLeading extends StatelessWidget {
   Widget build(BuildContext context) {
     CustomTheme theme = CustomThemeHolder.of(context).theme;
 
-    return IconButton(
-      onPressed: () {
-        Navigator.of(context).pop();
-      },
-      icon: Icon(
-        Icons.arrow_back,
-        color: theme.appColors.iconButton,
+    return Padding(
+      padding: const EdgeInsets.all(0),
+      child: IconButton(
+        padding: EdgeInsets.zero,
+        constraints: const BoxConstraints(),
+        onPressed: onPressed ?? () => Navigator.of(context).pop(),
+        icon: Icon(
+          Icons.arrow_back,
+          color: theme.appColors.iconButton,
+        ),
       ),
     );
   }
