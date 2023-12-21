@@ -44,6 +44,7 @@ ThemeData lightTheme = ThemeData(
   primaryColor: AppColors.yellow,
   primaryColorDark: AppColors.blue7,
   cardColor: AppColors.blue3,
+  fontFamily: "Pretendard",
 );
 
 ThemeData darkTheme = ThemeData(

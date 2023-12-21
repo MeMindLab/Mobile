@@ -251,16 +251,19 @@ class _SettingState extends State<Settings> {
                         Navigator.pop(context);
                       },
                       isTwinButton: true,
-                      subOnSubmit: () async {
+                      onSecondSubmit: () async {
                         Response response;
-                        response = await dio
-                            .post('http://54.206.203.208/users/logout');
-                        print(response.data.toString());
-                        if (response.data["msg"] == "success") {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => OnBoardingScreen()));
+                        try {
+                          response = await dio
+                              .post('http://54.206.203.208/users/logout');
+                          if (response.statusCode == 200) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => OnBoardingScreen()));
+                          }
+                        } catch (e) {
+                          print("${e.toString()}, 로그아웃 에러");
                         }
                       }),
                 ),

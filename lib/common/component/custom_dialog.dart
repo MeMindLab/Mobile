@@ -5,6 +5,11 @@ import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 
+enum ButtonDirection {
+  horizontal,
+  vertical,
+}
+
 void getCustomDialog(
   BuildContext context, {
   required String buttonText,
@@ -13,10 +18,10 @@ void getCustomDialog(
   String? contentDetailText,
   String? buttonSubText,
   required VoidCallback OnSubmit,
-  VoidCallback? subOnSubmit,
+  VoidCallback? onSecondSubmit,
   required bool isTwinButton,
-  bool? isVertical,
-  bool? isButtonHalf,
+  ButtonDirection? buttonDirection,
+  bool? isButtonWidthHalf,
 }) {
   showDialog(
       context: context,
@@ -28,10 +33,10 @@ void getCustomDialog(
           buttonText: buttonText,
           buttonSubText: buttonSubText,
           OnSubmit: OnSubmit,
-          subOnSubmit: subOnSubmit,
+          onSecondSubmit: onSecondSubmit,
           isTwinButton: isTwinButton,
-          isVertical: isVertical ?? false,
-          isButtonHalf: isButtonHalf ?? false,
+          buttonDirection: buttonDirection ?? ButtonDirection.horizontal,
+          isButtonWidthHalf: isButtonWidthHalf ?? false,
         );
       });
 }
@@ -43,10 +48,10 @@ class CustomDialog extends StatelessWidget {
   final String buttonText;
   final String? buttonSubText;
   final VoidCallback OnSubmit;
-  final VoidCallback? subOnSubmit;
+  final VoidCallback? onSecondSubmit;
   bool isTwinButton;
-  bool isVertical;
-  bool isButtonHalf;
+  ButtonDirection buttonDirection;
+  bool isButtonWidthHalf;
 
   CustomDialog({
     super.key,
@@ -56,51 +61,47 @@ class CustomDialog extends StatelessWidget {
     required this.buttonText,
     this.buttonSubText,
     required this.OnSubmit,
-    this.subOnSubmit,
+    this.onSecondSubmit,
     required this.isTwinButton,
-    this.isVertical = false,
-    this.isButtonHalf = true,
+    this.buttonDirection = ButtonDirection.horizontal,
+    this.isButtonWidthHalf = true,
   });
 
-  Widget getActionList(BuildContext context, bool checkVertical) {
+  Widget getActionButton(num buttonWidth, CustomTheme theme, Color bgColor,
+      String contentText, VoidCallback onSubmit) {
+    return Container(
+      width: buttonWidth.toDouble(),
+      decoration: BoxDecoration(
+          color: bgColor,
+          // color: theme.appColors.grayButtonBackground,
+          borderRadius: const BorderRadius.all(Radius.circular(10))),
+      child: TextButton(
+          style: TextButton.styleFrom(shadowColor: theme.appColors.badgeBorder),
+          child: Text(contentText,
+              style: FontSizes.getCapsuleStyle()
+                  .copyWith(color: theme.appColors.iconButton)),
+          onPressed: onSubmit),
+    );
+  }
+
+  Widget getActionList(BuildContext context, ButtonDirection checkDirection) {
     CustomTheme theme = CustomThemeHolder.of(context).theme;
-    num buttonOneWidth = isButtonHalf! ? 135 : 70;
-    num buttonTwoWidth = isButtonHalf! ? 135 : 200;
+    num buttonOneWidth = isButtonWidthHalf ? 135 : 70;
+    num buttonTwoWidth = isButtonWidthHalf ? 135 : 200;
     // 수평인 경우
-    if (checkVertical == false) {
+    if (checkDirection == ButtonDirection.horizontal) {
       return Container(
         constraints: const BoxConstraints(maxWidth: 300),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              width: buttonOneWidth.toDouble(),
-              decoration: BoxDecoration(
-                  color: theme.appColors.grayButtonBackground,
-                  borderRadius: const BorderRadius.all(Radius.circular(10))),
-              child: TextButton(
-                  child: Text(buttonText,
-                      style: FontSizes.getCapsuleStyle()
-                          .copyWith(color: theme.appColors.iconButton)),
-                  onPressed: OnSubmit),
-            ),
+            getActionButton(buttonOneWidth, theme,
+                theme.appColors.grayButtonBackground, buttonText, OnSubmit),
             const SizedBox(
               width: 10,
             ),
-            Container(
-              width: buttonTwoWidth.toDouble(),
-              decoration: BoxDecoration(
-                  color: lightTheme.primaryColor,
-                  borderRadius: const BorderRadius.all(Radius.circular(10))),
-              child: TextButton(
-                child: Text(
-                  buttonSubText!,
-                  style: FontSizes.getCapsuleStyle()
-                      .copyWith(color: theme.appColors.iconButton),
-                ),
-                onPressed: subOnSubmit,
-              ),
-            ),
+            getActionButton(buttonTwoWidth, theme, lightTheme.primaryColor,
+                buttonSubText!, onSecondSubmit!),
           ],
         ),
       );
@@ -111,17 +112,8 @@ class CustomDialog extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  color: lightTheme.primaryColor,
-                  borderRadius: const BorderRadius.all(Radius.circular(10))),
-              child: TextButton(
-                  child: Text(buttonText,
-                      style: FontSizes.getCapsuleStyle()
-                          .copyWith(color: theme.appColors.iconButton)),
-                  onPressed: OnSubmit),
-            ),
+            getActionButton(double.infinity, theme, lightTheme.primaryColor,
+                buttonText, OnSubmit),
             const SizedBox(
               height: 15,
             ),
@@ -129,7 +121,7 @@ class CustomDialog extends StatelessWidget {
               width: double.infinity,
               child: Center(
                 child: InkWell(
-                  onTap: subOnSubmit,
+                  onTap: onSecondSubmit,
                   child: Text(
                     buttonSubText!,
                     style: FontSizes.getCapsuleStyle()
@@ -211,7 +203,7 @@ class CustomDialog extends StatelessWidget {
               onPressed: OnSubmit,
             ),
           ),
-        if (isTwinButton == true) getActionList(context, isVertical)
+        if (isTwinButton == true) getActionList(context, buttonDirection)
       ],
     );
   }

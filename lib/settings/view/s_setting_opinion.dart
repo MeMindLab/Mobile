@@ -1,12 +1,10 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:me_mind/common/component/custom_dialog.dart';
 import 'package:me_mind/common/component/rounded_button.dart';
-import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/store.dart';
@@ -32,6 +30,21 @@ class _SettingOpinionState extends State<SettingOpinion> {
         opinionList.add(value);
       });
     }
+  }
+
+  Widget buildTextField(
+      {required Color bgColor,
+      int? maxLines,
+      String? hintText,
+      ValueChanged<String>? onChanged}) {
+    return Container(
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(13)),
+      child: SeetingCustomTextFormField(
+          hintText: hintText,
+          onChanged: onChanged!,
+          maxLines: maxLines,
+          bgColor: bgColor),
+    );
   }
 
   @override
@@ -91,14 +104,10 @@ class _SettingOpinionState extends State<SettingOpinion> {
                   const SizedBox(
                     height: 5,
                   ),
-                  Container(
-                    decoration:
-                        BoxDecoration(borderRadius: BorderRadius.circular(13)),
-                    child: SeetingCustomTextFormField(
-                        hintText: "제목을 입력해주세요",
-                        onChanged: (String? value) {},
-                        bgColor: theme.appColors.userInputBackground),
-                  ),
+                  buildTextField(
+                      onChanged: (String? value) {},
+                      hintText: "제목을 입력해주세요",
+                      bgColor: theme.appColors.userInputBackground),
                   const SizedBox(
                     height: 20,
                   ),
@@ -113,15 +122,11 @@ class _SettingOpinionState extends State<SettingOpinion> {
                   const SizedBox(
                     height: 5,
                   ),
-                  Container(
-                    decoration:
-                        BoxDecoration(borderRadius: BorderRadius.circular(13)),
-                    child: SeetingCustomTextFormField(
-                        hintText: "내용을 입력해주세요",
-                        maxLines: 8,
-                        onChanged: (String? value) {},
-                        bgColor: theme.appColors.userInputBackground),
-                  ),
+                  buildTextField(
+                      onChanged: (String? value) {},
+                      maxLines: 8,
+                      hintText: "내용을 입력해주세요",
+                      bgColor: theme.appColors.userInputBackground),
                   const SizedBox(
                     height: 10,
                   ),
@@ -199,9 +204,7 @@ class _SettingOpinionState extends State<SettingOpinion> {
                           }
                         }),
                   ),
-                  const Expanded(
-                    child: SizedBox(),
-                  ),
+                  const Spacer(),
                   // 수집 안내문
                   SizedBox(
                     width: double.infinity,
@@ -228,10 +231,19 @@ class _SettingOpinionState extends State<SettingOpinion> {
                       Flexible(
                           child: Container(
                         padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
-                        child: Text(
-                          "수집된 정보는 의견에 대한 답변 목적으로 활용되며, 의견을 보내시면 개인정보 수집 및 이용에 동의하게 됩니다",
-                          style: FontSizes.getCapsuleStyle()
-                              .copyWith(color: theme.appColors.iconButton),
+                        child: RichText(
+                          text: TextSpan(
+                              text: "수집된 정보는 의견에 대한 답변 목적으로 활용되며, 의견을 보내시면 ",
+                              style: FontSizes.getCapsuleStyle().copyWith(
+                                  color: theme.appColors.iconButton,
+                                  fontWeight: FontWeight.w400),
+                              children: const <TextSpan>[
+                                TextSpan(
+                                    text: "개인정보 수집 및 이용",
+                                    style: TextStyle(
+                                        decoration: TextDecoration.underline)),
+                                TextSpan(text: "에 동의하게 됩니다."),
+                              ]),
                         ),
                       ))
                     ]),
