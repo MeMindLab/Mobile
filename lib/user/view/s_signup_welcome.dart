@@ -44,10 +44,8 @@ class _SignUpWelcomeState extends State<SignUpWelcome>
                 height: 280,
                 child: Lottie.asset(
                   "assets/json/welcome.json",
-                  repeat: false,
                   onLoaded: (composition) {
                     _lottieController.duration = composition.duration;
-                    _lottieController.forward();
                   },
                 ),
               ),
