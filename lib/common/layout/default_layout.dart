@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
 import 'package:me_mind/common/layout/topbar/default_appbar.dart';
-=======
-import 'package:me_mind/common/constant/font_sizes.dart';
-import 'package:me_mind/common/constant/app_colors.dart';
->>>>>>> 52aa573 (refactor: 바텀네브바 수정)
 
 class DefaultLayout extends StatelessWidget {
   final Widget child;
