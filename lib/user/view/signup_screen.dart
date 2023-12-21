@@ -4,6 +4,7 @@ import 'package:me_mind/common/component/custom_text_form.dart';
 import 'package:me_mind/common/component/rounded_button.dart';
 import 'package:me_mind/common/constant/constant.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
+import 'package:me_mind/common/layout/topbar/widget/back_arrow.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 
@@ -31,13 +32,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
     return DefaultLayout(
       title: "회원가입",
-      appBarLeading: IconButton(
-        onPressed: () {},
-        icon: Icon(
-          Icons.arrow_back,
-          color: theme.appColors.iconButton,
-        ),
-      ),
+      appBarLeading: const BackArrowLeading(),
+      backgroundColor: Colors.white,
       child: CustomScrollView(
         slivers: [
           SliverFillRemaining(

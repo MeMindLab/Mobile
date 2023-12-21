@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:me_mind/common/layout/default_appbar.dart';
+import 'package:me_mind/common/layout/topbar/default_appbar.dart';
 
 class DefaultLayout extends StatelessWidget {
   final Widget child;
