@@ -34,29 +34,24 @@ class _RootTabState extends State<RootTab> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          idx == pageIdx
-              ? SvgPicture.asset(svgAsset,
-                  colorFilter: ColorFilter.mode(
-                      theme.appColors.iconButton, BlendMode.srcIn),
-                  width: 24,
-                  height: 24)
-              : SvgPicture.asset(svgAsset, width: 24, height: 24),
+          SvgPicture.asset(svgAsset,
+              colorFilter: idx == pageIdx
+                  ? ColorFilter.mode(
+                      theme.appColors.iconButton, BlendMode.srcIn)
+                  : null,
+              width: 24,
+              height: 24),
           const SizedBox(
             height: 5,
           ),
-          idx == pageIdx
-              ? Text(
-                  rootTitle,
-                  style: FontSizes.getCapsuleStyle().copyWith(
-                      color: theme.appColors.iconButton,
-                      fontWeight: FontWeight.w500),
-                )
-              : Text(
-                  rootTitle,
-                  style: FontSizes.getCapsuleStyle().copyWith(
-                      color: theme.appColors.hintText,
-                      fontWeight: FontWeight.w500),
-                ),
+          Text(
+            rootTitle,
+            style: FontSizes.getCapsuleStyle().copyWith(
+                color: idx == pageIdx
+                    ? theme.appColors.iconButton
+                    : theme.appColors.hintText,
+                fontWeight: FontWeight.w500),
+          )
         ],
       ),
     );
