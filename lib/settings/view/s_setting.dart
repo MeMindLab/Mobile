@@ -33,6 +33,7 @@ class _SettingState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     CustomTheme theme = CustomThemeHolder.of(context).theme;
+    // 메뉴 모음
     final settingmenus = ['FAQ', '이용 약관', '개인정보 처리방침'];
     return DefaultLayout(
       title: "설정",

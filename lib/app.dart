@@ -1,6 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
+import 'package:me_mind/settings/view/s_setting.dart';
+import 'package:me_mind/user/view/s_signup_welcome.dart';
 import 'package:me_mind/user/view/signup_screen.dart';
 import 'common/theme/custom_theme_app.dart';
 import 'common/theme/custom_theme_holder.dart';
@@ -45,7 +47,7 @@ class AppState extends State<App> with WidgetsBindingObserver {
           locale: context.locale,
           title: 'Me mind',
           theme: CustomThemeHolder.of(context).theme.themeData,
-          home: const SignUpScreen(),
+          home: const Settings(),
         );
       }),
     );
