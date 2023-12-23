@@ -56,11 +56,10 @@ class CustomTextFormField extends StatelessWidget {
     final baseBorder = OutlineInputBorder(
       borderSide: const BorderSide(
         width: 1.0,
+        color: Colors.transparent,
       ),
       borderRadius: BorderRadius.circular(13),
     );
-
-    print('isToggle: $isToggle, obscureText: $obscureText');
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,9 +69,7 @@ class CustomTextFormField extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 6),
             child: Text(
               labelText!,
-              style: FontSizes.getContentStyle().copyWith(
-                fontWeight: FontWeight.w500,
-              ),
+              style: FontSizes.getHighLightContentStyle(),
             ),
           ),
         TextFormField(
@@ -85,6 +82,8 @@ class CustomTextFormField extends StatelessWidget {
           obscureText: obscureText,
           autofocus: autoFocus,
           cursorColor: theme.focusColor,
+          cursorWidth: 1.5,
+          cursorHeight: 13,
           onChanged: onChanged,
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.symmetric(

@@ -168,10 +168,10 @@ class _ReportState extends State<Report> {
       appBarActions: [
         Container(
           margin: const EdgeInsets.fromLTRB(0, 0, 20, 0),
-          child: Row(
+          child: const Row(
             children: [
-              SvgPicture.asset('assets/svg/icon/vitamin.svg'),
-              const Text('10',
+              //SvgPicture.asset('assets/svg/icon/vitamin.svg'),
+              Text('10',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
             ],
           ),

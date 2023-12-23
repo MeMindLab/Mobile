@@ -3,7 +3,7 @@ import 'package:lottie/lottie.dart';
 import 'package:me_mind/common/component/rounded_button.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
-import 'package:me_mind/user/view/signin_screen.dart';
+import 'package:me_mind/user/view/s_signin.dart';
 
 class SignUpWelcome extends StatefulWidget {
   const SignUpWelcome({super.key});
