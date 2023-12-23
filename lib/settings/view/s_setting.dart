@@ -43,7 +43,7 @@ class _SettingState extends State<Settings> {
           margin: const EdgeInsets.fromLTRB(0, 0, 20, 0),
           child: Row(
             children: [
-              SvgPicture.asset('assets/svg/icon/vitamin.svg'),
+              //SvgPicture.asset('assets/svg/icon/vitamin.svg'),
               Text('10',
                   style: FontSizes.getHeadline1Style()
                       .copyWith(color: theme.appColors.iconButton)),

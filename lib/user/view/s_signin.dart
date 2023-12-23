@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:me_mind/common/component/custom_text_form.dart';
 import 'package:me_mind/common/component/rounded_button.dart';
-import 'package:me_mind/common/constant/constant.dart';
+import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
-import 'package:me_mind/user/component/custom_checkbox.dart';
+import 'package:me_mind/common/theme/custom_theme.dart';
+import 'package:me_mind/common/theme/custom_theme_holder.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -34,6 +34,8 @@ class _SignInScreenState extends State<SignInScreen> {
 
   @override
   Widget build(BuildContext context) {
+    CustomTheme theme = CustomThemeHolder.of(context).theme;
+
     return DefaultLayout(
         title: "로그인",
         child: CustomScrollView(
@@ -47,16 +49,19 @@ class _SignInScreenState extends State<SignInScreen> {
                   child: Column(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(top: 49.5),
-                        child: SvgPicture.asset(
-                          '$baseImageSvgPath/icon/logo.svg',
+                        padding: const EdgeInsets.only(top: 27),
+                        child: Image.asset(
+                          "assets/image/logo/logo.png",
+                          width: 62,
+                          height: 62,
                         ),
                       ),
                       const SizedBox(
-                        height: 54,
+                        height: 40,
                       ),
                       CustomTextFormField(
                         labelText: "이메일",
+                        errorText: "아이디 혹은 비밀번호가 다릅니다.",
                         onChanged: (String value) {},
                       ),
                       const SizedBox(
@@ -65,21 +70,26 @@ class _SignInScreenState extends State<SignInScreen> {
                       CustomTextFormField(
                         labelText: "비밀번호",
                         obscureText: true,
+                        errorText: "아이디 혹은 비밀번호가 다릅니다.",
+                        isToggle: true,
+                        onToggleObscureText: () {},
                         onChanged: (String value) {},
                       ),
                       const SizedBox(
                         height: 40,
                       ),
                       RoundedButton(
-                        text: "가입하기",
+                        text: "로그인",
                         onPressed: () {},
                       ),
-                      CustomCheckBox(
-                        title: '자동로그인에 동의합니다 ',
-                        onChanged: (bool isChecked) {
-                          // 부모 위젯에서 체크 상태에 따른 로직 추가
-                          print('Checkbox is checked: $isChecked');
-                        },
+                      Padding(
+                        padding: const EdgeInsets.only(top: 19),
+                        child: Text(
+                          "비밀번호를 잊으셨습니까?",
+                          style: FontSizes.getCapsuleStyle().copyWith(
+                            color: theme.appColors.hintText,
+                          ),
+                        ),
                       ),
                     ],
                   ),
