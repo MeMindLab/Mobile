@@ -5,6 +5,8 @@ import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
+import 'package:me_mind/screen/main/s_main.dart';
+import 'package:me_mind/user/services/login_service.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -14,9 +16,12 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
-  final bool _isChecked = false;
   late FocusNode _emailFocusNode;
   late FocusNode _passwordFocusNode;
+  final _formKey = GlobalKey<FormState>();
+
+  String email = "";
+  String password = "";
 
   @override
   void initState() {
@@ -36,6 +41,8 @@ class _SignInScreenState extends State<SignInScreen> {
   Widget build(BuildContext context) {
     CustomTheme theme = CustomThemeHolder.of(context).theme;
 
+    final AuthService authService = AuthService(); // AuthService 인스턴스 생성
+
     return DefaultLayout(
         title: "로그인",
         child: CustomScrollView(
@@ -46,52 +53,88 @@ class _SignInScreenState extends State<SignInScreen> {
                 bottom: false,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 27),
-                        child: Image.asset(
-                          "assets/image/logo/logo.png",
-                          width: 62,
-                          height: 62,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 40,
-                      ),
-                      CustomTextFormField(
-                        labelText: "이메일",
-                        errorText: "아이디 혹은 비밀번호가 다릅니다.",
-                        onChanged: (String value) {},
-                      ),
-                      const SizedBox(
-                        height: 12.0,
-                      ),
-                      CustomTextFormField(
-                        labelText: "비밀번호",
-                        obscureText: true,
-                        errorText: "아이디 혹은 비밀번호가 다릅니다.",
-                        isToggle: true,
-                        onToggleObscureText: () {},
-                        onChanged: (String value) {},
-                      ),
-                      const SizedBox(
-                        height: 40,
-                      ),
-                      RoundedButton(
-                        text: "로그인",
-                        onPressed: () {},
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 19),
-                        child: Text(
-                          "비밀번호를 잊으셨습니까?",
-                          style: FontSizes.getCapsuleStyle().copyWith(
-                            color: theme.appColors.hintText,
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 27),
+                          child: Image.asset(
+                            "assets/image/logo/logo.png",
+                            width: 62,
+                            height: 62,
                           ),
                         ),
-                      ),
-                    ],
+                        const SizedBox(
+                          height: 40,
+                        ),
+                        CustomTextFormField(
+                          labelText: "이메일",
+                          errorText: "아이디 혹은 비밀번호가 다릅니다.",
+                          onChanged: (String value) {
+                            email = value;
+                          },
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "이메일을 입력해주세요!";
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(
+                          height: 12.0,
+                        ),
+                        CustomTextFormField(
+                          labelText: "비밀번호",
+                          obscureText: true,
+                          errorText: "아이디 혹은 비밀번호가 다릅니다.",
+                          isToggle: true,
+                          onToggleObscureText: () {},
+                          onChanged: (String value) {
+                            password = value;
+                          },
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "비밀번호를 입력해주세요!";
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(
+                          height: 40,
+                        ),
+                        RoundedButton(
+                          text: "로그인",
+                          onPressed: () async {
+                            if (_formKey.currentState!.validate()) {
+                              final response = await authService.loginService
+                                  .login(email, password);
+
+                              // 추후 토큰 저장 및 관리
+                              final refreshToken =
+                                  response.result["refreshToken"];
+                              final accessToken =
+                                  response.result["accessToken"];
+
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (_) => const MainScreen(),
+                                ),
+                              );
+                            }
+                          },
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 19),
+                          child: Text(
+                            "비밀번호를 잊으셨습니까?",
+                            style: FontSizes.getCapsuleStyle().copyWith(
+                              color: theme.appColors.hintText,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
