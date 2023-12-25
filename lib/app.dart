@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:me_mind/chat/view/s_chat.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
-import 'package:me_mind/user/view/signup_screen.dart';
+import 'package:me_mind/user/view/s_signin.dart';
 import 'common/theme/custom_theme_app.dart';
 import 'common/theme/custom_theme_holder.dart';
 

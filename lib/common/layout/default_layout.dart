@@ -33,6 +33,7 @@ class DefaultLayout extends StatelessWidget {
       bottomSheet: bottomSheet,
       bottomNavigationBar: bottomNavigationBar,
       resizeToAvoidBottomInset: false,
+      extendBody: true,
     );
   }
 
