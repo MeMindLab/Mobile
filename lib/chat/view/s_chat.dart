@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:me_mind/chat/component/chat_notification.dart';
 import 'package:me_mind/common/component/datetime_to_text.dart';
 import 'package:me_mind/common/component/rounded_button.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
@@ -16,63 +17,10 @@ class Chat extends StatefulWidget {
 class _ChatState extends State<Chat> {
   bool isMicOpen = false;
   double micWidth = 61.63;
-  bool isAlarmCheck = false;
+  bool isFolded = false;
   @override
   void initState() {
     super.initState();
-  }
-
-  Widget getAlarm(CustomTheme theme) {
-    return Container(
-      width: double.infinity,
-      margin: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-      padding: isAlarmCheck == false
-          ? EdgeInsets.fromLTRB(15, 20, 10, 0)
-          : EdgeInsets.zero,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-        color: isAlarmCheck == false
-            ? lightTheme.primaryColor
-            : theme.appColors.seedColor,
-      ),
-      child: isAlarmCheck == false
-          ? Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                const Text(
-                    '구르미는 미아인드가 개발한 일기쓰기 전문 인공지능입니다. 텍스트나 음성으로 대화하듯이 하루를 정리해보세요!',
-                    style:
-                        TextStyle(fontSize: 14, fontWeight: FontWeight.w400)),
-                IconButton(
-                  padding: EdgeInsets.zero,
-                  icon: isAlarmCheck == false
-                      ? Icon(Icons.keyboard_arrow_up)
-                      : Icon(Icons.keyboard_arrow_down),
-                  onPressed: () {
-                    setState(() {
-                      isAlarmCheck = !isAlarmCheck;
-                    });
-                  },
-                )
-              ],
-            )
-          : Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                  IconButton(
-                    padding: const EdgeInsets.all(0),
-                    icon: isAlarmCheck == false
-                        ? Icon(Icons.keyboard_arrow_up)
-                        : Icon(Icons.keyboard_arrow_down),
-                    onPressed: () {
-                      setState(() {
-                        isAlarmCheck = !isAlarmCheck;
-                      });
-                    },
-                  )
-                ]),
-    );
   }
 
   Widget AiCommentTile(
@@ -211,7 +159,14 @@ class _ChatState extends State<Chat> {
         child: Column(
           children: [
             // 접기 기능 포함될 알림 창
-            getAlarm(theme),
+            ChatNotification(
+                theme: theme,
+                isFolded: isFolded,
+                onPressed: () {
+                  setState(() {
+                    isFolded = !isFolded;
+                  });
+                }),
             Expanded(
               child: ListView(
                 shrinkWrap: true,
