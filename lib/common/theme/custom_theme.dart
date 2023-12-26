@@ -45,6 +45,7 @@ ThemeData lightTheme = ThemeData(
   scaffoldBackgroundColor: Colors.white,
   primaryColor: AppColors.yellow,
   cardColor: AppColors.blue3,
+  primaryColorDark: AppColors.blue7,
   focusColor: AppColors.gray9,
 );
 

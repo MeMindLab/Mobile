@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:me_mind/chat/component/chat_mic.dart';
 import 'package:me_mind/chat/component/chat_notification.dart';
 import 'package:me_mind/common/component/datetime_to_text.dart';
 import 'package:me_mind/common/component/rounded_button.dart';
@@ -36,8 +37,8 @@ class _ChatState extends State<Chat> {
         child: Column(
           children: [
             isSameGureumi == false
-                ? SvgPicture.asset(
-                    'assets/svg/icon/robot.svg',
+                ? Image.asset(
+                    'assets/image/logo/logo.png',
                     width: 50,
                     height: 50,
                     fit: BoxFit.fill,
@@ -104,7 +105,7 @@ class _ChatState extends State<Chat> {
             width: double.infinity,
             margin: EdgeInsets.fromLTRB(0, 30, 0, 0),
             padding: EdgeInsets.all(20),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Color(0xffA9D0FF),
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(32),
@@ -144,7 +145,7 @@ class _ChatState extends State<Chat> {
     CustomTheme theme = CustomThemeHolder.of(context).theme;
     return SafeArea(
       child: DefaultLayout(
-        backgroundColor: theme.appColors.seedColor,
+        backgroundColor: Colors.white,
         appBarActions: [
           Container(
             child: Row(
@@ -311,34 +312,7 @@ class _ChatState extends State<Chat> {
                   ),
                 ),
                 if (isMicOpen == true) ...[
-                  Container(
-                      width: double.infinity,
-                      height: 272.1,
-                      color: Color(0xff595E66),
-                      child: Center(
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            SvgPicture.asset('assets/svg/chat/micBg1.svg',
-                                width: 300),
-                            Positioned(
-                              child: SvgPicture.asset('assets/svg/icon/mic.svg',
-                                  width: 40),
-                            ),
-                            Positioned(
-                              bottom: 20,
-                              child: Text(
-                                '마이크를 입에 가깝게 위치하고 말씀해주세요.\n화면을 터치하면 음성인식이 중단됩니다.',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16,
-                                    color: Colors.white),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ],
-                        ),
-                      )),
+                  const ChatMicArea(),
                 ],
               ],
             )),
