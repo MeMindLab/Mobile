@@ -4,6 +4,7 @@ import 'package:me_mind/chat/component/chat_mic.dart';
 import 'package:me_mind/chat/component/chat_notification.dart';
 import 'package:me_mind/common/component/datetime_to_text.dart';
 import 'package:me_mind/common/component/rounded_button.dart';
+import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
@@ -206,15 +207,14 @@ class _ChatState extends State<Chat> {
             EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
         child: SizedBox(
             width: double.infinity,
-            height: micWidth,
             child: Column(
               children: [
                 // 입력창
                 Container(
+                  padding: const EdgeInsets.only(top: 10, bottom: 10),
                   decoration: BoxDecoration(
                     color: theme.appColors.userInputBackground,
                   ),
-                  height: 61.63,
                   child: Row(
                     children: [
                       Container(
@@ -226,63 +226,66 @@ class _ChatState extends State<Chat> {
                       ),
                       Expanded(
                         child: Container(
-                          //width: MediaQuery.of(context).size.width * 0.8,
-                          height: 40,
+                          height: MediaQuery.of(context).size.height * 0.05,
                           margin: const EdgeInsets.only(right: 20),
                           child: TextField(
-                            cursorWidth: 0,
-                            style: TextStyle(fontSize: 12),
+                            maxLines: 1,
+                            showCursor: true,
+                            cursorWidth: 1,
+                            cursorColor: Colors.black,
+                            style: FontSizes.getCapsuleStyle().copyWith(
+                                color: theme.appColors.iconButton,
+                                fontSize: 14),
                             decoration: InputDecoration(
+                              isDense: true,
+                              contentPadding: const EdgeInsets.only(left: 20),
                               filled: true,
                               fillColor: theme.appColors.seedColor,
-                              labelText: '',
-                              hintText: '',
                               // textfield 오른쪽에 아이콘
-                              suffixIcon: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    InkWell(
-                                      onTap: () {
-                                        FocusScope.of(context).unfocus();
-                                        setState(() {
-                                          micWidth +=
-                                              isMicOpen ? -272.1 : 272.1;
-                                          isMicOpen = isMicOpen ? false : true;
-                                        });
-                                      },
-                                      child: Container(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            10, 10, 10, 10),
-                                        child: SvgPicture.asset(
-                                            'assets/svg/icon/mic.svg',
-                                            colorFilter: ColorFilter.mode(
-                                                theme.appColors.activate,
-                                                BlendMode.srcIn)),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 5),
-                                      child: Container(
-                                        width: 30,
-                                        height: 30,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(50),
-                                            color: theme.appColors.activate),
-                                        child: Icon(
-                                          Icons.keyboard_arrow_up,
-                                          color: theme.appColors.seedColor,
-                                          size: 30,
+                              suffixIcon: SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.2,
+                                child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      InkWell(
+                                        onTap: () {
+                                          FocusScope.of(context).unfocus();
+                                          setState(() {
+                                            micWidth +=
+                                                isMicOpen ? -272.1 : 272.1;
+                                            isMicOpen =
+                                                isMicOpen ? false : true;
+                                          });
+                                        },
+                                        child: Container(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              10, 10, 10, 10),
+                                          child: SvgPicture.asset(
+                                              'assets/svg/icon/mic.svg',
+                                              colorFilter: ColorFilter.mode(
+                                                  theme.appColors.activate,
+                                                  BlendMode.srcIn)),
                                         ),
                                       ),
-                                      // child: SvgPicture.asset(
-                                      //     'assets/svg/icon/circleUp.svg',
-                                      //     colorFilter: ColorFilter.mode(
-                                      //       theme.appColors.activate,
-                                      //       BlendMode.srcIn,
-                                      //     )),
-                                    ),
-                                  ]),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 5),
+                                        child: Container(
+                                          width: 30,
+                                          height: 30,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(50),
+                                              color: theme.appColors.activate),
+                                          child: Icon(
+                                            Icons.keyboard_arrow_up,
+                                            color: theme.appColors.seedColor,
+                                            size: 30,
+                                          ),
+                                        ),
+                                      ),
+                                    ]),
+                              ),
                               labelStyle:
                                   TextStyle(color: theme.appColors.activate),
                               focusedBorder: OutlineInputBorder(

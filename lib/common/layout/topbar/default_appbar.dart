@@ -44,7 +44,7 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
         foregroundColor: foregroundColor ?? Colors.black,
         leading: leading,
         elevation: elevation ?? 0,
-        scrolledUnderElevation: 0,
+        surfaceTintColor: Colors.transparent,
       ),
     );
   }
