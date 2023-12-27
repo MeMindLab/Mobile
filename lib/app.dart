@@ -5,8 +5,8 @@ import 'package:me_mind/common/view/on_boarding.dart';
 import 'package:me_mind/report/view/s_report.dart';
 import 'package:me_mind/report/view/s_report_detail.dart';
 import 'package:me_mind/settings/view/s_setting.dart';
-import 'package:me_mind/user/view/signin_screen.dart';
 import 'package:me_mind/user/view/signup_screen.dart';
+import 'package:me_mind/user/view/s_signin.dart';
 
 import 'common/theme/custom_theme_app.dart';
 import 'common/theme/custom_theme_holder.dart';

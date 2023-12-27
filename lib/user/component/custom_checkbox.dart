@@ -6,12 +6,18 @@ import 'package:me_mind/common/theme/custom_theme_holder.dart';
 
 class CustomCheckBox extends StatefulWidget {
   final ValueChanged<bool> onChanged;
-  final String label;
+  final String title;
+  final Widget? leading;
+  final Widget? trailing;
+  final EdgeInsetsGeometry? padding;
 
   const CustomCheckBox({
     Key? key,
     required this.onChanged,
-    required this.label,
+    required this.title,
+    this.leading,
+    this.trailing,
+    this.padding,
   }) : super(key: key);
 
   @override
@@ -21,37 +27,51 @@ class CustomCheckBox extends StatefulWidget {
 class _CustomCheckBoxState extends State<CustomCheckBox> {
   bool _isChecked = false;
 
+  void _toggleCheckbox() {
+    setState(() {
+      _isChecked = !_isChecked;
+    });
+    widget.onChanged(_isChecked);
+  }
+
   @override
   Widget build(BuildContext context) {
     CustomTheme theme = CustomThemeHolder.of(context).theme;
 
-    return ListTile(
-      contentPadding: EdgeInsets.zero,
-      title: Text(
-        widget.label,
-        style: TextStyle(
-          fontSize: 12,
-        ),
-      ),
-      leading: InkWell(
-        onTap: () {
-          setState(() {
-            _isChecked = !_isChecked;
-          });
-          widget.onChanged(_isChecked);
-        },
+    return Padding(
+      padding: const EdgeInsets.only(top: 1),
+      child: InkWell(
+        onTap: _toggleCheckbox,
         child: Container(
-          width: 40.0,
-          height: 40.0,
-          color: Colors.transparent,
-          child: Center(
-            child: SvgPicture.asset(
-              '${baseImageSvgPath}/icon/check.svg',
-              colorFilter: _isChecked
-                  ? ColorFilter.mode(
-                      theme.appColors.blueButtonBackground, BlendMode.srcIn)
-                  : null,
-            ),
+          padding: widget.padding ?? const EdgeInsets.symmetric(horizontal: 10),
+          height: 24.0,
+          child: Row(
+            children: [
+              widget.leading ??
+                  Container(
+                    width: 24.0,
+                    height: 24.0,
+                    color: Colors.transparent,
+                    child: Center(
+                      child: SvgPicture.asset(
+                        '$baseImageSvgPath/icon/check.svg',
+                        colorFilter: _isChecked
+                            ? ColorFilter.mode(
+                                theme.appColors.blueButtonBackground,
+                                BlendMode.srcIn)
+                            : null,
+                      ),
+                    ),
+                  ),
+              const SizedBox(width: 16.0),
+              Expanded(
+                child: Text(
+                  widget.title,
+                  style: const TextStyle(fontSize: 12),
+                ),
+              ),
+              widget.trailing ?? const SizedBox.shrink(),
+            ],
           ),
         ),
       ),

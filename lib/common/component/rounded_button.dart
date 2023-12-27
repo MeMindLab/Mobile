@@ -1,5 +1,4 @@
 import "package:flutter/material.dart";
-import "package:me_mind/common/constant/font_sizes.dart";
 import "package:me_mind/common/theme/custom_theme.dart";
 
 import "../theme/custom_theme_holder.dart";
@@ -10,6 +9,8 @@ class RoundedButton extends StatelessWidget {
   final String text;
   final double? height;
   final VoidCallback? onPressed;
+  final TextStyle? textStyle;
+  final double? elevation;
 
   const RoundedButton({
     super.key,
@@ -18,6 +19,8 @@ class RoundedButton extends StatelessWidget {
     required this.text,
     this.height,
     this.onPressed,
+    this.textStyle,
+    this.elevation = 0,
   });
 
   @override
@@ -27,22 +30,19 @@ class RoundedButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
+        elevation: elevation,
         backgroundColor:
             backgroundColor ?? theme.appColors.blueButtonBackground,
-        foregroundColor: foregroundColor ?? theme.appColors.text,
+        foregroundColor: foregroundColor ?? Colors.black,
+        padding: const EdgeInsets.all(10.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(13),
         ),
-        maximumSize: Size(double.infinity, height ?? 55),
+        minimumSize: Size(double.infinity, height ?? 55),
       ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 18),
-        child: Text(
-          text,
-          style: FontSizes.getContentStyle().copyWith(
-            fontWeight: FontWeight.w500,
-          ),
-        ),
+      child: Text(
+        text,
+        style: textStyle,
       ),
     );
   }

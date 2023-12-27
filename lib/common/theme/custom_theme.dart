@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/theme/color/abs_theme_colors.dart';
 import 'package:me_mind/common/theme/shadows/abs_theme_shadows.dart';
@@ -40,17 +42,19 @@ ThemeData lightTheme = ThemeData(
   brightness: Brightness.light,
   colorScheme:
       ColorScheme.fromSeed(seedColor: CustomTheme.light.appColors.seedColor),
-  scaffoldBackgroundColor: AppColors.blue1,
+  scaffoldBackgroundColor: Colors.white,
   primaryColor: AppColors.yellow,
   primaryColorDark: AppColors.blue7,
   cardColor: AppColors.blue3,
   fontFamily: "Pretendard",
+  focusColor: AppColors.gray9,
 );
 
 ThemeData darkTheme = ThemeData(
   useMaterial3: true,
   visualDensity: VisualDensity.adaptivePlatformDensity,
   brightness: Brightness.dark,
+  scaffoldBackgroundColor: Colors.white,
   colorScheme: ColorScheme.fromSeed(
       seedColor: CustomTheme.dark.appColors.seedColor,
       brightness: Brightness.dark),

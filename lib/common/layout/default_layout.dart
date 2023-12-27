@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:me_mind/common/constant/app_colors.dart';
+import 'package:me_mind/common/layout/topbar/default_appbar.dart';
 
 class DefaultLayout extends StatelessWidget {
   final Widget child;
   final String? title;
   final Color? backgroundColor;
+  final Color? foregroundColor;
   final Widget? bottomNavigationBar;
   final Widget? bottomSheet;
   final List<Widget>? appBarActions;
@@ -17,6 +18,7 @@ class DefaultLayout extends StatelessWidget {
     this.bottomNavigationBar,
     this.bottomSheet,
     this.backgroundColor,
+    this.foregroundColor,
     this.appBarActions,
     this.appBarLeading,
   });
@@ -31,27 +33,20 @@ class DefaultLayout extends StatelessWidget {
       bottomSheet: bottomSheet,
       bottomNavigationBar: bottomNavigationBar,
       resizeToAvoidBottomInset: false,
+      extendBody: true,
     );
   }
 
-  AppBar? renderAppBar() {
+  DefaultAppBar? renderAppBar() {
     if (title == null) {
       return null;
     } else {
-      return AppBar(
-        backgroundColor: backgroundColor,
+      return DefaultAppBar(
+        title: title!,
         leading: appBarLeading,
-        elevation: 0,
-        centerTitle: true,
-        title: Text(
-          title!,
-          style: const TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        foregroundColor: Colors.black,
         actions: appBarActions,
+        backgroundColor: backgroundColor,
+        foregroundColor: foregroundColor,
       );
     }
   }
