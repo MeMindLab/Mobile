@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:me_mind/chat/component/chat_mic.dart';
+import 'package:me_mind/chat/component/chat_notification.dart';
 import 'package:me_mind/common/component/datetime_to_text.dart';
+import 'package:me_mind/common/component/rounded_button.dart';
+import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
+import 'package:me_mind/common/theme/custom_theme.dart';
+import 'package:me_mind/common/theme/custom_theme_holder.dart';
 
 class Chat extends StatefulWidget {
   const Chat({super.key});
@@ -13,19 +19,136 @@ class Chat extends StatefulWidget {
 class _ChatState extends State<Chat> {
   bool isMicOpen = false;
   double micWidth = 61.63;
-
+  bool isFolded = false;
   @override
   void initState() {
     super.initState();
   }
 
+  Widget AiCommentTile(
+      {CustomTheme? theme,
+      String? commentContent,
+      bool isSameGureumi = false}) {
+    return ListTile(
+      leading: Container(
+        constraints: BoxConstraints(
+          minWidth: MediaQuery.of(context).size.width * 0.1,
+        ),
+        //margin: EdgeInsets.only(left: 10),
+        child: Column(
+          children: [
+            isSameGureumi == false
+                ? Image.asset(
+                    'assets/image/logo/logo.png',
+                    width: 50,
+                    height: 50,
+                    fit: BoxFit.fill,
+                  )
+                : const SizedBox(
+                    width: 50,
+                    height: 50,
+                  ),
+          ],
+        ),
+      ),
+      title: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: theme!.appColors.userInputBackground,
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(32),
+                bottomLeft: Radius.circular(0),
+                topRight: Radius.circular(32),
+                bottomRight: Radius.circular(32),
+              ),
+            ),
+            constraints: BoxConstraints(
+              maxWidth: MediaQuery.of(context).size.width * 0.7,
+            ),
+            child: Text(
+              commentContent!,
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                color: Colors.black,
+              ),
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.only(left: 10),
+            child: Text(
+              datetimeType2(),
+              style: TextStyle(color: theme.appColors.hintText),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget UserCommentTile({
+    CustomTheme? theme,
+    String? commentContent,
+  }) {
+    return ListTile(
+      leading: const SizedBox(
+        width: 50,
+        height: 50,
+      ),
+      title: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: double.infinity,
+            margin: EdgeInsets.fromLTRB(0, 30, 0, 0),
+            padding: EdgeInsets.all(20),
+            decoration: const BoxDecoration(
+              color: Color(0xffA9D0FF),
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(32),
+                bottomLeft: Radius.circular(32),
+                topRight: Radius.circular(32),
+                bottomRight: Radius.circular(0),
+              ),
+            ),
+            constraints: BoxConstraints(
+              maxWidth: MediaQuery.of(context).size.width * 0.7,
+            ),
+            child: Text(
+              commentContent!,
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                color: Colors.black,
+              ),
+            ),
+          ),
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.7,
+            child: Align(
+                alignment: Alignment.centerRight,
+                child: Text(
+                  datetimeType2(),
+                  style: TextStyle(color: theme!.appColors.hintText),
+                )),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    CustomTheme theme = CustomThemeHolder.of(context).theme;
     return SafeArea(
       child: DefaultLayout(
+        backgroundColor: Colors.white,
         appBarActions: [
           Container(
-            margin: EdgeInsets.fromLTRB(0, 0, 20, 0),
             child: Row(
               children: [
                 SvgPicture.asset('assets/svg/icon/report.svg'),
@@ -34,282 +157,168 @@ class _ChatState extends State<Chat> {
           ),
         ],
         title: datetimeType1(),
+        // ignore: sort_child_properties_last
         child: Column(
           children: [
-            Container(
-              height: 77,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30),
-                border: Border.all(color: Color(0xff2C3642)),
-                color: Color(0xff2C3642),
-              ),
-              margin: EdgeInsets.only(bottom: 10),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+            // 접기 기능 포함될 알림 창
+            ChatNotification(
+                theme: theme,
+                isFolded: isFolded,
+                onPressed: () {
+                  setState(() {
+                    isFolded = !isFolded;
+                  });
+                }),
+            Expanded(
+              child: ListView(
+                shrinkWrap: true,
+                reverse: true,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('쓸봇은 미마인드가 개발한 ', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400)),
-                      Text('일기쓰기 전문 인공지능 ', style: TextStyle(color: Colors.lightBlue, fontSize: 14, fontWeight: FontWeight.w400)),
-                      Text('입니다.', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400)),
-                    ],
-                  ),
-                  Text('쓸봇과 함께 텍스트와 음성으로 편리하게 일기를 남겨보세요!', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400)),
+                  UserCommentTile(
+                      theme: theme,
+                      commentContent:
+                          "여름에는 더 힘든 것 같애..\n아침부터 일복이 터졌엉 어제 할일도 다 못했는데 팀장님이 보고서 다시 정리하라고 회의할 때 나만 콕 집어서 지시해;;\n짜증나 죽는줄 알았네...왜 나한테만 일을 몰아주는거지? 이대리님도 있고, 동기인 박매니저도 있는데..."),
+                  AiCommentTile(
+                      theme: theme,
+                      commentContent:
+                          '더운 날씨에 정말 속상했을 것 같아요. 상사의 부당한 지시는 어디에 하소연 할 곳도 없고 힘드셨을 것 같아요.'),
+                  UserCommentTile(theme: theme, commentContent: '오늘도 힘들었어ㅠㅠㅠ'),
+                  AiCommentTile(
+                      theme: theme,
+                      commentContent:
+                          '오늘 하루 있었던 일이나 느낀 감정은 이야기해주세요. 구르미가 모두 들어줄게요!',
+                      isSameGureumi: true),
+                  AiCommentTile(theme: theme, commentContent: "안녕하세요. 구르미에요:)"),
                 ],
               ),
             ),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Container(
-                          constraints: BoxConstraints(
-                            minWidth: MediaQuery.of(context).size.width * 0.1,
-                          ),
-                          margin: EdgeInsets.only(left: 10),
-                          child: Column(
-                            children: [
-                              SvgPicture.asset('assets/svg/icon/robot.svg'),
-                              Text('쓸봇AI'),
-                            ],
-                          ),
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(left: 10),
-                              padding: EdgeInsets.all(20),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(32),
-                                  bottomLeft: Radius.circular(0),
-                                  topRight: Radius.circular(32),
-                                  bottomRight: Radius.circular(32),
-                                ),
-                              ),
-                              constraints: BoxConstraints(
-                                maxWidth: MediaQuery.of(context).size.width * 0.7,
-                              ),
-                              child: Text(
-                                'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(left: 10),
-                              child: Text(datetimeType2()),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Container(
-                          constraints: BoxConstraints(
-                            minWidth: MediaQuery.of(context).size.width * 0.1,
-                          ),
-                          margin: EdgeInsets.only(left: 10),
-                          child: Column(
-                            children: [
-                              SvgPicture.asset('assets/svg/icon/robot.svg'),
-                              Text('쓸봇AI'),
-                            ],
-                          ),
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(left: 10),
-                              padding: EdgeInsets.all(20),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(32),
-                                  bottomLeft: Radius.circular(0),
-                                  topRight: Radius.circular(32),
-                                  bottomRight: Radius.circular(32),
-                                ),
-                              ),
-                              constraints: BoxConstraints(
-                                maxWidth: MediaQuery.of(context).size.width * 0.7,
-                              ),
-                              child: Text(
-                                'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(left: 10),
-                              child: Text(datetimeType2()),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Container(
-                          constraints: BoxConstraints(
-                            minWidth: MediaQuery.of(context).size.width * 0.2,
-                          ),
-                          margin: EdgeInsets.only(left: 10),
-                          child: Column(
-                            children: [
-                            ],
-                          ),
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              margin: EdgeInsets.fromLTRB(10, 30, 0, 0),
-                              padding: EdgeInsets.all(20),
-                              decoration: BoxDecoration(
-                                color: Color(0xffA9D0FF),
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(32),
-                                  bottomLeft: Radius.circular(32),
-                                  topRight: Radius.circular(32),
-                                  bottomRight: Radius.circular(0),
-                                ),
-                              ),
-                              constraints: BoxConstraints(
-                                maxWidth: MediaQuery.of(context).size.width * 0.7,
-                              ),
-                              child: Text(
-                                'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(left: 10),
-                              child: Text(datetimeType2()),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 100,
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            _BottomInputField(theme),
           ],
         ),
         appBarLeading: Icon(Icons.keyboard_backspace),
-        bottomSheet: Container(
-          width: double.infinity,
-          height: micWidth,
-          child: Column(
-            children: [
-              Container(
-                height: 61.63,
-                child: Row(
-                  children: [
-                    Container(
-                      padding: EdgeInsets.fromLTRB(20, 10, 10, 10),
-                      child: SvgPicture.asset('assets/svg/icon/imageUpload.svg',
-                          colorFilter: ColorFilter.mode(
-                              Colors.white, BlendMode.srcIn)),
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width - 155,
-                      height: 40,
-                      child: TextField(
-                        cursorWidth: 0,
-                        style: TextStyle(fontSize: 12),
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Color(0xff999999),
-                          labelText: '',
-                          hintText: '',
-                          labelStyle: TextStyle(color: Color(0xff999999)),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(100)),
-                            borderSide: BorderSide(width: 1, color: Color(0xff999999)),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(100)),
-                            borderSide: BorderSide(width: 1, color: Color(0xff999999)),
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(100)),
-                          ),
-                        ),
-                        keyboardType: TextInputType.multiline,
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        setState(() {
-                          micWidth += isMicOpen ? -272.1 : 272.1;
-                          isMicOpen = isMicOpen ? false : true;
-                        });
-                      },
-                      child: Container(
-                        padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                        child: SvgPicture.asset('assets/svg/icon/mic.svg',
-                            colorFilter: ColorFilter.mode(
-                                Colors.white, BlendMode.srcIn)),
-                      ),
-                    ),
-                    SvgPicture.asset('assets/svg/icon/circleUp.svg',
-                        colorFilter: ColorFilter.mode(
-                            Color(0xff959CD6), BlendMode.srcIn)),
-                  ],
-                ),
-              ),
-              if (isMicOpen == true)...[
+      ),
+    );
+  }
+
+  Widget _BottomInputField(CustomTheme theme) {
+    return SafeArea(
+      child: Padding(
+        padding:
+            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+        child: SizedBox(
+            width: double.infinity,
+            child: Column(
+              children: [
+                // 입력창
                 Container(
-                  width: double.infinity,
-                  height: 272.1,
-                  color: Color(0xff595E66),
-                  child: Center(
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        SvgPicture.asset('assets/svg/chat/micBg1.svg', width: 300),
-                        Positioned(
-                          child: SvgPicture.asset('assets/svg/icon/mic.svg', width: 40),
-                        ),
-                        Positioned(
-                          bottom: 20,
-                          child: Text(
-                            '마이크를 입에 가깝게 위치하고 말씀해주세요.\n화면을 터치하면 음성인식이 중단됩니다.',
-                            style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16, color: Colors.white),
-                            textAlign: TextAlign.center,
+                  padding: const EdgeInsets.only(top: 10, bottom: 10),
+                  decoration: BoxDecoration(
+                    color: theme.appColors.userInputBackground,
+                  ),
+                  child: Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.fromLTRB(20, 10, 10, 10),
+                        child: SvgPicture.asset(
+                            'assets/svg/icon/imageUpload.svg',
+                            colorFilter: ColorFilter.mode(
+                                theme.appColors.activate, BlendMode.srcIn)),
+                      ),
+                      Expanded(
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * 0.05,
+                          margin: const EdgeInsets.only(right: 20),
+                          child: TextField(
+                            maxLines: 1,
+                            showCursor: true,
+                            cursorWidth: 1,
+                            cursorColor: Colors.black,
+                            style: FontSizes.getCapsuleStyle().copyWith(
+                                color: theme.appColors.iconButton,
+                                fontSize: 14),
+                            decoration: InputDecoration(
+                              isDense: true,
+                              contentPadding: const EdgeInsets.only(left: 20),
+                              filled: true,
+                              fillColor: theme.appColors.seedColor,
+                              // textfield 오른쪽에 아이콘
+                              suffixIcon: SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.2,
+                                child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      InkWell(
+                                        onTap: () {
+                                          FocusScope.of(context).unfocus();
+                                          setState(() {
+                                            micWidth +=
+                                                isMicOpen ? -272.1 : 272.1;
+                                            isMicOpen =
+                                                isMicOpen ? false : true;
+                                          });
+                                        },
+                                        child: Container(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              10, 10, 10, 10),
+                                          child: SvgPicture.asset(
+                                              'assets/svg/icon/mic.svg',
+                                              colorFilter: ColorFilter.mode(
+                                                  theme.appColors.activate,
+                                                  BlendMode.srcIn)),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 5),
+                                        child: Container(
+                                          width: 30,
+                                          height: 30,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(50),
+                                              color: theme.appColors.activate),
+                                          child: Icon(
+                                            Icons.keyboard_arrow_up,
+                                            color: theme.appColors.seedColor,
+                                            size: 30,
+                                          ),
+                                        ),
+                                      ),
+                                    ]),
+                              ),
+                              labelStyle:
+                                  TextStyle(color: theme.appColors.activate),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(100)),
+                                borderSide: BorderSide(
+                                    width: 1, color: theme.appColors.seedColor),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(100)),
+                                borderSide: BorderSide(
+                                    width: 1, color: theme.appColors.seedColor),
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(100)),
+                                borderSide: BorderSide(
+                                    width: 1, color: theme.appColors.seedColor),
+                              ),
+                            ),
+                            keyboardType: TextInputType.multiline,
                           ),
                         ),
-                      ],
-                    ),
-                  )
+                      ),
+                    ],
+                  ),
                 ),
+                if (isMicOpen == true) ...[
+                  const ChatMicArea(),
+                ],
               ],
-            ],
-          )
-        ),
+            )),
       ),
     );
   }
