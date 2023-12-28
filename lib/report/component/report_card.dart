@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:me_mind/common/constant/font_sizes.dart';
+import 'package:me_mind/common/theme/custom_theme.dart';
+import 'package:me_mind/common/theme/custom_theme_holder.dart';
+
+import 'package:me_mind/report/widget/capsule.dart';
 
 class ReportCard extends StatelessWidget {
   final Image? image;
@@ -16,6 +21,8 @@ class ReportCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    CustomTheme theme = CustomThemeHolder.of(context).theme;
+
     return IntrinsicHeight(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 20),
@@ -26,8 +33,8 @@ class ReportCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
                 color: Colors.grey,
               ),
-              width: 121,
-              height: 121,
+              width: 124,
+              height: 124,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
                 child: Image.asset(
@@ -41,22 +48,13 @@ class ReportCard extends StatelessWidget {
             ),
             Expanded(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.end,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
-                    children: keywords.map((keyword) {
-                      return Padding(
-                        padding: const EdgeInsets.only(right: 10),
-                        child: Text(
-                          "#$keyword",
-                          style: const TextStyle(
-                            fontSize: 14,
-                            color: Colors.blue,
-                          ),
-                        ),
-                      );
-                    }).toList(),
+                    children: keywords
+                        .map((keyword) => Capsule(keyword: keyword))
+                        .toList(),
                   ),
                   Text(
                     summary,
@@ -67,9 +65,8 @@ class ReportCard extends StatelessWidget {
                   Text(
                     date,
                     textAlign: TextAlign.right,
-                    style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
+                    style: FontSizes.getCapsuleStyle().copyWith(
+                      color: theme.appColors.datetimeColor,
                     ),
                   ),
                 ],

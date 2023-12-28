@@ -1,9 +1,12 @@
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
+import 'package:me_mind/common/layout/topbar/widget/back_arrow.dart';
 import 'package:me_mind/common/store.dart';
 import 'package:me_mind/common/component/root_tab.dart';
+import 'package:me_mind/common/theme/custom_theme.dart';
+import 'package:me_mind/common/theme/custom_theme_holder.dart';
 import 'package:me_mind/report/component/report_card.dart';
 import 'package:me_mind/report/component/report_chart.dart';
 
@@ -24,45 +27,32 @@ class _Report extends State<Report> {
 
   @override
   Widget build(BuildContext context) {
+    CustomTheme theme = CustomThemeHolder.of(context).theme;
+
     return DefaultLayout(
       title: "리포트",
-      appBarActions: [
-        Container(
-          margin: const EdgeInsets.fromLTRB(0, 0, 20, 0),
-          child: const Row(
-            children: [
-              //SvgPicture.asset('assets/svg/icon/vitamin.svg'),
-              Text('10',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
-            ],
-          ),
-        ),
-      ],
+      appBarLeading: const BackArrowLeading(),
       bottomNavigationBar: const RootTab(),
       child: Column(
         children: [
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: const Color(0xff2C3642),
-            ),
+          SizedBox(
             width: double.infinity,
-            child: const Padding(
-              padding: EdgeInsets.all(20),
+            child: Padding(
+              padding: const EdgeInsets.all(20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '주간 그래프',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 20,
+                    '최근 감정 흐름',
+                    style: FontSizes.getHeadline1Style().copyWith(
+                      fontWeight: FontWeight.w500,
+                      color: const Color(0xFF191919),
                     ),
                   ),
-                  SizedBox(
-                    height: 16,
+                  const SizedBox(
+                    height: 36,
                   ),
-                  AspectRatio(
+                  const AspectRatio(
                     aspectRatio: 1.70,
                     child: ReportChart(),
                   ),
@@ -70,28 +60,48 @@ class _Report extends State<Report> {
               ),
             ),
           ),
-          const Divider(
-            height: 20,
-            thickness: 1,
-            color: Colors.white,
+          Padding(
+            padding: const EdgeInsets.only(bottom: 14),
+            child: Divider(
+              thickness: 8,
+              color: theme.appColors.divider,
+            ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                "2023.10",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w400,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    const Text(
+                      "2023.10",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    IconButton(
+                      icon: const Icon(
+                        Icons.arrow_forward_ios_outlined,
+                        size: 18.0,
+                        color: Colors.black,
+                      ),
+                      onPressed: () {},
+                    )
+                  ],
                 ),
-              ),
-              SvgPicture.asset('assets/svg/icon/search.svg'),
-            ],
+                SvgPicture.asset('assets/svg/icon/search.svg'),
+              ],
+            ),
           ),
           Expanded(
             child: CustomScrollView(
               slivers: [
-                renderReports(),
+                SliverPadding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  sliver: renderReports(),
+                ),
               ],
             ),
           ),
@@ -106,7 +116,7 @@ SliverList renderReports() {
     delegate: SliverChildBuilderDelegate(
       (context, builder) {
         return const ReportCard(
-          keywords: ["키워드1", "키워드2", "키워드3"],
+          keywords: ["키워드1", "키워드2"],
           summary:
               "이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summa이곳에는 ai summary 내용이 들어가게 됩...",
           date: '2023.10.31',

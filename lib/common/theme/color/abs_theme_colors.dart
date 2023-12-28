@@ -38,4 +38,7 @@ abstract class AbstractThemeColors {
 
   Color get checkColor => AppColors.midnightBlue;
 
+  Color get chatBubble => AppColors.blue5;
+
+  Color get datetimeColor => AppColors.gray5;
 }
