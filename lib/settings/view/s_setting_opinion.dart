@@ -223,7 +223,10 @@ class _SettingOpinionState extends State<SettingOpinion> {
                     onPressed: () => getCustomDialog(context,
                         buttonText: "닫기",
                         contentTitleText: "의견을 성공적으로 보냈습니다!",
-                        contentdetailText: "답변은 추후 등록한 이메일로 전송됩니다."),
+                        contentDetailText: "답변은 추후 등록한 이메일로 전송됩니다.",
+                        OnSubmit: () {
+                      Navigator.pop(context);
+                    }),
                     text: "의견 보내기",
                   )
                 ]),

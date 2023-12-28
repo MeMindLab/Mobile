@@ -241,12 +241,16 @@ class _SettingState extends State<Settings> {
                     style: FontSizes.getHeadline2Style()
                         .copyWith(color: theme.appColors.iconButton),
                   ),
-                  onTap: () => getCustomDialog(
-                    context,
-                    buttonText: "취소",
-                    buttonSubText: "확인",
-                    contentdetailText: "로그아웃 하시겠습니까?",
-                  ),
+                  onTap: () => getCustomDialog(context,
+                      buttonText: "네",
+                      cancelButtonText: "아니오",
+                      contentTitleText: "알림 수신 동의",
+                      isButtonWidthHalf: false,
+                      contentDetailText:
+                          "해당 기기로 서비스 이용에 필요한\n안내 사항을 푸시 알림으로\n보내드리겠습니다.\n\n앱 푸시에 수신 동의하시겠습니까?",
+                      textAlign: TextAlign.start, OnSubmit: () {
+                    Navigator.pop(context);
+                  }, onCancelSubmit: () {}),
                 ),
               )
             ],
