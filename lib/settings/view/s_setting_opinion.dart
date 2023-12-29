@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:me_mind/common/component/custom_dialog.dart';
+import 'package:me_mind/common/component/dialog/main.dart';
 import 'package:me_mind/common/component/rounded_button.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
@@ -220,11 +220,11 @@ class _SettingOpinionState extends State<SettingOpinion> {
                     height: 10,
                   ),
                   RoundedButton(
-                    onPressed: () => getCustomDialog(context,
+                    onPressed: () => getDialog().getCustomDialog(context,
                         buttonText: "닫기",
                         contentTitleText: "의견을 성공적으로 보냈습니다!",
                         contentDetailText: "답변은 추후 등록한 이메일로 전송됩니다.",
-                        OnSubmit: () {
+                        onSubmit: () {
                       Navigator.pop(context);
                     }),
                     text: "의견 보내기",
