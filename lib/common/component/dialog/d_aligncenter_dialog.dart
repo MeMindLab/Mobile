@@ -10,7 +10,7 @@ enum ButtonDirection {
   vertical,
 }
 
-class CustomDialog extends StatelessWidget {
+class AlignCenterDialog extends StatelessWidget {
   final String contentTitleText;
   final String? contentDetailText;
   final String? imageLink;
@@ -21,7 +21,7 @@ class CustomDialog extends StatelessWidget {
   ButtonDirection buttonDirection;
   bool isButtonWidthHalf;
 
-  CustomDialog({
+  AlignCenterDialog({
     super.key,
     required this.contentTitleText,
     this.contentDetailText,
@@ -33,6 +33,13 @@ class CustomDialog extends StatelessWidget {
     this.buttonDirection = ButtonDirection.horizontal,
     this.isButtonWidthHalf = true,
   });
+  // 위젯을 세개 만드는 거지
+
+  // 버튼이 한개일때
+
+  // 버튼이 두개이고 수평일때
+
+  // 버튼이 두개이고 수직일때
 
   @override
   Widget build(BuildContext context) {
@@ -83,8 +90,8 @@ class CustomDialog extends StatelessWidget {
                     width: double.infinity,
                     child: Text(
                       contentDetailText!,
-                      style: FontSizes.getCapsuleStyle()
-                          .copyWith(color: theme.appColors.iconButton),
+                      style: FontSizes.getCapsuleStyle().copyWith(
+                          color: theme.appColors.iconButton, fontFamily: ""),
                       textAlign: TextAlign.center,
                     ),
                   )
@@ -95,24 +102,29 @@ class CustomDialog extends StatelessWidget {
       ),
       actions: [
         // 버튼 두개인지 아닌지
-        if (cancelButtonText == null)
-          Container(
-            margin: const EdgeInsets.only(bottom: 5),
-            width: double.infinity,
-            child: RoundedButton(
-              text: buttonText,
-              backgroundColor: lightTheme.primaryColor,
-              foregroundColor: theme.appColors.iconButton,
-              onPressed: handleSubmit,
-            ),
-          ),
-        if (cancelButtonText != null)
-          dialogButtonDirection(context, buttonDirection,
-              isButtonWidthHalf: isButtonWidthHalf,
-              buttonText: buttonText,
-              cancelButtonText: cancelButtonText,
-              onSubmit: handleSubmit,
-              onCancelSubmit: handleCancelSubmit)
+        cancelButtonText == null
+            ? Container(
+                margin: const EdgeInsets.only(bottom: 5),
+                width: double.infinity,
+                child: RoundedButton(
+                  text: buttonText,
+                  backgroundColor: lightTheme.primaryColor,
+                  foregroundColor: theme.appColors.iconButton,
+                  onPressed: handleSubmit,
+                ),
+              )
+            : buttonDirection == ButtonDirection.horizontal
+                ? dialogButtonHorizontal(context,
+                    isButtonWidthHalf: isButtonWidthHalf,
+                    buttonText: buttonText,
+                    cancelButtonText: cancelButtonText,
+                    onSubmit: handleSubmit,
+                    onCancelSubmit: handleCancelSubmit)
+                : dialogButtonVertical(context,
+                    buttonText: buttonText,
+                    cancelButtonText: cancelButtonText,
+                    onSubmit: handleSubmit,
+                    onCancelSubmit: handleCancelSubmit)
       ],
     );
   }

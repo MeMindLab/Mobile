@@ -15,6 +15,7 @@ class FontSizes {
     Color color = AppColors.gray9,
   }) {
     return TextStyle(
+      fontFamily: "Pretendard",
       fontSize: size,
       fontWeight: fontWeight,
       color: color,

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:me_mind/common/component/dialog/w_dialog_button.dart';
+import 'package:me_mind/common/component/dialog/w_dialog_button_direction.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 
-class ConfirmDialog extends StatelessWidget {
+class AlignStartDialog extends StatelessWidget {
   final String contentTitleText;
   final String? contentDetailText;
   final String buttonText;
@@ -12,7 +13,7 @@ class ConfirmDialog extends StatelessWidget {
   final VoidCallback handleSubmit;
   final VoidCallback? handleCancelSubmit;
 
-  ConfirmDialog({
+  AlignStartDialog({
     super.key,
     required this.contentTitleText,
     this.contentDetailText,
@@ -46,7 +47,8 @@ class ConfirmDialog extends StatelessWidget {
                     contentTitleText,
                     style: FontSizes.getContentStyle().copyWith(
                         color: theme.appColors.iconButton,
-                        fontWeight: FontWeight.w600),
+                        fontWeight: FontWeight.w600,
+                        fontFamily: "Pretendard"),
                     textAlign: TextAlign.start,
                   ),
                 ),
@@ -70,27 +72,18 @@ class ConfirmDialog extends StatelessWidget {
       ),
       actions: [
         // 버튼 두개인지 아닌지
-        if (cancelButtonText == null)
-          Container(
-              margin: const EdgeInsets.only(bottom: 5),
-              width: double.infinity,
-              child: dialogButton(
-                  theme, lightTheme.primaryColor, buttonText, handleSubmit)),
-        if (cancelButtonText != null)
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Expanded(
-                child: dialogButton(theme, theme.appColors.grayButtonBackground,
-                    cancelButtonText!, handleCancelSubmit!),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
+        cancelButtonText == null
+            ? Container(
+                margin: const EdgeInsets.only(bottom: 5),
+                width: double.infinity,
                 child: dialogButton(
-                    theme, lightTheme.primaryColor, buttonText, handleSubmit),
-              ),
-            ],
-          ),
+                    theme, lightTheme.primaryColor, buttonText, handleSubmit))
+            : dialogButtonHorizontal(context,
+                isButtonWidthHalf: true,
+                buttonText: buttonText,
+                cancelButtonText: cancelButtonText,
+                onSubmit: handleSubmit,
+                onCancelSubmit: handleCancelSubmit)
       ],
     );
   }

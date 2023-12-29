@@ -19,7 +19,7 @@ class ShowDialog {
     showDialog(
         context: context,
         builder: (BuildContext context) {
-          return CustomDialog(
+          return AlignCenterDialog(
             contentTitleText: contentTitleText,
             contentDetailText: contentDetailText,
             imageLink: imageLink,
@@ -46,7 +46,7 @@ class ShowDialog {
     showDialog(
         context: context,
         builder: (BuildContext context) {
-          return ConfirmDialog(
+          return AlignStartDialog(
             contentTitleText: contentTitleText,
             contentDetailText: contentDetailText,
             buttonText: buttonText,
