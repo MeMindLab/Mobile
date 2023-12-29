@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 
-Widget getActionButton(CustomTheme theme, Color bgColor, String contentText,
+Widget dialogButton(CustomTheme theme, Color bgColor, String contentText,
     VoidCallback onSubmit) {
   return Container(
     decoration: BoxDecoration(

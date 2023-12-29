@@ -9,8 +9,8 @@ class ConfirmDialog extends StatelessWidget {
   final String? contentDetailText;
   final String buttonText;
   final String? cancelButtonText;
-  final VoidCallback onSubmit;
-  final VoidCallback? onCancelSubmit;
+  final VoidCallback handleSubmit;
+  final VoidCallback? handleCancelSubmit;
 
   ConfirmDialog({
     super.key,
@@ -18,8 +18,8 @@ class ConfirmDialog extends StatelessWidget {
     this.contentDetailText,
     required this.buttonText,
     this.cancelButtonText,
-    required this.onSubmit,
-    this.onCancelSubmit,
+    required this.handleSubmit,
+    this.handleCancelSubmit,
   });
 
   @override
@@ -74,23 +74,20 @@ class ConfirmDialog extends StatelessWidget {
           Container(
               margin: const EdgeInsets.only(bottom: 5),
               width: double.infinity,
-              child: getActionButton(
-                  theme, lightTheme.primaryColor, buttonText, onSubmit)),
+              child: dialogButton(
+                  theme, lightTheme.primaryColor, buttonText, handleSubmit)),
         if (cancelButtonText != null)
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Expanded(
-                child: getActionButton(
-                    theme,
-                    theme.appColors.grayButtonBackground,
-                    cancelButtonText!,
-                    onCancelSubmit!),
+                child: dialogButton(theme, theme.appColors.grayButtonBackground,
+                    cancelButtonText!, handleCancelSubmit!),
               ),
               const SizedBox(width: 10),
               Expanded(
-                child: getActionButton(
-                    theme, lightTheme.primaryColor, buttonText, onSubmit),
+                child: dialogButton(
+                    theme, lightTheme.primaryColor, buttonText, handleSubmit),
               ),
             ],
           ),

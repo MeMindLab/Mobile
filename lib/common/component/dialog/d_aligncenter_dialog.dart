@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:me_mind/common/component/dialog/w_buttonlist_direction.dart';
+import 'package:me_mind/common/component/dialog/w_setofbutton_direction.dart';
 import 'package:me_mind/common/component/rounded_button.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
@@ -10,15 +10,14 @@ enum ButtonDirection {
   vertical,
 }
 
-// ignore: must_be_immutable
 class CustomDialog extends StatelessWidget {
   final String contentTitleText;
   final String? contentDetailText;
   final String? imageLink;
   final String buttonText;
   final String? cancelButtonText;
-  final VoidCallback onSubmit;
-  final VoidCallback? onCancelSubmit;
+  final VoidCallback handleSubmit;
+  final VoidCallback? handleCancelSubmit;
   ButtonDirection buttonDirection;
   bool isButtonWidthHalf;
 
@@ -29,8 +28,8 @@ class CustomDialog extends StatelessWidget {
     this.imageLink,
     required this.buttonText,
     this.cancelButtonText,
-    required this.onSubmit,
-    this.onCancelSubmit,
+    required this.handleSubmit,
+    this.handleCancelSubmit,
     this.buttonDirection = ButtonDirection.horizontal,
     this.isButtonWidthHalf = true,
   });
@@ -104,16 +103,16 @@ class CustomDialog extends StatelessWidget {
               text: buttonText,
               backgroundColor: lightTheme.primaryColor,
               foregroundColor: theme.appColors.iconButton,
-              onPressed: onSubmit,
+              onPressed: handleSubmit,
             ),
           ),
         if (cancelButtonText != null)
-          getDirectionActionList(context, buttonDirection,
+          directionSetOfButton(context, buttonDirection,
               isButtonWidthHalf: isButtonWidthHalf,
               buttonText: buttonText,
               cancelButtonText: cancelButtonText,
-              onSubmit: onSubmit,
-              onCancelSubmit: onCancelSubmit)
+              onSubmit: handleSubmit,
+              onCancelSubmit: handleCancelSubmit)
       ],
     );
   }

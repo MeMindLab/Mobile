@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:me_mind/common/component/dialog/d_common_dialog.dart';
+import 'package:me_mind/common/component/dialog/d_aligncenter_dialog.dart';
 import 'package:me_mind/common/component/dialog/w_dialog_button.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 
-Widget getDirectionActionList(
+Widget directionSetOfButton(
     BuildContext context, ButtonDirection checkDirection,
     {isButtonWidthHalf,
     buttonText,
@@ -22,7 +22,7 @@ Widget getDirectionActionList(
           children: [
             isButtonWidthHalf == true
                 ? Expanded(
-                    child: getActionButton(
+                    child: dialogButton(
                         theme,
                         theme.appColors.grayButtonBackground,
                         cancelButtonText!,
@@ -30,7 +30,7 @@ Widget getDirectionActionList(
                   )
                 : SizedBox(
                     width: deviceWidth * 0.19,
-                    child: getActionButton(
+                    child: dialogButton(
                         theme,
                         theme.appColors.grayButtonBackground,
                         cancelButtonText!,
@@ -38,7 +38,7 @@ Widget getDirectionActionList(
                   ),
             const SizedBox(width: 10),
             Expanded(
-              child: getActionButton(
+              child: dialogButton(
                   theme, lightTheme.primaryColor, buttonText, onSubmit),
             ),
           ],
@@ -51,7 +51,7 @@ Widget getDirectionActionList(
             children: [
               SizedBox(
                 width: double.infinity,
-                child: getActionButton(
+                child: dialogButton(
                     theme, lightTheme.primaryColor, buttonText, onSubmit),
               ),
               const SizedBox(
