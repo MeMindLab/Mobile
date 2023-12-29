@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:me_mind/common/component/dialog/w_setofbutton_direction.dart';
+import 'package:me_mind/common/component/dialog/w_dialog_button_direction.dart';
 import 'package:me_mind/common/component/rounded_button.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
@@ -107,7 +107,7 @@ class CustomDialog extends StatelessWidget {
             ),
           ),
         if (cancelButtonText != null)
-          directionSetOfButton(context, buttonDirection,
+          dialogButtonDirection(context, buttonDirection,
               isButtonWidthHalf: isButtonWidthHalf,
               buttonText: buttonText,
               cancelButtonText: cancelButtonText,

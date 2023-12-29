@@ -5,7 +5,7 @@ import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 
-Widget directionSetOfButton(
+Widget dialogButtonDirection(
     BuildContext context, ButtonDirection checkDirection,
     {isButtonWidthHalf,
     buttonText,
