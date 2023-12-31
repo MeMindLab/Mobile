@@ -30,7 +30,6 @@ class _RootTabState extends State<RootTab> {
           color: Colors.transparent,
           elevation: 0.0,
           child: Container(
-            height: 66,
             padding: const EdgeInsets.only(left: 10, right: 10),
             decoration: BoxDecoration(
                 color: Colors.white, borderRadius: BorderRadius.circular(50)),
