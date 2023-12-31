@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:me_mind/common/component/dialog/w_dialog_button.dart';
 import 'package:me_mind/common/component/dialog/w_dialog_button_direction.dart';
+import 'package:me_mind/common/component/dialog/w_dialog_content.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
@@ -39,34 +40,11 @@ class AlignStartDialog extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Column(
-              children: [
-                SizedBox(
-                  width: double.infinity,
-                  child: Text(
-                    contentTitleText,
-                    style: FontSizes.getContentStyle().copyWith(
-                        color: theme.appColors.iconButton,
-                        fontWeight: FontWeight.w600,
-                        fontFamily: "Pretendard"),
-                    textAlign: TextAlign.start,
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                if (contentDetailText != null)
-                  SizedBox(
-                    width: double.infinity,
-                    child: Text(
-                      contentDetailText!,
-                      style: FontSizes.getCapsuleStyle()
-                          .copyWith(color: theme.appColors.iconButton),
-                      textAlign: TextAlign.start,
-                    ),
-                  )
-              ],
-            )
+            dialogContent(
+                textAlign: TextAlign.start,
+                contentTitleText: contentTitleText,
+                contentDetailText: contentDetailText,
+                theme: theme),
           ],
         ),
       ),
@@ -78,12 +56,13 @@ class AlignStartDialog extends StatelessWidget {
                 width: double.infinity,
                 child: dialogButton(
                     theme, lightTheme.primaryColor, buttonText, handleSubmit))
-            : dialogButtonHorizontal(context,
-                isButtonWidthHalf: true,
-                buttonText: buttonText,
-                cancelButtonText: cancelButtonText,
-                onSubmit: handleSubmit,
-                onCancelSubmit: handleCancelSubmit)
+            : DialogAction(
+                    context: context,
+                    buttonText: buttonText,
+                    cancelButtonText: cancelButtonText,
+                    handleSubmit: handleSubmit,
+                    handleCancelSubmit: handleCancelSubmit)
+                .getVerticalPosition()
       ],
     );
   }
