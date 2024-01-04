@@ -4,7 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:me_mind/common/component/dialog/show_dialog.dart';
+import 'package:me_mind/common/component/dialog/d_alert_dialog.dart';
+import 'package:me_mind/common/component/dialog/w_dialog_button.dart';
 import 'package:me_mind/common/component/rounded_button.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
@@ -220,13 +221,19 @@ class _SettingOpinionState extends State<SettingOpinion> {
                     height: 10,
                   ),
                   RoundedButton(
-                    onPressed: () => ShowDialog(
-                      context: context,
-                      buttonText: "닫기",
-                      contentTitleText: "의견을 성공적으로 보냈어요!",
-                      contentDetailText: "답변은 추후 등록된 이메일로 전송됩니다.",
-                      handleSubmit: () {},
-                    ).showNormalDialog(),
+                    onPressed: () => AlertDialogs.alertDialog(
+                        context: context,
+                        title: "의견을 성공적으로 보냈어요!",
+                        body: "답변은 추후 등록한 이메일로 전송됩니다.",
+                        actions: [
+                          alertDialogButton(
+                              theme: theme,
+                              bgColor: lightTheme.primaryColor,
+                              content: "닫기",
+                              onSubmit: () {
+                                Navigator.pop(context);
+                              })
+                        ]),
                     text: "의견 보내기",
                   )
                 ]),

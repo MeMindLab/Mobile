@@ -1,6 +1,8 @@
 // ignore_for_file: sort_child_properties_last
 import 'package:flutter/material.dart';
-import 'package:me_mind/common/component/dialog/show_dialog.dart';
+import 'package:me_mind/common/component/dialog/d_alert_dialog.dart';
+import 'package:me_mind/common/component/dialog/d_multichoice_dialog.dart';
+import 'package:me_mind/common/component/dialog/w_dialog_button.dart';
 import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
@@ -235,23 +237,34 @@ class _SettingState extends State<Settings> {
                 subscribe: false,
                 height: 66,
                 content: ListTile(
-                  title: Text(
-                    "로그아웃",
-                    style: FontSizes.getHeadline2Style()
-                        .copyWith(color: theme.appColors.iconButton),
-                  ),
-                  onTap: () => ShowDialog(
-                          context: context,
-                          buttonText: "아니오",
-                          cancelButtonText: "네",
-                          contentTitleText: "정말 로그아웃 하시겠어요?",
-                          contentDetailText: "내년 1월 중 오픈 예정입니다.",
-                          handleSubmit: () {
-                            Navigator.pop(context);
-                          },
-                          handleCancelSubmit: () {})
-                      .showDiffButtonRowDialog(),
-                ),
+                    title: Text(
+                      "로그아웃",
+                      style: FontSizes.getHeadline2Style()
+                          .copyWith(color: theme.appColors.iconButton),
+                    ),
+                    onTap: () => MultiChoiceDialogs.multiChoiceDialog(
+                        context: context,
+                        title: "정말 로그아웃 하시겠어요?",
+                        body: "내년 1월 중 오픈 예정입니다.",
+                        isRow: true,
+                        actions: [
+                          multiChoiceNarrowButton(
+                              context: context,
+                              theme: theme,
+                              bgColor: theme.appColors.grayButtonBackground,
+                              content: "네",
+                              onSubmit: () {
+                                Navigator.pop(context);
+                              }),
+                          multiChoiceButton(
+                              theme: theme,
+                              bgColor: lightTheme.primaryColor,
+                              content: "아니오",
+                              onSubmit: () {
+                                Navigator.pop(context);
+                              }),
+                        ],
+                        textAlign: TextAlign.center)),
               )
             ],
           ),
