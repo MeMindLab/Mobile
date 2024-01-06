@@ -97,6 +97,7 @@ flutter:
     - assets/image/onboarding/
     - assets/json/
     - assets/image/logo/
+    - assets/image/chat/
 
   # To add assets to your application, add an assets section, like this:
   # assets:
