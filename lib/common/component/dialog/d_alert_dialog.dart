@@ -4,18 +4,30 @@ import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 
 class AlertDialogs {
-  static Future alertDialog({
-    required BuildContext context,
-    required String title,
-    String? body,
-    required List<Widget> actions,
-    TextAlign textAlign = TextAlign.center,
-  }) async {
+  final BuildContext context;
+  final String title;
+  final String? body;
+  final List<Widget> actions;
+  final TextAlign textAlign;
+
+  AlertDialogs(
+      {required this.context,
+      required this.title,
+      this.body,
+      required this.actions,
+      this.textAlign = TextAlign.center});
+
+  show() async {
     await showDialog(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
         CustomTheme theme = CustomThemeHolder.of(context).theme;
+
+        Widget newButton = Flexible(
+          fit: FlexFit.tight,
+          child: actions[0],
+        );
 
         return AlertDialog(
           backgroundColor: theme.appColors.seedColor,
@@ -25,15 +37,17 @@ class AlertDialogs {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(13),
           ),
-          content: dialogContent(
+          content: DialogContent(
               title: title, body: body, theme: theme, textAlign: textAlign),
           actions: [
             Container(
                 margin: const EdgeInsets.only(bottom: 5),
                 width: double.infinity,
-                child: Column(
-                  children: actions,
-                ))
+                child: Row(
+                  children: [
+                    newButton,
+                  ],
+                )),
           ],
         );
       },

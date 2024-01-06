@@ -221,19 +221,20 @@ class _SettingOpinionState extends State<SettingOpinion> {
                     height: 10,
                   ),
                   RoundedButton(
-                    onPressed: () => AlertDialogs.alertDialog(
+                    onPressed: () => AlertDialogs(
                         context: context,
                         title: "의견을 성공적으로 보냈어요!",
                         body: "답변은 추후 등록한 이메일로 전송됩니다.",
                         actions: [
-                          alertDialogButton(
-                              theme: theme,
-                              bgColor: lightTheme.primaryColor,
-                              content: "닫기",
-                              onSubmit: () {
-                                Navigator.pop(context);
-                              })
-                        ]),
+                          AlertDialogButton(
+                            theme: theme,
+                            bgColor: lightTheme.primaryColor,
+                            content: "닫기",
+                            onSubmit: () {
+                              Navigator.pop(context);
+                            },
+                          ),
+                        ]).show(),
                     text: "의견 보내기",
                   )
                 ]),

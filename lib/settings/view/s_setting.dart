@@ -14,7 +14,7 @@ import 'package:me_mind/report/view/s_report_detail.dart';
 import 'package:me_mind/settings/component/certified_box.dart';
 import 'package:me_mind/settings/component/settings_menu.dart';
 import 'package:me_mind/settings/view/s_setting_opinion.dart';
-import 'package:me_mind/settings/view/s_setting_tema.dart';
+import 'package:me_mind/settings/view/s_setting_thema.dart';
 import 'package:me_mind/settings/view/s_setting_userinfo.dart';
 
 class Settings extends StatefulWidget {
@@ -183,7 +183,7 @@ class _SettingState extends State<Settings> {
                           pageBuilder: ((BuildContext context,
                                   Animation<double> animation1,
                                   Animation<double> animation2) =>
-                              const SettingTema()),
+                              const SettingThema()),
                           transitionDuration: Duration.zero,
                           reverseTransitionDuration: Duration.zero,
                         ));
@@ -242,29 +242,30 @@ class _SettingState extends State<Settings> {
                       style: FontSizes.getHeadline2Style()
                           .copyWith(color: theme.appColors.iconButton),
                     ),
-                    onTap: () => MultiChoiceDialogs.multiChoiceDialog(
-                        context: context,
-                        title: "정말 로그아웃 하시겠어요?",
-                        body: "내년 1월 중 오픈 예정입니다.",
-                        isRow: true,
-                        actions: [
-                          multiChoiceNarrowButton(
-                              context: context,
-                              theme: theme,
-                              bgColor: theme.appColors.grayButtonBackground,
-                              content: "네",
-                              onSubmit: () {
-                                Navigator.pop(context);
-                              }),
-                          multiChoiceButton(
-                              theme: theme,
-                              bgColor: lightTheme.primaryColor,
-                              content: "아니오",
-                              onSubmit: () {
-                                Navigator.pop(context);
-                              }),
-                        ],
-                        textAlign: TextAlign.center)),
+                    onTap: () => MultiChoiceDialog(
+                            context: context,
+                            title: "정말 로그아웃 하시겠어요?",
+                            body: "내년 1월 중 오픈 예정입니다.",
+                            isRow: true,
+                            isNarrow: false,
+                            actions: [
+                              AlertDialogButton(
+                                  theme: theme,
+                                  bgColor: theme.appColors.grayButtonBackground,
+                                  content: "닫기",
+                                  onSubmit: () {
+                                    Navigator.pop(context);
+                                  }),
+                              AlertDialogButton(
+                                  theme: theme,
+                                  bgColor: lightTheme.primaryColor,
+                                  content: "아니오",
+                                  onSubmit: () {
+                                    Navigator.pop(context);
+                                  }),
+                            ],
+                            textAlign: TextAlign.center)
+                        .show()),
               )
             ],
           ),
