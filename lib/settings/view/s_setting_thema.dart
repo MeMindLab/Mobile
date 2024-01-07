@@ -7,14 +7,14 @@ import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 import 'package:me_mind/settings/view/s_setting.dart';
 
-class SettingTema extends StatefulWidget {
-  const SettingTema({super.key});
+class SettingThema extends StatefulWidget {
+  const SettingThema({super.key});
 
   @override
-  State<SettingTema> createState() => _SettingTemaState();
+  State<SettingThema> createState() => _SettingThemaState();
 }
 
-class _SettingTemaState extends State<SettingTema> {
+class _SettingThemaState extends State<SettingThema> {
   bool isDarkmode = false;
 
   @override

@@ -1,8 +1,9 @@
 // ignore_for_file: sort_child_properties_last
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:me_mind/common/component/custom_dialog.dart';
+import 'package:me_mind/common/component/dialog/d_alert_dialog.dart';
+import 'package:me_mind/common/component/dialog/d_multichoice_dialog.dart';
+import 'package:me_mind/common/component/dialog/w_dialog_button.dart';
 import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
@@ -15,7 +16,7 @@ import 'package:me_mind/report/view/s_report_detail.dart';
 import 'package:me_mind/settings/component/certified_box.dart';
 import 'package:me_mind/settings/component/settings_menu.dart';
 import 'package:me_mind/settings/view/s_setting_opinion.dart';
-import 'package:me_mind/settings/view/s_setting_tema.dart';
+import 'package:me_mind/settings/view/s_setting_thema.dart';
 import 'package:me_mind/settings/view/s_setting_userinfo.dart';
 
 class Settings extends StatefulWidget {
@@ -185,7 +186,7 @@ class _SettingState extends State<Settings> {
                           pageBuilder: ((BuildContext context,
                                   Animation<double> animation1,
                                   Animation<double> animation2) =>
-                              const SettingTema()),
+                              const SettingThema()),
                           transitionDuration: Duration.zero,
                           reverseTransitionDuration: Duration.zero,
                         ));
@@ -239,35 +240,35 @@ class _SettingState extends State<Settings> {
                 subscribe: false,
                 height: 66,
                 content: ListTile(
-                  title: Text(
-                    "로그아웃",
-                    style: FontSizes.getHeadline2Style()
-                        .copyWith(color: theme.appColors.iconButton),
-                  ),
-                  onTap: () => getCustomDialog(context,
-                      buttonText: "취소",
-                      buttonSubText: "확인",
-                      contentTitleText: "로그아웃 하시겠습니까?",
-                      OnSubmit: () {
-                        Navigator.pop(context);
-                      },
-                      isTwinButton: true,
-                      onSecondSubmit: () async {
-                        Response response;
-                        try {
-                          response = await dio
-                              .post('http://54.206.203.208/users/logout');
-                          if (response.statusCode == 200) {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => OnBoardingScreen()));
-                          }
-                        } catch (e) {
-                          print("${e.toString()}, 로그아웃 에러");
-                        }
-                      }),
-                ),
+                    title: Text(
+                      "로그아웃",
+                      style: FontSizes.getHeadline2Style()
+                          .copyWith(color: theme.appColors.iconButton),
+                    ),
+                    onTap: () => MultiChoiceDialog(
+                            context: context,
+                            title: "정말 로그아웃 하시겠어요?",
+                            body: "내년 1월 중 오픈 예정입니다.",
+                            isRow: true,
+                            isNarrow: false,
+                            actions: [
+                              AlertDialogButton(
+                                  theme: theme,
+                                  bgColor: theme.appColors.grayButtonBackground,
+                                  content: "닫기",
+                                  onSubmit: () {
+                                    Navigator.pop(context);
+                                  }),
+                              AlertDialogButton(
+                                  theme: theme,
+                                  bgColor: lightTheme.primaryColor,
+                                  content: "아니오",
+                                  onSubmit: () {
+                                    Navigator.pop(context);
+                                  }),
+                            ],
+                            textAlign: TextAlign.center)
+                        .show()),
               )
             ],
           ),
