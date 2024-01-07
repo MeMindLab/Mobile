@@ -6,11 +6,18 @@ class MyClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     var path = Path();
-    path.lineTo(0, size.height - 30); // 시작점 설정
-    path.quadraticBezierTo(size.width / 2, size.height, size.width,
-        size.height - 30); // 반달을 만드는 Bezier 곡선
-    path.lineTo(size.width, 0); // 오른쪽 상단으로 선 긋기
-    path.close(); // 경로를 닫아줍니다.
+
+    path.lineTo(0, size.height - 28);
+
+    path.quadraticBezierTo(
+      size.width / 2,
+      size.height,
+      size.width,
+      size.height - 28,
+    );
+
+    path.lineTo(size.width, 0);
+    path.close();
     return path;
   }
 
@@ -31,38 +38,38 @@ class EmotionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 83,
-      height: 90,
+      height: 99, // 이 부분으로 text간격 조절
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.0),
         color: const Color(0xFFFFF8BE),
       ),
       child: Stack(
+        alignment: Alignment.topCenter,
         children: [
           ClipPath(
             clipper: MyClipper(),
             child: Container(
-              width: 83,
-              height: 68,
+              height: 65,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.0),
                 color: Theme.of(context).primaryColor,
               ),
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(21, 0, 21, 13),
-                child: Image.asset(
-                  emotionType.iconAssetPath,
-                  width: 41,
-                  height: 41,
-                  fit: BoxFit.contain,
-                ),
-              ),
             ),
           ),
           Positioned(
-            bottom: 0,
-            left: 21,
+            top: 4,
+            child: Image.asset(
+              emotionType.iconAssetPath,
+              width: 41,
+              height: 41,
+              fit: BoxFit.contain,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 4),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
                   emotionType.displayName,

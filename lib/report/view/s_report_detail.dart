@@ -35,7 +35,6 @@ class _ReportDetailState extends State<ReportDetail> {
     return DefaultLayout(
       title: "10월 31일",
       appBarLeading: const BackArrowLeading(),
-      bottomNavigationBar: const RootTab(),
       backgroundColor: theme.appColors.reportBgColor,
       child: Column(
         children: [
