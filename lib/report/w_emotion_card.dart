@@ -38,7 +38,7 @@ class EmotionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 83,
-      height: 99, // 이 부분으로 text간격 조절
+      height: 120,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.0),
         color: const Color(0xFFFFF8BE),
@@ -49,7 +49,7 @@ class EmotionCard extends StatelessWidget {
           ClipPath(
             clipper: MyClipper(),
             child: Container(
-              height: 65,
+              height: 64,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.0),
                 color: Theme.of(context).primaryColor,
@@ -66,7 +66,7 @@ class EmotionCard extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(bottom: 4),
+            padding: const EdgeInsets.only(top: 4),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.end,

@@ -311,9 +311,9 @@ class _ReportDetailState extends State<ReportDetail> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 20, 0, 20),
+                    padding: const EdgeInsets.all(20),
                     child: Align(
-                      alignment: Alignment.centerLeft,
+                      alignment: Alignment.topLeft,
                       child: Text(
                         '일기에 첨부한 사진',
                         style: FontSizes.getHighLightContentStyle(),
@@ -321,29 +321,28 @@ class _ReportDetailState extends State<ReportDetail> {
                     ),
                   ),
                   Container(
-                    padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Column(
                       children: [
                         GridView.count(
-                            mainAxisSpacing: 10,
-                            crossAxisSpacing: 10,
-                            physics: const NeverScrollableScrollPhysics(),
-                            crossAxisCount: 2,
-                            shrinkWrap: true,
-                            children: List.generate(4, (index) {
-                              return Container(
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                      width: 0.4, color: Colors.white),
-                                  borderRadius: BorderRadius.circular(8),
-                                  image: const DecorationImage(
-                                    image: NetworkImage(
-                                        "https://buffer.com/library/content/images/2023/10/free-images-for-commercial-use--20-.png"),
-                                    fit: BoxFit.cover,
-                                  ),
+                          mainAxisSpacing: 10,
+                          crossAxisSpacing: 10,
+                          physics: const NeverScrollableScrollPhysics(),
+                          crossAxisCount: 2,
+                          shrinkWrap: true,
+                          children: List.generate(4, (index) {
+                            return Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(13),
+                                image: const DecorationImage(
+                                  image: NetworkImage(
+                                      "https://buffer.com/library/content/images/2023/10/free-images-for-commercial-use--20-.png"),
+                                  fit: BoxFit.cover,
                                 ),
-                              );
-                            }).toList()),
+                              ),
+                            );
+                          }).toList(),
+                        ),
                       ],
                     ),
                   ),
