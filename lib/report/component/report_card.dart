@@ -24,59 +24,56 @@ class ReportCard extends StatelessWidget {
     CustomTheme theme = CustomThemeHolder.of(context).theme;
 
     return IntrinsicHeight(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 20),
-        child: Row(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: Colors.grey,
+      child: Row(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: Colors.grey,
+            ),
+            width: 124,
+            height: 124,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8.0),
+              child: Image.asset(
+                'assets/image/onboarding/page1.png',
+                fit: BoxFit.cover,
               ),
-              width: 124,
-              height: 124,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(8.0),
-                child: Image.asset(
-                  'assets/image/onboarding/page1.png',
-                  fit: BoxFit.cover,
+            ),
+          ),
+          const SizedBox(
+            width: 13,
+          ),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: keywords
+                      .map((keyword) => Padding(
+                            padding: const EdgeInsets.only(right: 5),
+                            child: Capsule(keyword: keyword),
+                          ))
+                      .toList(),
                 ),
-              ),
-            ),
-            const SizedBox(
-              width: 13,
-            ),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: keywords
-                        .map((keyword) => Padding(
-                              padding: const EdgeInsets.only(right: 5),
-                              child: Capsule(keyword: keyword),
-                            ))
-                        .toList(),
+                Text(
+                  summary,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 3,
+                  style: const TextStyle(fontSize: 14),
+                ),
+                Text(
+                  date,
+                  textAlign: TextAlign.right,
+                  style: FontSizes.getCapsuleStyle().copyWith(
+                    color: theme.appColors.datetimeColor,
                   ),
-                  Text(
-                    summary,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 3,
-                    style: const TextStyle(fontSize: 14),
-                  ),
-                  Text(
-                    date,
-                    textAlign: TextAlign.right,
-                    style: FontSizes.getCapsuleStyle().copyWith(
-                      color: theme.appColors.datetimeColor,
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

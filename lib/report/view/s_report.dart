@@ -111,11 +111,14 @@ SliverList renderReports() {
   return SliverList(
     delegate: SliverChildBuilderDelegate(
       (context, builder) {
-        return const ReportCard(
-          keywords: ["키워드1", "키워드2"],
-          summary:
-              "이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summa이곳에는 ai summary 내용이 들어가게 됩...",
-          date: '2023.10.31',
+        return const Padding(
+          padding: EdgeInsets.only(bottom: 20),
+          child: ReportCard(
+            keywords: ["키워드1", "키워드2"],
+            summary:
+                "이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summa이곳에는 ai summary 내용이 들어가게 됩...",
+            date: '2023.10.31',
+          ),
         );
       },
       childCount: 4,
