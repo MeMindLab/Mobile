@@ -33,83 +33,146 @@ class _Report extends State<Report> {
       title: "리포트",
       appBarLeading: const BackArrowLeading(),
       bottomNavigationBar: const RootTab(),
-      child: Column(
-        children: [
-          SizedBox(
-            width: double.infinity,
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '최근 감정 흐름',
-                    style: FontSizes.getHeadline1Style().copyWith(
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xFF191919),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 36,
-                  ),
-                  const AspectRatio(
-                    aspectRatio: 1.70,
-                    child: ReportChart(),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 14),
-            child: Divider(
-              thickness: 8,
-              color: theme.appColors.divider,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: CustomScrollView(
+        slivers: [
+          SliverToBoxAdapter(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    const Text(
-                      "2023.10",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w400,
+                Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '최근 감정 흐름',
+                        style: FontSizes.getHeadline1Style().copyWith(
+                          fontWeight: FontWeight.w500,
+                          color: const Color(0xFF191919),
+                        ),
                       ),
-                    ),
-                    IconButton(
-                      icon: const Icon(
-                        Icons.arrow_forward_ios_outlined,
-                        size: 18.0,
-                        color: Colors.black,
+                      const SizedBox(height: 36),
+                      const AspectRatio(
+                        aspectRatio: 1.70,
+                        child: ReportChart(),
                       ),
-                      onPressed: () {},
-                    )
-                  ],
+                    ],
+                  ),
                 ),
-                SvgPicture.asset('assets/svg/icon/search.svg'),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 14),
+                  child: Divider(
+                    thickness: 8,
+                    color: theme.appColors.divider,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          const Text(
+                            "2023.10",
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          IconButton(
+                            icon: const Icon(
+                              Icons.arrow_forward_ios_outlined,
+                              size: 18.0,
+                              color: Colors.black,
+                            ),
+                            onPressed: () {},
+                          )
+                        ],
+                      ),
+                      SvgPicture.asset('assets/svg/icon/search.svg'),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
-          Expanded(
-            child: CustomScrollView(
-              slivers: [
-                SliverPadding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  sliver: renderReports(),
-                ),
-              ],
-            ),
+          SliverPadding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            sliver: renderReports(),
           ),
         ],
       ),
     );
   }
 }
+
+//child: CustomScrollView(
+//        slivers: [
+//          SliverToBoxAdapter(
+//            child: Padding(
+//              padding: const EdgeInsets.symmetric(horizontal: 0),
+//              child: Column(
+//                crossAxisAlignment: CrossAxisAlignment.start,
+//                children: [
+//                  Text(
+//                    '최근 감정 흐름',
+//                    style: FontSizes.getHeadline1Style().copyWith(
+//                      fontWeight: FontWeight.w500,
+//                      color: const Color(0xFF191919),
+//                    ),
+//                  ),
+//                  const SizedBox(height: 36),
+//                  const AspectRatio(
+//                    aspectRatio: 1.70,
+//                    child: ReportChart(),
+//                  ),
+//                  Padding(
+//                    padding: const EdgeInsets.only(bottom: 14),
+//                    child: Divider(
+//                      thickness: 8,
+//                      color:
+//                          CustomThemeHolder.of(context).theme.appColors.divider,
+//                    ),
+//                  ),
+//                  Padding(
+//                    padding: const EdgeInsets.symmetric(horizontal: 20),
+//                    child: Row(
+//                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                      children: [
+//                        Row(
+//                          children: [
+//                            const Text(
+//                              "2023.10",
+//                              style: TextStyle(
+//                                fontSize: 20,
+//                                fontWeight: FontWeight.w400,
+//                              ),
+//                            ),
+//                            IconButton(
+//                              icon: const Icon(
+//                                Icons.arrow_forward_ios_outlined,
+//                                size: 18.0,
+//                                color: Colors.black,
+//                              ),
+//                              onPressed: () {},
+//                            )
+//                          ],
+//                        ),
+//                        SvgPicture.asset('assets/svg/icon/search.svg'),
+//                      ],
+//                    ),
+//                  ),
+//                ],
+//              ),
+//            ),
+//          ),
+//          SliverPadding(
+//            padding: const EdgeInsets.symmetric(horizontal: 20),
+//            sliver: renderReports(),
+//          ),
+//        ],
+//      ),
 
 SliverList renderReports() {
   return SliverList(
