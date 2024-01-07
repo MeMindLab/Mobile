@@ -3,63 +3,67 @@ import 'package:flutter/material.dart';
 
 Widget bottomTitleWidgets(double value, TitleMeta meta) {
   const style = TextStyle(
-    fontWeight: FontWeight.bold,
-    fontSize: 16,
+    fontSize: 14,
   );
-  Widget text;
-  switch (value.toInt()) {
-    case 2:
-      text = const Text('MAR', style: style);
-      break;
-    case 5:
-      text = const Text('JUN', style: style);
-      break;
-    case 8:
-      text = const Text('SEP', style: style);
-      break;
-    default:
-      text = const Text('', style: style);
-      break;
-  }
 
-  return SideTitleWidget(
-    axisSide: meta.axisSide,
-    child: text,
-  );
+  switch (value.toInt()) {
+    case 0:
+      return const Text('11/30', style: style);
+    case 2:
+      return const Text('11/31', style: style);
+    case 4:
+      return const Text('12/1', style: style);
+    case 6:
+      return const Text('12/2', style: style);
+    case 8:
+      return const Text('12/3', style: style);
+    case 10:
+      return const Text('12/4', style: style);
+    case 12:
+      return const Text('12/5', style: style);
+    default:
+      return const SizedBox.shrink();
+  }
 }
 
 Widget leftTitleWidgets(double value, TitleMeta meta) {
   const style = TextStyle(
-    fontWeight: FontWeight.bold,
-    fontSize: 15,
+    color: Color(0xFF191919),
+    fontSize: 14,
   );
+
   String text;
   switch (value.toInt()) {
-    case 1:
-      text = '10K';
-      break;
     case 3:
-      text = '30k';
+      text = '50';
       break;
-    case 5:
-      text = '50k';
+    case 6:
+      text = '100';
       break;
     default:
       return Container();
   }
 
-  return Text(text, style: style, textAlign: TextAlign.left);
+  return Text(text, style: style, textAlign: TextAlign.center);
 }
 
-List<Color> gradientColors = [
+List<Color> gradientBarColors = [
   Colors.blue,
   Colors.lightBlue,
 ];
 
-class ReportChart extends StatelessWidget {
-  const ReportChart({super.key});
+List<Color> customGradientColors = [
+  const Color(0xFF94BFFF),
+  const Color(0xFF0085FF),
+  const Color(0xFFCDDEFF),
+];
 
-  LineChartData mainData() {
+class ReportChart extends StatelessWidget {
+  const ReportChart({
+    super.key,
+  });
+
+  LineChartData mainData({required Color borderColor}) {
     return LineChartData(
       gridData: FlGridData(
         show: true,
@@ -67,16 +71,13 @@ class ReportChart extends StatelessWidget {
         horizontalInterval: 1,
         verticalInterval: 1,
         getDrawingHorizontalLine: (value) {
-          return const FlLine(
-            color: Colors.black,
+          return FlLine(
+            color: borderColor,
             strokeWidth: 1,
           );
         },
         getDrawingVerticalLine: (value) {
-          return const FlLine(
-            color: Colors.red,
-            strokeWidth: 1,
-          );
+          return FlLine(strokeWidth: 1, color: borderColor);
         },
       ),
       titlesData: const FlTitlesData(
@@ -106,28 +107,30 @@ class ReportChart extends StatelessWidget {
       ),
       borderData: FlBorderData(
         show: true,
-        border: Border.all(color: const Color(0xff37434d)),
+        border: Border.all(color: borderColor),
       ),
       minX: 0,
-      maxX: 11,
+      maxX: 12,
       minY: 0,
       maxY: 6,
       lineBarsData: [
         LineChartBarData(
           spots: const [
             FlSpot(0, 3),
+            FlSpot(1, 2.5),
             FlSpot(2.6, 2),
             FlSpot(4.9, 5),
             FlSpot(6.8, 3.1),
             FlSpot(8, 4),
             FlSpot(9.5, 3),
             FlSpot(11, 4),
+            FlSpot(12, 4),
           ],
           isCurved: true,
           gradient: LinearGradient(
-            colors: gradientColors,
+            colors: gradientBarColors,
           ),
-          barWidth: 5,
+          barWidth: 6,
           isStrokeCapRound: true,
           dotData: const FlDotData(
             show: false,
@@ -135,8 +138,8 @@ class ReportChart extends StatelessWidget {
           belowBarData: BarAreaData(
             show: true,
             gradient: LinearGradient(
-              colors: gradientColors
-                  .map((color) => color.withOpacity(0.3))
+              colors: customGradientColors
+                  .map((color) => color.withOpacity(0.48))
                   .toList(),
             ),
           ),
@@ -147,8 +150,9 @@ class ReportChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const Color borderColor = Color(0xFFC4C8D6);
     return LineChart(
-      mainData(),
+      mainData(borderColor: borderColor),
     );
   }
 }

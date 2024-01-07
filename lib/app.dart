@@ -1,10 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:me_mind/chat/view/s_chat.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
-import 'package:me_mind/settings/view/s_setting.dart';
-import 'package:me_mind/user/view/s_signin.dart';
-import 'package:me_mind/user/view/s_signup_welcome.dart';
+import 'package:me_mind/report/view/s_report.dart';
+import 'package:me_mind/report/view/s_report_detail.dart';
+
 import 'common/theme/custom_theme_app.dart';
 import 'common/theme/custom_theme_holder.dart';
 
@@ -48,7 +47,7 @@ class AppState extends State<App> with WidgetsBindingObserver {
           locale: context.locale,
           title: 'Me mind',
           theme: CustomThemeHolder.of(context).theme.themeData,
-          home: const Settings(),
+          home: const Report(),
         );
       }),
     );

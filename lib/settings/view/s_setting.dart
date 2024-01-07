@@ -10,7 +10,7 @@ import 'package:me_mind/common/store.dart';
 import 'package:me_mind/common/component/root_tab.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
-import 'package:me_mind/report/view/s_report_detail.dart';
+import 'package:me_mind/report/view/s_report.dart';
 import 'package:me_mind/settings/component/certified_box.dart';
 import 'package:me_mind/settings/component/settings_menu.dart';
 import 'package:me_mind/settings/view/s_setting_opinion.dart';
@@ -61,7 +61,7 @@ class _SettingState extends State<Settings> {
                 pageBuilder: ((BuildContext context,
                         Animation<double> animation1,
                         Animation<double> animation2) =>
-                    const ReportDetailScreen()),
+                    const Report()),
                 transitionDuration: Duration.zero,
                 reverseTransitionDuration: Duration.zero,
               ));

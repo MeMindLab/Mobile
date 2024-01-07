@@ -8,4 +8,7 @@ class LightAppColors extends AbstractThemeColors {
 
   @override
   Color get focusedBorder => AppColors.gray6;
+
+  @override
+  Color get divider => const Color(0xFFF1F3F9);
 }

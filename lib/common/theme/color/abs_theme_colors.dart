@@ -38,4 +38,11 @@ abstract class AbstractThemeColors {
 
   Color get checkColor => AppColors.midnightBlue;
 
+  Color get chatBubble => AppColors.blue5;
+
+  Color get datetimeColor => AppColors.gray5;
+
+  Color get reportBgColor => AppColors.blue4;
+
+  Color get iconBook => AppColors.gray7;
 }
