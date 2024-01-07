@@ -37,17 +37,19 @@ enum CustomTheme {
 }
 
 ThemeData lightTheme = ThemeData(
-  useMaterial3: true,
-  visualDensity: VisualDensity.adaptivePlatformDensity,
-  brightness: Brightness.light,
-  colorScheme:
-      ColorScheme.fromSeed(seedColor: CustomTheme.light.appColors.seedColor),
-  scaffoldBackgroundColor: Colors.white,
-  primaryColor: AppColors.yellow,
-  cardColor: AppColors.blue3,
-  primaryColorDark: AppColors.blue7,
-  focusColor: AppColors.gray9,
-);
+    useMaterial3: true,
+    visualDensity: VisualDensity.adaptivePlatformDensity,
+    brightness: Brightness.light,
+    colorScheme:
+        ColorScheme.fromSeed(seedColor: CustomTheme.light.appColors.seedColor),
+    scaffoldBackgroundColor: Colors.white,
+    primaryColor: AppColors.yellow,
+    cardColor: AppColors.blue3,
+    primaryColorDark: AppColors.blue7,
+    focusColor: AppColors.gray9,
+    appBarTheme: const AppBarTheme(
+      color: Colors.white,
+    ));
 
 ThemeData darkTheme = ThemeData(
   useMaterial3: true,

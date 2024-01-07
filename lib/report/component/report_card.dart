@@ -3,7 +3,7 @@ import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 
-import 'package:me_mind/report/widget/capsule.dart';
+import 'package:me_mind/report/w_capsule.dart';
 
 class ReportCard extends StatelessWidget {
   final Image? image;
@@ -53,7 +53,10 @@ class ReportCard extends StatelessWidget {
                 children: [
                   Row(
                     children: keywords
-                        .map((keyword) => Capsule(keyword: keyword))
+                        .map((keyword) => Padding(
+                              padding: const EdgeInsets.only(right: 5),
+                              child: Capsule(keyword: keyword),
+                            ))
                         .toList(),
                   ),
                   Text(

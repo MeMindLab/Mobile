@@ -22,6 +22,10 @@ class FontSizes {
     );
   }
 
+  static TextStyle getSmallStyle() {
+    return getTextStyle(size: small);
+  }
+
   static TextStyle getHeadline1Style() {
     return getTextStyle(size: xLarge);
   }

@@ -83,11 +83,10 @@ flutter:
     - assets/svg/icon/circleUp.svg
     - assets/svg/chat/micBg1.svg
     - assets/svg/icon/logo.svg
-    - assets/svg/report/resPoint.svg
     - assets/svg/icon/check.svg
     - assets/svg/icon/search.svg
     - assets/svg/icon/lemon.svg
-    - assets/image/report/picture1.png
+    - assets/image/report/
     - assets/image/
     - assets/svg/icon/
     - assets/image/flag/
@@ -98,6 +97,7 @@ flutter:
     - assets/json/
     - assets/image/logo/
     - assets/image/chat/
+    - assets/image/emotion/
 
   # To add assets to your application, add an assets section, like this:
   # assets:

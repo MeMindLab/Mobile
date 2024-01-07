@@ -7,6 +7,7 @@ import 'package:me_mind/user/view/s_signin.dart';
 import 'package:me_mind/user/view/s_signup_welcome.dart';
 =======
 import 'package:me_mind/report/view/s_report.dart';
+import 'package:me_mind/report/view/s_report_detail.dart';
 
 >>>>>>> 8abd9f7 (chore: rename report screen folder and location)
 import 'common/theme/custom_theme_app.dart';
@@ -53,10 +54,14 @@ class AppState extends State<App> with WidgetsBindingObserver {
           title: 'Me mind',
           theme: CustomThemeHolder.of(context).theme.themeData,
 <<<<<<< HEAD
+<<<<<<< HEAD
           home: const Settings(),
 =======
           home: const Report(),
 >>>>>>> 8abd9f7 (chore: rename report screen folder and location)
+=======
+          home: const ReportDetail(),
+>>>>>>> a305a54 (feat: report emotion capsule card)
         );
       }),
     );
