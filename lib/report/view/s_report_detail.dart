@@ -6,6 +6,7 @@ import 'package:me_mind/common/layout/topbar/widget/back_arrow.dart';
 import 'package:me_mind/common/store.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
+import 'package:me_mind/report/component/report_circular_chart.dart';
 
 import 'package:me_mind/report/type/emotion.dart';
 import 'package:me_mind/report/w_capsule.dart';
@@ -43,6 +44,7 @@ class _ReportDetailState extends State<ReportDetail> {
               child: Column(
                 children: [
                   Container(
+                    padding: const EdgeInsets.fromLTRB(20, 26, 20, 26),
                     decoration: const BoxDecoration(
                       borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(19),
@@ -51,23 +53,47 @@ class _ReportDetailState extends State<ReportDetail> {
                       color: Colors.white,
                     ),
                     width: double.infinity,
-                    height: 362.11,
                     child: const Column(
                       children: [
-                        Row(
-                          children: [
-                            EmotionCard(
-                              emotionPercentage: 36.8,
-                              emotionType: EmotionType.excitement,
-                            ),
-                            SizedBox(
-                              width: 7,
-                            ),
-                            EmotionCard(
-                              emotionPercentage: 36.8,
-                              emotionType: EmotionType.happiness,
-                            ),
-                          ],
+                        SizedBox(
+                          width: 150,
+                          height: 150,
+                          child: CustomCircularChart(
+                            value: 80,
+                            text: "80점",
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 9.3),
+                          child: Row(
+                            children: [
+                              EmotionCard(
+                                emotionPercentage: 36.8,
+                                emotionType: EmotionType.excitement,
+                              ),
+                              SizedBox(
+                                width: 7,
+                              ),
+                              EmotionCard(
+                                emotionPercentage: 36.8,
+                                emotionType: EmotionType.happiness,
+                              ),
+                              SizedBox(
+                                width: 7,
+                              ),
+                              EmotionCard(
+                                emotionPercentage: 36.8,
+                                emotionType: EmotionType.happiness,
+                              ),
+                              SizedBox(
+                                width: 7,
+                              ),
+                              EmotionCard(
+                                emotionPercentage: 36.8,
+                                emotionType: EmotionType.excitement,
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
