@@ -37,7 +37,7 @@ class DatePicker extends StatelessWidget {
           SizedBox(
             height: 200,
             child: CupertinoDatePicker(
-              mode: CupertinoDatePickerMode.monthYear,
+              mode: CupertinoDatePickerMode.date,
               initialDateTime: selectedDate,
               minimumDate: DateTime(2018),
               maximumDate: DateTime(2025),
