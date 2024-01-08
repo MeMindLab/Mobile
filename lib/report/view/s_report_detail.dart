@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
@@ -41,7 +42,7 @@ class _ReportDetailState extends State<ReportDetail> {
         child: Column(
           children: [
             Container(
-              padding: const EdgeInsets.fromLTRB(20, 26, 20, 26),
+              padding: const EdgeInsets.fromLTRB(20, 26, 0, 26),
               decoration: const BoxDecoration(
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(19),

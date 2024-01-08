@@ -66,18 +66,19 @@ class EmotionCard extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 4),
+            padding: const EdgeInsets.only(bottom: 4),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
                   emotionType.displayName,
-                  style: FontSizes.getCapsuleHighlightStyle(),
+                  style: FontSizes.getCapsuleHighlightStyle().copyWith(
+                    height: 1,
+                  ),
                 ),
                 Text(
                   '${emotionPercentage.toStringAsFixed(1)}%',
-                  style: FontSizes.getSmallStyle(),
+                  style: FontSizes.getXSmallStyle().copyWith(),
                 ),
               ],
             ),
