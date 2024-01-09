@@ -7,8 +7,8 @@ import 'package:me_mind/common/store.dart';
 import 'package:me_mind/common/component/root_tab.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
-import 'package:me_mind/report/component/report_card.dart';
 import 'package:me_mind/report/component/report_chart.dart';
+import 'package:me_mind/report/utils/reports.dart';
 
 class Report extends StatefulWidget {
   const Report({super.key});
@@ -28,6 +28,33 @@ class _Report extends State<Report> {
   @override
   Widget build(BuildContext context) {
     CustomTheme theme = CustomThemeHolder.of(context).theme;
+
+    List<ReportData> reports = [
+      ReportData(
+        keywords: ["키워드1", "키워드2"],
+        summary:
+            "이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summa이곳에는 ai summary 내용이 들어가게 됩니다.",
+        date: '2023.10.31',
+      ),
+      ReportData(
+        keywords: ["키워드1", "키워드2"],
+        summary:
+            "이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summa이곳에는 ai summary 내용이 들어가게 됩니다.",
+        date: '2023.10.31',
+      ),
+      ReportData(
+        keywords: ["키워드1", "키워드2"],
+        summary:
+            "이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summa이곳에는 ai summary 내용이 들어가게 됩니다.",
+        date: '2023.10.31',
+      ),
+      ReportData(
+        keywords: ["키워드1", "키워드2"],
+        summary:
+            "이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summa이곳에는 ai summary 내용이 들어가게 됩니다.",
+        date: '2023.10.31',
+      ),
+    ];
 
     return DefaultLayout(
       title: "리포트",
@@ -99,29 +126,10 @@ class _Report extends State<Report> {
           ),
           SliverPadding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            sliver: renderReports(),
+            sliver: renderReports(reports),
           ),
         ],
       ),
     );
   }
-}
-
-SliverList renderReports() {
-  return SliverList(
-    delegate: SliverChildBuilderDelegate(
-      (context, builder) {
-        return const Padding(
-          padding: EdgeInsets.only(bottom: 20),
-          child: ReportCard(
-            keywords: ["키워드1", "키워드2"],
-            summary:
-                "이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summa이곳에는 ai summary 내용이 들어가게 됩...",
-            date: '2023.10.31',
-          ),
-        );
-      },
-      childCount: 4,
-    ),
-  );
 }
