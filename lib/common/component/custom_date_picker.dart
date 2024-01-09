@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class DatePicker extends StatelessWidget {
+class CustomDatePicker extends StatelessWidget {
   final DateTime? selectedDate;
 
-  const DatePicker({super.key, required this.selectedDate});
+  const CustomDatePicker({super.key, required this.selectedDate});
 
   @override
   Widget build(BuildContext context) {
