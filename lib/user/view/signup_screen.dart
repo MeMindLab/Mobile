@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:me_mind/common/component/custom_text_form.dart';
+import 'package:me_mind/common/component/dialog/d_bottom_sheet.dart';
+import 'package:me_mind/common/component/dialog/w_bottom_sheet_content.dart';
 import 'package:me_mind/common/component/rounded_button.dart';
-import 'package:me_mind/common/constant/constant.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/layout/topbar/widget/back_arrow.dart';
-import 'package:me_mind/common/layout/topbar/widget/lemon_number.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
-import 'package:me_mind/user/component/custom_check.dart';
 import 'package:me_mind/user/component/custom_checkbox.dart';
+import 'package:me_mind/user/model/terms_model.dart';
+import 'package:me_mind/user/services/signup_service.dart';
+import 'package:me_mind/user/view/s_signup_welcome.dart';
+import 'package:me_mind/utils/permission.dart';
+import 'package:me_mind/utils/validate.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -19,23 +23,20 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  late bool is_submitted;
-
   final formKey = GlobalKey<FormState>();
   String email = "";
   String name = "";
   String pwd = "";
 
-  bool allAgree = false;
-  bool boolone = false;
-  bool booltwo = false;
-  bool boolthree = false;
-  bool boolfour = false;
+  Terms terms = Terms();
+
+  bool pwdShow = true;
+  String? errorEmailText;
+  String? errorNameText;
 
   @override
   void initState() {
     super.initState();
-    is_submitted = false;
   }
 
   @override
@@ -57,7 +58,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Form(
                   key: formKey,
-                  autovalidateMode: AutovalidateMode.always,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -67,24 +67,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       CustomTextFormField(
                         labelText: "이메일",
                         hintText: "example@gamil.com",
+                        errorText: errorEmailText,
                         onChanged: (String value) {
                           email = value;
                         },
+                        validator: (value) =>
+                            CheckValidate().validateEmail(value),
                         borderColor: blueButtonColor,
-                        suffixIcon: Container(
-                          width: 40.0,
-                          height: 40.0,
-                          color: Colors.transparent,
-                          child: Center(
-                            child: SvgPicture.asset(
-                              '$baseImageSvgPath/icon/check.svg',
-                              colorFilter: ColorFilter.mode(
-                                theme.appColors.blueButtonBackground,
-                                BlendMode.srcIn,
-                              ),
-                            ),
-                          ),
-                        ),
                       ),
                       const SizedBox(
                         height: 15,
@@ -93,6 +82,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         labelText: "닉네임",
                         hintText: "닉네임을 입력해주세요",
                         maxLength: 10,
+                        validator: (value) =>
+                            CheckValidate().validateName(value),
                         onChanged: (String value) {
                           name = value;
                         },
@@ -103,11 +94,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       CustomTextFormField(
                         labelText: "비밀번호",
                         hintText: "비밀번호를 설정해주세요(최소8자)",
-                        maxLength: 8,
-                        obscureText: true,
+                        maxLength: 15,
+                        validator: (value) =>
+                            CheckValidate().validatePassword(value),
+                        obscureText: pwdShow,
                         onChanged: (String value) {
                           pwd = value;
                         },
+                        suffixIcon: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                pwdShow = !pwdShow;
+                              });
+                            },
+                            icon: SvgPicture.asset(
+                              "assets/svg/icon/pwd.svg",
+                              width: 24,
+                              height: 24,
+                              fit: BoxFit.fitWidth,
+                            )),
                       ),
                       const SizedBox(
                         height: 13,
@@ -116,6 +121,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         hintText: "비밀번호를 한 번 더 입력해주세요",
                         obscureText: true,
                         onChanged: (String value) {},
+                        validator: (value) =>
+                            CheckValidate().validateConfirmPassword(pwd, value),
                       ),
                       const Padding(
                         padding: EdgeInsets.only(top: 10),
@@ -131,25 +138,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       CustomCheckBox(
                           title: "전체 동의",
                           svg: "check_all.svg",
-                          isChecked: allAgree,
+                          isChecked: terms.all,
                           onChanged: (value) {
-                            if (value == true) {
-                              setState(() {
-                                allAgree = true;
-                                boolone = true;
-                                booltwo = true;
-                                boolthree = true;
-                                boolfour = true;
-                              });
-                            } else {
-                              setState(() {
-                                allAgree = false;
-                                boolone = false;
-                                booltwo = false;
-                                boolthree = false;
-                                boolfour = false;
-                              });
-                            }
+                            setState(() {
+                              terms = terms.alltoggle(terms, value);
+                            });
                           }),
                       const SizedBox(
                         height: 12,
@@ -157,32 +150,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       CustomCheckBox(
                           title: "[필수] 서비스 이용약관 동의",
                           svg: "check.svg",
-                          isChecked: boolone,
+                          isChecked: terms.one,
                           trailing: Text("보기",
                               style: TextStyle(
                                 decoration: TextDecoration.underline,
                               )),
                           onChanged: (value) {
-                            if (value == false) {
-                              if (allAgree == true) {
-                                setState(() {
-                                  allAgree = false;
-                                });
-                              }
-                            } else {
-                              if (allAgree == false) {
-                                if (booltwo == true &&
-                                    boolthree == true &&
-                                    boolfour == true) {
-                                  setState(() {
-                                    allAgree = true;
-                                  });
-                                }
-                              }
-                            }
-
                             setState(() {
-                              boolone = value;
+                              terms = terms.onetoggle(terms, value);
                             });
                           }),
                       const SizedBox(
@@ -191,32 +166,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       CustomCheckBox(
                           title: "[필수] 개인정보 수집 및 이용 동의",
                           svg: "check.svg",
-                          isChecked: booltwo,
+                          isChecked: terms.two,
                           trailing: Text("보기",
                               style: TextStyle(
                                 decoration: TextDecoration.underline,
                               )),
                           onChanged: (value) {
-                            if (value == false) {
-                              if (allAgree == true) {
-                                setState(() {
-                                  allAgree = false;
-                                });
-                              }
-                            } else {
-                              if (allAgree == false) {
-                                if (boolone == true &&
-                                    boolthree == true &&
-                                    boolfour == true) {
-                                  setState(() {
-                                    allAgree = true;
-                                  });
-                                }
-                              }
-                            }
-
                             setState(() {
-                              booltwo = value;
+                              terms = terms.twotoggle(terms, value);
                             });
                           }),
                       const SizedBox(
@@ -225,32 +182,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       CustomCheckBox(
                           title: "[선택] 앱 Push 수신 동의",
                           svg: "check.svg",
-                          isChecked: boolthree,
+                          isChecked: terms.three,
                           trailing: Text("보기",
                               style: TextStyle(
                                 decoration: TextDecoration.underline,
                               )),
                           onChanged: (value) {
-                            if (value == false) {
-                              if (allAgree == true) {
-                                setState(() {
-                                  allAgree = false;
-                                });
-                              }
-                            } else {
-                              if (allAgree == false) {
-                                if (boolone == true &&
-                                    booltwo == true &&
-                                    boolfour == true) {
-                                  setState(() {
-                                    allAgree = true;
-                                  });
-                                }
-                              }
-                            }
-
                             setState(() {
-                              boolthree = value;
+                              terms = terms.threetoggle(terms, value);
                             });
                           }),
                       const SizedBox(
@@ -259,32 +198,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       CustomCheckBox(
                           title: "[선택] 광고성 정보 수신 동의",
                           svg: "check.svg",
-                          isChecked: boolfour,
+                          isChecked: terms.four,
                           trailing: Text("보기",
                               style: TextStyle(
                                 decoration: TextDecoration.underline,
                               )),
                           onChanged: (value) {
-                            if (value == false) {
-                              if (allAgree == true) {
-                                setState(() {
-                                  allAgree = false;
-                                });
-                              }
-                            } else {
-                              if (allAgree == false) {
-                                if (boolone == true &&
-                                    booltwo == true &&
-                                    boolthree == true) {
-                                  setState(() {
-                                    allAgree = true;
-                                  });
-                                }
-                              }
-                            }
-
                             setState(() {
-                              boolfour = value;
+                              terms = terms.fourtoggle(terms, value);
                             });
                           }),
                       const SizedBox(
@@ -292,15 +213,36 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(bottom: 32),
-                        child: is_submitted
+                        child: terms.submitted
                             ? RoundedButton(
                                 text: "가입하기",
-                                onPressed: () {
-                                  print({
-                                    "email": email,
-                                    "password": pwd,
-                                    "username": name
-                                  });
+                                onPressed: () async {
+                                  if (formKey.currentState!.validate()) {
+                                    bool result = terms.four;
+                                    String msg =
+                                        result == false ? "수신거부" : "수신동의";
+                                    await BottomSheets(
+                                        context: context,
+                                        bodies: BottomSheetContent().termsAlert(
+                                            title: "광고성 정보 수신동의 처리 결과",
+                                            body:
+                                                "전송자 : memind\n일시 : 20xx년 x월 x일\n내용 : $msg 처리 완료",
+                                            action: RoundedButton(
+                                              text: "확인",
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                            ))).show();
+                                    DevicePermission().accessNotification();
+                                    var response = await SignupService()
+                                        .signup(email, name, pwd);
+                                    if (response[0] == 201) {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (_) => SignUpWelcome()));
+                                    } else {}
+                                  }
                                 },
                               )
                             : RoundedButton(
