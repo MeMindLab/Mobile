@@ -21,6 +21,8 @@ class ReportDetail extends StatefulWidget {
 }
 
 class _ReportDetailState extends State<ReportDetail> {
+  bool diaryFolded = false;
+
   @override
   void initState() {
     super.initState();
@@ -142,6 +144,7 @@ class _ReportDetailState extends State<ReportDetail> {
               decoration: const BoxDecoration(
                 color: Colors.white,
               ),
+              width: double.infinity,
               height: 289.42,
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
@@ -157,7 +160,7 @@ class _ReportDetailState extends State<ReportDetail> {
                       child: Stack(
                         children: [
                           Container(
-                            width: 353,
+                            width: MediaQuery.of(context).size.width * 0.9,
                             height: 199,
                             decoration: BoxDecoration(
                               image: const DecorationImage(
@@ -199,107 +202,119 @@ class _ReportDetailState extends State<ReportDetail> {
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            '오늘일기 전체보기',
+                            '일기 전체보기',
                             style: FontSizes.getHighLightContentStyle(),
                           ),
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(right: 20),
-                        child: Row(
-                          children: [
-                            SvgPicture.asset(
-                              'assets/svg/icon/book.svg',
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 4),
-                              child: Text(
-                                "접기",
-                                style: FontSizes.getCapsuleHighlightStyle()
-                                    .copyWith(
-                                  color: theme.appColors.iconBook,
+                        child: InkWell(
+                          onTap: () {
+                            setState(() {
+                              diaryFolded = !diaryFolded;
+                            });
+                          },
+                          child: Row(
+                            children: [
+                              diaryFolded == false
+                                  ? SvgPicture.asset(
+                                      'assets/svg/icon/book.svg',
+                                    )
+                                  : SvgPicture.asset(
+                                      'assets/svg/icon/foldedBook.svg'),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 4),
+                                child: Text(
+                                  diaryFolded == false ? "접기" : "펼치기",
+                                  style: FontSizes.getCapsuleHighlightStyle()
+                                      .copyWith(
+                                    color: theme.appColors.iconBook,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ],
                   ),
-                  Container(
-                    padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
-                    child: const Column(
-                      children: [
-                        Text(
-                          "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?",
-                        ),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                      ],
-                    ),
-                  ),
+                  diaryFolded == false
+                      ? Container(
+                          padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+                          child: const Column(
+                            children: [
+                              Text(
+                                "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?",
+                              ),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                            ],
+                          ),
+                        )
+                      : SizedBox(),
                 ],
               ),
             ),

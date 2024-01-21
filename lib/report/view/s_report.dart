@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:me_mind/common/component/custom_date_picker.dart';
+import 'package:me_mind/common/component/dialog/f_dialog.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/layout/topbar/widget/back_arrow.dart';
@@ -113,7 +115,13 @@ class _Report extends State<Report> {
                               size: 18.0,
                               color: Colors.black,
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              Dialogs.callDateDialog(
+                                  context: context,
+                                  content: CustomDatePicker(
+                                      selectedDate: DateTime.now()),
+                                  contentPadding: EdgeInsets.zero);
+                            },
                           )
                         ],
                       ),
