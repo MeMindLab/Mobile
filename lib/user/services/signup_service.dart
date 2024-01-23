@@ -14,6 +14,7 @@ class SignupService implements Isignup {
       response = await dio.post(url, data: data);
 
       print(response.statusCode);
+      // response.statusCode = 403;
       // success response
       if (response.statusCode == 201) {
         var body = response.data;
@@ -25,8 +26,11 @@ class SignupService implements Isignup {
         ];
       }
       // validation error
-      if (response.statusCode == 422) {
-        return [response.statusCode, "이메일 오류"];
+      if (response.statusCode == 403) {
+        return [
+          response.statusCode,
+          {"code": "0", "msg": "validation error", "result": "Invalid email"}
+        ];
       }
     } on DioException catch (e) {
       print("singup 에러: $e");

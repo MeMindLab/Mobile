@@ -35,11 +35,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String? errorNameText;
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     CustomTheme theme = CustomThemeHolder.of(context).theme;
 
@@ -218,30 +213,44 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 text: "가입하기",
                                 onPressed: () async {
                                   if (formKey.currentState!.validate()) {
-                                    bool result = terms.four;
-                                    String msg =
-                                        result == false ? "수신거부" : "수신동의";
-                                    await BottomSheets(
-                                        context: context,
-                                        bodies: BottomSheetContent().termsAlert(
-                                            title: "광고성 정보 수신동의 처리 결과",
-                                            body:
-                                                "전송자 : memind\n일시 : 20xx년 x월 x일\n내용 : $msg 처리 완료",
-                                            action: RoundedButton(
-                                              text: "확인",
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              },
-                                            ))).show();
                                     DevicePermission().accessNotification();
                                     var response = await SignupService()
                                         .signup(email, name, pwd);
                                     if (response[0] == 201) {
+                                      bool result = terms.four;
+                                      String msg =
+                                          result == false ? "수신거부" : "수신동의";
+                                      await BottomSheets(
+                                          context: context,
+                                          bodies: BottomSheetContent().termsAlert(
+                                              title: "광고성 정보 수신동의 처리 결과",
+                                              body: "전송자 : memind\n일시 : 20xx년 x월 x일\n내용 : $msg 처리 완료",
+                                              action: RoundedButton(
+                                                text: "확인",
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                              ))).show();
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                               builder: (_) => SignUpWelcome()));
-                                    } else {}
+                                    } else {
+                                      print(response);
+                                      if (response[1]["msg"] ==
+                                          "validation error") {
+                                        if (response[1]["result"] ==
+                                            "Invalid email") {
+                                          setState(() {
+                                            errorEmailText = "이미 가입된 이메일 주소입니다";
+                                          });
+                                        } else {
+                                          setState(() {
+                                            errorNameText = "이미 존재하는 닉네임입니다";
+                                          });
+                                        }
+                                      }
+                                    }
                                   }
                                 },
                               )
