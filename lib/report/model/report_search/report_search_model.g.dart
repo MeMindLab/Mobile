@@ -1,19 +1,19 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'report_total_model.dart';
+part of 'report_search_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-ReportTotalModel _$ReportTotalModelFromJson(Map<String, dynamic> json) =>
-    ReportTotalModel(
+ReportSearchModel _$ReportSearchModelFromJson(Map<String, dynamic> json) =>
+    ReportSearchModel(
       code: json['code'] as String,
       msg: json['msg'] as String,
       result: Result.fromJson(json['result'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$ReportTotalModelToJson(ReportTotalModel instance) =>
+Map<String, dynamic> _$ReportSearchModelToJson(ReportSearchModel instance) =>
     <String, dynamic>{
       'code': instance.code,
       'msg': instance.msg,
@@ -39,7 +39,6 @@ Report _$ReportFromJson(Map<String, dynamic> json) => Report(
       createdAt: json['created_at'] as String,
       tags: (json['tags'] as List<dynamic>).map((e) => e as String).toList(),
       aiSummary: json['ai_summary'] as String,
-      emotion: json['emotion'] as String,
     );
 
 Map<String, dynamic> _$ReportToJson(Report instance) => <String, dynamic>{
@@ -47,7 +46,6 @@ Map<String, dynamic> _$ReportToJson(Report instance) => <String, dynamic>{
       'created_at': instance.createdAt,
       'tags': instance.tags,
       'ai_summary': instance.aiSummary,
-      'emotion': instance.emotion,
     };
 
 Weekly _$WeeklyFromJson(Map<String, dynamic> json) => Weekly(

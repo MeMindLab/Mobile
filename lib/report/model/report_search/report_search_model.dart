@@ -1,19 +1,19 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'report_total_model.g.dart';
+part 'report_search_model.g.dart';
 
 @JsonSerializable()
-class ReportTotalModel {
+class ReportSearchModel {
   final String code;
   final String msg;
   final Result result;
-  ReportTotalModel({
+  ReportSearchModel({
     required this.code,
     required this.msg,
     required this.result,
   });
-  factory ReportTotalModel.fromJson(Map<String, dynamic> json) =>
-      _$ReportTotalModelFromJson(json);
+  factory ReportSearchModel.fromJson(Map<String, dynamic> json) =>
+      _$ReportSearchModelFromJson(json);
 }
 
 @JsonSerializable()
@@ -36,13 +36,11 @@ class Report {
   final List<String> tags;
   @JsonKey(name: "ai_summary")
   final String aiSummary;
-  final String emotion;
   Report({
     required this.reportId,
     required this.createdAt,
     required this.tags,
     required this.aiSummary,
-    required this.emotion,
   });
 
   factory Report.fromJson(Map<String, dynamic> json) => _$ReportFromJson(json);

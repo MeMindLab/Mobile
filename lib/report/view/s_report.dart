@@ -11,6 +11,7 @@ import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 import 'package:me_mind/report/component/report_chart.dart';
 import 'package:me_mind/report/utils/reports.dart';
+import 'package:me_mind/report/view/s_report_search.dart';
 
 class Report extends StatefulWidget {
   const Report({super.key});
@@ -116,16 +117,31 @@ class _Report extends State<Report> {
                               color: Colors.black,
                             ),
                             onPressed: () {
-                              Dialogs.callDateDialog(
-                                  context: context,
-                                  content: CustomDatePicker(
-                                      selectedDate: DateTime.now()),
-                                  contentPadding: EdgeInsets.zero);
+                              Dialogs(
+                                      context: context,
+                                      content: CustomDatePicker(
+                                        selectedDate: DateTime.now(),
+                                      ),
+                                      contentPadding: EdgeInsets.zero)
+                                  .callDateDialog();
+                              // Dialogs.callDateDialog(
+                              //     context: context,
+                              //     content: CustomDatePicker(
+                              //         selectedDate: DateTime.now()),
+                              //     contentPadding: EdgeInsets.zero);
                             },
                           )
                         ],
                       ),
-                      SvgPicture.asset('assets/svg/icon/search.svg'),
+                      IconButton(
+                        icon: SvgPicture.asset('assets/svg/icon/search.svg'),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => ReportSearch()));
+                        },
+                      ),
                     ],
                   ),
                 ),

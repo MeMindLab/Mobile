@@ -5,6 +5,7 @@ import 'package:me_mind/report/view/f_search.dart';
 import 'package:me_mind/report/view/s_report.dart';
 import 'package:me_mind/report/view/s_report_detail.dart';
 import 'package:me_mind/report/view/s_report_month.dart';
+import 'package:me_mind/report/view/s_report_picture_diary.dart';
 import 'package:me_mind/report/view/s_report_search.dart';
 
 import 'common/theme/custom_theme_app.dart';
@@ -50,7 +51,7 @@ class AppState extends State<App> with WidgetsBindingObserver {
           locale: context.locale,
           title: 'Me mind',
           theme: CustomThemeHolder.of(context).theme.themeData,
-          home: const Report(),
+          home: const ReportPictureDiary(),
         );
       }),
     );
