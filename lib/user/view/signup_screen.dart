@@ -213,7 +213,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 text: "가입하기",
                                 onPressed: () async {
                                   if (formKey.currentState!.validate()) {
-                                    DevicePermission().accessNotification();
                                     var response = await SignupService()
                                         .signup(email, name, pwd);
                                     if (response[0] == 201) {
@@ -231,10 +230,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                   Navigator.pop(context);
                                                 },
                                               ))).show();
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (_) => SignUpWelcome()));
+                                      var permissonStatus =
+                                          await DevicePermission()
+                                              .accessNotification();
+                                      if (permissonStatus != null) {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (_) =>
+                                                    SignUpWelcome()));
+                                      }
                                     } else {
                                       print(response);
                                       if (response[1]["msg"] ==
