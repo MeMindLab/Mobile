@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:me_mind/common/constant/font_sizes.dart';
+import 'package:me_mind/common/theme/custom_theme.dart';
+import 'package:me_mind/common/theme/custom_theme_holder.dart';
+
+import 'package:me_mind/report/w_capsule.dart';
 
 class ReportCard extends StatelessWidget {
   final Image? image;
@@ -16,67 +21,59 @@ class ReportCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    CustomTheme theme = CustomThemeHolder.of(context).theme;
+
     return IntrinsicHeight(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 20),
-        child: Row(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: Colors.grey,
+      child: Row(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: Colors.grey,
+            ),
+            width: 124,
+            height: 124,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8.0),
+              child: Image.asset(
+                'assets/image/onboarding/page1.png',
+                fit: BoxFit.cover,
               ),
-              width: 121,
-              height: 121,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(8.0),
-                child: Image.asset(
-                  'assets/image/onboarding/page1.png',
-                  fit: BoxFit.cover,
+            ),
+          ),
+          const SizedBox(
+            width: 13,
+          ),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: keywords
+                      .map((keyword) => Padding(
+                            padding: const EdgeInsets.only(right: 5),
+                            child: Capsule(keyword: keyword),
+                          ))
+                      .toList(),
                 ),
-              ),
-            ),
-            const SizedBox(
-              width: 13,
-            ),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: keywords.map((keyword) {
-                      return Padding(
-                        padding: const EdgeInsets.only(right: 10),
-                        child: Text(
-                          "#$keyword",
-                          style: const TextStyle(
-                            fontSize: 14,
-                            color: Colors.blue,
-                          ),
-                        ),
-                      );
-                    }).toList(),
+                Text(
+                  summary,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 3,
+                  style: const TextStyle(fontSize: 14),
+                ),
+                Text(
+                  date,
+                  textAlign: TextAlign.right,
+                  style: FontSizes.getCapsuleStyle().copyWith(
+                    color: theme.appColors.datetimeColor,
                   ),
-                  Text(
-                    summary,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 3,
-                    style: const TextStyle(fontSize: 14),
-                  ),
-                  Text(
-                    date,
-                    textAlign: TextAlign.right,
-                    style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
