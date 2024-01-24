@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 
 class CustomDatePicker extends StatelessWidget {
   final DateTime? selectedDate;
+  final VoidCallback? onPressed;
 
-  const CustomDatePicker({super.key, required this.selectedDate});
+  const CustomDatePicker(
+      {super.key, required this.selectedDate, this.onPressed});
 
   @override
   Widget build(BuildContext context) {
