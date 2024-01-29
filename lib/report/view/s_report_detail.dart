@@ -21,6 +21,8 @@ class ReportDetail extends StatefulWidget {
 }
 
 class _ReportDetailState extends State<ReportDetail> {
+  bool diaryFolded = false;
+  bool isLoaded = true;
   @override
   void initState() {
     super.initState();
@@ -142,22 +144,44 @@ class _ReportDetailState extends State<ReportDetail> {
               decoration: const BoxDecoration(
                 color: Colors.white,
               ),
+              width: double.infinity,
               height: 289.42,
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Ai 그림일기',
-                      style: FontSizes.getHighLightContentStyle(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Ai 그림일기',
+                          style: FontSizes.getHighLightContentStyle(),
+                        ),
+                        Row(
+                          children: [
+                            SvgPicture.asset(
+                              "assets/svg/icon/sharingDiary.svg",
+                              colorFilter: ColorFilter.mode(
+                                  theme.appColors.iconBook, BlendMode.srcIn),
+                            ),
+                            const SizedBox(width: 7),
+                            SvgPicture.asset(
+                              'assets/svg/icon/upload.svg',
+                              colorFilter: ColorFilter.mode(
+                                  theme.appColors.iconBook, BlendMode.srcIn),
+                            ),
+                            const SizedBox(width: 5),
+                          ],
+                        ),
+                      ],
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 8),
                       child: Stack(
                         children: [
                           Container(
-                            width: 353,
+                            width: MediaQuery.of(context).size.width * 0.9,
                             height: 199,
                             decoration: BoxDecoration(
                               image: const DecorationImage(
@@ -166,15 +190,18 @@ class _ReportDetailState extends State<ReportDetail> {
                                   fit: BoxFit.cover),
                               borderRadius: BorderRadius.circular(8),
                             ),
-                          ),
-                          Positioned(
-                            right: 10,
-                            bottom: 10,
-                            child: SvgPicture.asset(
-                              'assets/svg/icon/upload.svg',
-                              colorFilter: const ColorFilter.mode(
-                                  Colors.white, BlendMode.srcIn),
-                            ),
+                            child: isLoaded
+                                ? null
+                                : Container(
+                                    width: double.infinity,
+                                    height: double.infinity,
+                                    decoration: const BoxDecoration(
+                                        color:
+                                            Color.fromRGBO(25, 25, 25, 0.87)),
+                                    child: const Center(
+                                        child: CircularProgressIndicator(
+                                      color: Colors.blue,
+                                    ))),
                           ),
                         ],
                       ),
@@ -199,107 +226,119 @@ class _ReportDetailState extends State<ReportDetail> {
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            '오늘일기 전체보기',
+                            '일기 전체보기',
                             style: FontSizes.getHighLightContentStyle(),
                           ),
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(right: 20),
-                        child: Row(
-                          children: [
-                            SvgPicture.asset(
-                              'assets/svg/icon/book.svg',
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 4),
-                              child: Text(
-                                "접기",
-                                style: FontSizes.getCapsuleHighlightStyle()
-                                    .copyWith(
-                                  color: theme.appColors.iconBook,
+                        child: InkWell(
+                          onTap: () {
+                            setState(() {
+                              diaryFolded = !diaryFolded;
+                            });
+                          },
+                          child: Row(
+                            children: [
+                              diaryFolded == false
+                                  ? SvgPicture.asset(
+                                      'assets/svg/icon/book.svg',
+                                    )
+                                  : SvgPicture.asset(
+                                      'assets/svg/icon/foldedBook.svg'),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 4),
+                                child: Text(
+                                  diaryFolded == false ? "접기" : "펼치기",
+                                  style: FontSizes.getCapsuleHighlightStyle()
+                                      .copyWith(
+                                    color: theme.appColors.iconBook,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ],
                   ),
-                  Container(
-                    padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
-                    child: const Column(
-                      children: [
-                        Text(
-                          "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?",
-                        ),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                        Text(
-                            "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
-                      ],
-                    ),
-                  ),
+                  diaryFolded == false
+                      ? Container(
+                          padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+                          child: const Column(
+                            children: [
+                              Text(
+                                "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?",
+                              ),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                              Text(
+                                  "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?"),
+                            ],
+                          ),
+                        )
+                      : SizedBox(),
                 ],
               ),
             ),
@@ -326,12 +365,12 @@ class _ReportDetailState extends State<ReportDetail> {
                     child: Column(
                       children: [
                         GridView.count(
-                          mainAxisSpacing: 10,
-                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 15,
+                          crossAxisSpacing: 15,
                           physics: const NeverScrollableScrollPhysics(),
                           crossAxisCount: 2,
                           shrinkWrap: true,
-                          children: List.generate(4, (index) {
+                          children: List.generate(3, (index) {
                             return Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(13),

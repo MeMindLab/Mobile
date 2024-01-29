@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:me_mind/common/component/custom_date_picker.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 import 'package:me_mind/report/utils/reports.dart';
+import 'package:me_mind/report/view/f_date_picker_dialog.dart';
+import 'package:me_mind/report/view/s_report_search.dart';
 
 class ReportMonthFragment extends StatelessWidget {
   final String datetime;
@@ -30,15 +33,37 @@ class ReportMonthFragment extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
-                  child: Text(
-                    datetime,
-                    style: FontSizes.getHeadline1Style()
-                        .copyWith(fontWeight: FontWeight.w500),
+                  child: Row(
+                    children: [
+                      Text(
+                        datetime,
+                        style: FontSizes.getHeadline1Style()
+                            .copyWith(fontWeight: FontWeight.w500),
+                      ),
+                      InkWell(
+                        child: Icon(
+                          Icons.arrow_forward_ios_outlined,
+                          size: 18.0,
+                          color: Colors.black,
+                        ),
+                        onTap: () {
+                          Dialogs(
+                                  context: context,
+                                  content: CustomDatePicker(
+                                    selectedDate: DateTime.now(),
+                                  ),
+                                  contentPadding: EdgeInsets.zero)
+                              .callDateDialog();
+                        },
+                      ),
+                    ],
                   ),
                 ),
                 IconButton(
                   onPressed: () {
                     // 아이콘 버튼의 동작을 정의합니다.
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (_) => ReportSearch()));
                   },
                   icon: SvgPicture.asset(
                     'assets/svg/icon/search.svg',

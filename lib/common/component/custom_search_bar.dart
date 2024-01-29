@@ -3,14 +3,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 
-class CustomSearchBar extends StatefulWidget {
-  const CustomSearchBar({super.key});
+class CustomSearchBar extends StatelessWidget {
+  final VoidCallback? onSubmitted;
 
-  @override
-  State<CustomSearchBar> createState() => _CustomSearchBarState();
-}
+  CustomSearchBar({super.key, this.onSubmitted});
 
-class _CustomSearchBarState extends State<CustomSearchBar> {
   @override
   Widget build(BuildContext context) {
     final TextEditingController searchController = TextEditingController();
@@ -46,7 +43,7 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
               controller: searchController,
               decoration: InputDecoration(
                 suffixIcon: IconButton(
-                  onPressed: () {},
+                  onPressed: onSubmitted,
                   icon: SvgPicture.asset(
                     'assets/svg/icon/search.svg',
                     width: 24,
@@ -67,6 +64,7 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
                     const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
                 enabledBorder: baseBorder,
               ),
+              onSubmitted: (value) => onSubmitted,
             ),
           ),
         ],
