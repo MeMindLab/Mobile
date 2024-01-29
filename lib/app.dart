@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
+import 'package:me_mind/diary/view/s_diary.dart';
 import 'package:me_mind/report/view/f_search.dart';
 import 'package:me_mind/report/view/s_report.dart';
 import 'package:me_mind/report/view/s_report_detail.dart';
@@ -51,6 +52,7 @@ class AppState extends State<App> with WidgetsBindingObserver {
           title: 'Me mind',
           theme: CustomThemeHolder.of(context).theme.themeData,
           home: const Report(),
+
         );
       }),
     );
