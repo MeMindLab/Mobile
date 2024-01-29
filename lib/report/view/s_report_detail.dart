@@ -22,7 +22,7 @@ class ReportDetail extends StatefulWidget {
 
 class _ReportDetailState extends State<ReportDetail> {
   bool diaryFolded = false;
-
+  bool isLoaded = true;
   @override
   void initState() {
     super.initState();
@@ -151,9 +151,30 @@ class _ReportDetailState extends State<ReportDetail> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Ai 그림일기',
-                      style: FontSizes.getHighLightContentStyle(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Ai 그림일기',
+                          style: FontSizes.getHighLightContentStyle(),
+                        ),
+                        Row(
+                          children: [
+                            SvgPicture.asset(
+                              "assets/svg/icon/sharingDiary.svg",
+                              colorFilter: ColorFilter.mode(
+                                  theme.appColors.iconBook, BlendMode.srcIn),
+                            ),
+                            const SizedBox(width: 7),
+                            SvgPicture.asset(
+                              'assets/svg/icon/upload.svg',
+                              colorFilter: ColorFilter.mode(
+                                  theme.appColors.iconBook, BlendMode.srcIn),
+                            ),
+                            const SizedBox(width: 5),
+                          ],
+                        ),
+                      ],
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 8),
@@ -169,15 +190,18 @@ class _ReportDetailState extends State<ReportDetail> {
                                   fit: BoxFit.cover),
                               borderRadius: BorderRadius.circular(8),
                             ),
-                          ),
-                          Positioned(
-                            right: 10,
-                            bottom: 10,
-                            child: SvgPicture.asset(
-                              'assets/svg/icon/upload.svg',
-                              colorFilter: const ColorFilter.mode(
-                                  Colors.white, BlendMode.srcIn),
-                            ),
+                            child: isLoaded
+                                ? null
+                                : Container(
+                                    width: double.infinity,
+                                    height: double.infinity,
+                                    decoration: const BoxDecoration(
+                                        color:
+                                            Color.fromRGBO(25, 25, 25, 0.87)),
+                                    child: const Center(
+                                        child: CircularProgressIndicator(
+                                      color: Colors.blue,
+                                    ))),
                           ),
                         ],
                       ),
@@ -341,12 +365,12 @@ class _ReportDetailState extends State<ReportDetail> {
                     child: Column(
                       children: [
                         GridView.count(
-                          mainAxisSpacing: 10,
-                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 15,
+                          crossAxisSpacing: 15,
                           physics: const NeverScrollableScrollPhysics(),
                           crossAxisCount: 2,
                           shrinkWrap: true,
-                          children: List.generate(4, (index) {
+                          children: List.generate(3, (index) {
                             return Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(13),

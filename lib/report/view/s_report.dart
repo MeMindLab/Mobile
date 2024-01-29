@@ -12,6 +12,7 @@ import 'package:me_mind/common/theme/custom_theme_holder.dart';
 import 'package:me_mind/report/component/report_chart.dart';
 import 'package:me_mind/report/utils/reports.dart';
 import 'package:me_mind/report/view/s_report_search.dart';
+import 'package:intl/intl.dart';
 
 class Report extends StatefulWidget {
   const Report({super.key});
@@ -21,10 +22,15 @@ class Report extends StatefulWidget {
 }
 
 class _Report extends State<Report> {
+  String? date;
+
   @override
   void initState() {
     super.initState();
 
+    setState(() {
+      date = DateFormat("yyyy.MM").format(DateTime.now());
+    });
     setBottomIdx(1);
   }
 
@@ -103,20 +109,20 @@ class _Report extends State<Report> {
                     children: [
                       Row(
                         children: [
-                          const Text(
-                            "2023.10",
-                            style: TextStyle(
+                          Text(
+                            date!,
+                            style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w400,
                             ),
                           ),
-                          IconButton(
-                            icon: const Icon(
+                          InkWell(
+                            child: Icon(
                               Icons.arrow_forward_ios_outlined,
                               size: 18.0,
                               color: Colors.black,
                             ),
-                            onPressed: () {
+                            onTap: () {
                               Dialogs(
                                       context: context,
                                       content: CustomDatePicker(
@@ -124,13 +130,8 @@ class _Report extends State<Report> {
                                       ),
                                       contentPadding: EdgeInsets.zero)
                                   .callDateDialog();
-                              // Dialogs.callDateDialog(
-                              //     context: context,
-                              //     content: CustomDatePicker(
-                              //         selectedDate: DateTime.now()),
-                              //     contentPadding: EdgeInsets.zero);
                             },
-                          )
+                          ),
                         ],
                       ),
                       IconButton(

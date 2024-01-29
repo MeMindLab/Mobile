@@ -1,12 +1,29 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:me_mind/report/view/s_report_month.dart';
 
-class CustomDatePicker extends StatelessWidget {
+class CustomDatePicker extends StatefulWidget {
   final DateTime? selectedDate;
   final VoidCallback? onPressed;
 
   const CustomDatePicker(
       {super.key, required this.selectedDate, this.onPressed});
+
+  @override
+  State<CustomDatePicker> createState() => _CustomDatePickerState();
+}
+
+class _CustomDatePickerState extends State<CustomDatePicker> {
+  DateTime? initialDate;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() {
+      initialDate = widget.selectedDate;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,11 +58,15 @@ class CustomDatePicker extends StatelessWidget {
             child: CupertinoDatePicker(
               dateOrder: DatePickerDateOrder.dmy,
               mode: CupertinoDatePickerMode.monthYear,
-              initialDateTime: selectedDate,
+              initialDateTime: initialDate,
               minimumDate: DateTime(2018),
               maximumDate: DateTime(2025),
               onDateTimeChanged: (DateTime newDate) {
                 // Handle date change logic here if necessary.
+                print(newDate);
+                setState(() {
+                  initialDate = newDate;
+                });
               },
             ),
           ),
@@ -100,6 +121,9 @@ class CustomDatePicker extends StatelessWidget {
                       padding: EdgeInsets.zero,
                       onPressed: () {
                         // Handle clear logic here if necessary.
+                        setState(() {
+                          initialDate = DateTime.now();
+                        });
                       },
                       child: const Center(
                         child: Text(
@@ -118,7 +142,20 @@ class CustomDatePicker extends StatelessWidget {
                   child: CupertinoButton(
                     padding: EdgeInsets.zero,
                     onPressed: () {
-                      Navigator.pop(context, selectedDate); // Set
+                      // Set
+                      // Navigator.pop(context, widget.selectedDate);
+                      Navigator.pushReplacement(
+                          context,
+                          PageRouteBuilder(
+                            pageBuilder: ((BuildContext context,
+                                    Animation<double> animation1,
+                                    Animation<double> animation2) =>
+                                ReportMonth(
+                                  selectedDate: initialDate!,
+                                )),
+                            transitionDuration: Duration.zero,
+                            reverseTransitionDuration: Duration.zero,
+                          ));
                     },
                     child: const Center(
                       child: Text(

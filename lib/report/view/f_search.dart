@@ -45,7 +45,12 @@ class _SearchFragmentState extends State<SearchFragment> {
           const SizedBox(
             height: 29,
           ),
-          Expanded(child: CustomScrollView(slivers: [renderReports(temp)])),
+          temp.isEmpty
+              ? Expanded(
+                  child: Center(child: Text("검색결과가 존재하지 않습니다.")),
+                )
+              : Expanded(
+                  child: CustomScrollView(slivers: [renderReports(temp)])),
         ],
       ),
     );
