@@ -25,7 +25,7 @@ class _DiaryState extends State<Diary> {
       appBarLeading: const BackArrowLeading(),
       child: Column(
         children: [
-          WaitFragment(),
+          DiaryFragment(),
         ],
       ),
       bottomNavigationBar: RootTab(),

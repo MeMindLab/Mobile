@@ -3,8 +3,8 @@ import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 
-class WaitFragment extends StatelessWidget {
-  const WaitFragment({super.key});
+class DiaryFragment extends StatelessWidget {
+  const DiaryFragment({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,9 @@ class WaitFragment extends StatelessWidget {
           "열심히 준비중 입니다.\n조금만 기다려주세요!",
           textAlign: TextAlign.center,
           style: FontSizes.getContentStyle().copyWith(
-              fontWeight: FontWeight.w400, color: theme.appColors.hintText),
+            fontWeight: FontWeight.w400,
+            color: theme.appColors.hintText,
+          ),
         ),
       ]),
     );
