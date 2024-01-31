@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:me_mind/common/component/custom_search_bar.dart';
-import 'package:me_mind/common/constant/font_sizes.dart';
-import 'package:me_mind/common/theme/custom_theme_holder.dart';
+import 'package:me_mind/report/services/search_service.dart';
 import 'package:me_mind/report/utils/reports.dart';
-import 'package:me_mind/report/view/f_report_month.dart';
 
 class SearchFragment extends StatefulWidget {
   const SearchFragment({
@@ -17,19 +14,32 @@ class SearchFragment extends StatefulWidget {
 }
 
 class _SearchFragmentState extends State<SearchFragment> {
-  List<ReportData> temp = [];
-  List<ReportData> reports = [
-    ReportData(
-      keywords: ["키워드1", "키워드2"],
-      summary:
-          "이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summa이곳에는 ai summary 내용이 들어가게 됩니다.",
-      date: '2023.10.31',
-    ),
-  ];
+  final controller = TextEditingController();
+
+  bool isSearched = false;
+  bool isNull = false;
+  List<ReportData> searchResult = [];
+
+  void handleSearch() async {
+    var result = await SearchService().search(controller.text);
+    setState(() {
+      isNull = false;
+    });
+    if (result != null) {
+      setState(() {
+        searchResult = result;
+      });
+    } else {
+      setState(() {
+        isNull = true;
+      });
+    }
+  }
 
   VoidCallback? onSearchSubmitted() {
+    handleSearch();
     setState(() {
-      temp = reports;
+      isSearched = true;
     });
   }
 
@@ -40,17 +50,26 @@ class _SearchFragmentState extends State<SearchFragment> {
       child: Column(
         children: [
           CustomSearchBar(
+            controller: controller,
             onSubmitted: onSearchSubmitted,
           ),
           const SizedBox(
             height: 29,
           ),
-          temp.isEmpty
-              ? Expanded(
-                  child: Center(child: Text("검색결과가 존재하지 않습니다.")),
-                )
-              : Expanded(
-                  child: CustomScrollView(slivers: [renderReports(temp)])),
+          isSearched == false
+              ? const SizedBox()
+              : isNull == false
+                  ? Expanded(
+                      child: CustomScrollView(
+                          slivers: [renderReports(searchResult)]))
+                  : const Expanded(
+                      child: Column(children: [
+                        SizedBox(
+                          height: 241,
+                        ),
+                        Text("검색결과가 존재하지 않습니다."),
+                      ]),
+                    ),
         ],
       ),
     );
