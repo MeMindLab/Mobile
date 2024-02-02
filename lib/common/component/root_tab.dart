@@ -39,6 +39,17 @@ class _RootTabState extends State<RootTab> {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(50),
+                border: Border.all(
+                  width: 1,
+                  color: theme.appColors.grayButtonBackground,
+                ),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Color.fromRGBO(212, 215, 225, 0.25),
+                    offset: Offset(0.0, -2.0),
+                    blurRadius: 4.0,
+                  )
+                ],
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,

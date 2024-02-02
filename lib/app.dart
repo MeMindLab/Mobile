@@ -5,12 +5,12 @@ import 'package:me_mind/settings/view/s_setting.dart';
 import 'package:me_mind/user/view/s_signin.dart';
 import 'package:me_mind/user/view/s_signup_welcome.dart';
 import 'package:me_mind/user/view/signup_screen.dart';
+import 'package:me_mind/diary/view/s_diary.dart';
 import 'package:me_mind/report/view/f_search.dart';
 import 'package:me_mind/report/view/s_report.dart';
 import 'package:me_mind/report/view/s_report_detail.dart';
 import 'package:me_mind/report/view/s_report_month.dart';
 import 'package:me_mind/report/view/s_report_search.dart';
-
 import 'common/theme/custom_theme_app.dart';
 import 'common/theme/custom_theme_holder.dart';
 
