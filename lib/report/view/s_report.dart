@@ -38,28 +38,47 @@ class _Report extends State<Report> {
   Widget build(BuildContext context) {
     CustomTheme theme = CustomThemeHolder.of(context).theme;
 
+    //api 요청 http://54.206.203.208/report/2023-12-31
+
+    var weekelyScores = [
+      {"date": "2023-12-31", "score": "33"},
+      {"date": "2023-12-30", "score": "0"},
+      {"date": "2023-12-29", "score": "50"},
+      {"date": "2023-12-28", "score": "78"},
+      {"date": "2023-12-27", "score": "90"},
+      {"date": "2023-12-26", "score": "95"},
+      {"date": "2023-12-25", "score": "0"}
+    ];
+
+    //Fix: 백엔드 정렬 요청
+    weekelyScores.sort((a, b) {
+      DateTime dateA = DateTime.parse(a['date']!);
+      DateTime dateB = DateTime.parse(b['date']!);
+      return dateA.compareTo(dateB);
+    });
+
     List<ReportData> reports = [
       ReportData(
-        keywords: ["키워드1", "키워드2"],
-        summary:
+        tags: ["키워드1", "키워드2"],
+        ai_summary:
             "이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summa이곳에는 ai summary 내용이 들어가게 됩니다.",
         date: '2023.10.31',
       ),
       ReportData(
-        keywords: ["키워드1", "키워드2"],
-        summary:
+        tags: ["키워드1", "키워드2"],
+        ai_summary:
             "이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summa이곳에는 ai summary 내용이 들어가게 됩니다.",
         date: '2023.10.31',
       ),
       ReportData(
-        keywords: ["키워드1", "키워드2"],
-        summary:
+        tags: ["키워드1", "키워드2"],
+        ai_summary:
             "이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summa이곳에는 ai summary 내용이 들어가게 됩니다.",
         date: '2023.10.31',
       ),
       ReportData(
-        keywords: ["키워드1", "키워드2"],
-        summary:
+        tags: ["키워드1", "키워드2"],
+        ai_summary:
             "이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summa이곳에는 ai summary 내용이 들어가게 됩니다.",
         date: '2023.10.31',
       ),
@@ -84,13 +103,15 @@ class _Report extends State<Report> {
                         '최근 감정 흐름',
                         style: FontSizes.getHeadline1Style().copyWith(
                           fontWeight: FontWeight.w500,
-                          color: const Color(0xFF191919),
+                          color: theme.appColors.text,
                         ),
                       ),
                       const SizedBox(height: 36),
-                      const AspectRatio(
+                      AspectRatio(
                         aspectRatio: 1.70,
-                        child: ReportChart(),
+                        child: ReportChart(
+                          weekly: weekelyScores,
+                        ),
                       ),
                     ],
                   ),
@@ -117,7 +138,7 @@ class _Report extends State<Report> {
                             ),
                           ),
                           InkWell(
-                            child: Icon(
+                            child: const Icon(
                               Icons.arrow_forward_ios_outlined,
                               size: 18.0,
                               color: Colors.black,
@@ -140,7 +161,7 @@ class _Report extends State<Report> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (_) => ReportSearch()));
+                                  builder: (_) => const ReportSearch()));
                         },
                       ),
                     ],

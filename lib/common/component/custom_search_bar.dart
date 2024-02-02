@@ -6,7 +6,7 @@ import 'package:me_mind/common/theme/custom_theme_holder.dart';
 class CustomSearchBar extends StatelessWidget {
   final VoidCallback? onSubmitted;
 
-  CustomSearchBar({super.key, this.onSubmitted});
+  const CustomSearchBar({super.key, this.onSubmitted});
 
   @override
   Widget build(BuildContext context) {

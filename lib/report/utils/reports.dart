@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:me_mind/report/component/report_card.dart';
 
 class ReportData {
-  final List<String> keywords;
-  final String summary;
+  final List<String> tags;
+  final String ai_summary;
   final String date;
 
   ReportData(
-      {required this.keywords, required this.summary, required this.date});
+      {required this.tags, required this.ai_summary, required this.date});
 }
 
 SliverList renderReports(List<ReportData> reports) {
@@ -18,8 +18,8 @@ SliverList renderReports(List<ReportData> reports) {
         return Padding(
           padding: const EdgeInsets.only(bottom: 20),
           child: ReportCard(
-            keywords: report.keywords,
-            summary: report.summary,
+            tags: report.tags,
+            summary: report.ai_summary,
             date: report.date,
           ),
         );

@@ -20,8 +20,8 @@ class _SearchFragmentState extends State<SearchFragment> {
   List<ReportData> temp = [];
   List<ReportData> reports = [
     ReportData(
-      keywords: ["키워드1", "키워드2"],
-      summary:
+      tags: ["키워드1", "키워드2"],
+      ai_summary:
           "이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summa이곳에는 ai summary 내용이 들어가게 됩니다.",
       date: '2023.10.31',
     ),
@@ -31,12 +31,13 @@ class _SearchFragmentState extends State<SearchFragment> {
     setState(() {
       temp = reports;
     });
+    return null;
   }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         children: [
           CustomSearchBar(
@@ -46,7 +47,7 @@ class _SearchFragmentState extends State<SearchFragment> {
             height: 29,
           ),
           temp.isEmpty
-              ? Expanded(
+              ? const Expanded(
                   child: Center(child: Text("검색결과가 존재하지 않습니다.")),
                 )
               : Expanded(

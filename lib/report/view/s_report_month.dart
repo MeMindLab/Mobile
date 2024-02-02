@@ -32,56 +32,56 @@ class _ReportMonthState extends State<ReportMonth> {
   Widget build(BuildContext context) {
     List<ReportData> reports = [
       ReportData(
-        keywords: ["키워드1", "키워드2"],
-        summary:
+        tags: ["키워드1", "키워드2"],
+        ai_summary:
             "이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summa이곳에는 ai summary 내용이 들어가게 됩니다.",
         date: '2023.10.31',
       ),
       ReportData(
-        keywords: ["키워드1", "키워드2"],
-        summary:
+        tags: ["키워드1", "키워드2"],
+        ai_summary:
             "이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summa이곳에는 ai summary 내용이 들어가게 됩니다.",
         date: '2023.10.31',
       ),
       ReportData(
-        keywords: ["키워드1", "키워드2"],
-        summary:
+        tags: ["키워드1", "키워드2"],
+        ai_summary:
             "이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summa이곳에는 ai summary 내용이 들어가게 됩니다.",
         date: '2023.10.31',
       ),
       ReportData(
-        keywords: ["키워드1", "키워드2"],
-        summary:
+        tags: ["키워드1", "키워드2"],
+        ai_summary:
             "이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summa이곳에는 ai summary 내용이 들어가게 됩니다.",
         date: '2023.10.31',
       ),
       ReportData(
-        keywords: ["키워드1", "키워드2"],
-        summary:
+        tags: ["키워드1", "키워드2"],
+        ai_summary:
             "이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summa이곳에는 ai summary 내용이 들어가게 됩니다.",
         date: '2023.10.31',
       ),
       ReportData(
-        keywords: ["키워드1", "키워드2"],
-        summary:
+        tags: ["키워드1", "키워드2"],
+        ai_summary:
             "이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summa이곳에는 ai summary 내용이 들어가게 됩니다.",
         date: '2023.10.31',
       ),
       ReportData(
-        keywords: ["키워드1", "키워드2"],
-        summary:
+        tags: ["키워드1", "키워드2"],
+        ai_summary:
             "이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summa이곳에는 ai summary 내용이 들어가게 됩니다.",
         date: '2023.10.31',
       ),
       ReportData(
-        keywords: ["키워드1", "키워드2"],
-        summary:
+        tags: ["키워드1", "키워드2"],
+        ai_summary:
             "이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summa이곳에는 ai summary 내용이 들어가게 됩니다.",
         date: '2023.10.31',
       ),
       ReportData(
-        keywords: ["키워드1", "키워드2"],
-        summary:
+        tags: ["키워드1", "키워드2"],
+        ai_summary:
             "이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summa이곳에는 ai summary 내용이 들어가게 됩니다.",
         date: '2023.10.31',
       ),

@@ -7,14 +7,14 @@ import 'package:me_mind/report/w_capsule.dart';
 
 class ReportCard extends StatelessWidget {
   final Image? image;
-  final List<String> keywords;
+  final List<String> tags;
   final String summary;
   final String date;
 
   const ReportCard({
     super.key,
     this.image,
-    required this.keywords,
+    required this.tags,
     required this.summary,
     required this.date,
   });
@@ -50,7 +50,7 @@ class ReportCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
-                  children: keywords
+                  children: tags
                       .map((keyword) => Padding(
                             padding: const EdgeInsets.only(right: 5),
                             child: Capsule(keyword: keyword),

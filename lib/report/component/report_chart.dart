@@ -1,32 +1,30 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-Widget bottomTitleWidgets(double value, TitleMeta meta) {
+Widget bottomTitleWidgets(
+    double value, TitleMeta meta, List<Map<String, String>> weekly) {
   const style = TextStyle(
     fontSize: 14,
   );
 
-  switch (value.toInt()) {
-    case 0:
-      return const Text('11/30', style: style);
-    case 2:
-      return const Text('11/31', style: style);
-    case 4:
-      return const Text('12/1', style: style);
-    case 6:
-      return const Text('12/2', style: style);
-    case 8:
-      return const Text('12/3', style: style);
-    case 10:
-      return const Text('12/4', style: style);
-    case 12:
-      return const Text('12/5', style: style);
-    default:
-      return const SizedBox.shrink();
+  int index = value.toInt();
+  int weeklyIndex = (index ~/ 2) % weekly.length;
+
+  if (index % 2 == 0 && index >= 0 && index <= 12) {
+    String date = weekly[weeklyIndex]['date']!;
+
+    // 날짜 형식을 원하는 형태로 변경
+    DateTime dateTime = DateTime.parse(date);
+    String formattedDate = '${dateTime.month}/${dateTime.day}';
+
+    return Text(formattedDate, style: style);
+  } else {
+    return const SizedBox.shrink();
   }
 }
 
-Widget leftTitleWidgets(double value, TitleMeta meta) {
+Widget leftTitleWidgets(
+    double value, TitleMeta meta, List<Map<String, String>> weekly) {
   const style = TextStyle(
     color: Color(0xFF191919),
     fontSize: 14,
@@ -59,11 +57,26 @@ List<Color> customGradientColors = [
 ];
 
 class ReportChart extends StatelessWidget {
+  final List<Map<String, String>> weekly;
+
   const ReportChart({
     super.key,
+    required this.weekly,
   });
 
   LineChartData mainData({required Color borderColor}) {
+    List<FlSpot> spots = [];
+    for (int i = 0; i < weekly.length; i++) {
+      double x = i * 2.0;
+      double score = double.parse(weekly[i]['score']!);
+      double y = (score / 100) * 6;
+      y = double.parse(y.toStringAsFixed(2));
+
+      spots.add(FlSpot(x, y));
+    }
+
+    print(spots);
+
     return LineChartData(
       gridData: FlGridData(
         show: true,
@@ -80,12 +93,12 @@ class ReportChart extends StatelessWidget {
           return FlLine(strokeWidth: 1, color: borderColor);
         },
       ),
-      titlesData: const FlTitlesData(
+      titlesData: FlTitlesData(
         show: true,
-        rightTitles: AxisTitles(
+        rightTitles: const AxisTitles(
           sideTitles: SideTitles(showTitles: false),
         ),
-        topTitles: AxisTitles(
+        topTitles: const AxisTitles(
           sideTitles: SideTitles(showTitles: false),
         ),
         bottomTitles: AxisTitles(
@@ -93,14 +106,16 @@ class ReportChart extends StatelessWidget {
             showTitles: true,
             reservedSize: 30,
             interval: 1,
-            getTitlesWidget: bottomTitleWidgets,
+            getTitlesWidget: (value, meta) =>
+                bottomTitleWidgets(value, meta, weekly),
           ),
         ),
         leftTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
             interval: 1,
-            getTitlesWidget: leftTitleWidgets,
+            getTitlesWidget: (value, meta) =>
+                leftTitleWidgets(value, meta, weekly),
             reservedSize: 42,
           ),
         ),
@@ -115,17 +130,7 @@ class ReportChart extends StatelessWidget {
       maxY: 6,
       lineBarsData: [
         LineChartBarData(
-          spots: const [
-            FlSpot(0, 3),
-            FlSpot(1, 2.5),
-            FlSpot(2.6, 2),
-            FlSpot(4.9, 5),
-            FlSpot(6.8, 3.1),
-            FlSpot(8, 4),
-            FlSpot(9.5, 3),
-            FlSpot(11, 4),
-            FlSpot(12, 4),
-          ],
+          spots: spots,
           isCurved: true,
           gradient: LinearGradient(
             colors: gradientBarColors,
