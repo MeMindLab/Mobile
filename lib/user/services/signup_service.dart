@@ -13,24 +13,23 @@ class SignupService implements Isignup {
     try {
       response = await dio.post(url, data: data);
 
-      print(response.statusCode);
-      response.statusCode = 403;
-      // success response
       if (response.statusCode == 201) {
         var body = response.data;
 
-        return [
-          response.statusCode,
-          UserSignUpModel(
-              code: body["code"], msg: body["msg"], result: body["result"])
-        ];
+        return UserSignUpModel(
+            code: body["code"], msg: body["msg"], result: body["result"]);
       }
       // validation error
       if (response.statusCode == 403) {
-        return [
-          response.statusCode,
-          {"code": "0", "msg": "validation error", "result": "Invalid email"}
-        ];
+        var serverMsg = response.data;
+        switch (serverMsg["message"]) {
+          case 'Invalid Nickname':
+            return 'nickname';
+          case 'Invalid Email':
+            return 'email';
+          default:
+            return null;
+        }
       }
     } on DioException catch (e) {
       print("singup 에러: $e");

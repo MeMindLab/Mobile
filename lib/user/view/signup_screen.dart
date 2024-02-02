@@ -76,6 +76,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       CustomTextFormField(
                         labelText: "닉네임",
                         hintText: "닉네임을 입력해주세요",
+                        errorText: errorNameText,
                         maxLength: 10,
                         validator: (value) =>
                             CheckValidate().validateName(value),
@@ -215,7 +216,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   if (formKey.currentState!.validate()) {
                                     var response = await SignupService()
                                         .signup(email, name, pwd);
-                                    if (response[0] == 201) {
+                                    print(response.runtimeType);
+                                    Type type = response.runtimeType;
+                                    if (type == Null) {
+                                      setState(() {
+                                        errorEmailText = "이미 가입된 이메일 주소입니다";
+                                        errorNameText = "이미 존재하는 닉네임입니다";
+                                      });
+                                    } else if (type == String) {
+                                      if (response == "email") {
+                                        setState(() {
+                                          errorEmailText = "이미 가입된 이메일 주소입니다";
+                                        });
+                                      }
+                                      if (response == "nickname") {
+                                        setState(() {
+                                          errorNameText = "이미 존재하는 닉네임입니다";
+                                        });
+                                      }
+                                    } else {
                                       bool result = terms.four;
                                       String msg =
                                           result == false ? "수신거부" : "수신동의";
@@ -230,6 +249,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                   Navigator.pop(context);
                                                 },
                                               ))).show();
+                                      await Future.delayed(
+                                          Duration(milliseconds: 1000));
                                       var permissonStatus =
                                           await DevicePermission()
                                               .accessNotification();
@@ -239,21 +260,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                             MaterialPageRoute(
                                                 builder: (_) =>
                                                     SignUpWelcome()));
-                                      }
-                                    } else {
-                                      print(response);
-                                      if (response[1]["msg"] ==
-                                          "validation error") {
-                                        if (response[1]["result"] ==
-                                            "Invalid email") {
-                                          setState(() {
-                                            errorEmailText = "이미 가입된 이메일 주소입니다";
-                                          });
-                                        } else {
-                                          setState(() {
-                                            errorNameText = "이미 존재하는 닉네임입니다";
-                                          });
-                                        }
                                       }
                                     }
                                   }
