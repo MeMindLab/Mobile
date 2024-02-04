@@ -235,32 +235,39 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         });
                                       }
                                     } else {
-                                      bool result = terms.four;
-                                      String msg =
-                                          result == false ? "수신거부" : "수신동의";
-                                      await BottomSheets(
-                                          context: context,
-                                          bodies: BottomSheetContent().termsAlert(
-                                              title: "광고성 정보 수신동의 처리 결과",
-                                              body: "전송자 : memind\n일시 : 20xx년 x월 x일\n내용 : $msg 처리 완료",
-                                              action: RoundedButton(
-                                                text: "확인",
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                },
-                                              ))).show();
-                                      await Future.delayed(
-                                          Duration(milliseconds: 1000));
-                                      var permissonStatus =
-                                          await DevicePermission()
-                                              .accessNotification();
-                                      if (permissonStatus != null) {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (_) =>
-                                                    SignUpWelcome()));
+                                      if (terms.four == true) {
+                                        await BottomSheets(
+                                            context: context,
+                                            bodies: BottomSheetContent()
+                                                .termsAlert(
+                                                    title: "광고성 정보 수신동의 처리 결과",
+                                                    body:
+                                                        "전송자 : memind\n일시 : 20xx년 x월 x일\n내용 : 수신동의 처리 완료",
+                                                    action: RoundedButton(
+                                                      text: "확인",
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                    ))).show();
+                                        await Future.delayed(
+                                            Duration(milliseconds: 1000));
                                       }
+                                      if (terms.three == true) {
+                                        var permissonStatus =
+                                            await DevicePermission()
+                                                .accessNotification();
+                                        if (permissonStatus != null) {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (_) =>
+                                                      SignUpWelcome()));
+                                        }
+                                      }
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (_) => SignUpWelcome()));
                                     }
                                   }
                                 },
