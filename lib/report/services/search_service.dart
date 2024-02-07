@@ -1,41 +1,26 @@
 import 'package:dio/dio.dart';
-import 'package:me_mind/report/utils/reports.dart';
+import 'package:me_mind/report/model/report_search/report_search_model.dart';
 
 class SearchService {
   Future search(String keyword) async {
-    const url = 'http://54.206.203.208/report/search';
-    print(keyword);
+    String uriKeyword = Uri.encodeQueryComponent(keyword);
+
+    String url = 'http://52.65.66.124/report/search/$uriKeyword';
+
     final dio = Dio();
     Response response;
 
-    //임시
-    List<ReportData> reports = [
-      ReportData(
-        keywords: ["키워드1", "키워드2"],
-        summary:
-            "이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summa이곳에는 ai summary 내용이 들어가게 됩니다.",
-        date: '2023.10.31',
-      ),
-      ReportData(
-        keywords: ["키워드1", "키워드2"],
-        summary:
-            "이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summa이곳에는 ai summary 내용이 들어가게 됩니다.",
-        date: '2023.10.31',
-      ),
-      ReportData(
-        keywords: ["키워드1", "키워드2"],
-        summary:
-            "이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summa이곳에는 ai summary 내용이 들어가게 됩니다.",
-        date: '2023.10.31',
-      ),
-    ];
-
     try {
-      response =
-          await dio.get(url, queryParameters: {"search_keyword": keyword});
+      response = await dio.get(url);
       if (response.statusCode == 200) {
-        // return null;
-        return reports;
+        var body = response.data;
+
+        ReportSearchModel searchResult = ReportSearchModel.fromJson(body);
+        if (searchResult.result.report.isEmpty) {
+          return null;
+        } else {
+          return searchResult.result.report;
+        }
       }
     } on DioException catch (error) {
       print("Report Search: dio get error:$error");

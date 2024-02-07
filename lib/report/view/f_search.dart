@@ -1,8 +1,10 @@
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:me_mind/common/component/custom_search_bar.dart';
+import 'package:me_mind/report/component/report_card.dart';
+import 'package:me_mind/report/model/report_search/report_search_model.dart';
 import 'package:me_mind/report/services/search_service.dart';
-import 'package:me_mind/report/utils/reports.dart';
 
 class SearchFragment extends StatefulWidget {
   const SearchFragment({
@@ -18,10 +20,11 @@ class _SearchFragmentState extends State<SearchFragment> {
 
   bool isSearched = false;
   bool isNull = false;
-  List<ReportData> searchResult = [];
+  List<Report> searchResult = [];
 
   void handleSearch() async {
     var result = await SearchService().search(controller.text);
+    print(result);
     setState(() {
       isNull = false;
     });
@@ -74,4 +77,24 @@ class _SearchFragmentState extends State<SearchFragment> {
       ),
     );
   }
+}
+
+SliverList renderReports(List<Report> reports) {
+  return SliverList(
+    delegate: SliverChildBuilderDelegate(
+      (context, index) {
+        Report report = reports[index];
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 20),
+          child: ReportCard(
+            keywords: report.tags,
+            summary: report.aiSummary,
+            date: DateFormat("yyyy.MM.dd")
+                .format(DateTime.parse(report.createdAt)),
+          ),
+        );
+      },
+      childCount: reports.length,
+    ),
+  );
 }
