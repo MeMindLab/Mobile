@@ -34,6 +34,7 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
         title,
         style: FontSizes.getHeadline1Style().copyWith(
           fontWeight: FontWeight.w500,
+          color: foregroundColor,
         ),
       ),
       centerTitle: true,
