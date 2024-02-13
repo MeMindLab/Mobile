@@ -5,8 +5,8 @@ import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 
-class EmotionTrashScreen extends StatelessWidget {
-  const EmotionTrashScreen({super.key});
+class Trash extends StatelessWidget {
+  const Trash({super.key});
 
   @override
   Widget build(BuildContext context) {
