@@ -7,7 +7,7 @@ class CustomSearchBar extends StatefulWidget {
   final VoidCallback? onSubmitted;
   final TextEditingController? controller;
 
-  CustomSearchBar({super.key, this.onSubmitted, this.controller});
+  const CustomSearchBar({super.key, this.onSubmitted, this.controller});
 
   @override
   State<CustomSearchBar> createState() => _CustomSearchBarState();

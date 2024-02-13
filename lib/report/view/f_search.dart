@@ -18,15 +18,15 @@ class SearchFragment extends StatefulWidget {
 class _SearchFragmentState extends State<SearchFragment> {
   final controller = TextEditingController();
 
-  bool isSearched = false;
-  bool isNull = false;
+  bool isKeywordSearched = false;
+  bool isResultNull = false;
   List<Report> searchResult = [];
 
   void handleSearch() async {
     var result = await SearchService().search(controller.text);
-    print(result);
+
     setState(() {
-      isNull = false;
+      isResultNull = false;
     });
     if (result != null) {
       setState(() {
@@ -34,7 +34,7 @@ class _SearchFragmentState extends State<SearchFragment> {
       });
     } else {
       setState(() {
-        isNull = true;
+        isResultNull = true;
       });
     }
   }
@@ -42,7 +42,7 @@ class _SearchFragmentState extends State<SearchFragment> {
   VoidCallback? onSearchSubmitted() {
     handleSearch();
     setState(() {
-      isSearched = true;
+      isKeywordSearched = true;
     });
   }
 
@@ -59,9 +59,9 @@ class _SearchFragmentState extends State<SearchFragment> {
           const SizedBox(
             height: 29,
           ),
-          isSearched == false
+          isKeywordSearched == false
               ? const SizedBox()
-              : isNull == false
+              : isResultNull == false
                   ? Expanded(
                       child: CustomScrollView(
                           slivers: [renderReports(searchResult)]))

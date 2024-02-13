@@ -4,23 +4,22 @@ import 'package:me_mind/report/model/report_search/report_search_model.dart';
 class SearchService {
   Future search(String keyword) async {
     String uriKeyword = Uri.encodeQueryComponent(keyword);
-
-    String url = 'http://52.65.66.124/report/search/$uriKeyword';
+    String url = 'report/search/$uriKeyword';
 
     final dio = Dio();
+    dio.options.baseUrl = "http://52.65.66.124/";
     Response response;
 
     try {
       response = await dio.get(url);
       if (response.statusCode == 200) {
-        var body = response.data;
+        var result = response.data;
 
-        ReportSearchModel searchResult = ReportSearchModel.fromJson(body);
-        if (searchResult.result.report.isEmpty) {
-          return null;
-        } else {
-          return searchResult.result.report;
-        }
+        ReportSearchModel searchResult = ReportSearchModel.fromJson(result);
+
+        return searchResult.result.report;
+      } else if (response.statusCode == 404) {
+        return null;
       }
     } on DioException catch (error) {
       print("Report Search: dio get error:$error");
