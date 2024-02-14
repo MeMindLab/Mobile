@@ -19,28 +19,8 @@ class _SearchFragmentState extends State<SearchFragment> {
   final controller = TextEditingController();
 
   bool isKeywordSearched = false;
-  bool isResultNull = false;
-  List<Report> searchResult = [];
-
-  void handleSearch() async {
-    var result = await SearchService().search(controller.text);
-
-    setState(() {
-      isResultNull = false;
-    });
-    if (result != null) {
-      setState(() {
-        searchResult = result;
-      });
-    } else {
-      setState(() {
-        isResultNull = true;
-      });
-    }
-  }
 
   VoidCallback? onSearchSubmitted() {
-    handleSearch();
     setState(() {
       isKeywordSearched = true;
     });
@@ -61,18 +41,28 @@ class _SearchFragmentState extends State<SearchFragment> {
           ),
           isKeywordSearched == false
               ? const SizedBox()
-              : isResultNull == false
-                  ? Expanded(
-                      child: CustomScrollView(
-                          slivers: [renderReports(searchResult)]))
-                  : const Expanded(
-                      child: Column(children: [
-                        SizedBox(
-                          height: 241,
-                        ),
-                        Text("검색결과가 존재하지 않습니다."),
-                      ]),
-                    ),
+              : FutureBuilder(
+                  future: SearchService().search(controller.text),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      if (snapshot.data == null) {
+                        return const Expanded(
+                          child: Column(children: [
+                            SizedBox(
+                              height: 241,
+                            ),
+                            Text("검색결과가 존재하지 않습니다."),
+                          ]),
+                        );
+                      } else {
+                        return Expanded(
+                            child: CustomScrollView(
+                                slivers: [renderReports(snapshot.data)]));
+                      }
+                    } else {
+                      return const SizedBox();
+                    }
+                  })
         ],
       ),
     );
