@@ -68,7 +68,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         },
                         validator: (value) =>
                             CheckValidate().validateEmail(value),
-                        borderColor: blueButtonColor,
                       ),
                       const SizedBox(
                         height: 15,
@@ -216,21 +215,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   if (formKey.currentState!.validate()) {
                                     var response = await SignupService()
                                         .signup(email, name, pwd);
-                                    print(response.runtimeType);
+                                    print(response);
                                     Type type = response.runtimeType;
-                                    if (type == Null) {
-                                      setState(() {
-                                        errorEmailText = "이미 가입된 이메일 주소입니다";
-                                        errorNameText = "이미 존재하는 닉네임입니다";
-                                      });
-                                    } else if (type == String) {
+                                    if (type == String) {
                                       if (response == "email") {
                                         setState(() {
                                           errorEmailText = "이미 가입된 이메일 주소입니다";
                                         });
-                                      }
-                                      if (response == "nickname") {
+                                      } else if (response == "nickname") {
                                         setState(() {
+                                          errorNameText = "이미 존재하는 닉네임입니다";
+                                        });
+                                      } else {
+                                        setState(() {
+                                          errorEmailText = "이미 가입된 이메일 주소입니다";
                                           errorNameText = "이미 존재하는 닉네임입니다";
                                         });
                                       }
