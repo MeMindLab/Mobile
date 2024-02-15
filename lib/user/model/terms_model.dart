@@ -1,38 +1,41 @@
 class Terms {
   final bool submitted;
   final bool all;
-  final bool one;
-  final bool two;
-  final bool three;
-  final bool four;
+  final bool service;
+  final bool personalInfo;
+  final bool appPush;
+  final bool advertising;
 
   Terms({
     this.submitted = false,
     this.all = false,
-    this.one = false,
-    this.two = false,
-    this.three = false,
-    this.four = false,
+    this.service = false,
+    this.personalInfo = false,
+    this.appPush = false,
+    this.advertising = false,
   });
 
   Terms alltoggle(Terms state, bool value) {
     return state.copyWith(
         submitted: value,
         all: value,
-        one: value,
-        two: value,
-        three: value,
-        four: value);
+        service: value,
+        personalInfo: value,
+        appPush: value,
+        advertising: value);
   }
 
-  Terms onetoggle(Terms state, bool value) {
-    Terms newState = state.copyWith(one: value);
-    if (newState.one == true && newState.two == true) {
+  Terms serviceToggle(Terms state, bool value) {
+    Terms newState = state.copyWith(service: value);
+    if (newState.service == true && newState.personalInfo == true) {
       newState = newState.copyWith(submitted: true);
     } else {
       newState = newState.copyWith(submitted: false);
     }
-    if (newState.one && newState.two && newState.three && newState.four) {
+    if (newState.service &&
+        newState.personalInfo &&
+        newState.appPush &&
+        newState.advertising) {
       newState = newState.copyWith(all: true);
     } else {
       newState = newState.copyWith(all: false);
@@ -40,14 +43,17 @@ class Terms {
     return newState;
   }
 
-  Terms twotoggle(Terms state, bool value) {
-    Terms newState = state.copyWith(two: value);
-    if (newState.one == true && newState.two == true) {
+  Terms personalInfoToggle(Terms state, bool value) {
+    Terms newState = state.copyWith(personalInfo: value);
+    if (newState.service == true && newState.personalInfo == true) {
       newState = newState.copyWith(submitted: true);
     } else {
       newState = newState.copyWith(submitted: false);
     }
-    if (newState.one && newState.two && newState.three && newState.four) {
+    if (newState.service &&
+        newState.personalInfo &&
+        newState.appPush &&
+        newState.advertising) {
       newState = newState.copyWith(all: true);
     } else {
       newState = newState.copyWith(all: false);
@@ -55,9 +61,12 @@ class Terms {
     return newState;
   }
 
-  Terms threetoggle(Terms state, bool value) {
-    Terms newState = state.copyWith(three: value);
-    if (newState.one && newState.two && newState.three && newState.four) {
+  Terms appPushToggle(Terms state, bool value) {
+    Terms newState = state.copyWith(appPush: value);
+    if (newState.service &&
+        newState.personalInfo &&
+        newState.appPush &&
+        newState.advertising) {
       newState = newState.copyWith(all: true);
     } else {
       newState = newState.copyWith(all: false);
@@ -65,9 +74,12 @@ class Terms {
     return newState;
   }
 
-  Terms fourtoggle(Terms state, bool value) {
-    Terms newState = state.copyWith(four: value);
-    if (newState.one && newState.two && newState.three && newState.four) {
+  Terms advertisingToggle(Terms state, bool value) {
+    Terms newState = state.copyWith(advertising: value);
+    if (newState.service &&
+        newState.personalInfo &&
+        newState.appPush &&
+        newState.advertising) {
       newState = newState.copyWith(all: true);
     } else {
       newState = newState.copyWith(all: false);
@@ -78,18 +90,18 @@ class Terms {
   Terms copyWith({
     bool? submitted,
     bool? all,
-    bool? one,
-    bool? two,
-    bool? three,
-    bool? four,
+    bool? service,
+    bool? personalInfo,
+    bool? appPush,
+    bool? advertising,
   }) {
     return Terms(
       submitted: submitted ?? this.submitted,
       all: all ?? this.all,
-      one: one ?? this.one,
-      two: two ?? this.two,
-      three: three ?? this.three,
-      four: four ?? this.four,
+      service: service ?? this.service,
+      personalInfo: personalInfo ?? this.personalInfo,
+      appPush: appPush ?? this.appPush,
+      advertising: advertising ?? this.advertising,
     );
   }
 }

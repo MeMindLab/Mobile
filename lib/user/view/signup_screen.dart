@@ -1,5 +1,5 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:me_mind/common/component/custom_text_form.dart';
 import 'package:me_mind/common/component/dialog/d_bottom_sheet.dart';
 import 'package:me_mind/common/component/dialog/w_bottom_sheet_content.dart';
@@ -27,7 +27,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String email = "";
   String name = "";
   String pwd = "";
-
+  String brandName = "memind";
   Terms terms = Terms();
 
   bool pwdShow = true;
@@ -37,8 +37,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     CustomTheme theme = CustomThemeHolder.of(context).theme;
-
-    Color blueButtonColor = theme.appColors.blueButtonBackground;
 
     return DefaultLayout(
       title: "회원가입",
@@ -102,12 +100,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 pwdShow = !pwdShow;
                               });
                             },
-                            icon: SvgPicture.asset(
-                              "assets/svg/icon/pwd.svg",
-                              width: 24,
-                              height: 24,
-                              fit: BoxFit.fitWidth,
-                            )),
+                            icon: pwdShow == true
+                                ? const Icon(Icons.visibility_off)
+                                : const Icon(Icons.visibility)),
                       ),
                       const SizedBox(
                         height: 13,
@@ -145,14 +140,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       CustomCheckBox(
                           title: "[필수] 서비스 이용약관 동의",
                           svg: "check.svg",
-                          isChecked: terms.one,
+                          isChecked: terms.service,
                           trailing: Text("보기",
                               style: TextStyle(
                                 decoration: TextDecoration.underline,
                               )),
                           onChanged: (value) {
                             setState(() {
-                              terms = terms.onetoggle(terms, value);
+                              terms = terms.serviceToggle(terms, value);
                             });
                           }),
                       const SizedBox(
@@ -161,14 +156,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       CustomCheckBox(
                           title: "[필수] 개인정보 수집 및 이용 동의",
                           svg: "check.svg",
-                          isChecked: terms.two,
+                          isChecked: terms.personalInfo,
                           trailing: Text("보기",
                               style: TextStyle(
                                 decoration: TextDecoration.underline,
                               )),
                           onChanged: (value) {
                             setState(() {
-                              terms = terms.twotoggle(terms, value);
+                              terms = terms.personalInfoToggle(terms, value);
                             });
                           }),
                       const SizedBox(
@@ -177,14 +172,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       CustomCheckBox(
                           title: "[선택] 앱 Push 수신 동의",
                           svg: "check.svg",
-                          isChecked: terms.three,
+                          isChecked: terms.appPush,
                           trailing: Text("보기",
                               style: TextStyle(
                                 decoration: TextDecoration.underline,
                               )),
                           onChanged: (value) {
                             setState(() {
-                              terms = terms.threetoggle(terms, value);
+                              terms = terms.appPushToggle(terms, value);
                             });
                           }),
                       const SizedBox(
@@ -193,14 +188,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       CustomCheckBox(
                           title: "[선택] 광고성 정보 수신 동의",
                           svg: "check.svg",
-                          isChecked: terms.four,
+                          isChecked: terms.advertising,
                           trailing: Text("보기",
                               style: TextStyle(
                                 decoration: TextDecoration.underline,
                               )),
                           onChanged: (value) {
                             setState(() {
-                              terms = terms.fourtoggle(terms, value);
+                              terms = terms.advertisingToggle(terms, value);
                             });
                           }),
                       const SizedBox(
@@ -233,24 +228,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         });
                                       }
                                     } else {
-                                      if (terms.four == true) {
+                                      if (terms.advertising == true) {
+                                        String today =
+                                            DateFormat("yyyy년 MM월 dd일")
+                                                .format(DateTime.now());
                                         await BottomSheets(
                                             context: context,
-                                            bodies: BottomSheetContent()
-                                                .termsAlert(
-                                                    title: "광고성 정보 수신동의 처리 결과",
-                                                    body:
-                                                        "전송자 : memind\n일시 : 20xx년 x월 x일\n내용 : 수신동의 처리 완료",
-                                                    action: RoundedButton(
-                                                      text: "확인",
-                                                      onPressed: () {
-                                                        Navigator.pop(context);
-                                                      },
-                                                    ))).show();
+                                            bodies: BottomSheetContent(
+                                                title: "광고성 정보 수신동의 처리 결과",
+                                                body:
+                                                    "전송자 : $brandName\n일시 : ${today}\n내용 : 수신동의 처리 완료",
+                                                action: RoundedButton(
+                                                  text: "확인",
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                ))).show();
                                         await Future.delayed(
                                             Duration(milliseconds: 1000));
                                       }
-                                      if (terms.three == true) {
+                                      if (terms.appPush == true) {
                                         var permissonStatus =
                                             await DevicePermission()
                                                 .accessNotification();

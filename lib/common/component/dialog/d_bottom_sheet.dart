@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class BottomSheets {
   final BuildContext context;
   final TextAlign textAlign;
-  final List<Widget> bodies;
+  final Widget bodies;
 
   BottomSheets(
       {required this.context,
@@ -37,9 +37,7 @@ class BottomSheets {
                   ]),
               child: Padding(
                   padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-                  child: Column(
-                    children: bodies,
-                  )));
+                  child: bodies));
         });
   }
 }
