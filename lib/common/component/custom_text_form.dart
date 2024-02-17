@@ -86,13 +86,15 @@ class CustomTextFormField extends StatelessWidget {
           cursorHeight: 13,
           onChanged: onChanged,
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 20,
+            contentPadding: const EdgeInsets.fromLTRB(5, 15, 15, 15),
+            prefix: const Padding(
+              padding: EdgeInsets.only(left: 10),
             ),
             counterText: '',
             hintText: hintText,
             errorText: errorText,
-            errorStyle: const TextStyle(height: 0),
+            errorStyle: FontSizes.getSmallStyle()
+                .copyWith(height: 0, color: Colors.red),
             hintStyle: FontSizes.getContentStyle(),
             fillColor: inputBackground,
             filled: true, // false 배경색 없음 true 있음

@@ -16,19 +16,25 @@ class SignupService implements Isignup {
     Response response;
 
     try {
+      // throw new DioException(
+      //     type: DioExceptionType.connectionError,
+      //     error: {"message": "Invalid Email"},
+      //     response: await dio.post(url, data: data),
+      //     message: "Invalid Email",
+      //     requestOptions: RequestOptions());
       response = await dio.post(url, data: data);
 
-      print(response.statusCode);
       if (response.statusCode == 201) {
         var body = response.data;
 
         return UserSignUpModel(
             code: body["code"], msg: body["msg"], result: body["result"]);
+      } else {
+        return null;
       }
-      // validation error
-      if (response.statusCode == 403) {
-        var serverMsg = response.data['message'];
-        switch (serverMsg) {
+    } on DioException catch (e) {
+      if (e.response!.statusCode == 409) {
+        switch (e.message) {
           case 'Invalid Nickname':
             return 'nickname';
           case 'Invalid Email':
@@ -37,8 +43,17 @@ class SignupService implements Isignup {
             return "nickname, email";
         }
       }
-    } on DioException catch (e) {
-      print("singup 에러: $e");
+      // if (e.type == DioExceptionType.connectionError) {
+      //   switch (e.message) {
+      //     case 'Invalid Nickname':
+      //       return 'nickname';
+      //     case 'Invalid Email':
+      //       return 'email';
+      //     default:
+      //       return "nickname, email";
+      //   }
+      // }
+      return null;
     }
   }
 }

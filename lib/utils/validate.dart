@@ -36,7 +36,7 @@ class CheckValidate {
           r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?~^<>,.&+=])[A-Za-z\d$@$!%*#?~^<>,.&+=]{8,15}$';
       RegExp regExp = RegExp(pattern);
       if (!regExp.hasMatch(value)) {
-        return '특수문자, 대소문자, 숫자 포함 8자 이상 15자 이내로 입력하세요.';
+        return '비밀번호는 특수문자 포함 최소8자입니다';
       } else {
         return null;
       }
@@ -44,7 +44,9 @@ class CheckValidate {
   }
 
   String? validateConfirmPassword(String compare, String value) {
-    if (value.isEmpty || compare != value) {
+    if (value.isEmpty) {
+      return "비밀번호를 입력하세요";
+    } else if (compare != value) {
       return '비밀번호가 일치하지 않습니다';
     } else {
       return null;

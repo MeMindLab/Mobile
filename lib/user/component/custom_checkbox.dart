@@ -13,6 +13,7 @@ class CustomCheckBox extends StatefulWidget {
   final Widget? trailing;
   final EdgeInsetsGeometry? padding;
   final bool isChecked;
+  final bool? isBold;
 
   const CustomCheckBox({
     Key? key,
@@ -23,6 +24,7 @@ class CustomCheckBox extends StatefulWidget {
     this.trailing,
     this.padding,
     required this.isChecked,
+    this.isBold = false,
   }) : super(key: key);
 
   @override
@@ -72,7 +74,9 @@ class _CustomCheckBoxState extends State<CustomCheckBox> {
                 child: Text(
                   widget.title,
                   style: FontSizes.getContentStyle().copyWith(
-                      fontWeight: FontWeight.w400,
+                      fontWeight: widget.isBold == false
+                          ? FontWeight.w400
+                          : FontWeight.w500,
                       color: widget.isChecked
                           ? theme.appColors.iconButton
                           : theme.appColors.hintText),
