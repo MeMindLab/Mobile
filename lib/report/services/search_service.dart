@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:me_mind/common/constant/constant.dart';
 import 'package:me_mind/report/model/report_search/report_search_model.dart';
 
 class SearchService {
@@ -6,24 +7,28 @@ class SearchService {
     String uriKeyword = Uri.encodeQueryComponent(keyword);
     String url = 'report/search/$uriKeyword';
 
-    final dio = Dio();
+    // final dio = Dio();
     dio.options.baseUrl = "http://52.65.66.124/";
     Response response;
 
     try {
       response = await dio.get(url);
+      // throw new DioException(requestOptions: RequestOptions());
       if (response.statusCode == 200) {
         var result = response.data;
 
         ReportSearchModel searchResult = ReportSearchModel.fromJson(result);
 
         return searchResult.result.report;
-      } else if (response.statusCode == 404) {
+      } else {
         return null;
       }
     } on DioException catch (error) {
       print("Report Search: dio get error:$error");
-      return null;
+      return Future.error("Dio Report Search Error");
+    } catch (e) {
+      print("$e");
+      return Future.error("Report Search Extra Error");
     }
   }
 }

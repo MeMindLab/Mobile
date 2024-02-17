@@ -5,6 +5,7 @@ import 'package:me_mind/common/component/custom_search_bar.dart';
 import 'package:me_mind/report/component/report_card.dart';
 import 'package:me_mind/report/model/report_search/report_search_model.dart';
 import 'package:me_mind/report/services/search_service.dart';
+import 'package:me_mind/report/utils/reports.dart';
 
 class SearchFragment extends StatefulWidget {
   const SearchFragment({
@@ -44,47 +45,36 @@ class _SearchFragmentState extends State<SearchFragment> {
               : FutureBuilder(
                   future: SearchService().search(controller.text),
                   builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return const Expanded(
+                        child: Column(children: [
+                          SizedBox(
+                            height: 241,
+                          ),
+                          Text("검색결과가 존재하지 않습니다."),
+                        ]),
+                      );
+                    }
                     if (snapshot.hasData) {
-                      if (snapshot.data == null) {
-                        return const Expanded(
-                          child: Column(children: [
-                            SizedBox(
-                              height: 241,
-                            ),
-                            Text("검색결과가 존재하지 않습니다."),
-                          ]),
-                        );
-                      } else {
+                      if (snapshot.data != null) {
+                        List<ReportData> newReports = [];
+                        for (var i = 0; i < snapshot.data.length; i++) {
+                          Report newReport = snapshot.data[i];
+
+                          newReports.add(ReportData(
+                              keywords: newReport.tags,
+                              summary: newReport.aiSummary,
+                              date: newReport.createdAt));
+                        }
                         return Expanded(
                             child: CustomScrollView(
-                                slivers: [renderReports(snapshot.data)]));
+                                slivers: [renderReports(newReports)]));
                       }
-                    } else {
-                      return const SizedBox();
                     }
+                    return const SizedBox();
                   })
         ],
       ),
     );
   }
-}
-
-SliverList renderReports(List<Report> reports) {
-  return SliverList(
-    delegate: SliverChildBuilderDelegate(
-      (context, index) {
-        Report report = reports[index];
-        return Padding(
-          padding: const EdgeInsets.only(bottom: 20),
-          child: ReportCard(
-            keywords: report.tags,
-            summary: report.aiSummary,
-            date: DateFormat("yyyy.MM.dd")
-                .format(DateTime.parse(report.createdAt)),
-          ),
-        );
-      },
-      childCount: reports.length,
-    ),
-  );
 }

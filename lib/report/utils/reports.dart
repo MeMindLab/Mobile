@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:me_mind/report/component/report_card.dart';
+import 'package:me_mind/report/model/report_search/report_search_model.dart';
 
 class ReportData {
   final List<String> keywords;
