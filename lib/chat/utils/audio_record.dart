@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:me_mind/screen/main/s_main.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:record/record.dart';
 import 'package:path_provider/path_provider.dart';
@@ -27,6 +28,10 @@ class AudioRecord {
       await openAppSettings().then((value) {
         if (Navigator.canPop(context)) {
           Navigator.pop(context);
+        } else {
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return MainScreen();
+          }));
         }
       });
     }
