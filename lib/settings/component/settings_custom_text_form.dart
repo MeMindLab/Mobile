@@ -114,8 +114,8 @@ class _CustomTextFormFieldState extends State<SeetingCustomTextFormField> {
             errorText: widget.errorText,
             errorStyle: FontSizes.getCapsuleStyle()
                 .copyWith(color: Colors.red, fontWeight: FontWeight.w500),
-            hintStyle: FontSizes.getCapsuleStyle()
-                .copyWith(color: labelTextColor, fontWeight: FontWeight.w400),
+            hintStyle: FontSizes.getContentStyle()
+                .copyWith(color: Colors.grey, fontWeight: FontWeight.w400),
             fillColor: inputBackground,
             filled: true, // false 배경색 없음 true 있음
             enabledBorder: OutlineInputBorder(
