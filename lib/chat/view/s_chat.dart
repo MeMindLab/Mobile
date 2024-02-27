@@ -6,6 +6,7 @@ import 'package:me_mind/common/component/datetime_to_text.dart';
 import 'package:me_mind/common/component/rounded_button.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
+import 'package:me_mind/common/layout/topbar/widget/back_arrow.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 
@@ -36,6 +37,7 @@ class _ChatState extends State<Chat> {
         ),
         //margin: EdgeInsets.only(left: 10),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
             isSameGureumi == false
                 ? Image.asset(
@@ -48,6 +50,7 @@ class _ChatState extends State<Chat> {
                     width: 50,
                     height: 50,
                   ),
+            const Spacer(),
           ],
         ),
       ),
@@ -56,7 +59,7 @@ class _ChatState extends State<Chat> {
         children: [
           Container(
             width: double.infinity,
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
             decoration: BoxDecoration(
               color: theme!.appColors.userInputBackground,
               borderRadius: const BorderRadius.only(
@@ -67,7 +70,7 @@ class _ChatState extends State<Chat> {
               ),
             ),
             constraints: BoxConstraints(
-              maxWidth: MediaQuery.of(context).size.width * 0.7,
+              maxWidth: MediaQuery.of(context).size.width * 0.68,
             ),
             child: Text(
               commentContent!,
@@ -79,10 +82,13 @@ class _ChatState extends State<Chat> {
             ),
           ),
           Container(
-            margin: const EdgeInsets.only(left: 10),
+            margin: const EdgeInsets.only(left: 8, top: 4),
             child: Text(
               datetimeType2(),
-              style: TextStyle(color: theme.appColors.hintText),
+              style: FontSizes.getCapsuleStyle().copyWith(
+                  color: theme.appColors.hintText,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w400),
             ),
           ),
         ],
@@ -100,14 +106,14 @@ class _ChatState extends State<Chat> {
         height: 50,
       ),
       title: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Container(
             width: double.infinity,
-            margin: EdgeInsets.fromLTRB(0, 30, 0, 0),
-            padding: EdgeInsets.all(20),
-            decoration: const BoxDecoration(
-              color: Color(0xffA9D0FF),
+            margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+            padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
+            decoration: BoxDecoration(
+              color: theme!.appColors.userChatBackground,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(32),
                 bottomLeft: Radius.circular(32),
@@ -116,24 +122,28 @@ class _ChatState extends State<Chat> {
               ),
             ),
             constraints: BoxConstraints(
-              maxWidth: MediaQuery.of(context).size.width * 0.7,
+              maxWidth: MediaQuery.of(context).size.width * 0.68,
             ),
             child: Text(
               commentContent!,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
                 color: Colors.black,
               ),
             ),
           ),
-          SizedBox(
+          Container(
             width: MediaQuery.of(context).size.width * 0.7,
+            margin: const EdgeInsets.only(right: 8, top: 4),
             child: Align(
                 alignment: Alignment.centerRight,
                 child: Text(
                   datetimeType2(),
-                  style: TextStyle(color: theme!.appColors.hintText),
+                  style: FontSizes.getCapsuleStyle().copyWith(
+                      color: theme.appColors.hintText,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w400),
                 )),
           ),
         ],
@@ -151,7 +161,11 @@ class _ChatState extends State<Chat> {
           Container(
             child: Row(
               children: [
-                SvgPicture.asset('assets/svg/icon/report.svg'),
+                SvgPicture.asset(
+                  'assets/svg/icon/report.svg',
+                  width: 28,
+                  height: 28,
+                ),
               ],
             ),
           ),
@@ -177,11 +191,11 @@ class _ChatState extends State<Chat> {
                   UserCommentTile(
                       theme: theme,
                       commentContent:
-                          "여름에는 더 힘든 것 같애..\n아침부터 일복이 터졌엉 어제 할일도 다 못했는데 팀장님이 보고서 다시 정리하라고 회의할 때 나만 콕 집어서 지시해;;\n짜증나 죽는줄 알았네...왜 나한테만 일을 몰아주는거지? 이대리님도 있고, 동기인 박매니저도 있는데..."),
+                          "여름에는 더 힘든 것 같애..\n아침부터 에어컨이 고장난거야 ㅠㅠ 출근 준비하는데 너무 더워서 땀을 뻘뻘흘렸엉.."),
                   AiCommentTile(
                       theme: theme,
                       commentContent:
-                          '더운 날씨에 정말 속상했을 것 같아요. 상사의 부당한 지시는 어디에 하소연 할 곳도 없고 힘드셨을 것 같아요.'),
+                          '오늘 많이 지치고 힘들었던 날이군요ㅜㅜ어떤 일들이 힘들었는지 얘기해줄 수 있어요?'),
                   UserCommentTile(theme: theme, commentContent: '오늘도 힘들었어ㅠㅠㅠ'),
                   AiCommentTile(
                       theme: theme,
@@ -195,7 +209,7 @@ class _ChatState extends State<Chat> {
             _BottomInputField(theme),
           ],
         ),
-        appBarLeading: Icon(Icons.keyboard_backspace),
+        appBarLeading: const BackArrowLeading(),
       ),
     );
   }
@@ -211,22 +225,25 @@ class _ChatState extends State<Chat> {
               children: [
                 // 입력창
                 Container(
-                  padding: const EdgeInsets.only(top: 10, bottom: 10),
+                  height: 78,
+                  padding: const EdgeInsets.only(top: 19, bottom: 19),
                   decoration: BoxDecoration(
                     color: theme.appColors.userInputBackground,
                   ),
                   child: Row(
                     children: [
                       Container(
-                        padding: const EdgeInsets.fromLTRB(20, 10, 10, 10),
+                        margin: const EdgeInsets.fromLTRB(20, 0, 6, 0),
                         child: SvgPicture.asset(
                             'assets/svg/icon/imageUpload.svg',
+                            width: 30,
+                            height: 30,
                             colorFilter: ColorFilter.mode(
                                 theme.appColors.activate, BlendMode.srcIn)),
                       ),
                       Expanded(
                         child: Container(
-                          height: MediaQuery.of(context).size.height * 0.05,
+                          height: 40,
                           margin: const EdgeInsets.only(right: 20),
                           child: TextField(
                             maxLines: 1,
@@ -243,7 +260,7 @@ class _ChatState extends State<Chat> {
                               fillColor: theme.appColors.seedColor,
                               // textfield 오른쪽에 아이콘
                               suffixIcon: SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.2,
+                                width: 72,
                                 child: Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
@@ -259,7 +276,7 @@ class _ChatState extends State<Chat> {
                                         },
                                         child: Container(
                                           padding: const EdgeInsets.fromLTRB(
-                                              10, 10, 10, 10),
+                                              0, 5, 10, 5),
                                           child: SvgPicture.asset(
                                               'assets/svg/icon/mic.svg',
                                               colorFilter: ColorFilter.mode(
