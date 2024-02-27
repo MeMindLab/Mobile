@@ -16,7 +16,7 @@ import 'package:me_mind/report/view/s_report_detail.dart';
 import 'package:me_mind/settings/component/certified_box.dart';
 import 'package:me_mind/settings/component/settings_menu.dart';
 import 'package:me_mind/settings/view/s_setting_opinion.dart';
-import 'package:me_mind/settings/view/s_setting_thema.dart';
+import 'package:me_mind/settings/view/s_setting_theme.dart';
 import 'package:me_mind/settings/view/s_setting_userinfo.dart';
 
 class Settings extends StatefulWidget {
@@ -186,7 +186,7 @@ class _SettingState extends State<Settings> {
                           pageBuilder: ((BuildContext context,
                                   Animation<double> animation1,
                                   Animation<double> animation2) =>
-                              const SettingThema()),
+                              const SettingTheme()),
                           transitionDuration: Duration.zero,
                           reverseTransitionDuration: Duration.zero,
                         ));

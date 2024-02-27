@@ -28,10 +28,9 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 5),
       child: AppBar(
         automaticallyImplyLeading: false,
-        leadingWidth: 0,
         title: Text(
           title,
           style: FontSizes.getHeadline1Style().copyWith(
@@ -39,7 +38,14 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
         ),
         centerTitle: true,
-        actions: actions,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 20),
+            child: Row(
+              children: actions ?? [],
+            ),
+          ),
+        ],
         backgroundColor: backgroundColor,
         foregroundColor: foregroundColor ?? Colors.black,
         leading: leading,
