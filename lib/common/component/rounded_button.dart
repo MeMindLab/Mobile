@@ -11,6 +11,7 @@ class RoundedButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final TextStyle? textStyle;
   final double? elevation;
+  final BorderSide? borderSide;
 
   const RoundedButton({
     super.key,
@@ -21,6 +22,7 @@ class RoundedButton extends StatelessWidget {
     this.onPressed,
     this.textStyle,
     this.elevation = 0,
+    this.borderSide,
   });
 
   @override
@@ -30,6 +32,7 @@ class RoundedButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
+        side: borderSide,
         elevation: elevation,
         backgroundColor:
             backgroundColor ?? theme.appColors.blueButtonBackground,

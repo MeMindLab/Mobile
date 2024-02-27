@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
@@ -9,12 +10,17 @@ class SeetingCustomTextFormField extends StatefulWidget {
   final String? initialText;
   final bool obscureText;
   final bool autoFocus;
+  final bool readOnly;
   final int? maxLength;
   final int? maxLines;
   final Color? bgColor;
   final String? labelText;
   final Widget? suffixWidget;
   final ValueChanged<String> onChanged;
+  final FormFieldValidator? validator;
+  final FormFieldSetter? onSaved;
+  final List<TextInputFormatter>? textInputFormatter;
+  final bool? enabled;
 
   const SeetingCustomTextFormField({
     super.key,
@@ -24,11 +30,16 @@ class SeetingCustomTextFormField extends StatefulWidget {
     this.obscureText = false,
     this.autoFocus = false,
     this.maxLength,
+    this.readOnly = false,
     this.maxLines,
     this.bgColor,
     this.labelText,
     this.suffixWidget,
     required this.onChanged,
+    this.validator,
+    this.onSaved,
+    this.textInputFormatter,
+    this.enabled = true,
   });
   @override
   State<SeetingCustomTextFormField> createState() =>
@@ -54,7 +65,8 @@ class _CustomTextFormFieldState extends State<SeetingCustomTextFormField> {
     Color hintTextColor =
         CustomThemeHolder.of(context).theme.appColors.hintText;
     // CustomThemeHolder.of(context).theme.appColors.hintText;
-
+    Color labelTextColor =
+        CustomThemeHolder.of(context).theme.appColors.iconButton;
     Color inputBackground = widget.bgColor ?? Colors.white;
 
     final baseBorder = OutlineInputBorder(
@@ -72,7 +84,8 @@ class _CustomTextFormFieldState extends State<SeetingCustomTextFormField> {
             padding: const EdgeInsets.only(bottom: 6),
             child: Text(
               widget.labelText!,
-              style: FontSizes.getContentStyle().copyWith(color: hintTextColor),
+              style: FontSizes.getHeadline1Style()
+                  .copyWith(color: labelTextColor, fontWeight: FontWeight.w500),
             ),
           ),
         TextFormField(
@@ -82,27 +95,41 @@ class _CustomTextFormFieldState extends State<SeetingCustomTextFormField> {
           maxLines: widget.maxLines,
           obscureText: _obscureText,
           autofocus: widget.autoFocus,
+          enabled: widget.enabled,
           cursorColor: theme.focusColor,
+          readOnly: widget.readOnly,
+          validator: widget.validator,
+          inputFormatters: widget.textInputFormatter,
           onChanged: widget.onChanged,
-          style: TextStyle(color: hintTextColor),
+          onSaved: widget.onSaved,
+          style: FontSizes.getContentStyle()
+              .copyWith(color: labelTextColor, fontWeight: FontWeight.w400),
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(20.0),
+            contentPadding: const EdgeInsets.fromLTRB(10, 15, 15, 15),
+            prefix: const Padding(
+              padding: EdgeInsets.only(left: 10),
+            ),
             counterText: '',
             hintText: widget.hintText,
             errorText: widget.errorText,
-            hintStyle: const TextStyle(
-              color: AppColors.gray9,
-              fontSize: 14.0,
-              fontWeight: FontWeight.w400,
-            ),
+            errorStyle: FontSizes.getCapsuleStyle()
+                .copyWith(color: Colors.red, fontWeight: FontWeight.w500),
+            hintStyle: FontSizes.getCapsuleStyle()
+                .copyWith(color: labelTextColor, fontWeight: FontWeight.w400),
             fillColor: inputBackground,
             filled: true, // false 배경색 없음 true 있음
             enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide.none,
                 borderRadius: BorderRadius.circular(13)),
+            disabledBorder: OutlineInputBorder(
+                borderSide: BorderSide.none,
+                borderRadius: BorderRadius.circular(13)),
             focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide.none,
                 borderRadius: BorderRadius.circular(13)),
+            errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(13),
+                borderSide: BorderSide(color: Colors.red)),
 
             suffixIcon: widget.obscureText
                 ? GestureDetector(
