@@ -35,13 +35,13 @@ class DialogContent extends StatelessWidget {
               ),
             if (imageAddr != null)
               const SizedBox(
-                height: 10,
+                height: 17,
               ),
             SizedBox(
               width: double.infinity,
               child: Text(
                 title,
-                style: FontSizes.getContentStyle().copyWith(
+                style: FontSizes.getHeadline2Style().copyWith(
                     color: theme.appColors.iconButton,
                     fontWeight: FontWeight.w600,
                     fontFamily: "Pretendard"),

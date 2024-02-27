@@ -17,6 +17,7 @@ import 'package:me_mind/settings/view/s_setting_notification.dart';
 import 'package:me_mind/settings/view/s_setting_opinion.dart';
 import 'package:me_mind/settings/view/s_setting_theme.dart';
 import 'package:me_mind/settings/view/s_setting_userinfo.dart';
+import 'package:me_mind/settings/view/s_subscribe.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -94,10 +95,10 @@ class _SettingState extends State<Settings> {
                         ),
                         onPressed: () {
                           // 구독 버튼
-                          // Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //         builder: (context) => const SubscribePage()));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const SubscribePage()));
                         },
                       ),
                     ),

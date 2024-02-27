@@ -163,8 +163,11 @@ class _UserInfoFormState extends State<UserInfoForm> {
                         height: 35,
                         margin: EdgeInsets.fromLTRB(0, 5, 7, 5),
                         child: ElevatedButton(
-                          child:
-                              isphoneAuthenticated ? Text("재전송") : Text("인증요청"),
+                          child: Text(
+                            isphoneAuthenticated ? "재전송" : "인증요청",
+                            style: FontSizes.getContentStyle()
+                                .copyWith(fontWeight: FontWeight.w500),
+                          ),
                           onPressed: () {
                             if (isphoneAuthenticated == false) {
                               setState(() {
@@ -243,7 +246,12 @@ class _UserInfoFormState extends State<UserInfoForm> {
                                   width: 75,
                                   height: 35,
                                   child: ElevatedButton(
-                                    child: Text("확인"),
+                                    child: Text(
+                                      "확인",
+                                      style: FontSizes.getContentStyle()
+                                          .copyWith(
+                                              fontWeight: FontWeight.w500),
+                                    ),
                                     onPressed: () {
                                       if (_formKey.currentState!.validate()) {
                                         _formKey.currentState!.save();

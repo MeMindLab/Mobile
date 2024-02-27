@@ -33,12 +33,15 @@ class AlertDialogs {
           backgroundColor: theme.appColors.seedColor,
           surfaceTintColor: theme.appColors.badgeBorder,
           contentPadding: const EdgeInsets.fromLTRB(0, 30, 0, 15),
-          actionsPadding: const EdgeInsets.fromLTRB(15, 5, 15, 15),
+          actionsPadding: const EdgeInsets.fromLTRB(15, 5, 15, 10),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(13),
           ),
-          content: DialogContent(
-              title: title, body: body, theme: theme, textAlign: textAlign),
+          content: SizedBox(
+            width: MediaQuery.of(context).size.width * 0.79,
+            child: DialogContent(
+                title: title, body: body, theme: theme, textAlign: textAlign),
+          ),
           actions: [
             Container(
                 margin: const EdgeInsets.only(bottom: 5),

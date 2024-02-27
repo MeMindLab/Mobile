@@ -46,6 +46,7 @@ dependencies:
   flutter_inappwebview: ^5.8.0
   introduction_screen: ^3.1.12
   fl_chart: ^0.64.0
+  flutter_email_sender: ^6.0.2
 
   image_picker: ^1.0.5
   lottie: ^2.7.0
@@ -99,6 +100,7 @@ flutter:
     - assets/image/logo/
     - assets/image/chat/
     - assets/image/theme/
+    - assets/image/icon/
 
   # To add assets to your application, add an assets section, like this:
   # assets:

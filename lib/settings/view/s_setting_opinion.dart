@@ -8,11 +8,13 @@ import 'package:me_mind/common/component/dialog/w_dialog_button.dart';
 import 'package:me_mind/common/component/rounded_button.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
-import 'package:me_mind/common/store.dart';
+import 'package:me_mind/common/layout/topbar/widget/back_arrow.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 import 'package:me_mind/settings/component/settings_custom_text_form.dart';
-import 'package:me_mind/settings/repositories/imageRepository.dart';
+import 'package:me_mind/settings/services/image_picker_service.dart';
+import 'package:me_mind/settings/utils/email_send.dart';
+import 'package:me_mind/settings/view/s_setting.dart';
 
 class SettingOpinion extends StatefulWidget {
   const SettingOpinion({super.key});
@@ -24,11 +26,15 @@ class SettingOpinion extends StatefulWidget {
 class _SettingOpinionState extends State<SettingOpinion> {
   bool infoCheck = false;
   List opinionList = [];
+  String title = "";
+  String body = "";
+  List<String> attachments = [];
 
   setOpinionList(value) async {
     if (value != null) {
       setState(() {
         opinionList.add(value);
+        attachments.add(value.path);
       });
     }
   }
@@ -54,13 +60,7 @@ class _SettingOpinionState extends State<SettingOpinion> {
     return DefaultLayout(
       title: "의견보내기",
       backgroundColor: theme.appColors.seedColor,
-      appBarLeading: IconButton(
-        onPressed: () async {
-          await setBottomIdx(1);
-          Navigator.pop(context);
-        },
-        icon: const Icon(Icons.arrow_back),
-      ),
+      appBarLeading: const BackArrowLeading(),
       child: CustomScrollView(
         slivers: [
           SliverFillRemaining(
@@ -79,11 +79,11 @@ class _SettingOpinionState extends State<SettingOpinion> {
                       children: [
                         SvgPicture.asset('assets/svg/icon/volume-up.svg'),
                         SizedBox(
-                          width: 10,
+                          width: 9,
                         ),
                         Flexible(
                           child: Text(
-                            "memind를 이용하며 생긴 궁금한 점이나,\n관련하여 전달하고픈 피드백을 넘겨주세요.",
+                            "memind를 이용하며 생긴 궁금한 점이나, \n관련하여 전달하고픈 피드백을 넘겨주세요.",
                             style: FontSizes.getContentStyle()
                                 .copyWith(color: theme.appColors.seedColor),
                           ),
@@ -92,7 +92,7 @@ class _SettingOpinionState extends State<SettingOpinion> {
                     ),
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 24.5,
                   ),
                   Container(
                     alignment: Alignment.centerLeft,
@@ -106,11 +106,15 @@ class _SettingOpinionState extends State<SettingOpinion> {
                     height: 5,
                   ),
                   buildTextField(
-                      onChanged: (String? value) {},
+                      onChanged: (String value) {
+                        setState(() {
+                          title = body;
+                        });
+                      },
                       hintText: "제목을 입력해주세요",
                       bgColor: theme.appColors.userInputBackground),
                   const SizedBox(
-                    height: 20,
+                    height: 14.5,
                   ),
                   Container(
                     alignment: Alignment.centerLeft,
@@ -124,20 +128,22 @@ class _SettingOpinionState extends State<SettingOpinion> {
                     height: 5,
                   ),
                   buildTextField(
-                      onChanged: (String? value) {},
+                      onChanged: (String value) {
+                        setState(() {
+                          body = value;
+                        });
+                      },
                       maxLines: 8,
                       hintText: "내용을 입력해주세요",
                       bgColor: theme.appColors.userInputBackground),
                   const SizedBox(
-                    height: 10,
+                    height: 14.5,
                   ),
-                  // 사진 추가하는 부분
                   Container(
                     alignment: Alignment.topLeft,
                     width: double.infinity,
                     height: 100,
                     padding: const EdgeInsets.all(0),
-                    // 0번째 idx는 사진 추가하는 버튼, 1부터 추가한 사진
                     child: GridView.builder(
                         itemCount: opinionList.length + 1,
                         gridDelegate:
@@ -151,7 +157,7 @@ class _SettingOpinionState extends State<SettingOpinion> {
                             return InkWell(
                               // 사진 추가 함수
                               onTap: () async {
-                                XFile? result = await ImagePickerRepository(
+                                var result = await ImagePickerService(
                                         imagePicker: ImagePicker())
                                     .getImage(ImageSource.gallery);
                                 if (result != null) {
@@ -189,6 +195,7 @@ class _SettingOpinionState extends State<SettingOpinion> {
                                     onTap: () {
                                       setState(() {
                                         opinionList = [];
+                                        attachments = [];
                                       });
                                     },
                                     child: Icon(
@@ -216,57 +223,77 @@ class _SettingOpinionState extends State<SettingOpinion> {
                             infoCheck = !infoCheck;
                           });
                         },
-                        child: SizedBox(
-                          height: 50,
-                          child: infoCheck == false
-                              ? SvgPicture.asset('assets/svg/icon/check.svg',
-                                  width: 16, height: 16)
-                              : SvgPicture.asset('assets/svg/icon/check.svg',
-                                  colorFilter: ColorFilter.mode(
+                        child: Container(
+                            padding: const EdgeInsets.only(left: 5),
+                            width: 24,
+                            height: 24,
+                            child: SvgPicture.asset(
+                              'assets/svg/icon/check.svg',
+                              width: 24,
+                              height: 24,
+                              fit: BoxFit.scaleDown,
+                              colorFilter: infoCheck
+                                  ? ColorFilter.mode(
                                       theme.appColors.confirmText,
-                                      BlendMode.srcIn),
-                                  width: 16,
-                                  height: 16),
-                        ),
+                                      BlendMode.srcIn)
+                                  : null,
+                            )),
                       ),
                       Flexible(
                           child: Container(
-                        padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
+                        padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                         child: RichText(
                           text: TextSpan(
-                              text: "수집된 정보는 의견에 대한 답변 목적으로 활용되며, 의견을 보내시면 ",
+                              text: "수집된 정보는 의견에 대한 답변 목적으로 활용되며,\n의견을 보내시면 ",
                               style: FontSizes.getCapsuleStyle().copyWith(
-                                  color: theme.appColors.iconButton,
+                                  color: theme.appColors.hintText,
                                   fontWeight: FontWeight.w400),
                               children: const <TextSpan>[
                                 TextSpan(
                                     text: "개인정보 수집 및 이용",
                                     style: TextStyle(
                                         decoration: TextDecoration.underline)),
-                                TextSpan(text: "에 동의하게 됩니다."),
+                                TextSpan(text: "에 동의하게 됩니다"),
                               ]),
                         ),
                       ))
                     ]),
                   ),
                   const SizedBox(
-                    height: 10,
+                    height: 16,
                   ),
                   RoundedButton(
-                    onPressed: () => AlertDialogs(
-                        context: context,
-                        title: "의견을 성공적으로 보냈어요!",
-                        body: "답변은 추후 등록한 이메일로 전송됩니다.",
-                        actions: [
-                          AlertDialogButton(
-                            theme: theme,
-                            bgColor: lightTheme.primaryColor,
-                            content: "닫기",
-                            onSubmit: () {
-                              Navigator.pop(context);
-                            },
-                          ),
-                        ]).show(),
+                    onPressed: infoCheck == true
+                        ? () {
+                            EmailSend.send(title, body, attachments)
+                                .then((value) async {
+                              await AlertDialogs(
+                                  context: context,
+                                  title: "의견을 성공적으로 보냈어요!",
+                                  body: "답변은 추후 등록한 이메일로 전송됩니다.",
+                                  actions: [
+                                    AlertDialogButton(
+                                      theme: theme,
+                                      bgColor: lightTheme.primaryColor,
+                                      content: "닫기",
+                                      onSubmit: () {
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                  ]).show();
+                              await Navigator.pushReplacement(
+                                  context,
+                                  PageRouteBuilder(
+                                    pageBuilder: ((BuildContext context,
+                                            Animation<double> animation1,
+                                            Animation<double> animation2) =>
+                                        Settings()),
+                                    transitionDuration: Duration.zero,
+                                    reverseTransitionDuration: Duration.zero,
+                                  ));
+                            });
+                          }
+                        : null,
                     text: "의견 보내기",
                   )
                 ]),
