@@ -19,6 +19,7 @@ class CustomTextFormField extends StatelessWidget {
   final FocusNode? focusNode;
   final VoidCallback? onToggleObscureText;
   final bool isToggle;
+  final bool? isLogin;
 
   const CustomTextFormField({
     super.key,
@@ -38,6 +39,7 @@ class CustomTextFormField extends StatelessWidget {
     this.readOnly = false,
     this.onToggleObscureText,
     this.isToggle = false,
+    this.isLogin = false,
   });
 
   @override
@@ -50,8 +52,9 @@ class CustomTextFormField extends StatelessWidget {
     Color hintTextColor =
         CustomThemeHolder.of(context).theme.appColors.hintText;
 
-    Color inputBackground =
-        CustomThemeHolder.of(context).theme.appColors.userInputBackground;
+    Color inputBackground = isLogin == false
+        ? CustomThemeHolder.of(context).theme.appColors.userInputBackground
+        : CustomThemeHolder.of(context).theme.appColors.loginInputBackground;
 
     final baseBorder = OutlineInputBorder(
       borderSide: const BorderSide(
@@ -85,6 +88,7 @@ class CustomTextFormField extends StatelessWidget {
           cursorWidth: 1.5,
           cursorHeight: 13,
           onChanged: onChanged,
+          style: FontSizes.getContentStyle(),
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.fromLTRB(5, 15, 15, 15),
             prefix: const Padding(
@@ -93,9 +97,10 @@ class CustomTextFormField extends StatelessWidget {
             counterText: '',
             hintText: hintText,
             errorText: errorText,
-            errorStyle: FontSizes.getSmallStyle()
-                .copyWith(height: 0, color: Colors.red),
-            hintStyle: FontSizes.getContentStyle(),
+            errorStyle: FontSizes.getSmallStyle().copyWith(
+                height: 0, color: Colors.red, fontWeight: FontWeight.w500),
+            hintStyle: FontSizes.getContentStyle()
+                .copyWith(fontWeight: FontWeight.w400),
             fillColor: inputBackground,
             filled: true, // false 배경색 없음 true 있음
             border: baseBorder,

@@ -5,6 +5,7 @@ import 'package:me_mind/common/component/custom_text_form.dart';
 import 'package:me_mind/common/component/dialog/d_bottom_sheet.dart';
 import 'package:me_mind/common/component/dialog/w_bottom_sheet_content.dart';
 import 'package:me_mind/common/component/rounded_button.dart';
+import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/layout/topbar/widget/back_arrow.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
@@ -117,6 +118,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         height: 23,
                       ),
                       CustomTextFormField(
+                        isLogin: true,
                         labelText: "이메일",
                         hintText: "example@gamil.com",
                         errorText: errorEmailText,
@@ -155,6 +157,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         height: 15,
                       ),
                       CustomTextFormField(
+                        isLogin: true,
                         labelText: "닉네임",
                         hintText: "닉네임을 입력해주세요",
                         errorText: errorNameText,
@@ -194,6 +197,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         height: 15,
                       ),
                       CustomTextFormField(
+                        isLogin: true,
                         labelText: "비밀번호",
                         hintText: "비밀번호를 설정해주세요(최소8자)",
                         maxLength: 15,
@@ -215,13 +219,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   });
                                 },
                                 icon: pwdShow == true
-                                    ? const Icon(
+                                    ? Icon(
                                         Icons.visibility_off,
-                                        color: Colors.grey,
+                                        color: theme.appColors.iconBook,
                                       )
-                                    : const Icon(
+                                    : Icon(
                                         Icons.visibility,
-                                        color: Colors.grey,
+                                        color: theme.appColors.iconBook,
                                       )),
                           ),
                         ),
@@ -230,21 +234,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         height: 10,
                       ),
                       CustomTextFormField(
+                        isLogin: true,
                         hintText: "비밀번호를 한 번 더 입력해주세요",
                         obscureText: pwdShow,
                         onChanged: (String value) {},
                         validator: (value) =>
                             CheckValidate().validateConfirmPassword(pwd, value),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 10),
-                        child: Text(
-                          "•  비밀번호는 특수문자 포함 최소8자입니다",
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.grey,
-                          ),
-                        ),
                       ),
                       const Spacer(),
                       CustomCheckBox(
@@ -263,9 +258,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           svg: "check.svg",
                           isChecked: isService,
                           trailing: Text("보기",
-                              style: TextStyle(
-                                decoration: TextDecoration.underline,
-                              )),
+                              style: FontSizes.getCapsuleStyle().copyWith(
+                                  decoration: TextDecoration.underline,
+                                  color: theme.appColors.hintText)),
                           onChanged: (value) {
                             onTermsChange("service", !isService);
                           }),
@@ -277,9 +272,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           svg: "check.svg",
                           isChecked: isPersonalInfo,
                           trailing: Text("보기",
-                              style: TextStyle(
-                                decoration: TextDecoration.underline,
-                              )),
+                              style: FontSizes.getCapsuleStyle().copyWith(
+                                  decoration: TextDecoration.underline,
+                                  color: theme.appColors.hintText)),
                           onChanged: (value) {
                             onTermsChange("personal", !isPersonalInfo);
                           }),
@@ -291,9 +286,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           svg: "check.svg",
                           isChecked: isAppPush,
                           trailing: Text("보기",
-                              style: TextStyle(
-                                decoration: TextDecoration.underline,
-                              )),
+                              style: FontSizes.getCapsuleStyle().copyWith(
+                                  decoration: TextDecoration.underline,
+                                  color: theme.appColors.hintText)),
                           onChanged: (value) {
                             onTermsChange("appPush", !isAppPush);
                           }),
@@ -305,9 +300,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           svg: "check.svg",
                           isChecked: isAdvertising,
                           trailing: Text("보기",
-                              style: TextStyle(
-                                decoration: TextDecoration.underline,
-                              )),
+                              style: FontSizes.getCapsuleStyle().copyWith(
+                                  decoration: TextDecoration.underline,
+                                  color: theme.appColors.hintText)),
                           onChanged: (value) {
                             onTermsChange("advertise", !isAdvertising);
                           }),

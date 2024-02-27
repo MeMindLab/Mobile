@@ -9,7 +9,7 @@ class CheckValidate {
       RegExp regExp = RegExp(pattern);
       print(!regExp.hasMatch(value));
       if (!regExp.hasMatch(value)) {
-        return '잘못된 이메일 형식입니다.';
+        return '이메일 형식을 확인해주세요.';
       } else {
         return null;
       }

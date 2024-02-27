@@ -61,7 +61,7 @@ class _SignUpWelcomeState extends State<SignUpWelcome>
               ),
               const Spacer(),
               Padding(
-                padding: const EdgeInsets.only(bottom: 34),
+                padding: const EdgeInsets.only(bottom: 0),
                 child: RoundedButton(
                   text: "로그인하기",
                   textStyle: FontSizes.getContentStyle().copyWith(
