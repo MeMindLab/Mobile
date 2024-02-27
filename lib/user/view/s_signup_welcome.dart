@@ -40,8 +40,11 @@ class _SignUpWelcomeState extends State<SignUpWelcome>
           child: Column(
             children: [
               SizedBox(
-                width: 280,
-                height: 280,
+                height: MediaQuery.of(context).size.height * 0.1,
+              ),
+              SizedBox(
+                width: 241,
+                height: 241,
                 child: Lottie.asset(
                   "assets/json/welcome.json",
                   onLoaded: (composition) {
@@ -50,12 +53,12 @@ class _SignUpWelcomeState extends State<SignUpWelcome>
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 90.0),
+                padding: const EdgeInsets.only(top: 0.0),
                 child: Text(
                   "가입이 완료 되었습니다!\n로그인하러 가볼까요?",
                   textAlign: TextAlign.center,
                   style: FontSizes.getHeadline1Style().copyWith(
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
