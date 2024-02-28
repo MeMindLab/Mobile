@@ -26,6 +26,7 @@ class _SettingThemaState extends State<SettingTheme> {
     return DefaultLayout(
         title: "테마 설정",
         backgroundColor: theme.appColors.userInputBackground,
+        appBarBgColor: theme.appColors.userInputBackground,
         appBarLeading: BackArrowLeading(
           onPressed: () async {
             await setBottomIdx(3);

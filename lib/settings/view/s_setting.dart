@@ -43,6 +43,7 @@ class _SettingState extends State<Settings> {
     return DefaultLayout(
       title: "설정",
       backgroundColor: theme.appColors.userInputBackground,
+      appBarBgColor: theme.appColors.userInputBackground,
       appBarActions: [LemonNumberWidget(numberText: "10")],
       appBarLeading: const BackArrowLeading(),
       // 설정 화면 Body

@@ -24,6 +24,7 @@ class _SettingUserInfoState extends State<SettingNotification> {
         title: "알림 설정",
         appBarLeading: const BackArrowLeading(),
         backgroundColor: theme.appColors.userInputBackground,
+        appBarBgColor: theme.appColors.userInputBackground,
         child: CustomScrollView(
           physics: NeverScrollableScrollPhysics(),
           slivers: [
@@ -55,6 +56,9 @@ class _SettingUserInfoState extends State<SettingNotification> {
                           ),
                         ),
                         subscribe: false,
+                      ),
+                      const SizedBox(
+                        height: 10,
                       ),
                       SettingMenu(
                         height: 65,
