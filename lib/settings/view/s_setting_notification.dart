@@ -47,6 +47,16 @@ class _SettingUserInfoState extends State<SettingNotification> {
                           ),
                           trailing: Switch(
                             value: isService,
+                            trackOutlineColor:
+                                MaterialStateProperty.resolveWith(
+                              (final Set<MaterialState> states) {
+                                if (states.contains(MaterialState.selected)) {
+                                  return null;
+                                }
+
+                                return Colors.transparent;
+                              },
+                            ),
                             activeColor: theme.appColors.grayButtonBackground,
                             onChanged: (bool value) {
                               setState(() {
@@ -71,6 +81,16 @@ class _SettingUserInfoState extends State<SettingNotification> {
                           ),
                           trailing: Switch(
                             value: isAdvertise,
+                            trackOutlineColor:
+                                MaterialStateProperty.resolveWith(
+                              (final Set<MaterialState> states) {
+                                if (states.contains(MaterialState.selected)) {
+                                  return null;
+                                }
+
+                                return Colors.transparent;
+                              },
+                            ),
                             activeColor: theme.appColors.grayButtonBackground,
                             onChanged: (bool value) {
                               setState(() {
