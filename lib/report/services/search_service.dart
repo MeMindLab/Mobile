@@ -7,13 +7,12 @@ class SearchService {
     String uriKeyword = Uri.encodeQueryComponent(keyword);
     String url = 'report/search/$uriKeyword';
 
-    // final dio = Dio();
     dio.options.baseUrl = "http://52.65.66.124/";
     Response response;
 
     try {
       response = await dio.get(url);
-      // throw new DioException(requestOptions: RequestOptions());
+
       if (response.statusCode == 200) {
         var result = response.data;
 
@@ -25,10 +24,8 @@ class SearchService {
       }
     } on DioException catch (error) {
       print("Report Search: dio get error:$error");
-      return Future.error("Dio Report Search Error");
     } catch (e) {
       print("$e");
-      return Future.error("Report Search Extra Error");
     }
   }
 }

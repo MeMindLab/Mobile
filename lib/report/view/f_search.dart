@@ -45,16 +45,6 @@ class _SearchFragmentState extends State<SearchFragment> {
               : FutureBuilder(
                   future: SearchService().search(controller.text),
                   builder: (context, snapshot) {
-                    if (snapshot.hasError) {
-                      return const Expanded(
-                        child: Column(children: [
-                          SizedBox(
-                            height: 241,
-                          ),
-                          Text("검색결과가 존재하지 않습니다."),
-                        ]),
-                      );
-                    }
                     if (snapshot.hasData) {
                       if (snapshot.data != null) {
                         List<ReportData> newReports = [];
@@ -64,12 +54,23 @@ class _SearchFragmentState extends State<SearchFragment> {
                           newReports.add(ReportData(
                               keywords: newReport.tags,
                               summary: newReport.aiSummary,
-                              date: newReport.createdAt));
+                              date: DateFormat("yyyy.MM.dd").format(
+                                  DateTime.parse(newReport.createdAt))));
                         }
                         return Expanded(
                             child: CustomScrollView(
                                 slivers: [renderReports(newReports)]));
                       }
+                    }
+                    if (snapshot.hasError) {
+                      return const Expanded(
+                        child: Column(children: [
+                          SizedBox(
+                            height: 241,
+                          ),
+                          Text("검색결과가 존재하지 않습니다."),
+                        ]),
+                      );
                     }
                     return const SizedBox();
                   })
