@@ -6,6 +6,10 @@
         </intent>
     </queries>
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Permissions options for the `access notification policy` group -->
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY"/>
+    <!-- Permissions options for the `notification` group -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <application
         android:label="me_mind"
         android:name="${applicationName}"

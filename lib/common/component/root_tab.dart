@@ -21,40 +21,59 @@ class RootTab extends StatefulWidget {
 class _RootTabState extends State<RootTab> {
   Widget bottom(int idx, BuildContext context) {
     CustomTheme theme = CustomThemeHolder.of(context).theme;
-    return Container(
-      height: 66,
-      margin: EdgeInsets.only(bottom: Platform.isAndroid ? 16 : 0),
-      child: BottomAppBar(
-          padding:
-              const EdgeInsets.only(top: 0, bottom: 0, left: 16, right: 16),
-          color: Colors.transparent,
-          elevation: 0.0,
-          child: Container(
-            padding: const EdgeInsets.only(left: 10, right: 10),
-            decoration: BoxDecoration(
-                color: Colors.white, borderRadius: BorderRadius.circular(50)),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Row(
-                  children: [
-                    bottomNavItem(
-                        theme, 'assets/svg/icon/home.svg', idx == 0, "홈",
-                        onTap: () => onNavTap(0)),
-                    bottomNavItem(
-                        theme, 'assets/svg/icon/report.svg', idx == 1, "리포트",
-                        onTap: () => onNavTap(1)),
-                    bottomNavItem(
-                        theme, 'assets/svg/icon/picture3.svg', idx == 2, "그림일기",
-                        onTap: () => onNavTap(2)),
-                    bottomNavItem(
-                        theme, 'assets/svg/icon/setting.svg', idx == 3, "설정",
-                        onTap: () => onNavTap(3)),
-                  ],
+
+    return SafeArea(
+      bottom: true,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 19),
+        height: 66,
+        margin: EdgeInsets.only(bottom: Platform.isAndroid ? 16 : 0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(50),
+        ),
+        child: BottomAppBar(
+            padding: EdgeInsets.zero,
+            color: Colors.transparent,
+            elevation: 0.0,
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(50),
+                border: Border.all(
+                  width: 1,
+                  color: theme.appColors.grayButtonBackground,
                 ),
-              ],
-            ),
-          )),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Color.fromRGBO(212, 215, 225, 0.25),
+                    offset: Offset(0.0, -2.0),
+                    blurRadius: 4.0,
+                  )
+                ],
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    children: [
+                      bottomNavItem(
+                          theme, 'assets/svg/icon/home.svg', idx == 0, "홈",
+                          onTap: () => onNavTap(0)),
+                      bottomNavItem(
+                          theme, 'assets/svg/icon/report.svg', idx == 1, "리포트",
+                          onTap: () => onNavTap(1)),
+                      bottomNavItem(theme, 'assets/svg/icon/picture3.svg',
+                          idx == 2, "그림일기",
+                          onTap: () => onNavTap(2)),
+                      bottomNavItem(
+                          theme, 'assets/svg/icon/setting.svg', idx == 3, "설정",
+                          onTap: () => onNavTap(3)),
+                    ],
+                  ),
+                ],
+              ),
+            )),
+      ),
     );
   }
 
@@ -74,7 +93,7 @@ class _RootTabState extends State<RootTab> {
                       borderRadius: BorderRadius.circular(50),
                       color: lightTheme.primaryColor),
                 )
-              : SizedBox(),
+              : const SizedBox(),
           InkWell(
             onTap: onTap,
             child: Column(children: [
@@ -104,7 +123,6 @@ class _RootTabState extends State<RootTab> {
   }
 
   void onNavTap(int index) async {
-    print(index);
     List<Widget> pageName = [
       const MainScreen(),
       const Report(),

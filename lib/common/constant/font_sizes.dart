@@ -22,6 +22,14 @@ class FontSizes {
     );
   }
 
+  static TextStyle getXSmallStyle() {
+    return getTextStyle(size: xSmall);
+  }
+
+  static TextStyle getSmallStyle() {
+    return getTextStyle(size: small);
+  }
+
   static TextStyle getHeadline1Style() {
     return getTextStyle(size: xLarge);
   }
@@ -35,7 +43,7 @@ class FontSizes {
   }
 
   static TextStyle getHighLightContentStyle() {
-    return getTextStyle(size: large).copyWith(fontWeight: FontWeight.w500);
+    return getTextStyle(size: large, fontWeight: FontWeight.w500);
   }
 
   static TextStyle getCapsuleStyle() {
@@ -43,6 +51,6 @@ class FontSizes {
   }
 
   static TextStyle getCapsuleHighlightStyle() {
-    return getTextStyle(size: small).copyWith(fontWeight: FontWeight.w500);
+    return getTextStyle(size: small, fontWeight: FontWeight.w500);
   }
 }

@@ -18,6 +18,7 @@ class AppColors {
   static const Color blue6 = Color(0xFF2F8CFA);
   static const Color blue7 = Color(0xFF596271);
   static const Color blue8 = Color(0xFF202835);
+  static const Color blue10 = Color(0xFFEBEFFC);
   static const Color yellow = Color.fromRGBO(255, 238, 151, 1.0);
   static const Color lemonYellow = Color.fromRGBO(255, 199, 0, 1.0);
   static const Color midnightBlue = Color(0xFF0064DA);
