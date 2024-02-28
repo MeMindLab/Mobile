@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/theme/color/abs_theme_colors.dart';
 import 'package:me_mind/common/theme/shadows/abs_theme_shadows.dart';
@@ -38,14 +39,22 @@ ThemeData lightTheme = ThemeData(
     visualDensity: VisualDensity.adaptivePlatformDensity,
     brightness: Brightness.light,
     colorScheme:
-        ColorScheme.fromSeed(seedColor: CustomTheme.light.appColors.seedColor));
+        ColorScheme.fromSeed(seedColor: CustomTheme.light.appColors.seedColor),
+    scaffoldBackgroundColor: Colors.white,
+    primaryColor: AppColors.yellow,
+    cardColor: AppColors.blue3,
+    primaryColorDark: AppColors.blue7,
+    focusColor: AppColors.gray9,
+    appBarTheme: const AppBarTheme(
+      color: Colors.white,
+    ));
 
-const darkColorSeed = Color(0xbcd5ff7e);
 ThemeData darkTheme = ThemeData(
-    useMaterial3: true,
-    visualDensity: VisualDensity.adaptivePlatformDensity,
-    brightness: Brightness.dark,
-    scaffoldBackgroundColor: AppColors.veryDarkGrey,
-    colorScheme: ColorScheme.fromSeed(
-        seedColor: CustomTheme.dark.appColors.seedColor,
-        brightness: Brightness.dark));
+  useMaterial3: true,
+  visualDensity: VisualDensity.adaptivePlatformDensity,
+  brightness: Brightness.dark,
+  scaffoldBackgroundColor: Colors.white,
+  colorScheme: ColorScheme.fromSeed(
+      seedColor: CustomTheme.dark.appColors.seedColor,
+      brightness: Brightness.dark),
+);

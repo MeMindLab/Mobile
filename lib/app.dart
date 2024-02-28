@@ -1,7 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
-import 'package:me_mind/screen/main/s_main.dart';
+import 'package:me_mind/diary/view/s_diary.dart';
+import 'package:me_mind/report/view/f_search.dart';
+import 'package:me_mind/report/view/s_report.dart';
+import 'package:me_mind/report/view/s_report_detail.dart';
+import 'package:me_mind/report/view/s_report_month.dart';
+import 'package:me_mind/report/view/s_report_search.dart';
 
 import 'common/theme/custom_theme_app.dart';
 import 'common/theme/custom_theme_holder.dart';
@@ -11,7 +16,7 @@ class App extends StatefulWidget {
 
   static bool isForeground = true;
 
-  static CustomTheme? defaultTheme;
+  static CustomTheme? defaultTheme = CustomTheme.light;
 
   const App({super.key});
 
@@ -46,7 +51,8 @@ class AppState extends State<App> with WidgetsBindingObserver {
           locale: context.locale,
           title: 'Me mind',
           theme: CustomThemeHolder.of(context).theme.themeData,
-          home: const MainScreen(),
+          home: const Report(),
+
         );
       }),
     );
@@ -64,6 +70,8 @@ class AppState extends State<App> with WidgetsBindingObserver {
         App.isForeground = false;
         break;
       case AppLifecycleState.detached:
+        break;
+      case AppLifecycleState.hidden:
         break;
     }
     super.didChangeAppLifecycleState(state);
