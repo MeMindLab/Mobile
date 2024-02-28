@@ -10,7 +10,6 @@ import 'package:me_mind/common/layout/topbar/widget/lemon_number.dart';
 import 'package:me_mind/common/store.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
-import 'package:me_mind/report/view/s_report.dart';
 import 'package:me_mind/settings/component/certified_box.dart';
 import 'package:me_mind/settings/component/settings_menu.dart';
 import 'package:me_mind/settings/services/logout_service.dart';
@@ -240,12 +239,20 @@ class _SettingState extends State<Settings> {
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemBuilder: (BuildContext contexnt, int idx) {
-                        return ListTile(
-                          visualDensity: const VisualDensity(vertical: -1),
-                          title: Text(
-                            settingmenus[idx],
-                            style: FontSizes.getHeadline2Style()
-                                .copyWith(color: theme.appColors.iconButton),
+                        return InkWell(
+                          onTap: () {
+                            // Navigator.push(context,
+                            //     MaterialPageRoute(builder: (context) {
+                            //   return ;
+                            // }));
+                          },
+                          child: ListTile(
+                            visualDensity: const VisualDensity(vertical: -1),
+                            title: Text(
+                              settingmenus[idx],
+                              style: FontSizes.getHeadline2Style()
+                                  .copyWith(color: theme.appColors.iconButton),
+                            ),
                           ),
                         );
                       },

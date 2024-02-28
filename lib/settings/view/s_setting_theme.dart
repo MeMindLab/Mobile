@@ -166,6 +166,15 @@ class _SettingThemaState extends State<SettingTheme> {
                     ),
                     Switch(
                       value: isDarkmode,
+                      trackOutlineColor: MaterialStateProperty.resolveWith(
+                        (final Set<MaterialState> states) {
+                          if (states.contains(MaterialState.selected)) {
+                            return null;
+                          }
+
+                          return Colors.transparent;
+                        },
+                      ),
                       activeColor: theme.appColors.grayButtonBackground,
                       onChanged: (bool value) {
                         setState(() {
