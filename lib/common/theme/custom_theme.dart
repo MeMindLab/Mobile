@@ -45,6 +45,7 @@ ThemeData lightTheme = ThemeData(
     cardColor: AppColors.blue3,
     primaryColorDark: AppColors.blue7,
     focusColor: AppColors.gray9,
+    fontFamily: "Pretendard",
     appBarTheme: const AppBarTheme(
       color: Colors.white,
     ));
@@ -57,4 +58,5 @@ ThemeData darkTheme = ThemeData(
   colorScheme: ColorScheme.fromSeed(
       seedColor: CustomTheme.dark.appColors.seedColor,
       brightness: Brightness.dark),
+  fontFamily: "Pretendard",
 );

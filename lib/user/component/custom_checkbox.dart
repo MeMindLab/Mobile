@@ -1,23 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:me_mind/common/constant/constant.dart';
+import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 
 class CustomCheckBox extends StatefulWidget {
   final ValueChanged<bool> onChanged;
+  final String svg;
   final String title;
   final Widget? leading;
   final Widget? trailing;
   final EdgeInsetsGeometry? padding;
+  final bool isChecked;
+  final bool? isBold;
 
   const CustomCheckBox({
     Key? key,
     required this.onChanged,
     required this.title,
+    required this.svg,
     this.leading,
     this.trailing,
     this.padding,
+    required this.isChecked,
+    this.isBold = false,
   }) : super(key: key);
 
   @override
@@ -29,7 +36,7 @@ class _CustomCheckBoxState extends State<CustomCheckBox> {
 
   void _toggleCheckbox() {
     setState(() {
-      _isChecked = !_isChecked;
+      _isChecked = !widget.isChecked;
     });
     widget.onChanged(_isChecked);
   }
@@ -54,20 +61,25 @@ class _CustomCheckBoxState extends State<CustomCheckBox> {
                     color: Colors.transparent,
                     child: Center(
                       child: SvgPicture.asset(
-                        '$baseImageSvgPath/icon/check.svg',
-                        colorFilter: _isChecked
+                        '$baseImageSvgPath/icon/${widget.svg}',
+                        colorFilter: widget.isChecked
                             ? ColorFilter.mode(
-                                theme.appColors.blueButtonBackground,
-                                BlendMode.srcIn)
+                                theme.appColors.checkColor, BlendMode.srcIn)
                             : null,
                       ),
                     ),
                   ),
-              const SizedBox(width: 16.0),
+              const SizedBox(width: 6.0),
               Expanded(
                 child: Text(
                   widget.title,
-                  style: const TextStyle(fontSize: 12),
+                  style: FontSizes.getContentStyle().copyWith(
+                      fontWeight: widget.isBold == false
+                          ? FontWeight.w400
+                          : FontWeight.w500,
+                      color: widget.isChecked
+                          ? theme.appColors.iconButton
+                          : theme.appColors.hintText),
                 ),
               ),
               widget.trailing ?? const SizedBox.shrink(),
