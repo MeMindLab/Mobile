@@ -31,36 +31,49 @@ class MultiChoiceDialog {
       builder: (BuildContext context) {
         CustomTheme theme = CustomThemeHolder.of(context).theme;
 
-        Widget leftButton = Flexible(
-          fit: FlexFit.tight,
-          child: actions[0],
-          flex: isNarrow == true ? 2 : 1,
-        );
-        Widget rightButton = Flexible(
-          fit: FlexFit.tight,
-          child: actions[1],
-          flex: isNarrow == true ? 5 : 1,
-        );
+        Widget leftButton = isRow == true
+            ? Flexible(
+                fit: FlexFit.tight,
+                child: actions[0],
+                flex: isNarrow == true ? 2 : 1,
+              )
+            : SizedBox(
+                width: double.infinity,
+                child: actions[0],
+              );
+        Widget rightButton = isRow == true
+            ? Flexible(
+                fit: FlexFit.tight,
+                child: actions[1],
+                flex: isNarrow == true ? 5 : 1,
+              )
+            : SizedBox(
+                width: double.infinity,
+                child: actions[1],
+              );
         List<Widget> newActions = [
           leftButton,
-          isRow == true ? SizedBox(width: 5) : SizedBox(height: 15),
+          isRow == true ? SizedBox(width: 9) : SizedBox(height: 5),
           rightButton
         ];
 
         return AlertDialog(
           backgroundColor: theme.appColors.seedColor,
           surfaceTintColor: theme.appColors.badgeBorder,
-          contentPadding: const EdgeInsets.fromLTRB(0, 30, 0, 15),
-          actionsPadding: const EdgeInsets.fromLTRB(15, 5, 15, 15),
+          contentPadding: const EdgeInsets.fromLTRB(0, 20, 0, 15),
+          actionsPadding: const EdgeInsets.fromLTRB(15, 5, 15, 10),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(13),
           ),
-          content: DialogContent(
-              imageAddr: imageAddr,
-              title: title,
-              body: body,
-              theme: theme,
-              textAlign: textAlign),
+          content: SizedBox(
+            width: MediaQuery.of(context).size.width * 0.79,
+            child: DialogContent(
+                imageAddr: imageAddr,
+                title: title,
+                body: body,
+                theme: theme,
+                textAlign: textAlign),
+          ),
           actions: [
             Container(
                 margin: const EdgeInsets.only(bottom: 5),

@@ -19,7 +19,10 @@ class BackArrowLeading extends StatelessWidget {
       child: IconButton(
         padding: EdgeInsets.zero,
         constraints: const BoxConstraints(),
-        onPressed: onPressed ?? () => Navigator.of(context).pop(),
+        onPressed: onPressed ??
+            () => {
+                  if (Navigator.canPop(context)) {Navigator.of(context).pop()}
+                },
         icon: Icon(
           Icons.arrow_back,
           color: theme.appColors.iconButton,

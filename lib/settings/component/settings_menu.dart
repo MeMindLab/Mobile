@@ -26,14 +26,13 @@ class SettingMenu extends StatelessWidget {
           gradient: subscribe == true
               ? LinearGradient(
                   colors: [
-                    theme.appColors.blueButtonBackground,
-                    theme.appColors.confirmText,
+                    Color.fromRGBO(119, 181, 255, 1),
+                    Color.fromRGBO(29, 125, 240, 1),
                   ],
                   begin: const Alignment(-0.3, -0.8),
                   end: const Alignment(1, 0.9),
                 )
               : null),
-      margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
       child: Align(
         alignment: Alignment.centerLeft,
         child: content,

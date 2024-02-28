@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:me_mind/chat/view/s_chat.dart';
+import 'package:me_mind/chat/view/s_trash.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/store.dart';
 import 'package:me_mind/common/component/root_tab.dart';
@@ -130,12 +131,12 @@ class _MainScreenState extends State<MainScreen> {
 
                     if (args[0] == "trashButton") {
                       // 감정쓰레기통 스크린 이동
-                      //Navigator.push(
-                      //  context,
-                      //  MaterialPageRoute(
-                      //    builder: (context) => const Chat(),
-                      //  ),
-                      //);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const Trash(),
+                        ),
+                      );
                     }
                   });
             },

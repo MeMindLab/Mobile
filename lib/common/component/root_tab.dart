@@ -130,7 +130,7 @@ class _RootTabState extends State<RootTab> {
       const Settings()
     ];
     await setBottomIdx(index);
-    Navigator.pushReplacement(
+    Navigator.push(
         context,
         PageRouteBuilder(
           pageBuilder: ((BuildContext context, Animation<double> animation1,
