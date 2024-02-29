@@ -27,39 +27,42 @@ class ReportMonthFragment extends StatelessWidget {
       physics: const ClampingScrollPhysics(),
       slivers: [
         SliverPadding(
-          padding: const EdgeInsets.fromLTRB(23, 0, 20, 20),
+          padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
           sliver: SliverToBoxAdapter(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
-                  child: Row(
-                    children: [
-                      Text(
-                        datetime,
-                        style: FontSizes.getHeadline1Style()
-                            .copyWith(fontWeight: FontWeight.w500),
-                      ),
-                      InkWell(
-                        child: Icon(
+                  child: InkWell(
+                    highlightColor: Colors.transparent,
+                    splashColor: Colors.transparent,
+                    onTap: () {
+                      Dialogs(
+                              context: context,
+                              content: CustomDatePicker(
+                                selectedDate: DateTime.now(),
+                              ),
+                              contentPadding: EdgeInsets.zero)
+                          .callDateDialog();
+                    },
+                    child: Row(
+                      children: [
+                        Text(
+                          datetime,
+                          style: FontSizes.getHeadline1Style()
+                              .copyWith(fontWeight: FontWeight.w500),
+                        ),
+                        Icon(
                           Icons.arrow_forward_ios_outlined,
                           size: 18.0,
                           color: Colors.black,
                         ),
-                        onTap: () {
-                          Dialogs(
-                                  context: context,
-                                  content: CustomDatePicker(
-                                    selectedDate: DateTime.now(),
-                                  ),
-                                  contentPadding: EdgeInsets.zero)
-                              .callDateDialog();
-                        },
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
                 IconButton(
+                  visualDensity: VisualDensity.compact,
                   onPressed: () {
                     // 아이콘 버튼의 동작을 정의합니다.
                     Navigator.push(context,
@@ -67,8 +70,8 @@ class ReportMonthFragment extends StatelessWidget {
                   },
                   icon: SvgPicture.asset(
                     'assets/svg/icon/search.svg',
-                    width: 24,
-                    height: 24,
+                    width: 20,
+                    height: 20,
                     colorFilter: const ColorFilter.mode(
                       Colors.black,
                       BlendMode.srcIn,

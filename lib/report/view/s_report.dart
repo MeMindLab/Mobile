@@ -114,32 +114,34 @@ class _Report extends State<Report> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
-                        children: [
-                          Text(
-                            date!,
-                            style: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w400,
+                      InkWell(
+                        highlightColor: Colors.transparent,
+                        splashColor: Colors.transparent,
+                        onTap: () {
+                          Dialogs(
+                                  context: context,
+                                  content: CustomDatePicker(
+                                    selectedDate: DateTime.now(),
+                                  ),
+                                  contentPadding: EdgeInsets.zero)
+                              .callDateDialog();
+                        },
+                        child: Row(
+                          children: [
+                            Text(
+                              date!,
+                              style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w400,
+                              ),
                             ),
-                          ),
-                          InkWell(
-                            child: Icon(
+                            Icon(
                               Icons.arrow_forward_ios_outlined,
                               size: 18.0,
                               color: Colors.black,
                             ),
-                            onTap: () {
-                              Dialogs(
-                                      context: context,
-                                      content: CustomDatePicker(
-                                        selectedDate: DateTime.now(),
-                                      ),
-                                      contentPadding: EdgeInsets.zero)
-                                  .callDateDialog();
-                            },
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                       IconButton(
                         icon: SvgPicture.asset('assets/svg/icon/search.svg'),
