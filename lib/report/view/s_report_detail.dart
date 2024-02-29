@@ -55,13 +55,20 @@ class _ReportDetailState extends State<ReportDetail> {
               width: double.infinity,
               child: Column(
                 children: [
-                  const SizedBox(
-                    width: 146,
-                    height: 150,
-                    child: CustomCircularChart(
-                      value: 80,
-                      text: "80점",
-                    ),
+                  const Stack(
+                    children: [
+                      Align(
+                        alignment: Alignment(-0.07, 0),
+                        child: SizedBox(
+                          width: 150,
+                          height: 150,
+                          child: CustomCircularChart(
+                            value: 80,
+                            text: "80점",
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(
                     height: 9.3,
