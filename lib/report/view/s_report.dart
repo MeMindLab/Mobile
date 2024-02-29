@@ -103,14 +103,14 @@ class _Report extends State<Report> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 14),
+                  padding: const EdgeInsets.only(bottom: 8),
                   child: Divider(
                     thickness: 8,
                     color: theme.appColors.divider,
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 8),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -144,6 +144,8 @@ class _Report extends State<Report> {
                         ),
                       ),
                       IconButton(
+                        padding: const EdgeInsets.all(0),
+                        visualDensity: VisualDensity.compact,
                         icon: SvgPicture.asset('assets/svg/icon/search.svg'),
                         onPressed: () {
                           Navigator.push(
