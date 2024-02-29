@@ -10,6 +10,7 @@ class ReportCard extends StatelessWidget {
   final List<String> keywords;
   final String summary;
   final String date;
+  final Color? color;
 
   const ReportCard({
     super.key,
@@ -17,6 +18,7 @@ class ReportCard extends StatelessWidget {
     required this.keywords,
     required this.summary,
     required this.date,
+    this.color,
   });
 
   @override
@@ -53,7 +55,10 @@ class ReportCard extends StatelessWidget {
                   children: keywords
                       .map((keyword) => Padding(
                             padding: const EdgeInsets.only(right: 5),
-                            child: Capsule(keyword: keyword),
+                            child: Capsule(
+                              keyword: keyword,
+                              color: color,
+                            ),
                           ))
                       .toList(),
                 ),
