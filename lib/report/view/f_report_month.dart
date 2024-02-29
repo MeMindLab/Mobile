@@ -82,7 +82,7 @@ class ReportMonthFragment extends StatelessWidget {
         reports != null && reports!.isNotEmpty
             ? SliverPadding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                sliver: renderReports(reports!),
+                sliver: renderReports(reports: reports!),
               )
             : SliverFillRemaining(
                 hasScrollBody: false,

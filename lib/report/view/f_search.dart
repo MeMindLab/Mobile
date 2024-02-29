@@ -50,7 +50,8 @@ class _SearchFragmentState extends State<SearchFragment> {
                   child: Center(child: Text("검색결과가 존재하지 않습니다.")),
                 )
               : Expanded(
-                  child: CustomScrollView(slivers: [renderReports(temp)])),
+                  child: CustomScrollView(
+                      slivers: [renderReports(reports: temp)])),
         ],
       ),
     );

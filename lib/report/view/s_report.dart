@@ -88,9 +88,16 @@ class _Report extends State<Report> {
                         ),
                       ),
                       const SizedBox(height: 36),
-                      const AspectRatio(
-                        aspectRatio: 1.70,
-                        child: ReportChart(),
+                      Container(
+                        width: double.infinity,
+                        constraints: BoxConstraints(
+                          maxWidth: MediaQuery.of(context).size.width * 0.82,
+                          maxHeight: 165,
+                        ),
+                        child: const AspectRatio(
+                          aspectRatio: 1.70,
+                          child: ReportChart(),
+                        ),
                       ),
                     ],
                   ),
@@ -151,7 +158,8 @@ class _Report extends State<Report> {
           ),
           SliverPadding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            sliver: renderReports(reports),
+            sliver:
+                renderReports(reports: reports, color: theme.appColors.capsule),
           ),
         ],
       ),

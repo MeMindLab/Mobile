@@ -47,4 +47,6 @@ abstract class AbstractThemeColors {
   Color get iconBook => AppColors.gray7;
 
   Color get loginInputBackground => AppColors.blue10;
+
+  Color get capsule => AppColors.blue3;
 }
