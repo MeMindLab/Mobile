@@ -55,6 +55,7 @@ class _ChatState extends State<Chat> {
         ),
       ),
       title: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
@@ -110,7 +111,7 @@ class _ChatState extends State<Chat> {
         children: [
           Container(
             width: double.infinity,
-            margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+            // margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
             padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
             decoration: BoxDecoration(
               color: theme!.appColors.userChatBackground,
@@ -175,14 +176,6 @@ class _ChatState extends State<Chat> {
         child: Column(
           children: [
             // 접기 기능 포함될 알림 창
-            ChatNotification(
-                theme: theme,
-                isFolded: isFolded,
-                onPressed: () {
-                  setState(() {
-                    isFolded = !isFolded;
-                  });
-                }),
             Expanded(
               child: ListView(
                 shrinkWrap: true,
@@ -192,17 +185,34 @@ class _ChatState extends State<Chat> {
                       theme: theme,
                       commentContent:
                           "여름에는 더 힘든 것 같애..\n아침부터 에어컨이 고장난거야 ㅠㅠ 출근 준비하는데 너무 더워서 땀을 뻘뻘흘렸엉.."),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   AiCommentTile(
                       theme: theme,
                       commentContent:
                           '오늘 많이 지치고 힘들었던 날이군요ㅜㅜ어떤 일들이 힘들었는지 얘기해줄 수 있어요?'),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   UserCommentTile(theme: theme, commentContent: '오늘도 힘들었어ㅠㅠㅠ'),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   AiCommentTile(
                       theme: theme,
                       commentContent:
                           '오늘 하루 있었던 일이나 느낀 감정은 이야기해주세요. 구르미가 모두 들어줄게요!',
                       isSameGureumi: true),
                   AiCommentTile(theme: theme, commentContent: "안녕하세요. 구르미에요:)"),
+                  ChatNotification(
+                      theme: theme,
+                      isFolded: isFolded,
+                      onPressed: () {
+                        setState(() {
+                          isFolded = !isFolded;
+                        });
+                      }),
                 ],
               ),
             ),
