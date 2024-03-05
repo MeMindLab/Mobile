@@ -1,11 +1,11 @@
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:me_mind/common/component/custom_search_bar.dart';
-import 'package:me_mind/common/constant/font_sizes.dart';
-import 'package:me_mind/common/theme/custom_theme_holder.dart';
+import 'package:me_mind/report/component/report_card.dart';
+import 'package:me_mind/report/model/report_search/report_search_model.dart';
+import 'package:me_mind/report/services/search_service.dart';
 import 'package:me_mind/report/utils/reports.dart';
-import 'package:me_mind/report/view/f_report_month.dart';
 
 class SearchFragment extends StatefulWidget {
   const SearchFragment({
@@ -17,19 +17,13 @@ class SearchFragment extends StatefulWidget {
 }
 
 class _SearchFragmentState extends State<SearchFragment> {
-  List<ReportData> temp = [];
-  List<ReportData> reports = [
-    ReportData(
-      keywords: ["키워드1", "키워드2"],
-      summary:
-          "이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summa이곳에는 ai summary 내용이 들어가게 됩니다.",
-      date: '2023.10.31',
-    ),
-  ];
+  final controller = TextEditingController();
+
+  bool isKeywordSearched = false;
 
   VoidCallback? onSearchSubmitted() {
     setState(() {
-      temp = reports;
+      isKeywordSearched = true;
     });
   }
 
@@ -40,17 +34,46 @@ class _SearchFragmentState extends State<SearchFragment> {
       child: Column(
         children: [
           CustomSearchBar(
+            controller: controller,
             onSubmitted: onSearchSubmitted,
           ),
           const SizedBox(
             height: 29,
           ),
-          temp.isEmpty
-              ? Expanded(
-                  child: Center(child: Text("검색결과가 존재하지 않습니다.")),
-                )
-              : Expanded(
-                  child: CustomScrollView(slivers: [renderReports(temp)])),
+          isKeywordSearched == false
+              ? const SizedBox()
+              : FutureBuilder(
+                  future: SearchService().search(controller.text),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      if (snapshot.data != null) {
+                        List<ReportData> newReports = [];
+                        for (var i = 0; i < snapshot.data.length; i++) {
+                          Report newReport = snapshot.data[i];
+
+                          newReports.add(ReportData(
+                              keywords: newReport.tags,
+                              summary: newReport.aiSummary,
+                              date: DateFormat("yyyy.MM.dd").format(
+                                  DateTime.parse(newReport.createdAt))));
+                        }
+                        return Expanded(
+                            child: CustomScrollView(
+                                slivers: [renderReports(newReports)]));
+                      }
+                    }
+                    if (snapshot.hasError) {
+                      return const Expanded(
+                        child: Column(children: [
+                          SizedBox(
+                            height: 241,
+                          ),
+                          Text("검색결과가 존재하지 않습니다."),
+                        ]),
+                      );
+                    }
+                    return const SizedBox();
+                  })
         ],
       ),
     );

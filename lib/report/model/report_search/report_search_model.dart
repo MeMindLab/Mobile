@@ -18,11 +18,10 @@ class ReportSearchModel {
 
 @JsonSerializable()
 class Result {
-  final List<Report> reports;
-  final List<Weekly> weekly;
+  final List<Report> report;
+
   Result({
-    required this.reports,
-    required this.weekly,
+    required this.report,
   });
   factory Result.fromJson(Map<String, dynamic> json) => _$ResultFromJson(json);
 }
@@ -36,23 +35,15 @@ class Report {
   final List<String> tags;
   @JsonKey(name: "ai_summary")
   final String aiSummary;
+  final String thumbnail;
+
   Report({
     required this.reportId,
     required this.createdAt,
     required this.tags,
     required this.aiSummary,
+    required this.thumbnail,
   });
 
   factory Report.fromJson(Map<String, dynamic> json) => _$ReportFromJson(json);
-}
-
-@JsonSerializable()
-class Weekly {
-  final String date;
-  final String score;
-  Weekly({
-    required this.date,
-    required this.score,
-  });
-  factory Weekly.fromJson(Map<String, dynamic> json) => _$WeeklyFromJson(json);
 }
