@@ -3,12 +3,12 @@ import 'package:flutter_svg/svg.dart';
 import 'package:me_mind/chat/component/chat_mic.dart';
 import 'package:me_mind/chat/component/chat_notification.dart';
 import 'package:me_mind/common/component/datetime_to_text.dart';
-import 'package:me_mind/common/component/rounded_button.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/layout/topbar/widget/back_arrow.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
+import 'package:me_mind/screen/main/s_main.dart';
 
 class Chat extends StatefulWidget {
   const Chat({super.key});
@@ -31,14 +31,17 @@ class _ChatState extends State<Chat> {
       String? commentContent,
       bool isSameGureumi = false}) {
     return ListTile(
+      minVerticalPadding: 0,
+      visualDensity: VisualDensity(vertical: 2),
       leading: Container(
         constraints: BoxConstraints(
           minWidth: MediaQuery.of(context).size.width * 0.1,
+          minHeight: double.infinity,
         ),
-        //margin: EdgeInsets.only(left: 10),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
+            const Spacer(),
             isSameGureumi == false
                 ? Image.asset(
                     'assets/image/logo/logo.png',
@@ -50,7 +53,6 @@ class _ChatState extends State<Chat> {
                     width: 50,
                     height: 50,
                   ),
-            const Spacer(),
           ],
         ),
       ),
@@ -102,6 +104,7 @@ class _ChatState extends State<Chat> {
     String? commentContent,
   }) {
     return ListTile(
+      minVerticalPadding: 0,
       leading: const SizedBox(
         width: 50,
         height: 50,
@@ -111,7 +114,6 @@ class _ChatState extends State<Chat> {
         children: [
           Container(
             width: double.infinity,
-            // margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
             padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
             decoration: BoxDecoration(
               color: theme!.appColors.userChatBackground,
@@ -159,7 +161,7 @@ class _ChatState extends State<Chat> {
       child: DefaultLayout(
         backgroundColor: Colors.white,
         appBarActions: [
-          Container(
+          SizedBox(
             child: Row(
               children: [
                 SvgPicture.asset(
@@ -175,6 +177,21 @@ class _ChatState extends State<Chat> {
         // ignore: sort_child_properties_last
         child: Column(
           children: [
+            ChatNotification(
+                theme: theme,
+                isFolded: isFolded,
+                onPressed: () {
+                  setState(() {
+                    isFolded = !isFolded;
+                  });
+                }),
+            isFolded
+                ? const SizedBox(
+                    height: 10,
+                  )
+                : const SizedBox(
+                    height: 0,
+                  ),
             // 접기 기능 포함될 알림 창
             Expanded(
               child: ListView(
@@ -186,18 +203,18 @@ class _ChatState extends State<Chat> {
                       commentContent:
                           "여름에는 더 힘든 것 같애..\n아침부터 에어컨이 고장난거야 ㅠㅠ 출근 준비하는데 너무 더워서 땀을 뻘뻘흘렸엉.."),
                   const SizedBox(
-                    height: 10,
+                    height: 30,
                   ),
                   AiCommentTile(
                       theme: theme,
                       commentContent:
                           '오늘 많이 지치고 힘들었던 날이군요ㅜㅜ어떤 일들이 힘들었는지 얘기해줄 수 있어요?'),
                   const SizedBox(
-                    height: 10,
+                    height: 30,
                   ),
                   UserCommentTile(theme: theme, commentContent: '오늘도 힘들었어ㅠㅠㅠ'),
                   const SizedBox(
-                    height: 10,
+                    height: 30,
                   ),
                   AiCommentTile(
                       theme: theme,
@@ -205,21 +222,22 @@ class _ChatState extends State<Chat> {
                           '오늘 하루 있었던 일이나 느낀 감정은 이야기해주세요. 구르미가 모두 들어줄게요!',
                       isSameGureumi: true),
                   AiCommentTile(theme: theme, commentContent: "안녕하세요. 구르미에요:)"),
-                  ChatNotification(
-                      theme: theme,
-                      isFolded: isFolded,
-                      onPressed: () {
-                        setState(() {
-                          isFolded = !isFolded;
-                        });
-                      }),
                 ],
               ),
             ),
             _BottomInputField(theme),
           ],
         ),
-        appBarLeading: const BackArrowLeading(),
+        appBarLeading: BackArrowLeading(
+          onPressed: () {
+            if (Navigator.canPop(context)) {
+              Navigator.pop(context);
+            } else {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (_) => const MainScreen()));
+            }
+          },
+        ),
       ),
     );
   }
@@ -316,20 +334,20 @@ class _ChatState extends State<Chat> {
                               labelStyle:
                                   TextStyle(color: theme.appColors.activate),
                               focusedBorder: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(100)),
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(100)),
                                 borderSide: BorderSide(
                                     width: 1, color: theme.appColors.seedColor),
                               ),
                               enabledBorder: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(100)),
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(100)),
                                 borderSide: BorderSide(
                                     width: 1, color: theme.appColors.seedColor),
                               ),
                               border: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(100)),
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(100)),
                                 borderSide: BorderSide(
                                     width: 1, color: theme.appColors.seedColor),
                               ),

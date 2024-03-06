@@ -17,7 +17,7 @@ class ChatNotification extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      margin: const EdgeInsets.fromLTRB(20, 10, 15, 20),
+      margin: const EdgeInsets.fromLTRB(20, 10, 15, 0),
       padding: isFolded == false
           ? const EdgeInsets.fromLTRB(15, 20, 15, 0)
           : EdgeInsets.zero,
