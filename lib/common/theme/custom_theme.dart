@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
-
 import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/theme/color/abs_theme_colors.dart';
 import 'package:me_mind/common/theme/shadows/abs_theme_shadows.dart';
@@ -37,17 +35,20 @@ enum CustomTheme {
 }
 
 ThemeData lightTheme = ThemeData(
-  useMaterial3: true,
-  visualDensity: VisualDensity.adaptivePlatformDensity,
-  brightness: Brightness.light,
-  colorScheme:
-      ColorScheme.fromSeed(seedColor: CustomTheme.light.appColors.seedColor),
-  scaffoldBackgroundColor: Colors.white,
-  primaryColor: AppColors.yellow,
-  cardColor: AppColors.blue3,
-  primaryColorDark: AppColors.blue7,
-  focusColor: AppColors.gray9,
-);
+    useMaterial3: true,
+    visualDensity: VisualDensity.adaptivePlatformDensity,
+    brightness: Brightness.light,
+    colorScheme:
+        ColorScheme.fromSeed(seedColor: CustomTheme.light.appColors.seedColor),
+    scaffoldBackgroundColor: Colors.white,
+    primaryColor: AppColors.yellow,
+    cardColor: AppColors.blue3,
+    primaryColorDark: AppColors.blue7,
+    focusColor: AppColors.gray9,
+    fontFamily: "Pretendard",
+    appBarTheme: const AppBarTheme(
+      color: Colors.white,
+    ));
 
 ThemeData darkTheme = ThemeData(
   useMaterial3: true,
@@ -57,4 +58,5 @@ ThemeData darkTheme = ThemeData(
   colorScheme: ColorScheme.fromSeed(
       seedColor: CustomTheme.dark.appColors.seedColor,
       brightness: Brightness.dark),
+  fontFamily: "Pretendard",
 );

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
@@ -17,138 +19,125 @@ class RootTab extends StatefulWidget {
 }
 
 class _RootTabState extends State<RootTab> {
-  Widget getAnimatedContainer(int idx, int pageIdx, BuildContext context,
-      String svgAsset, String rootTitle) {
+  Widget bottom(int idx, BuildContext context) {
     CustomTheme theme = CustomThemeHolder.of(context).theme;
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 400),
-      width: 70,
-      curve: Curves.fastOutSlowIn,
-      height: 70,
-      decoration: BoxDecoration(
-        color: idx == pageIdx
-            ? lightTheme.primaryColor
-            : theme.appColors.seedColor,
-        shape: BoxShape.circle,
+
+    return SafeArea(
+      bottom: true,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 19),
+        height: 66,
+        margin: EdgeInsets.only(bottom: Platform.isAndroid ? 16 : 0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(50),
+        ),
+        child: BottomAppBar(
+            padding: EdgeInsets.zero,
+            color: Colors.transparent,
+            elevation: 0.0,
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(50),
+                border: Border.all(
+                  width: 1,
+                  color: theme.appColors.grayButtonBackground,
+                ),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Color.fromRGBO(212, 215, 225, 0.25),
+                    offset: Offset(0.0, -2.0),
+                    blurRadius: 4.0,
+                  )
+                ],
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    children: [
+                      bottomNavItem(
+                          theme, 'assets/svg/icon/home.svg', idx == 0, "홈",
+                          onTap: () => onNavTap(0)),
+                      bottomNavItem(
+                          theme, 'assets/svg/icon/report.svg', idx == 1, "리포트",
+                          onTap: () => onNavTap(1)),
+                      bottomNavItem(theme, 'assets/svg/icon/picture3.svg',
+                          idx == 2, "그림일기",
+                          onTap: () => onNavTap(2)),
+                      bottomNavItem(
+                          theme, 'assets/svg/icon/setting.svg', idx == 3, "설정",
+                          onTap: () => onNavTap(3)),
+                    ],
+                  ),
+                ],
+              ),
+            )),
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+    );
+  }
+
+  Widget bottomNavItem(
+      CustomTheme theme, String svgAsset, bool isSelected, String title,
+      {Function()? onTap}) {
+    return Expanded(
+      child: Stack(
+        alignment: Alignment.center,
         children: [
-          SvgPicture.asset(svgAsset,
-              colorFilter: idx == pageIdx
-                  ? ColorFilter.mode(
-                      theme.appColors.iconButton, BlendMode.srcIn)
-                  : null,
-              width: 24,
-              height: 24),
-          const SizedBox(
-            height: 5,
+          isSelected
+              ? AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
+                  width: 60,
+                  height: 60,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      color: lightTheme.primaryColor),
+                )
+              : const SizedBox(),
+          InkWell(
+            onTap: onTap,
+            child: Column(children: [
+              SvgPicture.asset(svgAsset,
+                  colorFilter: isSelected
+                      ? ColorFilter.mode(
+                          theme.appColors.iconButton, BlendMode.srcIn)
+                      : null,
+                  width: 24,
+                  height: 24),
+              const SizedBox(
+                height: 4,
+              ),
+              Text(
+                title,
+                style: FontSizes.getCapsuleStyle().copyWith(
+                    color: isSelected
+                        ? theme.appColors.iconButton
+                        : theme.appColors.hintText,
+                    fontWeight: FontWeight.w500),
+              )
+            ]),
           ),
-          Text(
-            rootTitle,
-            style: FontSizes.getCapsuleStyle().copyWith(
-                color: idx == pageIdx
-                    ? theme.appColors.iconButton
-                    : theme.appColors.hintText,
-                fontWeight: FontWeight.w500),
-          )
         ],
       ),
     );
   }
 
-  Widget bottom(int idx, BuildContext context) {
-    CustomTheme theme = CustomThemeHolder.of(context).theme;
-    return BottomAppBar(
-        padding: const EdgeInsets.fromLTRB(20, 10, 20, 34),
-        color: Colors.transparent,
-        height: 120,
-        elevation: 0.0,
-        // 바텀 앱바 흰색 테두리
-        child: Container(
-          decoration: BoxDecoration(
-              color: theme.appColors.seedColor,
-              borderRadius: BorderRadius.circular(50)),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // 바텀 앱바
-              // 클릭 색상 Color.fromRGBO(255, 238, 151, 1),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  InkWell(
-                    onTap: () async {
-                      await setBottomIdx(0);
-                      Navigator.pushReplacement(
-                          context,
-                          PageRouteBuilder(
-                            pageBuilder: ((BuildContext context,
-                                    Animation<double> animation1,
-                                    Animation<double> animation2) =>
-                                const MainScreen()),
-                            transitionDuration: Duration.zero,
-                            reverseTransitionDuration: Duration.zero,
-                          ));
-                    },
-                    child: getAnimatedContainer(
-                        idx, 0, context, 'assets/svg/icon/home.svg', "홈"),
-                  ),
-                  InkWell(
-                    onTap: () async {
-                      await setBottomIdx(1);
-                      Navigator.pushReplacement(
-                          context,
-                          PageRouteBuilder(
-                            pageBuilder: ((BuildContext context,
-                                    Animation<double> animation1,
-                                    Animation<double> animation2) =>
-                                const Report()),
-                            transitionDuration: Duration.zero,
-                            reverseTransitionDuration: Duration.zero,
-                          ));
-                    },
-                    child: getAnimatedContainer(
-                        idx, 1, context, 'assets/svg/icon/report.svg', "리포트"),
-                  ),
-                  InkWell(
-                    onTap: () async {
-                      await setBottomIdx(2);
-                      Navigator.pushReplacement(
-                          context,
-                          PageRouteBuilder(
-                            pageBuilder: ((BuildContext context,
-                                    Animation<double> animation1,
-                                    Animation<double> animation2) =>
-                                const Diary()),
-                            transitionDuration: Duration.zero,
-                            reverseTransitionDuration: Duration.zero,
-                          ));
-                    },
-                    child: getAnimatedContainer(idx, 2, context,
-                        'assets/svg/icon/picture3.svg', "그림일기"),
-                  ),
-                  InkWell(
-                    onTap: () async {
-                      await setBottomIdx(3);
-                      Navigator.pushReplacement(
-                          context,
-                          PageRouteBuilder(
-                            pageBuilder: ((BuildContext context,
-                                    Animation<double> animation1,
-                                    Animation<double> animation2) =>
-                                const Settings()),
-                            transitionDuration: Duration.zero,
-                            reverseTransitionDuration: Duration.zero,
-                          ));
-                    },
-                    child: getAnimatedContainer(
-                        idx, 3, context, 'assets/svg/icon/setting.svg', "설정"),
-                  ),
-                ],
-              ),
-            ],
-          ),
+  void onNavTap(int index) async {
+    List<Widget> pageName = [
+      const MainScreen(),
+      const Report(),
+      const Diary(),
+      const Settings()
+    ];
+    await setBottomIdx(index);
+    Navigator.push(
+        context,
+        PageRouteBuilder(
+          pageBuilder: ((BuildContext context, Animation<double> animation1,
+                  Animation<double> animation2) =>
+              pageName[index]),
+          transitionDuration: Duration.zero,
+          reverseTransitionDuration: Duration.zero,
         ));
   }
 
