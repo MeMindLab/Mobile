@@ -18,7 +18,13 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    // deleteToken();
     checkToken();
+  }
+
+  void deleteToken() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove("isTutorial");
   }
 
   void checkToken() async {
