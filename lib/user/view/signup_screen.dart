@@ -318,20 +318,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   if (formKey.currentState!.validate()) {
                                     var response = await SignupService()
                                         .signup(email, name, pwd);
-                                    print("회원가입:$response");
-                                    Type type = response.runtimeType;
-                                    if (type == String) {
-                                      if (response == "email") {
+
+                                    if (response is String) {
+                                      if (response == "Invalid Email") {
                                         setState(() {
                                           errorEmailText = "이미 가입된 이메일 주소입니다";
                                           emailCheck = false;
                                         });
-                                      } else if (response == "nickname") {
+                                      } else if (response ==
+                                          "Invalid Nikname") {
                                         setState(() {
                                           errorNameText = "이미 존재하는 닉네임입니다";
                                           nicknameCheck = false;
                                         });
-                                      } else {
+                                      } else if (response ==
+                                          "Invalid nickname and email") {
                                         setState(() {
                                           errorEmailText = "이미 가입된 이메일 주소입니다";
                                           errorNameText = "이미 존재하는 닉네임입니다";
