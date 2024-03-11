@@ -4,6 +4,7 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:me_mind/chat/view/s_chat.dart';
 import 'package:me_mind/chat/view/s_trash.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
+import 'package:me_mind/common/layout/topbar/widget/lemon_number.dart';
 import 'package:me_mind/common/store.dart';
 import 'package:me_mind/common/component/root_tab.dart';
 
@@ -16,8 +17,8 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   final GlobalKey webViewKey = GlobalKey();
-  Uri myUrl = Uri.parse("https://d2ygt4x04f8e42.cloudfront.net");
-
+  // Uri myUrl = Uri.parse("https://d2ygt4x04f8e42.cloudfront.net");
+  Uri myUrl = Uri.parse("http://127.0.0.1:5173/");
   late final InAppWebViewController webViewController;
   late final PullToRefreshController pullToRefreshController;
   double progress = 0;
@@ -46,6 +47,9 @@ class _MainScreenState extends State<MainScreen> {
     return DefaultLayout(
       backgroundColor: Colors.grey.shade50,
       bottomNavigationBar: const RootTab(),
+      appBarBgColor: Color(0xffF1F3F8),
+      appBarActions: [LemonNumberWidget(numberText: "5")],
+      isappBarImage: true,
       title: "로고",
       child: SafeArea(
           child: Column(children: <Widget>[
