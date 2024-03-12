@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:me_mind/chat/view/s_chat.dart';
 import 'package:me_mind/chat/view/s_trash.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/settings/view/s_setting.dart';
@@ -57,6 +58,7 @@ class AppState extends State<App> with WidgetsBindingObserver {
           title: 'Me mind',
           theme: CustomThemeHolder.of(context).theme.themeData,
           home: const SignInScreen(),
+
         );
       }),
     );
