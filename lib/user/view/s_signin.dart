@@ -8,6 +8,7 @@ import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 import 'package:me_mind/screen/main/s_main.dart';
 import 'package:me_mind/user/services/login_service.dart';
+import 'package:me_mind/user/view/signup_screen.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -130,10 +131,16 @@ class _SignInScreenState extends State<SignInScreen> {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 19),
-                          child: Text(
-                            "비밀번호를 잊으셨습니까?",
-                            style: FontSizes.getCapsuleStyle().copyWith(
-                              color: theme.appColors.hintText,
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (_) => const SignUpScreen()));
+                            },
+                            child: Text(
+                              "회원가입",
+                              style: FontSizes.getCapsuleStyle().copyWith(
+                                color: theme.appColors.hintText,
+                              ),
                             ),
                           ),
                         ),
