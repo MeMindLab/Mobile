@@ -51,22 +51,28 @@ class ReportCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  children: keywords
-                      .map((keyword) => Padding(
-                            padding: const EdgeInsets.only(right: 5),
-                            child: Capsule(
-                              keyword: keyword,
-                              color: color,
-                            ),
-                          ))
-                      .toList(),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: keywords
+                        .map((keyword) => Padding(
+                              padding: const EdgeInsets.only(right: 5),
+                              child: Capsule(
+                                keyword: keyword,
+                                color: color,
+                              ),
+                            ))
+                        .toList(),
+                  ),
                 ),
-                Text(
-                  summary,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 3,
-                  style: const TextStyle(fontSize: 14),
+                SizedBox(
+                  width: double.infinity,
+                  child: Text(
+                    summary,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 3,
+                    style: const TextStyle(fontSize: 14),
+                  ),
                 ),
                 Text(
                   date,
