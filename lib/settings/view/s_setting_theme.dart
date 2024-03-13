@@ -149,41 +149,6 @@ class _SettingThemaState extends State<SettingTheme> {
             const SizedBox(
               height: 10,
             ),
-            Container(
-              height: 65,
-              decoration: BoxDecoration(
-                  color: theme.appColors.seedColor,
-                  borderRadius: BorderRadius.circular(13.0)),
-              padding: const EdgeInsets.all(20),
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      "다크모드",
-                      style: FontSizes.getHeadline2Style()
-                          .copyWith(color: theme.appColors.iconButton),
-                    ),
-                    Switch(
-                      value: isDarkmode,
-                      trackOutlineColor: MaterialStateProperty.resolveWith(
-                        (final Set<MaterialState> states) {
-                          if (states.contains(MaterialState.selected)) {
-                            return null;
-                          }
-
-                          return Colors.transparent;
-                        },
-                      ),
-                      activeColor: theme.appColors.grayButtonBackground,
-                      onChanged: (bool value) {
-                        setState(() {
-                          isDarkmode = !isDarkmode;
-                        });
-                      },
-                    ),
-                  ]),
-            ),
           ]),
         ));
   }

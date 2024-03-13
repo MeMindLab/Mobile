@@ -11,10 +11,12 @@ import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/store.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
+import 'package:me_mind/common/view/splash_screen.dart';
 import 'package:me_mind/report/view/s_report.dart';
 import 'package:me_mind/settings/component/settings_custom_text_form.dart';
 import 'package:me_mind/settings/utils/phone_number_formatter.dart';
 import 'package:me_mind/settings/view/w_certify_timer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserInfoForm extends StatefulWidget {
   bool isUpdate;
@@ -423,14 +425,19 @@ class _UserInfoFormState extends State<UserInfoForm> {
                             bgColor: theme.appColors.seedColor,
                             content: "그래도 탈퇴할게요.",
                             onSubmit: () async {
+                              final SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              prefs.remove('isTutorial');
                               await storage.deleteAll();
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (_) => const SplashScreen()));
                             }),
                       ]).show();
                 },
                 child: Text(
                   "계정 탈퇴하기",
                   style: FontSizes.getCapsuleStyle()
-                      .copyWith(color: theme.appColors.iconButton),
+                      .copyWith(color: theme.appColors.iconBook),
                 ),
               )
             : const Text(""),
