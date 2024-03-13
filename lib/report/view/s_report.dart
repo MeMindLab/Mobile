@@ -88,53 +88,64 @@ class _Report extends State<Report> {
                         ),
                       ),
                       const SizedBox(height: 36),
-                      const AspectRatio(
-                        aspectRatio: 1.70,
-                        child: ReportChart(),
+                      Container(
+                        width: double.infinity,
+                        constraints: BoxConstraints(
+                          maxWidth: MediaQuery.of(context).size.width * 0.82,
+                          maxHeight: 165,
+                        ),
+                        child: const AspectRatio(
+                          aspectRatio: 1.70,
+                          child: ReportChart(),
+                        ),
                       ),
                     ],
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 14),
+                  padding: const EdgeInsets.only(bottom: 8),
                   child: Divider(
                     thickness: 8,
                     color: theme.appColors.divider,
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 8),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
-                        children: [
-                          Text(
-                            date!,
-                            style: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w400,
+                      InkWell(
+                        highlightColor: Colors.transparent,
+                        splashColor: Colors.transparent,
+                        onTap: () {
+                          Dialogs(
+                                  context: context,
+                                  content: CustomDatePicker(
+                                    selectedDate: DateTime.now(),
+                                  ),
+                                  contentPadding: EdgeInsets.zero)
+                              .callDateDialog();
+                        },
+                        child: Row(
+                          children: [
+                            Text(
+                              date!,
+                              style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w400,
+                              ),
                             ),
-                          ),
-                          InkWell(
-                            child: Icon(
+                            Icon(
                               Icons.arrow_forward_ios_outlined,
                               size: 18.0,
                               color: Colors.black,
                             ),
-                            onTap: () {
-                              Dialogs(
-                                      context: context,
-                                      content: CustomDatePicker(
-                                        selectedDate: DateTime.now(),
-                                      ),
-                                      contentPadding: EdgeInsets.zero)
-                                  .callDateDialog();
-                            },
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                       IconButton(
+                        padding: const EdgeInsets.all(0),
+                        visualDensity: VisualDensity.compact,
                         icon: SvgPicture.asset('assets/svg/icon/search.svg'),
                         onPressed: () {
                           Navigator.push(
@@ -151,7 +162,8 @@ class _Report extends State<Report> {
           ),
           SliverPadding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            sliver: renderReports(reports),
+            sliver:
+                renderReports(reports: reports, color: theme.appColors.capsule),
           ),
         ],
       ),

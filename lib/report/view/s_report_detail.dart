@@ -55,13 +55,20 @@ class _ReportDetailState extends State<ReportDetail> {
               width: double.infinity,
               child: Column(
                 children: [
-                  const SizedBox(
-                    width: 150,
-                    height: 150,
-                    child: CustomCircularChart(
-                      value: 80,
-                      text: "80점",
-                    ),
+                  const Stack(
+                    children: [
+                      Align(
+                        alignment: Alignment(-0.07, 0),
+                        child: SizedBox(
+                          width: 150,
+                          height: 150,
+                          child: CustomCircularChart(
+                            value: 80,
+                            text: "80점",
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(
                     height: 9.3,
@@ -145,7 +152,7 @@ class _ReportDetailState extends State<ReportDetail> {
                 color: Colors.white,
               ),
               width: double.infinity,
-              height: 289.42,
+              height: 274,
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
@@ -268,6 +275,7 @@ class _ReportDetailState extends State<ReportDetail> {
                           padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
                           child: const Column(
                             children: [
+                              // 구루미 textColor : #626262
                               Text(
                                 "ai : 안녕하세요. 쏠봇 입니다. 7월31일 일기를 시작합니다. 오늘 하루는 어떠셨어요?",
                               ),
@@ -382,6 +390,9 @@ class _ReportDetailState extends State<ReportDetail> {
                               ),
                             );
                           }).toList(),
+                        ),
+                        const SizedBox(
+                          height: 20,
                         ),
                       ],
                     ),

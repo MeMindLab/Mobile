@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 
 class ChatNotification extends StatelessWidget {
@@ -15,10 +17,10 @@ class ChatNotification extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      margin: const EdgeInsets.fromLTRB(15, 10, 15, 10),
+      margin: const EdgeInsets.fromLTRB(20, 10, 15, 0),
       padding: isFolded == false
-          ? EdgeInsets.fromLTRB(10, 20, 10, 0)
-          : EdgeInsets.fromLTRB(10, 0, 10, 0),
+          ? const EdgeInsets.fromLTRB(15, 20, 15, 0)
+          : EdgeInsets.zero,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
         color: isFolded == false
@@ -29,32 +31,45 @@ class ChatNotification extends StatelessWidget {
           ? Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                const Text(
+                Text(
                     '구르미는 미아인드가 개발한 일기쓰기 전문 인공지능입니다. 텍스트나 음성으로 대화하듯이 하루를 정리해보세요!',
-                    maxLines: 2,
-                    style:
-                        TextStyle(fontSize: 14, fontWeight: FontWeight.w400)),
-                IconButton(
-                  padding: EdgeInsets.zero,
-                  icon: isFolded == false
-                      ? Icon(Icons.expand_less)
-                      : Icon(Icons.keyboard_arrow_down),
-                  visualDensity: VisualDensity.compact,
-                  onPressed: onPressed,
-                )
+                    style: FontSizes.getCapsuleStyle()
+                        .copyWith(fontSize: 14, fontWeight: FontWeight.w400)),
+                const SizedBox(
+                  height: 7,
+                ),
+                InkWell(
+                  onTap: onPressed,
+                  child: SvgPicture.asset(
+                    'assets/svg/chat/arrow_up.svg',
+                    colorFilter: ColorFilter.mode(
+                        theme.appColors.activate, BlendMode.srcIn),
+                    width: 20,
+                    height: 20,
+                  ),
+                ),
+                const SizedBox(
+                  height: 6,
+                ),
               ],
             )
           : Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                  IconButton(
-                    padding: const EdgeInsets.all(0),
-                    icon: isFolded == false
-                        ? Icon(Icons.keyboard_arrow_up)
-                        : Icon(Icons.keyboard_arrow_down),
-                    onPressed: onPressed,
-                  )
+                  const SizedBox(
+                    height: 4,
+                  ),
+                  InkWell(
+                    onTap: onPressed,
+                    child: SvgPicture.asset(
+                      'assets/svg/chat/arrow_down.svg',
+                      colorFilter: ColorFilter.mode(
+                          theme.appColors.activate, BlendMode.srcIn),
+                      width: 20,
+                      height: 20,
+                    ),
+                  ),
                 ]),
     );
   }

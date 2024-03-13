@@ -24,7 +24,7 @@ class AlertDialogButton extends StatelessWidget {
       child: TextButton(
           style: TextButton.styleFrom(shadowColor: theme.appColors.badgeBorder),
           child: Text(content,
-              style: FontSizes.getCapsuleStyle()
+              style: FontSizes.getContentStyle()
                   .copyWith(color: theme.appColors.iconButton)),
           onPressed: onSubmit),
     );

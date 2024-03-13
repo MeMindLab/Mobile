@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:me_mind/common/component/custom_text_form.dart';
 import 'package:me_mind/common/component/rounded_button.dart';
+import 'package:me_mind/common/constant/constant.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 import 'package:me_mind/screen/main/s_main.dart';
 import 'package:me_mind/user/services/login_service.dart';
+import 'package:me_mind/user/view/signup_screen.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -111,10 +113,13 @@ class _SignInScreenState extends State<SignInScreen> {
                                   .login(email, password);
 
                               // 추후 토큰 저장 및 관리
-                              final refreshToken =
-                                  response.result["refreshToken"];
-                              final accessToken =
-                                  response.result["accessToken"];
+                              final refreshToken = response.result.refreshToken;
+                              final accessToken = response.result.accessToken;
+
+                              await storage.write(
+                                  key: ACCESS_TOKEN, value: accessToken);
+                              await storage.write(
+                                  key: REFRESH_TOKEN, value: refreshToken);
 
                               Navigator.of(context).push(
                                 MaterialPageRoute(
@@ -126,10 +131,16 @@ class _SignInScreenState extends State<SignInScreen> {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 19),
-                          child: Text(
-                            "비밀번호를 잊으셨습니까?",
-                            style: FontSizes.getCapsuleStyle().copyWith(
-                              color: theme.appColors.hintText,
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (_) => const SignUpScreen()));
+                            },
+                            child: Text(
+                              "회원가입",
+                              style: FontSizes.getCapsuleStyle().copyWith(
+                                color: theme.appColors.hintText,
+                              ),
                             ),
                           ),
                         ),

@@ -10,7 +10,7 @@ class ReportData {
       {required this.keywords, required this.summary, required this.date});
 }
 
-SliverList renderReports(List<ReportData> reports) {
+SliverList renderReports({required List<ReportData> reports, Color? color}) {
   return SliverList(
     delegate: SliverChildBuilderDelegate(
       (context, index) {
@@ -21,6 +21,7 @@ SliverList renderReports(List<ReportData> reports) {
             keywords: report.keywords,
             summary: report.summary,
             date: report.date,
+            color: color,
           ),
         );
       },
