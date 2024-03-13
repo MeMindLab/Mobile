@@ -49,6 +49,8 @@
 		<true/>
 		<key>io.flutter.embedded_views_preview</key>
 		<string>YES</string>
+		<key>NSMicrophoneUsageDescription</key>
+		<string>Some message to describe why you need this permission</string>
 		<key>UIStatusBarHidden</key>
 		<false/>
 	</dict>

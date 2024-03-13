@@ -7,10 +7,17 @@ class ChatNotification extends StatelessWidget {
   final CustomTheme theme;
   final bool isFolded;
   final VoidCallback onPressed;
+  final String content;
+  final Color? bgColor;
+  final Color? foldedButtonColor;
+
   const ChatNotification(
       {super.key,
       required this.theme,
       required this.isFolded,
+      required this.content,
+      this.bgColor,
+      this.foldedButtonColor,
       required this.onPressed});
 
   @override
@@ -24,15 +31,16 @@ class ChatNotification extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
         color: isFolded == false
-            ? lightTheme.primaryColor
+            ? bgColor == null
+                ? lightTheme.primaryColor
+                : bgColor!
             : theme.appColors.badgeBorder,
       ),
       child: isFolded == false
           ? Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Text(
-                    '구르미는 미아인드가 개발한 일기쓰기 전문 인공지능입니다. 텍스트나 음성으로 대화하듯이 하루를 정리해보세요!',
+                Text(content,
                     style: FontSizes.getCapsuleStyle()
                         .copyWith(fontSize: 14, fontWeight: FontWeight.w400)),
                 const SizedBox(
@@ -65,7 +73,10 @@ class ChatNotification extends StatelessWidget {
                     child: SvgPicture.asset(
                       'assets/svg/chat/arrow_down.svg',
                       colorFilter: ColorFilter.mode(
-                          theme.appColors.activate, BlendMode.srcIn),
+                          foldedButtonColor == null
+                              ? theme.appColors.activate
+                              : foldedButtonColor!,
+                          BlendMode.srcIn),
                       width: 20,
                       height: 20,
                     ),
