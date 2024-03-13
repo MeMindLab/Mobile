@@ -4,10 +4,12 @@ import 'package:me_mind/common/theme/custom_theme_holder.dart';
 
 class BackArrowLeading extends StatelessWidget {
   final VoidCallback? onPressed;
+  final Color? iconColor;
 
   const BackArrowLeading({
     super.key,
     this.onPressed,
+    this.iconColor,
   });
 
   @override
@@ -25,7 +27,7 @@ class BackArrowLeading extends StatelessWidget {
                 },
         icon: Icon(
           Icons.arrow_back,
-          color: theme.appColors.iconButton,
+          color: iconColor == null ? theme.appColors.iconButton : iconColor!,
         ),
       ),
     );

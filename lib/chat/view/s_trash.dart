@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:me_mind/chat/component/chat_notification.dart';
 import 'package:me_mind/chat/utils/audio_record.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
+import 'package:me_mind/common/layout/topbar/widget/back_arrow.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 
@@ -16,7 +18,7 @@ class _TrashState extends State<Trash> {
   late AudioRecord audioRecord;
   String recordPath = "";
   bool isRecord = false;
-
+  bool isFolded = false;
   void getRecordPath() async {
     String? path = await audioRecord.recordStop();
     if (path != null) {
@@ -54,10 +56,27 @@ class _TrashState extends State<Trash> {
       title: "감정 쓰레기통",
       foregroundColor: Colors.white,
       appBarBgColor: lightTheme.primaryColorDark,
-      appBarLeading: Icon(Icons.keyboard_backspace),
+      appBarLeading: BackArrowLeading(
+        iconColor: theme.appColors.seedColor,
+      ),
       backgroundColor: lightTheme.primaryColorDark,
       child: Stack(
         children: [
+          Column(children: [
+            ChatNotification(
+              theme: theme,
+              content:
+                  "누구에게도 말하지 못하는 내용이나 당장 털어버리고 싶은 이야기들을 음성으로 마음껏 내뱉어보세요! 데이터는 저장되지 않아요.",
+              isFolded: isFolded,
+              bgColor: theme.appColors.chatBubble,
+              foldedButtonColor: theme.appColors.seedColor,
+              onPressed: () {
+                setState(() {
+                  isFolded = !isFolded;
+                });
+              },
+            ),
+          ]),
           if (isRecord)
             Align(
               alignment: Alignment(0, -0.24),

@@ -193,6 +193,8 @@ class _ChatState extends State<Chat> {
             ChatNotification(
                 theme: theme,
                 isFolded: isFolded,
+                content:
+                    '구르미는 미아인드가 개발한 일기쓰기 전문 인공지능입니다. 텍스트나 음성으로 대화하듯이 하루를 정리해보세요!',
                 onPressed: () {
                   setState(() {
                     isFolded = !isFolded;
