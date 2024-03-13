@@ -137,6 +137,7 @@ class OnBoardingScreen extends StatelessWidget {
         ),
       ),
       showSkipButton: true,
+      globalBackgroundColor: Color(0xffF1F3F8),
       skipOrBackFlex: 0,
       skip: Text(
         'SKIP',

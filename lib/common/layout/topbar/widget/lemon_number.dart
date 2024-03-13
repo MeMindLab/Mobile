@@ -20,7 +20,7 @@ class LemonNumberWidget extends StatelessWidget {
           width: 24,
           height: 24,
         ),
-        const SizedBox(width: 8.0),
+        const SizedBox(width: 3.0),
         Text(
           numberText,
           style: FontSizes.getHeadline1Style().copyWith(

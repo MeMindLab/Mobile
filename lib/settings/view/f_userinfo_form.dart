@@ -6,6 +6,7 @@ import 'package:me_mind/common/component/dialog/d_alert_dialog.dart';
 import 'package:me_mind/common/component/dialog/d_multichoice_dialog.dart';
 import 'package:me_mind/common/component/dialog/w_dialog_button.dart';
 import 'package:me_mind/common/component/rounded_button.dart';
+import 'package:me_mind/common/constant/constant.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/store.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
@@ -421,7 +422,9 @@ class _UserInfoFormState extends State<UserInfoForm> {
                             theme: theme,
                             bgColor: theme.appColors.seedColor,
                             content: "그래도 탈퇴할게요.",
-                            onSubmit: () {}),
+                            onSubmit: () async {
+                              await storage.deleteAll();
+                            }),
                       ]).show();
                 },
                 child: Text(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:me_mind/common/component/custom_text_form.dart';
 import 'package:me_mind/common/component/rounded_button.dart';
+import 'package:me_mind/common/constant/constant.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
@@ -112,10 +113,13 @@ class _SignInScreenState extends State<SignInScreen> {
                                   .login(email, password);
 
                               // 추후 토큰 저장 및 관리
-                              final refreshToken =
-                                  response.result["refreshToken"];
-                              final accessToken =
-                                  response.result["accessToken"];
+                              final refreshToken = response.result.refreshToken;
+                              final accessToken = response.result.accessToken;
+
+                              await storage.write(
+                                  key: ACCESS_TOKEN, value: accessToken);
+                              await storage.write(
+                                  key: REFRESH_TOKEN, value: refreshToken);
 
                               Navigator.of(context).push(
                                 MaterialPageRoute(

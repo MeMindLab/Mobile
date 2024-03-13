@@ -11,6 +11,7 @@ class DefaultLayout extends StatelessWidget {
   final List<Widget>? appBarActions;
   final Widget? appBarLeading;
   final Color? appBarBgColor;
+  final bool? isappBarImage;
 
   const DefaultLayout({
     super.key,
@@ -23,6 +24,7 @@ class DefaultLayout extends StatelessWidget {
     this.appBarActions,
     this.appBarLeading,
     this.appBarBgColor,
+    this.isappBarImage,
   });
 
   @override
@@ -49,6 +51,7 @@ class DefaultLayout extends StatelessWidget {
         actions: appBarActions,
         backgroundColor: appBarBgColor,
         foregroundColor: foregroundColor,
+        isImage: isappBarImage,
       );
     }
   }

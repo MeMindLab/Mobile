@@ -3,6 +3,7 @@ import 'package:me_mind/common/component/rounded_button.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/user/view/signup_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OnBoardingLastScreen extends StatelessWidget {
   const OnBoardingLastScreen({super.key});
@@ -62,7 +63,10 @@ class OnBoardingLastScreen extends StatelessWidget {
               ),
               RoundedButton(
                 text: "시작하기 ",
-                onPressed: () {
+                onPressed: () async {
+                  final SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                  await prefs.setBool('isTutorial', true);
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
                       builder: (context) => const SignUpScreen(),

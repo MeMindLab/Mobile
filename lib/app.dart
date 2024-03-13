@@ -1,8 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:me_mind/chat/view/s_chat.dart';
 import 'package:me_mind/chat/view/s_trash.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
+import 'package:me_mind/common/view/splash_screen.dart';
 import 'package:me_mind/settings/view/s_setting.dart';
 import 'package:me_mind/user/view/s_signin.dart';
 import 'package:me_mind/user/view/s_signup_welcome.dart';
@@ -49,6 +51,8 @@ class AppState extends State<App> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return CustomThemeApp(
       child: Builder(builder: (context) {
+        SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+            overlays: [SystemUiOverlay.bottom]);
         return MaterialApp(
           navigatorKey: App.navigatorKey,
           localizationsDelegates: context.localizationDelegates,
@@ -58,7 +62,6 @@ class AppState extends State<App> with WidgetsBindingObserver {
           title: 'Me mind',
           theme: CustomThemeHolder.of(context).theme.themeData,
           home: const SignInScreen(),
-
         );
       }),
     );

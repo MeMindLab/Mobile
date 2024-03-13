@@ -4,7 +4,7 @@ import 'package:me_mind/user/model/user_signup_model.dart';
 
 class SignupService implements Isignup {
   Future<dynamic> signup(String email, String password, String nickname) async {
-    const url = "http://52.65.66.124/users/sign-up";
+    const url = "http://10.0.2.2:8000/users/sign-up";
     final data = {
       "email": email,
       "password": password,
@@ -16,12 +16,6 @@ class SignupService implements Isignup {
     Response response;
 
     try {
-      // throw new DioException(
-      //     type: DioExceptionType.connectionError,
-      //     error: {"message": "Invalid Email"},
-      //     response: await dio.post(url, data: data),
-      //     message: "Invalid Email",
-      //     requestOptions: RequestOptions());
       response = await dio.post(url, data: data);
 
       if (response.statusCode == 201) {
@@ -29,31 +23,9 @@ class SignupService implements Isignup {
 
         return UserSignUpModel(
             code: body["code"], msg: body["msg"], result: body["result"]);
-      } else {
-        return null;
       }
     } on DioException catch (e) {
-      if (e.response!.statusCode == 409) {
-        switch (e.message) {
-          case 'Invalid Nickname':
-            return 'nickname';
-          case 'Invalid Email':
-            return 'email';
-          default:
-            return "nickname, email";
-        }
-      }
-      // if (e.type == DioExceptionType.connectionError) {
-      //   switch (e.message) {
-      //     case 'Invalid Nickname':
-      //       return 'nickname';
-      //     case 'Invalid Email':
-      //       return 'email';
-      //     default:
-      //       return "nickname, email";
-      //   }
-      // }
-      return null;
+      return e.response!.data['detail'];
     }
   }
 }

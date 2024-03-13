@@ -7,7 +7,7 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Color? foregroundColor;
   final double? elevation;
   final double padding;
-
+  final bool? isImage;
   final List<Widget>? actions;
   final Widget? leading;
 
@@ -20,6 +20,7 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.elevation = 0,
     this.padding = 20,
     required this.title,
+    this.isImage = false,
   });
 
   @override
@@ -31,12 +32,19 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
       padding: const EdgeInsets.symmetric(horizontal: 5),
       child: AppBar(
         automaticallyImplyLeading: false,
-        title: Text(
-          title,
-          style: FontSizes.getHeadline1Style().copyWith(
-            fontWeight: FontWeight.w500,
-          ),
-        ),
+        title: isImage == false
+            ? Text(
+                title,
+                style: FontSizes.getHeadline1Style().copyWith(
+                  fontWeight: FontWeight.w500,
+                ),
+              )
+            : Image.asset(
+                'assets/image/logo/logo.png',
+                width: 28,
+                height: 28,
+                fit: BoxFit.cover,
+              ),
         centerTitle: true,
         actions: [
           Padding(
