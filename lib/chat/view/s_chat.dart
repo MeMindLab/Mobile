@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:me_mind/chat/component/chat_mic.dart';
 import 'package:me_mind/chat/component/chat_notification.dart';
+import 'package:me_mind/chat/utils/show_snackbar.dart';
 import 'package:me_mind/common/component/datetime_to_text.dart';
 import 'package:me_mind/common/component/dots_indicator.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
@@ -22,6 +23,7 @@ class _ChatState extends State<Chat> {
   bool isMicOpen = false;
   double micWidth = 61.63;
   bool isFolded = false;
+  bool isReportIssue = false;
   @override
   void initState() {
     super.initState();
@@ -173,15 +175,31 @@ class _ChatState extends State<Chat> {
     return DefaultLayout(
       backgroundColor: Colors.white,
       appBarActions: [
-        SizedBox(
-          child: Row(
-            children: [
-              SvgPicture.asset(
-                'assets/svg/icon/report.svg',
-                width: 28,
-                height: 28,
-              ),
-            ],
+        InkWell(
+          onTap: () {
+            setState(() {
+              isReportIssue = true;
+            });
+
+            ShowSnackBar()
+                .showSnackBarFunction(context, "리포트를 생성 중입니다.창을 닫지말고 기다려주세요.");
+            ShowSnackBar()
+                .showSnackBarFunction(context, "비타민을 1개 소모했어요.", isBack: true);
+            setState(() {
+              isReportIssue = false;
+            });
+          },
+          child: SizedBox(
+            child: Row(
+              children: [
+                SvgPicture.asset('assets/svg/icon/report.svg',
+                    width: 28,
+                    height: 28,
+                    colorFilter: ColorFilter.mode(
+                        isReportIssue == false ? Colors.grey : Colors.blue,
+                        BlendMode.srcIn)),
+              ],
+            ),
           ),
         ),
       ],
