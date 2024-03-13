@@ -25,7 +25,10 @@ class SignupService implements Isignup {
             code: body["code"], msg: body["msg"], result: body["result"]);
       }
     } on DioException catch (e) {
-      return e.response!.data['detail'];
+      if (e.response != null) {
+        return e.response!.data['detail'];
+      }
+      print("Dio Error");
     }
   }
 }

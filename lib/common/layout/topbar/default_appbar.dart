@@ -20,7 +20,7 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.elevation = 0,
     this.padding = 20,
     required this.title,
-    this.isImage = false,
+    this.isImage,
   });
 
   @override

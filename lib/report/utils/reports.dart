@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:me_mind/report/component/report_card.dart';
+import 'package:me_mind/report/view/s_report_detail.dart';
 
 class ReportData {
   final List<String> keywords;
@@ -17,11 +18,17 @@ SliverList renderReports({required List<ReportData> reports, Color? color}) {
         final report = reports[index];
         return Padding(
           padding: const EdgeInsets.only(bottom: 20),
-          child: ReportCard(
-            keywords: report.keywords,
-            summary: report.summary,
-            date: report.date,
-            color: color,
+          child: InkWell(
+            onTap: () {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (_) => ReportDetail()));
+            },
+            child: ReportCard(
+              keywords: report.keywords,
+              summary: report.summary,
+              date: report.date,
+              color: color,
+            ),
           ),
         );
       },

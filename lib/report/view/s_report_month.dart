@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:me_mind/common/component/root_tab.dart';
 
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/layout/topbar/widget/back_arrow.dart';
@@ -98,6 +99,7 @@ class _ReportMonthState extends State<ReportMonth> {
         reports: reports,
         datetime: defaultDateTime,
       ),
+      bottomNavigationBar: RootTab(),
     );
   }
 }

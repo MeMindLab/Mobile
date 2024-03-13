@@ -18,7 +18,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   final GlobalKey webViewKey = GlobalKey();
   // Uri myUrl = Uri.parse("https://d2ygt4x04f8e42.cloudfront.net");
-  Uri myUrl = Uri.parse("http://127.0.0.1:5173/");
+  Uri myUrl = Uri.parse("http://10.0.2.2:3000/");
   late final InAppWebViewController webViewController;
   late final PullToRefreshController pullToRefreshController;
   double progress = 0;
