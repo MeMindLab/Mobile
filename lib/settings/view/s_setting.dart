@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:me_mind/common/component/dialog/d_multichoice_dialog.dart';
 import 'package:me_mind/common/component/dialog/w_dialog_button.dart';
 import 'package:me_mind/common/constant/app_colors.dart';
+import 'package:me_mind/common/constant/constant.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/layout/topbar/widget/back_arrow.dart';
@@ -10,6 +11,7 @@ import 'package:me_mind/common/layout/topbar/widget/lemon_number.dart';
 import 'package:me_mind/common/store.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
+import 'package:me_mind/common/view/splash_screen.dart';
 import 'package:me_mind/settings/component/certified_box.dart';
 import 'package:me_mind/settings/component/settings_menu.dart';
 import 'package:me_mind/settings/services/logout_service.dart';
@@ -28,6 +30,15 @@ class Settings extends StatefulWidget {
 
 class _SettingState extends State<Settings> {
   final dio = Dio();
+  bool isPhoneAuth = false;
+
+  void handlePhoneAuth() {
+    print("폰 인증");
+    setState(() {
+      isPhoneAuth = true;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -141,7 +152,9 @@ class _SettingState extends State<Settings> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const SettingUserInfo()));
+                            builder: (context) => SettingUserInfo(
+                                  handlePhoneAuth: handlePhoneAuth,
+                                )));
                   },
                   title: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -151,7 +164,7 @@ class _SettingState extends State<Settings> {
                         style: FontSizes.getHeadline2Style()
                             .copyWith(color: theme.appColors.iconButton),
                       ),
-                      CertifiedBox(isCertified: false),
+                      CertifiedBox(isCertified: isPhoneAuth),
                     ],
                   ),
                 ),
@@ -284,10 +297,15 @@ class _SettingState extends State<Settings> {
                                   theme: theme,
                                   bgColor: theme.appColors.grayButtonBackground,
                                   content: "네",
-                                  onSubmit: () {
-                                    LogoutService().logout();
-                                    // 로그인 페이지로 이동
-                                    Navigator.pop(context);
+                                  onSubmit: () async {
+                                    var response =
+                                        await LogoutService().logout();
+                                    if (response != null) {
+                                      await storage.deleteAll();
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (_) => SplashScreen()));
+                                    }
                                   }),
                               AlertDialogButton(
                                   theme: theme,

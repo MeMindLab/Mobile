@@ -6,7 +6,8 @@ import 'package:me_mind/common/theme/custom_theme_holder.dart';
 import 'package:me_mind/settings/view/f_userinfo_form.dart';
 
 class SettingUserInfo extends StatefulWidget {
-  const SettingUserInfo({super.key});
+  final VoidCallback handlePhoneAuth;
+  const SettingUserInfo({super.key, required this.handlePhoneAuth});
 
   @override
   State<SettingUserInfo> createState() => _SettingUserInfoState();
@@ -41,6 +42,7 @@ class _SettingUserInfoState extends State<SettingUserInfo> {
                   child: UserInfoForm(
                     isUpdate: isUpdate,
                     onUpdate: onUpdate,
+                    handlePhoneAuth: widget.handlePhoneAuth,
                   ),
                 ),
               ),

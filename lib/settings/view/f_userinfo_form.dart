@@ -13,6 +13,7 @@ import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 import 'package:me_mind/common/view/splash_screen.dart';
 import 'package:me_mind/report/view/s_report.dart';
+import 'package:me_mind/screen/main/s_main.dart';
 import 'package:me_mind/settings/component/settings_custom_text_form.dart';
 import 'package:me_mind/settings/utils/phone_number_formatter.dart';
 import 'package:me_mind/settings/view/w_certify_timer.dart';
@@ -21,7 +22,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 class UserInfoForm extends StatefulWidget {
   bool isUpdate;
   Function onUpdate;
-  UserInfoForm({super.key, required this.isUpdate, required this.onUpdate});
+  VoidCallback handlePhoneAuth;
+  UserInfoForm(
+      {super.key,
+      required this.isUpdate,
+      required this.onUpdate,
+      required this.handlePhoneAuth});
 
   @override
   State<UserInfoForm> createState() => _UserInfoFormState();
@@ -356,6 +362,7 @@ class _UserInfoFormState extends State<UserInfoForm> {
                             isphoneAuthenticated = false;
                           });
                           if (isAuthenticComplete == true) {
+                            widget.handlePhoneAuth();
                             MultiChoiceDialog(
                                 context: context,
                                 imageAddr:
@@ -379,7 +386,7 @@ class _UserInfoFormState extends State<UserInfoForm> {
                                       content: "리포트 발행하러 가기",
                                       onSubmit: () async {
                                         await setBottomIdx(2);
-                                        Navigator.pushReplacement(
+                                        Navigator.push(
                                             context,
                                             PageRouteBuilder(
                                               pageBuilder:
@@ -388,7 +395,7 @@ class _UserInfoFormState extends State<UserInfoForm> {
                                                               animation1,
                                                           Animation<double>
                                                               animation2) =>
-                                                      Report()),
+                                                      MainScreen()),
                                               transitionDuration: Duration.zero,
                                               reverseTransitionDuration:
                                                   Duration.zero,

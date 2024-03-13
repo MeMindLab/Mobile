@@ -7,7 +7,7 @@ class SearchService {
     String url = 'report/search/$uriKeyword';
 
     final dio = Dio();
-    dio.options.baseUrl = "http://52.65.66.124/";
+    dio.options.baseUrl = "http://10.0.2.2:8000/";
     Response response;
 
     try {

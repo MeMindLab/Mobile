@@ -170,24 +170,24 @@ class _ChatState extends State<Chat> {
   @override
   Widget build(BuildContext context) {
     CustomTheme theme = CustomThemeHolder.of(context).theme;
-    return SafeArea(
-      child: DefaultLayout(
-        backgroundColor: Colors.white,
-        appBarActions: [
-          SizedBox(
-            child: Row(
-              children: [
-                SvgPicture.asset(
-                  'assets/svg/icon/report.svg',
-                  width: 28,
-                  height: 28,
-                ),
-              ],
-            ),
+    return DefaultLayout(
+      backgroundColor: Colors.white,
+      appBarActions: [
+        SizedBox(
+          child: Row(
+            children: [
+              SvgPicture.asset(
+                'assets/svg/icon/report.svg',
+                width: 28,
+                height: 28,
+              ),
+            ],
           ),
-        ],
-        title: datetimeType1(),
-        // ignore: sort_child_properties_last
+        ),
+      ],
+      title: datetimeType1(),
+      // ignore: sort_child_properties_last
+      child: SafeArea(
         child: Column(
           children: [
             ChatNotification(
@@ -240,16 +240,16 @@ class _ChatState extends State<Chat> {
             _BottomInputField(theme),
           ],
         ),
-        appBarLeading: BackArrowLeading(
-          onPressed: () {
-            if (Navigator.canPop(context)) {
-              Navigator.pop(context);
-            } else {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (_) => const MainScreen()));
-            }
-          },
-        ),
+      ),
+      appBarLeading: BackArrowLeading(
+        onPressed: () {
+          if (Navigator.canPop(context)) {
+            Navigator.pop(context);
+          } else {
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (_) => const MainScreen()));
+          }
+        },
       ),
     );
   }

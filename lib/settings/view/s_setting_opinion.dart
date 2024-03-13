@@ -26,7 +26,7 @@ class SettingOpinion extends StatefulWidget {
 class _SettingOpinionState extends State<SettingOpinion> {
   bool infoCheck = false;
   List opinionList = [];
-  String title = "";
+  String subject = "";
   String body = "";
   List<String> attachments = [];
 
@@ -108,7 +108,7 @@ class _SettingOpinionState extends State<SettingOpinion> {
                   buildTextField(
                       onChanged: (String value) {
                         setState(() {
-                          title = body;
+                          subject = value;
                         });
                       },
                       hintText: "제목을 입력해주세요",
@@ -265,7 +265,10 @@ class _SettingOpinionState extends State<SettingOpinion> {
                   RoundedButton(
                     onPressed: infoCheck == true
                         ? () {
-                            EmailSend.send(title, body, attachments)
+                            EmailSend.send(
+                                    subject: subject,
+                                    body: body,
+                                    attachments: attachments)
                                 .then((value) async {
                               await AlertDialogs(
                                   context: context,
