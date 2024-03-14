@@ -15,6 +15,7 @@ import 'package:me_mind/common/view/splash_screen.dart';
 import 'package:me_mind/settings/component/certified_box.dart';
 import 'package:me_mind/settings/component/settings_menu.dart';
 import 'package:me_mind/settings/services/logout_service.dart';
+import 'package:me_mind/settings/view/s_faqwebview_screen.dart';
 import 'package:me_mind/settings/view/s_setting_notification.dart';
 import 'package:me_mind/settings/view/s_setting_opinion.dart';
 import 'package:me_mind/settings/view/s_setting_theme.dart';
@@ -254,10 +255,10 @@ class _SettingState extends State<Settings> {
                       itemBuilder: (BuildContext contexnt, int idx) {
                         return InkWell(
                           onTap: () {
-                            // Navigator.push(context,
-                            //     MaterialPageRoute(builder: (context) {
-                            //   return ;
-                            // }));
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return FaqWebviewScreen();
+                            }));
                           },
                           child: ListTile(
                             visualDensity: const VisualDensity(vertical: -1),
