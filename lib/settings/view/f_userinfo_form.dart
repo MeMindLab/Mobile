@@ -23,11 +23,15 @@ class UserInfoForm extends StatefulWidget {
   bool isUpdate;
   Function onUpdate;
   VoidCallback handlePhoneAuth;
+  final String userEmail;
+  final String userNickname;
   UserInfoForm(
       {super.key,
       required this.isUpdate,
       required this.onUpdate,
-      required this.handlePhoneAuth});
+      required this.handlePhoneAuth,
+      required this.userEmail,
+      required this.userNickname});
 
   @override
   State<UserInfoForm> createState() => _UserInfoFormState();
@@ -35,6 +39,7 @@ class UserInfoForm extends StatefulWidget {
 
 class _UserInfoFormState extends State<UserInfoForm> {
   final _formKey = GlobalKey<FormState>();
+
   String phoneNumber = "";
   String nickname = "";
   String email = "";
@@ -101,6 +106,7 @@ class _UserInfoFormState extends State<UserInfoForm> {
     certifyTimer = CertifyTimer(timerCount: timerCount);
     nickname = "구르미조아";
     email = "brainz.paek@gmail.com";
+    print(nickname);
     _timer = Timer(const Duration(seconds: 0), () {});
   }
 
@@ -345,9 +351,11 @@ class _UserInfoFormState extends State<UserInfoForm> {
                 Expanded(
                   child: SizedBox(
                     child: RoundedButton(
-                      backgroundColor: theme.appColors.grayButtonBackground,
+                      backgroundColor: isAuthenticComplete == true
+                          ? theme.appColors.blueButtonBackground
+                          : theme.appColors.grayButtonBackground,
                       text: "저장",
-                      onPressed: () {
+                      onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
                           print({
@@ -362,6 +370,10 @@ class _UserInfoFormState extends State<UserInfoForm> {
                             isphoneAuthenticated = false;
                           });
                           if (isAuthenticComplete == true) {
+                            final SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+
+                            await prefs.setBool("is_auth", true);
                             widget.handlePhoneAuth();
                             MultiChoiceDialog(
                                 context: context,

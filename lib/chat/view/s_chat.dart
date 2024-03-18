@@ -303,11 +303,12 @@ class _ChatState extends State<Chat> {
                       ),
                       Expanded(
                         child: Container(
-                          height: 40,
+                          // height: 40,
                           margin: const EdgeInsets.only(right: 20),
                           child: TextField(
-                            maxLines: 1,
+                            // maxLines: 1,
                             showCursor: true,
+                            maxLines: null,
                             cursorWidth: 1,
                             cursorColor: Colors.black,
                             style: FontSizes.getCapsuleStyle().copyWith(

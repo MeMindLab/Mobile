@@ -2,6 +2,9 @@ import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:me_mind/common/component/custom_search_bar.dart';
+import 'package:me_mind/common/constant/font_sizes.dart';
+import 'package:me_mind/common/theme/custom_theme.dart';
+import 'package:me_mind/common/theme/custom_theme_holder.dart';
 import 'package:me_mind/report/component/report_card.dart';
 import 'package:me_mind/report/model/report_search/report_search_model.dart';
 import 'package:me_mind/report/services/search_service.dart';
@@ -29,6 +32,7 @@ class _SearchFragmentState extends State<SearchFragment> {
 
   @override
   Widget build(BuildContext context) {
+    CustomTheme theme = CustomThemeHolder.of(context).theme;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20),
       child: Column(
@@ -43,11 +47,15 @@ class _SearchFragmentState extends State<SearchFragment> {
           isKeywordSearched == false
               ? const SizedBox()
               : controller.text == "배고픔"
-                  ? const Column(children: [
-                      SizedBox(
+                  ? Column(children: [
+                      const SizedBox(
                         height: 241,
                       ),
-                      Text("검색결과가 존재하지 않습니다."),
+                      Text(
+                        "검색결과가 존재하지 않습니다.",
+                        style: FontSizes.getContentStyle()
+                            .copyWith(color: theme.appColors.hintText),
+                      ),
                     ])
                   : FutureBuilder(
                       future: SearchService().search(controller.text),
@@ -71,12 +79,16 @@ class _SearchFragmentState extends State<SearchFragment> {
                           }
                         }
                         if (snapshot.hasError) {
-                          return const Expanded(
+                          return Expanded(
                             child: Column(children: [
-                              SizedBox(
+                              const SizedBox(
                                 height: 241,
                               ),
-                              Text("검색결과가 존재하지 않습니다."),
+                              Text(
+                                "검색결과가 존재하지 않습니다.",
+                                style: FontSizes.getContentStyle()
+                                    .copyWith(color: theme.appColors.hintText),
+                              ),
                             ]),
                           );
                         }

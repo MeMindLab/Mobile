@@ -21,6 +21,7 @@ import 'package:me_mind/settings/view/s_setting_opinion.dart';
 import 'package:me_mind/settings/view/s_setting_theme.dart';
 import 'package:me_mind/settings/view/s_setting_userinfo.dart';
 import 'package:me_mind/settings/view/s_subscribe.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -40,10 +41,23 @@ class _SettingState extends State<Settings> {
     });
   }
 
+  void getIsAuth() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    bool? isAuth = await prefs.getBool('is_auth');
+    print(isAuth);
+    if (isAuth != null) {
+      setState(() {
+        isPhoneAuth = isAuth;
+      });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     setBottomIdx(3);
+    getIsAuth();
   }
 
   @override
@@ -116,30 +130,30 @@ class _SettingState extends State<Settings> {
                     ),
                   ),
                 ),
-                // Positioned(
-                //   child: Container(
-                //     width: double.infinity,
-                //     height: 93,
-                //     decoration: BoxDecoration(
-                //         color: const Color.fromRGBO(0, 0, 0, 0.8),
-                //         borderRadius: BorderRadius.circular(13)),
-                //     child: Center(
-                //         child: Column(
-                //       mainAxisAlignment: MainAxisAlignment.center,
-                //       children: [
-                //         Icon(
-                //           Icons.ios_share,
-                //           color: theme.appColors.seedColor,
-                //         ),
-                //         Text(
-                //           "1월 중 오픈 예정",
-                //           style: FontSizes.getContentStyle()
-                //               .copyWith(color: theme.appColors.seedColor),
-                //         ),
-                //       ],
-                //     )),
-                //   ),
-                // )
+                Positioned(
+                  child: Container(
+                    width: double.infinity,
+                    height: 93,
+                    decoration: BoxDecoration(
+                        color: const Color.fromRGBO(0, 0, 0, 0.8),
+                        borderRadius: BorderRadius.circular(13)),
+                    child: Center(
+                        child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.ios_share,
+                          color: theme.appColors.seedColor,
+                        ),
+                        Text(
+                          "1월 중 오픈 예정",
+                          style: FontSizes.getContentStyle()
+                              .copyWith(color: theme.appColors.seedColor),
+                        ),
+                      ],
+                    )),
+                  ),
+                )
               ]),
               const SizedBox(
                 height: 10,
