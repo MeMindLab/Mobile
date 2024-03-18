@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:me_mind/common/component/dialog/d_multichoice_dialog.dart';
 import 'package:me_mind/common/component/dialog/w_dialog_button.dart';
 import 'package:me_mind/common/constant/app_colors.dart';
@@ -141,14 +142,10 @@ class _SettingState extends State<Settings> {
                         child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(
-                          Icons.ios_share,
-                          color: theme.appColors.seedColor,
-                        ),
-                        Text(
-                          "1월 중 오픈 예정",
-                          style: FontSizes.getContentStyle()
-                              .copyWith(color: theme.appColors.seedColor),
+                        SvgPicture.asset(
+                          'assets/svg/icon/market.svg',
+                          width: 24,
+                          height: 24,
                         ),
                       ],
                     )),
@@ -303,8 +300,8 @@ class _SettingState extends State<Settings> {
                     ),
                     onTap: () => MultiChoiceDialog(
                             context: context,
-                            title: "정말 로그아웃 하시겠어요?",
-                            body: "내년 1월 중 오픈 예정입니다.",
+                            title: "로그아웃 하시겠어요?",
+                            titleTopPadding: 30,
                             isRow: true,
                             isNarrow: true,
                             actions: [
