@@ -113,14 +113,14 @@ class _SignInScreenState extends State<SignInScreen> {
                             if (_formKey.currentState!.validate()) {
                               final response = await authService.loginService
                                   .login(email, password);
-                              print(response);
+
                               if (response == null) {
                                 setState(() {
                                   emailErrorText = "아이디 혹은 비밀번호가 다릅니다.";
                                   passwordErrorText = "아이디 혹은 비밀번호가 다릅니다.";
                                 });
                               } else {
-// 추후 토큰 저장 및 관리
+                                // 추후 토큰 저장 및 관리
                                 final refreshToken =
                                     response.result.refreshToken;
                                 final accessToken = response.result.accessToken;

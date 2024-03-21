@@ -15,7 +15,7 @@ class CustomSnackBar extends StatefulWidget {
 class _CustomSnackBarState extends State<CustomSnackBar> {
   bool isFirst = true;
   bool isSecond = false;
-  double height = 100;
+  double height = 104;
   void firstRemove() {
     Timer(Duration(milliseconds: 1000), () {
       setState(() {
@@ -53,9 +53,11 @@ class _CustomSnackBarState extends State<CustomSnackBar> {
                 child: SnackBarContent("리포트를 생성 중입니다. 창을 닫지말고 기다려주세요."),
               )
             : const SizedBox(),
-        const SizedBox(
-          height: 4,
-        ),
+        isFirst
+            ? const SizedBox(
+                height: 8,
+              )
+            : const SizedBox(),
         isSecond
             ? AnimatedOpacity(
                 opacity: isSecond ? 1 : 0,
@@ -68,11 +70,6 @@ class _CustomSnackBarState extends State<CustomSnackBar> {
                       borderRadius: BorderRadius.circular(10)),
                   child: SnackBarContent("비타민을 1개 소모했어요."),
                 ),
-              )
-            : const SizedBox(),
-        isFirst == false
-            ? const SizedBox(
-                height: 48,
               )
             : const SizedBox(),
       ]),
