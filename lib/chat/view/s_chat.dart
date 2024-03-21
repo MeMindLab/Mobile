@@ -185,8 +185,8 @@ class _ChatState extends State<Chat> {
 
             ShowSnackBar()
                 .showSnackBarFunction(context, "리포트를 생성 중입니다.창을 닫지말고 기다려주세요.");
-            ShowSnackBar()
-                .showSnackBarFunction(context, "비타민을 1개 소모했어요.", isBack: true);
+            // ShowSnackBar()
+            //     .showSnackBarFunction(context, "비타민을 1개 소모했어요.", isBack: true);
             setState(() {
               isReportIssue = false;
             });
