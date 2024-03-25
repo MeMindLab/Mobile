@@ -56,6 +56,7 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
           SizedBox(
             height: 200,
             child: CupertinoDatePicker(
+              key: GlobalKey(),
               dateOrder: DatePickerDateOrder.ymd,
               mode: CupertinoDatePickerMode.monthYear,
               initialDateTime: initialDate,

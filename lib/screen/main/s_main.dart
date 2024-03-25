@@ -45,7 +45,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(
-      backgroundColor: Colors.grey.shade50,
+      backgroundColor: Color(0xffF1F3F8),
       bottomNavigationBar: const RootTab(),
       appBarBgColor: Color(0xffF1F3F8),
       appBarActions: [LemonNumberWidget(numberText: "5")],

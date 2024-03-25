@@ -19,6 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
     // TODO: implement initState
     super.initState();
     //deleteToken();
+    userMe();
     checkToken();
   }
 
@@ -47,6 +48,18 @@ class _SplashScreenState extends State<SplashScreen> {
             .push(MaterialPageRoute(builder: (_) => MainScreen()));
       }
     }
+  }
+
+  void userMe() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    await prefs.remove('is_auth');
+    await prefs.remove('email');
+    await prefs.remove('nickname');
+
+    await prefs.setBool('is_auth', false);
+    await prefs.setString('email', 'test@test.test');
+    await prefs.setString('nickname', 'nickname');
   }
 
   @override

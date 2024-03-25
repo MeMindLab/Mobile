@@ -41,7 +41,7 @@ class _RootTabState extends State<RootTab> {
                 borderRadius: BorderRadius.circular(50),
                 border: Border.all(
                   width: 1,
-                  color: theme.appColors.grayButtonBackground,
+                  color: theme.appColors.seedColor,
                 ),
                 boxShadow: const [
                   BoxShadow(

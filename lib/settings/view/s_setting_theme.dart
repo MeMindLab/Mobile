@@ -56,16 +56,18 @@ class _SettingThemaState extends State<SettingTheme> {
                   children: [
                     Text(
                       "달력테마",
-                      style: FontSizes.getHeadline2Style()
-                          .copyWith(color: theme.appColors.iconButton),
+                      style: FontSizes.getHeadline2Style().copyWith(
+                          color: theme.appColors.iconButton,
+                          fontWeight: FontWeight.w500),
                     ),
                     const SizedBox(
                       height: 24,
                     ),
                     Text(
                       "감정모드",
-                      style: FontSizes.getContentStyle()
-                          .copyWith(color: theme.appColors.iconButton),
+                      style: FontSizes.getContentStyle().copyWith(
+                          color: theme.appColors.iconButton,
+                          fontWeight: FontWeight.w400),
                     ),
                     const SizedBox(
                       height: 10,
@@ -98,8 +100,16 @@ class _SettingThemaState extends State<SettingTheme> {
                           ),
                         ),
                         Expanded(
-                            child:
-                                Image.asset("assets/image/theme/emotion.png")),
+                            child: Container(
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        width: 2,
+                                        color: _appTheme == AppTheme.emotion
+                                            ? theme.appColors.checkColor
+                                            : Colors.transparent),
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: Image.asset(
+                                    "assets/image/theme/emotion.png"))),
                       ]),
                     ),
                     const SizedBox(
@@ -107,8 +117,9 @@ class _SettingThemaState extends State<SettingTheme> {
                     ),
                     Text(
                       "기본모드",
-                      style: FontSizes.getContentStyle()
-                          .copyWith(color: theme.appColors.iconButton),
+                      style: FontSizes.getContentStyle().copyWith(
+                          color: theme.appColors.iconButton,
+                          fontWeight: FontWeight.w400),
                     ),
                     const SizedBox(
                       height: 10,
@@ -141,48 +152,22 @@ class _SettingThemaState extends State<SettingTheme> {
                           ),
                         ),
                         Expanded(
-                            child: Image.asset("assets/image/theme/basic.png")),
+                            child: Container(
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        width: 2,
+                                        color: _appTheme == AppTheme.basic
+                                            ? theme.appColors.checkColor
+                                            : Colors.transparent),
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: Image.asset(
+                                    "assets/image/theme/basic.png"))),
                       ]),
                     ),
                   ]),
             ),
             const SizedBox(
               height: 10,
-            ),
-            Container(
-              height: 65,
-              decoration: BoxDecoration(
-                  color: theme.appColors.seedColor,
-                  borderRadius: BorderRadius.circular(13.0)),
-              padding: const EdgeInsets.all(20),
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      "다크모드",
-                      style: FontSizes.getHeadline2Style()
-                          .copyWith(color: theme.appColors.iconButton),
-                    ),
-                    Switch(
-                      value: isDarkmode,
-                      trackOutlineColor: MaterialStateProperty.resolveWith(
-                        (final Set<MaterialState> states) {
-                          if (states.contains(MaterialState.selected)) {
-                            return null;
-                          }
-
-                          return Colors.transparent;
-                        },
-                      ),
-                      activeColor: theme.appColors.grayButtonBackground,
-                      onChanged: (bool value) {
-                        setState(() {
-                          isDarkmode = !isDarkmode;
-                        });
-                      },
-                    ),
-                  ]),
             ),
           ]),
         ));

@@ -11,15 +11,27 @@ import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/store.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
+import 'package:me_mind/common/view/splash_screen.dart';
 import 'package:me_mind/report/view/s_report.dart';
+import 'package:me_mind/screen/main/s_main.dart';
 import 'package:me_mind/settings/component/settings_custom_text_form.dart';
 import 'package:me_mind/settings/utils/phone_number_formatter.dart';
 import 'package:me_mind/settings/view/w_certify_timer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserInfoForm extends StatefulWidget {
   bool isUpdate;
   Function onUpdate;
-  UserInfoForm({super.key, required this.isUpdate, required this.onUpdate});
+  VoidCallback handlePhoneAuth;
+  final String userEmail;
+  final String userNickname;
+  UserInfoForm(
+      {super.key,
+      required this.isUpdate,
+      required this.onUpdate,
+      required this.handlePhoneAuth,
+      required this.userEmail,
+      required this.userNickname});
 
   @override
   State<UserInfoForm> createState() => _UserInfoFormState();
@@ -27,6 +39,7 @@ class UserInfoForm extends StatefulWidget {
 
 class _UserInfoFormState extends State<UserInfoForm> {
   final _formKey = GlobalKey<FormState>();
+
   String phoneNumber = "";
   String nickname = "";
   String email = "";
@@ -93,6 +106,7 @@ class _UserInfoFormState extends State<UserInfoForm> {
     certifyTimer = CertifyTimer(timerCount: timerCount);
     nickname = "구르미조아";
     email = "brainz.paek@gmail.com";
+    print(nickname);
     _timer = Timer(const Duration(seconds: 0), () {});
   }
 
@@ -337,9 +351,11 @@ class _UserInfoFormState extends State<UserInfoForm> {
                 Expanded(
                   child: SizedBox(
                     child: RoundedButton(
-                      backgroundColor: theme.appColors.grayButtonBackground,
+                      backgroundColor: isAuthenticComplete == true
+                          ? theme.appColors.blueButtonBackground
+                          : theme.appColors.grayButtonBackground,
                       text: "저장",
-                      onPressed: () {
+                      onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
                           print({
@@ -354,6 +370,11 @@ class _UserInfoFormState extends State<UserInfoForm> {
                             isphoneAuthenticated = false;
                           });
                           if (isAuthenticComplete == true) {
+                            final SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+
+                            await prefs.setBool("is_auth", true);
+                            widget.handlePhoneAuth();
                             MultiChoiceDialog(
                                 context: context,
                                 imageAddr:
@@ -377,7 +398,7 @@ class _UserInfoFormState extends State<UserInfoForm> {
                                       content: "리포트 발행하러 가기",
                                       onSubmit: () async {
                                         await setBottomIdx(2);
-                                        Navigator.pushReplacement(
+                                        Navigator.push(
                                             context,
                                             PageRouteBuilder(
                                               pageBuilder:
@@ -386,7 +407,7 @@ class _UserInfoFormState extends State<UserInfoForm> {
                                                               animation1,
                                                           Animation<double>
                                                               animation2) =>
-                                                      Report()),
+                                                      MainScreen()),
                                               transitionDuration: Duration.zero,
                                               reverseTransitionDuration:
                                                   Duration.zero,
@@ -423,14 +444,19 @@ class _UserInfoFormState extends State<UserInfoForm> {
                             bgColor: theme.appColors.seedColor,
                             content: "그래도 탈퇴할게요.",
                             onSubmit: () async {
+                              final SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              prefs.remove('isTutorial');
                               await storage.deleteAll();
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (_) => const SplashScreen()));
                             }),
                       ]).show();
                 },
                 child: Text(
                   "계정 탈퇴하기",
                   style: FontSizes.getCapsuleStyle()
-                      .copyWith(color: theme.appColors.iconButton),
+                      .copyWith(color: theme.appColors.iconBook),
                 ),
               )
             : const Text(""),

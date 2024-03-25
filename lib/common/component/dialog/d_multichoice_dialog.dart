@@ -13,16 +13,19 @@ class MultiChoiceDialog {
   final bool isRow;
   final TextAlign textAlign;
   final bool isNarrow;
+  final double? titleTopPadding;
 
-  MultiChoiceDialog(
-      {required this.context,
-      this.imageAddr,
-      required this.title,
-      this.body,
-      required this.actions,
-      this.isRow = true,
-      this.textAlign = TextAlign.center,
-      this.isNarrow = false});
+  MultiChoiceDialog({
+    required this.context,
+    this.imageAddr,
+    required this.title,
+    this.body,
+    required this.actions,
+    this.isRow = true,
+    this.textAlign = TextAlign.center,
+    this.isNarrow = false,
+    this.titleTopPadding,
+  });
 
   show() async {
     await showDialog(
@@ -60,7 +63,8 @@ class MultiChoiceDialog {
         return AlertDialog(
           backgroundColor: theme.appColors.seedColor,
           surfaceTintColor: theme.appColors.badgeBorder,
-          contentPadding: const EdgeInsets.fromLTRB(0, 20, 0, 15),
+          contentPadding: EdgeInsets.fromLTRB(
+              0, titleTopPadding != null ? titleTopPadding! : 20, 0, 15),
           actionsPadding: const EdgeInsets.fromLTRB(15, 5, 15, 10),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(13),

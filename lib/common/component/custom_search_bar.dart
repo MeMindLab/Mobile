@@ -3,14 +3,20 @@ import 'package:flutter_svg/svg.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 
-class CustomSearchBar extends StatelessWidget {
+class CustomSearchBar extends StatefulWidget {
   final VoidCallback? onSubmitted;
+  final TextEditingController? controller;
 
-  CustomSearchBar({super.key, this.onSubmitted});
+  const CustomSearchBar({super.key, this.onSubmitted, this.controller});
 
   @override
+  State<CustomSearchBar> createState() => _CustomSearchBarState();
+}
+
+class _CustomSearchBarState extends State<CustomSearchBar> {
+  @override
   Widget build(BuildContext context) {
-    final TextEditingController searchController = TextEditingController();
+    // final TextEditingController searchController = TextEditingController();
     FocusNode focuseNode = FocusNode();
 
     final baseBorder = OutlineInputBorder(
@@ -40,10 +46,11 @@ class CustomSearchBar extends StatelessWidget {
                 fontSize: 14,
               ),
               cursorColor: Theme.of(context).focusColor,
-              controller: searchController,
+              onEditingComplete: widget.onSubmitted,
+              controller: widget.controller,
               decoration: InputDecoration(
                 suffixIcon: IconButton(
-                  onPressed: onSubmitted,
+                  onPressed: widget.onSubmitted,
                   icon: SvgPicture.asset(
                     'assets/svg/icon/search.svg',
                     width: 24,
@@ -64,7 +71,7 @@ class CustomSearchBar extends StatelessWidget {
                     const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
                 enabledBorder: baseBorder,
               ),
-              onSubmitted: (value) => onSubmitted,
+              onSubmitted: (value) => widget.onSubmitted,
             ),
           ),
         ],

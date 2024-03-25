@@ -21,17 +21,13 @@ Map<String, dynamic> _$ReportSearchModelToJson(ReportSearchModel instance) =>
     };
 
 Result _$ResultFromJson(Map<String, dynamic> json) => Result(
-      reports: (json['reports'] as List<dynamic>)
+      report: (json['report'] as List<dynamic>)
           .map((e) => Report.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      weekly: (json['weekly'] as List<dynamic>)
-          .map((e) => Weekly.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
 Map<String, dynamic> _$ResultToJson(Result instance) => <String, dynamic>{
-      'reports': instance.reports,
-      'weekly': instance.weekly,
+      'report': instance.report,
     };
 
 Report _$ReportFromJson(Map<String, dynamic> json) => Report(
@@ -39,6 +35,7 @@ Report _$ReportFromJson(Map<String, dynamic> json) => Report(
       createdAt: json['created_at'] as String,
       tags: (json['tags'] as List<dynamic>).map((e) => e as String).toList(),
       aiSummary: json['ai_summary'] as String,
+      thumbnail: json['thumbnail'] as String,
     );
 
 Map<String, dynamic> _$ReportToJson(Report instance) => <String, dynamic>{
@@ -46,14 +43,5 @@ Map<String, dynamic> _$ReportToJson(Report instance) => <String, dynamic>{
       'created_at': instance.createdAt,
       'tags': instance.tags,
       'ai_summary': instance.aiSummary,
-    };
-
-Weekly _$WeeklyFromJson(Map<String, dynamic> json) => Weekly(
-      date: json['date'] as String,
-      score: json['score'] as String,
-    );
-
-Map<String, dynamic> _$WeeklyToJson(Weekly instance) => <String, dynamic>{
-      'date': instance.date,
-      'score': instance.score,
+      'thumbnail': instance.thumbnail,
     };

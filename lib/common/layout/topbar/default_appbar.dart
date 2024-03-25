@@ -20,7 +20,7 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.elevation = 0,
     this.padding = 20,
     required this.title,
-    this.isImage = false,
+    this.isImage,
   });
 
   @override
@@ -36,13 +36,12 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
             ? Text(
                 title,
                 style: FontSizes.getHeadline1Style().copyWith(
-                  fontWeight: FontWeight.w500,
-                ),
+                    fontWeight: FontWeight.w500, color: foregroundColor),
               )
             : Image.asset(
                 'assets/image/logo/logo.png',
-                width: 28,
-                height: 28,
+                width: 35,
+                height: 35,
                 fit: BoxFit.cover,
               ),
         centerTitle: true,

@@ -1,8 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:me_mind/common/component/dialog/d_multichoice_dialog.dart';
 import 'package:me_mind/common/component/dialog/w_dialog_button.dart';
 import 'package:me_mind/common/constant/app_colors.dart';
+import 'package:me_mind/common/constant/constant.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/layout/topbar/widget/back_arrow.dart';
@@ -10,14 +12,17 @@ import 'package:me_mind/common/layout/topbar/widget/lemon_number.dart';
 import 'package:me_mind/common/store.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
+import 'package:me_mind/common/view/splash_screen.dart';
 import 'package:me_mind/settings/component/certified_box.dart';
 import 'package:me_mind/settings/component/settings_menu.dart';
 import 'package:me_mind/settings/services/logout_service.dart';
+import 'package:me_mind/settings/view/s_faqwebview_screen.dart';
 import 'package:me_mind/settings/view/s_setting_notification.dart';
 import 'package:me_mind/settings/view/s_setting_opinion.dart';
 import 'package:me_mind/settings/view/s_setting_theme.dart';
 import 'package:me_mind/settings/view/s_setting_userinfo.dart';
 import 'package:me_mind/settings/view/s_subscribe.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -28,10 +33,32 @@ class Settings extends StatefulWidget {
 
 class _SettingState extends State<Settings> {
   final dio = Dio();
+  bool isPhoneAuth = false;
+
+  void handlePhoneAuth() {
+    print("폰 인증");
+    setState(() {
+      isPhoneAuth = true;
+    });
+  }
+
+  void getIsAuth() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    bool? isAuth = await prefs.getBool('is_auth');
+    print(isAuth);
+    if (isAuth != null) {
+      setState(() {
+        isPhoneAuth = isAuth;
+      });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     setBottomIdx(3);
+    getIsAuth();
   }
 
   @override
@@ -104,30 +131,26 @@ class _SettingState extends State<Settings> {
                     ),
                   ),
                 ),
-                // Positioned(
-                //   child: Container(
-                //     width: double.infinity,
-                //     height: 93,
-                //     decoration: BoxDecoration(
-                //         color: const Color.fromRGBO(0, 0, 0, 0.8),
-                //         borderRadius: BorderRadius.circular(13)),
-                //     child: Center(
-                //         child: Column(
-                //       mainAxisAlignment: MainAxisAlignment.center,
-                //       children: [
-                //         Icon(
-                //           Icons.ios_share,
-                //           color: theme.appColors.seedColor,
-                //         ),
-                //         Text(
-                //           "1월 중 오픈 예정",
-                //           style: FontSizes.getContentStyle()
-                //               .copyWith(color: theme.appColors.seedColor),
-                //         ),
-                //       ],
-                //     )),
-                //   ),
-                // )
+                Positioned(
+                  child: Container(
+                    width: double.infinity,
+                    height: 93,
+                    decoration: BoxDecoration(
+                        color: const Color.fromRGBO(0, 0, 0, 0.8),
+                        borderRadius: BorderRadius.circular(13)),
+                    child: Center(
+                        child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(
+                          'assets/svg/icon/market.svg',
+                          width: 24,
+                          height: 24,
+                        ),
+                      ],
+                    )),
+                  ),
+                )
               ]),
               const SizedBox(
                 height: 10,
@@ -141,7 +164,9 @@ class _SettingState extends State<Settings> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const SettingUserInfo()));
+                            builder: (context) => SettingUserInfo(
+                                  handlePhoneAuth: handlePhoneAuth,
+                                )));
                   },
                   title: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -151,7 +176,7 @@ class _SettingState extends State<Settings> {
                         style: FontSizes.getHeadline2Style()
                             .copyWith(color: theme.appColors.iconButton),
                       ),
-                      CertifiedBox(isCertified: false),
+                      CertifiedBox(isCertified: isPhoneAuth),
                     ],
                   ),
                 ),
@@ -241,10 +266,10 @@ class _SettingState extends State<Settings> {
                       itemBuilder: (BuildContext contexnt, int idx) {
                         return InkWell(
                           onTap: () {
-                            // Navigator.push(context,
-                            //     MaterialPageRoute(builder: (context) {
-                            //   return ;
-                            // }));
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return FaqWebviewScreen();
+                            }));
                           },
                           child: ListTile(
                             visualDensity: const VisualDensity(vertical: -1),
@@ -275,8 +300,8 @@ class _SettingState extends State<Settings> {
                     ),
                     onTap: () => MultiChoiceDialog(
                             context: context,
-                            title: "정말 로그아웃 하시겠어요?",
-                            body: "내년 1월 중 오픈 예정입니다.",
+                            title: "로그아웃 하시겠어요?",
+                            titleTopPadding: 30,
                             isRow: true,
                             isNarrow: true,
                             actions: [
@@ -284,10 +309,15 @@ class _SettingState extends State<Settings> {
                                   theme: theme,
                                   bgColor: theme.appColors.grayButtonBackground,
                                   content: "네",
-                                  onSubmit: () {
-                                    LogoutService().logout();
-                                    // 로그인 페이지로 이동
-                                    Navigator.pop(context);
+                                  onSubmit: () async {
+                                    var response =
+                                        await LogoutService().logout();
+                                    if (response != null) {
+                                      await storage.deleteAll();
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (_) => SplashScreen()));
+                                    }
                                   }),
                               AlertDialogButton(
                                   theme: theme,

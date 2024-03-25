@@ -4,6 +4,7 @@ import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/layout/topbar/widget/back_arrow.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
+import 'package:me_mind/settings/component/custom_switch.dart';
 import 'package:me_mind/settings/component/settings_menu.dart';
 
 class SettingNotification extends StatefulWidget {
@@ -45,25 +46,13 @@ class _SettingUserInfoState extends State<SettingNotification> {
                             style: FontSizes.getHeadline2Style()
                                 .copyWith(fontWeight: FontWeight.w500),
                           ),
-                          trailing: Switch(
-                            value: isService,
-                            trackOutlineColor:
-                                MaterialStateProperty.resolveWith(
-                              (final Set<MaterialState> states) {
-                                if (states.contains(MaterialState.selected)) {
-                                  return null;
-                                }
-
-                                return Colors.transparent;
-                              },
-                            ),
-                            activeColor: theme.appColors.grayButtonBackground,
-                            onChanged: (bool value) {
-                              setState(() {
-                                isService = !isService;
-                              });
-                            },
-                          ),
+                          trailing: CustomSwitch(
+                              value: isService,
+                              onChanged: (bool value) {
+                                setState(() {
+                                  isService = !isService;
+                                });
+                              }),
                         ),
                         subscribe: false,
                       ),
@@ -79,25 +68,13 @@ class _SettingUserInfoState extends State<SettingNotification> {
                             style: FontSizes.getHeadline2Style()
                                 .copyWith(fontWeight: FontWeight.w500),
                           ),
-                          trailing: Switch(
-                            value: isAdvertise,
-                            trackOutlineColor:
-                                MaterialStateProperty.resolveWith(
-                              (final Set<MaterialState> states) {
-                                if (states.contains(MaterialState.selected)) {
-                                  return null;
-                                }
-
-                                return Colors.transparent;
-                              },
-                            ),
-                            activeColor: theme.appColors.grayButtonBackground,
-                            onChanged: (bool value) {
-                              setState(() {
-                                isAdvertise = !isAdvertise;
-                              });
-                            },
-                          ),
+                          trailing: CustomSwitch(
+                              value: isAdvertise,
+                              onChanged: (bool value) {
+                                setState(() {
+                                  isAdvertise = !isAdvertise;
+                                });
+                              }),
                         ),
                         subscribe: false,
                       ),

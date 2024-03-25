@@ -4,7 +4,9 @@ class EmailSend {
   EmailSend();
 
   static Future<void> send(
-      String body, String subject, List<String>? attachments) async {
+      {required String body,
+      required String subject,
+      List<String>? attachments}) async {
     final Email email = Email(
       body: body,
       subject: subject,

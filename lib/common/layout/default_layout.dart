@@ -24,7 +24,7 @@ class DefaultLayout extends StatelessWidget {
     this.appBarActions,
     this.appBarLeading,
     this.appBarBgColor,
-    this.isappBarImage,
+    this.isappBarImage = false,
   });
 
   @override

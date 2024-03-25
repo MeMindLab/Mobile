@@ -24,6 +24,8 @@ class _SignInScreenState extends State<SignInScreen> {
 
   String email = "";
   String password = "";
+  String? emailErrorText;
+  String? passwordErrorText;
 
   @override
   void initState() {
@@ -72,7 +74,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         ),
                         CustomTextFormField(
                           labelText: "이메일",
-                          errorText: "아이디 혹은 비밀번호가 다릅니다.",
+                          errorText: emailErrorText,
                           onChanged: (String value) {
                             email = value;
                           },
@@ -89,7 +91,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         CustomTextFormField(
                           labelText: "비밀번호",
                           obscureText: true,
-                          errorText: "아이디 혹은 비밀번호가 다릅니다.",
+                          errorText: passwordErrorText,
                           isToggle: true,
                           onToggleObscureText: () {},
                           onChanged: (String value) {
@@ -112,20 +114,28 @@ class _SignInScreenState extends State<SignInScreen> {
                               final response = await authService.loginService
                                   .login(email, password);
 
-                              // 추후 토큰 저장 및 관리
-                              final refreshToken = response.result.refreshToken;
-                              final accessToken = response.result.accessToken;
+                              if (response == null) {
+                                setState(() {
+                                  emailErrorText = "아이디 혹은 비밀번호가 다릅니다.";
+                                  passwordErrorText = "아이디 혹은 비밀번호가 다릅니다.";
+                                });
+                              } else {
+                                // 추후 토큰 저장 및 관리
+                                final refreshToken =
+                                    response.result.refreshToken;
+                                final accessToken = response.result.accessToken;
 
-                              await storage.write(
-                                  key: ACCESS_TOKEN, value: accessToken);
-                              await storage.write(
-                                  key: REFRESH_TOKEN, value: refreshToken);
+                                await storage.write(
+                                    key: ACCESS_TOKEN, value: accessToken);
+                                await storage.write(
+                                    key: REFRESH_TOKEN, value: refreshToken);
 
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (_) => const MainScreen(),
-                                ),
-                              );
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (_) => const MainScreen(),
+                                  ),
+                                );
+                              }
                             }
                           },
                         ),

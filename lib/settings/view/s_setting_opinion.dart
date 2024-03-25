@@ -26,7 +26,7 @@ class SettingOpinion extends StatefulWidget {
 class _SettingOpinionState extends State<SettingOpinion> {
   bool infoCheck = false;
   List opinionList = [];
-  String title = "";
+  String subject = "";
   String body = "";
   List<String> attachments = [];
 
@@ -108,7 +108,7 @@ class _SettingOpinionState extends State<SettingOpinion> {
                   buildTextField(
                       onChanged: (String value) {
                         setState(() {
-                          title = body;
+                          subject = value;
                         });
                       },
                       hintText: "제목을 입력해주세요",
@@ -189,7 +189,6 @@ class _SettingOpinionState extends State<SettingOpinion> {
                                           File(opinionList[idx - 1].path)),
                                       fit: BoxFit.cover)),
                               child: Stack(children: [
-                                Center(child: Text("${idx - 1}")),
                                 Positioned(
                                   child: InkWell(
                                     onTap: () {
@@ -216,19 +215,19 @@ class _SettingOpinionState extends State<SettingOpinion> {
                   // 수집 안내문
                   SizedBox(
                     width: double.infinity,
-                    child: Row(children: [
-                      InkWell(
-                        onTap: () {
-                          setState(() {
-                            infoCheck = !infoCheck;
-                          });
-                        },
-                        child: Container(
+                    child: InkWell(
+                      onTap: () {
+                        setState(() {
+                          infoCheck = !infoCheck;
+                        });
+                      },
+                      child: Row(children: [
+                        Container(
                             padding: const EdgeInsets.only(left: 5),
                             width: 24,
                             height: 24,
                             child: SvgPicture.asset(
-                              'assets/svg/icon/check.svg',
+                              'assets/svg/icon/check_all.svg',
                               width: 24,
                               height: 24,
                               fit: BoxFit.scaleDown,
@@ -238,34 +237,38 @@ class _SettingOpinionState extends State<SettingOpinion> {
                                       BlendMode.srcIn)
                                   : null,
                             )),
-                      ),
-                      Flexible(
-                          child: Container(
-                        padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                        child: RichText(
-                          text: TextSpan(
-                              text: "수집된 정보는 의견에 대한 답변 목적으로 활용되며,\n의견을 보내시면 ",
-                              style: FontSizes.getCapsuleStyle().copyWith(
-                                  color: theme.appColors.hintText,
-                                  fontWeight: FontWeight.w400),
-                              children: const <TextSpan>[
-                                TextSpan(
-                                    text: "개인정보 수집 및 이용",
-                                    style: TextStyle(
-                                        decoration: TextDecoration.underline)),
-                                TextSpan(text: "에 동의하게 됩니다"),
-                              ]),
-                        ),
-                      ))
-                    ]),
+                        Flexible(
+                            child: Container(
+                          padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                          child: RichText(
+                            text: TextSpan(
+                                text: "수집된 정보는 의견에 대한 답변 목적으로 활용되며,\n의견을 보내시면 ",
+                                style: FontSizes.getCapsuleStyle().copyWith(
+                                    color: theme.appColors.hintText,
+                                    fontWeight: FontWeight.w400),
+                                children: const <TextSpan>[
+                                  TextSpan(
+                                      text: "개인정보 수집 및 이용",
+                                      style: TextStyle(
+                                          decoration:
+                                              TextDecoration.underline)),
+                                  TextSpan(text: "에 동의하게 됩니다"),
+                                ]),
+                          ),
+                        ))
+                      ]),
+                    ),
                   ),
                   const SizedBox(
                     height: 16,
                   ),
                   RoundedButton(
-                    onPressed: infoCheck == true
+                    onPressed: infoCheck == true && subject != "" && body != ""
                         ? () {
-                            EmailSend.send(title, body, attachments)
+                            EmailSend.send(
+                                    subject: subject,
+                                    body: body,
+                                    attachments: attachments)
                                 .then((value) async {
                               await AlertDialogs(
                                   context: context,

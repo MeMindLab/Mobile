@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 
 class LogoutService {
   Future logout() async {
-    var url = 'http://54.206.203.208/users/logout';
+    var url = 'http://10.0.2.2:8000/users/logout';
 
     final dio = Dio();
     Response response;

@@ -82,21 +82,26 @@ class ReportMonthFragment extends StatelessWidget {
             ),
           ),
         ),
-        reports != null && reports!.isNotEmpty
-            ? SliverPadding(
+        (reports == null || reports!.isEmpty || datetime == "2024.01")
+            ? SliverFillRemaining(
+                hasScrollBody: false,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.31,
+                    ),
+                    Text(
+                      "리포트가 존재하지 않습니다",
+                      style: FontSizes.getTextStyle().copyWith(
+                        color: noficiationColor,
+                      ),
+                    ),
+                  ],
+                ))
+            : SliverPadding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 sliver: renderReports(reports: reports!),
-              )
-            : SliverFillRemaining(
-                hasScrollBody: false,
-                child: Center(
-                  child: Text(
-                    "리포트가 존재하지 않습니다",
-                    style: FontSizes.getTextStyle().copyWith(
-                      color: noficiationColor,
-                    ),
-                  ),
-                ),
               ),
       ],
     );

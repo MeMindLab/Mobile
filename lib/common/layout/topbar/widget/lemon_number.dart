@@ -17,8 +17,8 @@ class LemonNumberWidget extends StatelessWidget {
       children: [
         SvgPicture.asset(
           'assets/svg/icon/lemon.svg',
-          width: 24,
-          height: 24,
+          width: 28,
+          height: 28,
         ),
         const SizedBox(width: 3.0),
         Text(
@@ -27,6 +27,9 @@ class LemonNumberWidget extends StatelessWidget {
             fontWeight: FontWeight.w500,
           ),
         ),
+        const SizedBox(
+          width: 5,
+        )
       ],
     );
   }
