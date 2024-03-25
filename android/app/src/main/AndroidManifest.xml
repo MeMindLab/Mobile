@@ -15,7 +15,7 @@
         android:label="me_mind"
         android:name="${applicationName}"
         android:usesCleartextTraffic="true"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/basic">
         <activity
             android:name=".MainActivity"
             android:exported="true"
