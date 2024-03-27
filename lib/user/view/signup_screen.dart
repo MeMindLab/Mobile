@@ -11,6 +11,7 @@ import 'package:me_mind/common/layout/topbar/widget/back_arrow.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 import 'package:me_mind/user/component/custom_checkbox.dart';
+import 'package:me_mind/user/model/user_signup_model.dart';
 import 'package:me_mind/user/services/signup_service.dart';
 import 'package:me_mind/user/view/s_signup_welcome.dart';
 import 'package:me_mind/utils/permission.dart';
@@ -338,7 +339,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                           errorNameText = "이미 존재하는 닉네임입니다";
                                         });
                                       }
-                                    } else {
+                                    }
+                                    if (response is UserSignUpModel) {
                                       if (isAdvertising == true) {
                                         String today =
                                             DateFormat("yyyy년 MM월 dd일")
@@ -356,7 +358,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                   },
                                                 ))).show();
                                         await Future.delayed(
-                                            Duration(milliseconds: 1000));
+                                            const Duration(milliseconds: 1000));
                                       }
                                       if (isAppPush == true) {
                                         var permissonStatus =
