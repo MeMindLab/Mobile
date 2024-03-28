@@ -1,22 +1,22 @@
-class UserSignInModel {
-  final String code;
-  final String msg;
-  final SignInResult result;
+// class UserSignInModel {
+//   final String code;
+//   final String msg;
+//   final SignInResult result;
 
-  UserSignInModel({
-    required this.code,
-    required this.msg,
-    required this.result,
-  });
+//   UserSignInModel({
+//     required this.code,
+//     required this.msg,
+//     required this.result,
+//   });
 
-  factory UserSignInModel.fromJson(Map<String, dynamic> json) {
-    return UserSignInModel(
-      code: json['code'] as String,
-      msg: json['msg'] as String,
-      result: SignInResult.fromJson(json['result'] as Map<String, dynamic>),
-    );
-  }
-}
+//   factory UserSignInModel.fromJson(Map<String, dynamic> json) {
+//     return UserSignInModel(
+//       code: json['code'] as String,
+//       msg: json['msg'] as String,
+//       result: SignInResult.fromJson(json['result'] as Map<String, dynamic>),
+//     );
+//   }
+// }
 
 class SignInResult {
   final String accessToken;
