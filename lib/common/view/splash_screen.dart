@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:me_mind/common/constant/constant.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
@@ -32,6 +33,8 @@ class _SplashScreenState extends State<SplashScreen> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final bool? isTutorial = prefs.getBool("isTutorial");
 
+    final dio = Dio();
+
     if (isTutorial == false || isTutorial == null) {
       Navigator.of(context)
           .push(MaterialPageRoute(builder: (_) => OnBoardingScreen()));
@@ -40,12 +43,21 @@ class _SplashScreenState extends State<SplashScreen> {
       final accessToken = await storage.read(key: ACCESS_TOKEN);
       final refreshToken = await storage.read(key: REFRESH_TOKEN);
 
-      if (accessToken == null || refreshToken == null) {
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (_) => SignInScreen()));
-      } else {
+      try {
+        final response = await dio.get('http://$ip/token/refresh',
+            options:
+                Options(headers: {'authorization': "Bearer $refreshToken"}));
+
+        await storage.write(
+            key: ACCESS_TOKEN, value: response.data['access_token']);
+
+        // 통신이 되고 write 성공했으면 메인으로
         Navigator.of(context)
             .push(MaterialPageRoute(builder: (_) => MainScreen()));
+      } catch (e) {
+        //통신이 실패했다면
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (_) => SignInScreen()));
       }
     }
   }

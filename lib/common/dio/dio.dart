@@ -30,7 +30,7 @@ class CustomInterceptor extends Interceptor {
   void onError(DioException err, ErrorInterceptorHandler handler) async {
     // TODO: implement onError
     final refreshToken = await storage.read(key: REFRESH_TOKEN);
-
+    print("dio Error");
     if (refreshToken == null) {
       return handler.reject(err);
     }
@@ -40,7 +40,7 @@ class CustomInterceptor extends Interceptor {
       final dio = Dio();
 
       try {
-        final res = await dio.post("http://10.0.2.2:8000/users/oauth/refresh",
+        final res = await dio.post("http://$ip/token/refresh",
             options: Options(headers: {
               "refresh_token": "string",
               "grant_type": "Bearer",
@@ -49,7 +49,7 @@ class CustomInterceptor extends Interceptor {
         final accessToken = res.data["result"]["result"]["access_token"];
         final options = err.requestOptions;
 
-        options.headers.addAll({'Authorization': 'Bearer $accessToken'});
+        options.headers.addAll({'authorization': 'Bearer $accessToken'});
 
         await storage.write(key: ACCESS_TOKEN, value: accessToken);
 
