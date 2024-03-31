@@ -310,14 +310,10 @@ class _SettingState extends State<Settings> {
                                   bgColor: theme.appColors.grayButtonBackground,
                                   content: "네",
                                   onSubmit: () async {
-                                    var response =
-                                        await LogoutService().logout();
-                                    if (response != null) {
-                                      await storage.deleteAll();
-                                      Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (_) => SplashScreen()));
-                                    }
+                                    await storage.deleteAll();
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (_) => SplashScreen()));
                                   }),
                               AlertDialogButton(
                                   theme: theme,

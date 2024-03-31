@@ -47,7 +47,7 @@ class _SplashScreenState extends State<SplashScreen> {
         final response = await dio.get('http://$ip/token/refresh',
             options:
                 Options(headers: {'authorization': "Bearer $refreshToken"}));
-
+        print(response.data);
         await storage.write(
             key: ACCESS_TOKEN, value: response.data['access_token']);
 

@@ -4,7 +4,6 @@ import 'package:me_mind/common/layout/topbar/widget/back_arrow.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 import 'package:me_mind/settings/view/f_userinfo_form.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingUserInfo extends StatefulWidget {
   final VoidCallback handlePhoneAuth;
@@ -24,29 +23,10 @@ class _SettingUserInfoState extends State<SettingUserInfo> {
     });
   }
 
-  void getIsAuth() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    String? isEmail = await prefs.getString('email');
-    String? isNickname = await prefs.getString('nickname');
-    print(isEmail);
-    if (isEmail != null) {
-      setState(() {
-        email = isEmail;
-      });
-    }
-    if (isNickname != null) {
-      setState(() {
-        nickname = isNickname;
-      });
-    }
-  }
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getIsAuth();
   }
 
   @override
@@ -58,7 +38,7 @@ class _SettingUserInfoState extends State<SettingUserInfo> {
         appBarLeading: isUpdate == false ? const BackArrowLeading() : null,
         backgroundColor: theme.appColors.seedColor,
         child: CustomScrollView(
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           slivers: [
             SliverFillRemaining(
               hasScrollBody: false,
