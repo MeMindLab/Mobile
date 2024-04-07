@@ -33,23 +33,23 @@ class CustomInterceptor extends Interceptor {
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
     final refreshToken = await storage.read(key: REFRESH_TOKEN);
-    print("dio onError");
+    print("디오 에러로 인해 $refreshToken");
     if (refreshToken == null) {
       return handler.reject(err);
     }
+    final isPath = err.requestOptions.path == 'token/refersh';
+
     // 토큰 검정 실패시
-    if (err.response?.statusCode == 401) {
-      // refreshToken
+    if (err.response?.statusCode == 401 && !isPath) {
       final dio = Dio();
 
       try {
-        final res = await dio.get("http://$ip/token/refresh",
+        final res = await dio.get("http://10.0.2.2:8000/token/refresh",
             options: Options(headers: {
-              "refresh_token": "string",
-              "grant_type": "Bearer",
+              "authorization": "Bearer $refreshToken",
             }));
 
-        final accessToken = res.data["result"]["result"]["access_token"];
+        final accessToken = res.data["access_token"];
         final options = err.requestOptions;
 
         options.headers.addAll({'authorization': 'Bearer $accessToken'});

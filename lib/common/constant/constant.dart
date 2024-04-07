@@ -5,7 +5,7 @@ import 'dart:io';
 const basePath = 'assets/image';
 const baseImageSvgPath = "assets/svg";
 
-final dio = Dio();
+// final dio = Dio();
 
 const ACCESS_TOKEN = "acessToken";
 const REFRESH_TOKEN = "refreshToken";

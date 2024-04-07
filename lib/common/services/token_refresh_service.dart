@@ -1,17 +1,18 @@
 import 'package:dio/dio.dart';
 import 'package:me_mind/common/constant/constant.dart';
 import 'package:me_mind/common/dio/dio.dart';
+import 'package:me_mind/user/model/user_signin_model.dart';
 
-import 'package:me_mind/settings/model/user_info_model.dart';
-
-class UserInfoService {
-  Future findUser() async {
+class TokenRefreshService {
+  Future refresh() async {
     final dio = Dio();
 
-    dio.interceptors.add(CustomInterceptor(storage: storage));
+    String url = 'token/refresh';
+
+    dio.options.baseUrl = "http://10.0.2.2:8000/";
     dio.options.headers.clear();
-    dio.options.headers.addAll({'accessToken': true});
-    String url = "http://$ip/users/me/";
+    dio.interceptors.add(CustomInterceptor(storage: storage));
+    dio.options.headers.addAll({'refreshToken': true});
 
     try {
       final response = await dio.get(url);
@@ -19,14 +20,14 @@ class UserInfoService {
       if (response.statusCode == 200) {
         var result = response.data;
 
-        UserInfoModel userInfo = UserInfoModel.fromJson(result);
+        SignInResult tokenResult = SignInResult.fromJson(result);
 
-        return userInfo;
+        return tokenResult;
       } else {
         return null;
       }
     } on DioException catch (error) {
-      print("UserInfo Search: dio get error:$error");
+      print("token Error: dio get error:$error");
       return null;
     } catch (e) {
       return null;

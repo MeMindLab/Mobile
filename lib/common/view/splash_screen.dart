@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:me_mind/common/constant/constant.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
+import 'package:me_mind/common/services/token_refresh_service.dart';
 import 'package:me_mind/common/view/on_boarding.dart';
 import 'package:me_mind/screen/main/s_main.dart';
 import 'package:me_mind/user/view/s_signin.dart';
@@ -44,12 +45,10 @@ class _SplashScreenState extends State<SplashScreen> {
       final refreshToken = await storage.read(key: REFRESH_TOKEN);
 
       try {
-        final response = await dio.get('http://$ip/token/refresh',
-            options:
-                Options(headers: {'authorization': "Bearer $refreshToken"}));
-        print(response.data);
+        final tokenResponse = await TokenRefreshService().refresh();
+
         await storage.write(
-            key: ACCESS_TOKEN, value: response.data['access_token']);
+            key: ACCESS_TOKEN, value: tokenResponse.accessToken);
 
         // 통신이 되고 write 성공했으면 메인으로
         Navigator.of(context)
