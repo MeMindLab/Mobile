@@ -4,10 +4,18 @@ import 'package:me_mind/common/layout/topbar/widget/back_arrow.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 import 'package:me_mind/settings/view/f_userinfo_form.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingUserInfo extends StatefulWidget {
   final VoidCallback handlePhoneAuth;
-  const SettingUserInfo({super.key, required this.handlePhoneAuth});
+  final String? userEmail;
+  final String? userNickname;
+
+  const SettingUserInfo(
+      {super.key,
+      required this.handlePhoneAuth,
+      this.userEmail,
+      this.userNickname});
 
   @override
   State<SettingUserInfo> createState() => _SettingUserInfoState();
@@ -50,8 +58,8 @@ class _SettingUserInfoState extends State<SettingUserInfo> {
                     isUpdate: isUpdate,
                     onUpdate: onUpdate,
                     handlePhoneAuth: widget.handlePhoneAuth,
-                    userEmail: email,
-                    userNickname: nickname,
+                    userEmail: widget.userEmail ?? email,
+                    userNickname: widget.userNickname ?? nickname,
                   ),
                 ),
               ),

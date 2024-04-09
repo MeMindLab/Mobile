@@ -35,6 +35,8 @@ class Settings extends StatefulWidget {
 class _SettingState extends State<Settings> {
   final dio = Dio();
   bool isPhoneAuth = false;
+  String userEmail = "";
+  String userNickname = "";
 
   void handlePhoneAuth() {
     print("폰 인증");
@@ -56,8 +58,15 @@ class _SettingState extends State<Settings> {
   }
 
   void getUserInfo() async {
-    final result = await UserInfoService().findUser();
-    print(result.username);
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final nickname = await prefs.getString("USER_NICKNAME");
+    final email = await prefs.getString("USER_EMAIL");
+
+    print("${userNickname} ${userEmail}");
+    setState(() {
+      userNickname = nickname ?? "";
+      userEmail = email ?? "";
+    });
   }
 
   @override
@@ -173,6 +182,8 @@ class _SettingState extends State<Settings> {
                         MaterialPageRoute(
                             builder: (context) => SettingUserInfo(
                                   handlePhoneAuth: handlePhoneAuth,
+                                  userEmail: userEmail,
+                                  userNickname: userNickname,
                                 )));
                   },
                   title: Row(

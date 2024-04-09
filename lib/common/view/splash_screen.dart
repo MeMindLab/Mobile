@@ -5,6 +5,7 @@ import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/services/token_refresh_service.dart';
 import 'package:me_mind/common/view/on_boarding.dart';
 import 'package:me_mind/screen/main/s_main.dart';
+import 'package:me_mind/settings/services/userinfo_service.dart';
 import 'package:me_mind/user/view/s_signin.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -22,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     //deleteToken();
     userMe();
-    checkToken();
+    appLoading();
   }
 
   void deleteToken() async {
@@ -30,7 +31,7 @@ class _SplashScreenState extends State<SplashScreen> {
     await prefs.remove("isTutorial");
   }
 
-  void checkToken() async {
+  void appLoading() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final bool? isTutorial = prefs.getBool("isTutorial");
 
@@ -49,6 +50,16 @@ class _SplashScreenState extends State<SplashScreen> {
 
         await storage.write(
             key: ACCESS_TOKEN, value: tokenResponse.accessToken);
+
+        // 성공했을 때 유저의 개인정보를 내부 저장소에 저장
+        final userInfo = await UserInfoService().findUser();
+        print("유저 정보");
+
+        // nickname, email ? 내부 저장소가 아니라 전역?
+        if (userInfo.nickname != null || userInfo.email != null) {
+          await prefs.setString("USER_NICKNAME", userInfo.nickname);
+          await prefs.setString("USER_EMAIL", userInfo.email);
+        }
 
         // 통신이 되고 write 성공했으면 메인으로
         Navigator.of(context)

@@ -102,6 +102,7 @@ class _UserInfoFormState extends State<UserInfoForm> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    print(widget.userEmail);
     certifyTimer = CertifyTimer(timerCount: timerCount);
     nickname = "구르미조아";
     email = "";
@@ -135,7 +136,7 @@ class _UserInfoFormState extends State<UserInfoForm> {
                 height: 20,
               ),
               SeetingCustomTextFormField(
-                initialText: nickname,
+                initialText: widget.userNickname,
                 bgColor: theme.appColors.seedColor,
                 maxLength: 10,
                 labelText: "닉네임",
