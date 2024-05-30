@@ -27,7 +27,7 @@ class _CommunityPictureState extends State<CommunityPicture> {
   Widget build(BuildContext context) {
     var deviceWidth = MediaQuery.of(context).size.width;
 
-    return Container(
+    return SizedBox(
       width: deviceWidth * 0.30,
       child: Column(children: [
         communityPicture(
@@ -36,6 +36,9 @@ class _CommunityPictureState extends State<CommunityPicture> {
           height: 6,
         ),
         communityPictureTitle("하늘위에 있는 내 방"),
+        const SizedBox(
+          height: 5,
+        ),
         commnuintyPictureContent(
             isHeartOn: isPictureShare, count: "65", date: "2024-01-25"),
       ]),
@@ -58,8 +61,8 @@ class _CommunityPictureState extends State<CommunityPicture> {
       children: [
         Text(
           title,
-          style:
-              FontSizes.getContentStyle().copyWith(fontWeight: FontWeight.w500),
+          style: FontSizes.getHeadline2Style()
+              .copyWith(fontWeight: FontWeight.w500),
           overflow: TextOverflow.ellipsis,
         ),
       ],
@@ -85,7 +88,9 @@ class _CommunityPictureState extends State<CommunityPicture> {
             isHeartOn
                 ? 'assets/svg/icon/hearton.svg'
                 : "assets/svg/icon/heartoff.svg",
-            colorFilter: ColorFilter.mode(AppColors.blueMain, BlendMode.srcIn),
+            colorFilter: ColorFilter.mode(
+                isHeartOn ? AppColors.blueMain : AppColors.gray7,
+                BlendMode.srcIn),
             width: 20,
             height: 20,
           ),
@@ -100,7 +105,7 @@ class _CommunityPictureState extends State<CommunityPicture> {
         ),
         const Spacer(),
         Text(date,
-            style: FontSizes.getCapsuleStyle().copyWith(
+            style: FontSizes.getContentStyle().copyWith(
               fontWeight: FontWeight.w400,
               color: AppColors.gray7,
             ))

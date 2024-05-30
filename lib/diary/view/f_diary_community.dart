@@ -46,7 +46,7 @@ class _DiaryCommunityFragmentState extends State<DiaryCommunityFragment> {
             crossAxisCount: 2,
             crossAxisSpacing: 15,
             mainAxisSpacing: 30,
-            childAspectRatio: 0.95,
+            childAspectRatio: 0.9,
           )),
     );
   }
