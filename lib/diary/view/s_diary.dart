@@ -26,17 +26,23 @@ class _DiaryState extends State<Diary> {
     return DefaultLayout(
       title: "그림일기",
       appBarLeading: const BackArrowLeading(),
-      child: Column(
-        children: [
-          MySharePictureFragment(),
-          Container(
-            height: 10,
-            color: AppColors.blue3,
+      child: CustomScrollView(
+        slivers: [
+          SliverToBoxAdapter(
+            child: MySharePictureFragment(),
           ),
-          Expanded(child: DiaryCommunityFragment()),
+          SliverToBoxAdapter(
+            child: Container(
+              height: 10,
+              color: AppColors.blue3,
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: DiaryCommunityFragment(),
+          )
         ],
       ),
-      bottomNavigationBar: RootTab(),
+      bottomNavigationBar: const RootTab(),
     );
   }
 }
