@@ -4,8 +4,8 @@ import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 
 class CommunityPicture extends StatefulWidget {
-  bool isShare;
-  CommunityPicture({super.key, required this.isShare});
+  final bool isShare;
+  const CommunityPicture({super.key, required this.isShare});
 
   @override
   State<CommunityPicture> createState() => _CommunityPictureState();
@@ -16,7 +16,6 @@ class _CommunityPictureState extends State<CommunityPicture> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     setState(() {
       isPictureShare = widget.isShare;

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:me_mind/diary/component/diary_card.dart';
 import 'package:me_mind/diary/utils/share_pictures.dart';
 
 class AllSharePictureFragment extends StatefulWidget {

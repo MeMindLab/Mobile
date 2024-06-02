@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:me_mind/common/component/custom_text_form.dart';
+import 'package:me_mind/common/component/rounded_button.dart';
 import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
+import 'package:me_mind/diary/view/f_title_update_dialog.dart';
 
 class DiaryCard extends StatelessWidget {
   final String diaryTitle;
@@ -116,6 +119,16 @@ Widget popUpMenu() {
               PopupMenuItem(
                   height: 43,
                   value: item,
+                  onTap: () {
+                    if (item == "제목 수정") {
+                      DiaryDialogs(
+                        context: context,
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 15, vertical: 27),
+                        content: diaryDialogContent(context),
+                      ).callTitleUpdateDialog();
+                    }
+                  },
                   child: Center(
                     child: Text(
                       item,
@@ -125,5 +138,70 @@ Widget popUpMenu() {
                   )),
           ];
         }),
+  );
+}
+
+Widget diaryDialogContent(context) {
+  return SizedBox(
+    width: MediaQuery.of(context).size.width * 0.73,
+    child: Column(mainAxisSize: MainAxisSize.min, children: [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            "그림 제목 수정",
+            style: FontSizes.getHeadline2Style()
+                .copyWith(fontWeight: FontWeight.w600),
+          ),
+          RichText(
+            text: TextSpan(children: [
+              TextSpan(
+                  text: "00",
+                  style: FontSizes.getHeadline2Style()
+                      .copyWith(fontWeight: FontWeight.w600)),
+              TextSpan(
+                  text: "/15",
+                  style: FontSizes.getHeadline2Style()
+                      .copyWith(fontWeight: FontWeight.w400))
+            ]),
+          )
+        ],
+      ),
+      Padding(
+        padding: const EdgeInsets.symmetric(vertical: 18.0),
+        child: CustomTextFormField(
+          hintText: "그림의 제목을 입력해주세요.",
+          onChanged: (value) {},
+        ),
+      ),
+      Row(
+        children: [
+          Container(
+            constraints: BoxConstraints(
+                maxWidth: MediaQuery.of(context).size.width * 0.2),
+            child: RoundedButton(
+              text: "취소",
+              textStyle: FontSizes.getContentStyle()
+                  .copyWith(fontWeight: FontWeight.w500),
+              backgroundColor: AppColors.gray3,
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ),
+          const SizedBox(
+            width: 9,
+          ),
+          Expanded(
+              child: RoundedButton(
+            text: "변경하기",
+            textStyle: FontSizes.getContentStyle()
+                .copyWith(fontWeight: FontWeight.w500),
+            backgroundColor: lightTheme.primaryColor,
+            onPressed: () {},
+          )),
+        ],
+      )
+    ]),
   );
 }

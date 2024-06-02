@@ -4,10 +4,10 @@ import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 
 class TagButton extends StatefulWidget {
-  bool isSelect;
-  String text;
+  final bool isSelect;
+  final String text;
 
-  TagButton({super.key, required this.isSelect, required this.text});
+  const TagButton({super.key, required this.isSelect, required this.text});
 
   @override
   State<TagButton> createState() => _TagButtonState();
@@ -22,7 +22,7 @@ class _TagButtonState extends State<TagButton> {
         style: ElevatedButton.styleFrom(
             elevation: 0,
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 4),
-            minimumSize: Size(0, 0),
+            minimumSize: const Size(0, 0),
             backgroundColor:
                 widget.isSelect ? AppColors.blueMain : AppColors.gray2),
         onPressed: () {},

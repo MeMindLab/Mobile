@@ -2,18 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
-import 'package:me_mind/common/theme/custom_theme.dart';
-import 'package:me_mind/common/theme/custom_theme_holder.dart';
 
 class DiaryPicture extends StatelessWidget {
-  String pictureUrl;
+  final String pictureUrl;
 
-  DiaryPicture({super.key, required this.pictureUrl});
+  const DiaryPicture({super.key, required this.pictureUrl});
 
   @override
   Widget build(BuildContext context) {
-    CustomTheme theme = CustomThemeHolder.of(context).theme;
-
     return Container(
       width: 124,
       height: 124,
@@ -31,6 +27,8 @@ class DiaryPicture extends StatelessWidget {
           ),
         ),
         Positioned(
+          bottom: 8,
+          right: 8,
           child: Row(
             children: [
               Text(
@@ -44,14 +42,12 @@ class DiaryPicture extends StatelessWidget {
               SvgPicture.asset(
                 'assets/svg/icon/hearton.svg',
                 colorFilter:
-                    ColorFilter.mode(AppColors.blueMain, BlendMode.srcIn),
+                    const ColorFilter.mode(AppColors.blueMain, BlendMode.srcIn),
                 width: 20,
                 height: 20,
               )
             ],
           ),
-          bottom: 8,
-          right: 8,
         )
       ]),
     );
