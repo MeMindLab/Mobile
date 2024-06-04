@@ -33,13 +33,12 @@ class CustomInterceptor extends Interceptor {
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
     final refreshToken = await storage.read(key: REFRESH_TOKEN);
-    print("디오 에러로 인해 $refreshToken");
+
     if (refreshToken == null) {
       return handler.reject(err);
     }
     final isPath = err.requestOptions.path == 'token/refersh';
 
-    // 토큰 검정 실패시
     if (err.response?.statusCode == 401 && !isPath) {
       final dio = Dio();
 
@@ -69,7 +68,6 @@ class CustomInterceptor extends Interceptor {
 
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
-    // TODO: implement onResponse
     super.onResponse(response, handler);
   }
 }

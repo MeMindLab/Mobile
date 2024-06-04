@@ -65,7 +65,6 @@ class _UserInfoFormState extends State<UserInfoForm> {
         isTimerStart = true;
       });
       _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-        print(timerCount);
         if (timerCount <= 0) {
           _timer.cancel();
           AlertDialogs(
@@ -100,12 +99,8 @@ class _UserInfoFormState extends State<UserInfoForm> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    print(widget.userEmail);
     certifyTimer = CertifyTimer(timerCount: timerCount);
-    nickname = "구르미조아";
-    email = "";
     _timer = Timer(const Duration(seconds: 0), () {});
   }
 

@@ -26,7 +26,6 @@ class UserInfoService {
         return null;
       }
     } on DioException catch (error) {
-      print("UserInfo Search: dio get error:$error");
       return null;
     } catch (e) {
       return null;

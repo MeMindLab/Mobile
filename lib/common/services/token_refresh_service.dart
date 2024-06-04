@@ -27,7 +27,6 @@ class TokenRefreshService {
         return null;
       }
     } on DioException catch (error) {
-      print("token Error: dio get error:$error");
       return null;
     } catch (e) {
       return null;

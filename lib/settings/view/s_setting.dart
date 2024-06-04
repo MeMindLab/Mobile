@@ -39,7 +39,6 @@ class _SettingState extends State<Settings> {
   String userNickname = "";
 
   void handlePhoneAuth() {
-    print("폰 인증");
     setState(() {
       isPhoneAuth = true;
     });
@@ -49,7 +48,7 @@ class _SettingState extends State<Settings> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     bool? isAuth = await prefs.getBool('is_auth');
-    print(isAuth);
+
     if (isAuth != null) {
       setState(() {
         isPhoneAuth = isAuth;
@@ -62,7 +61,6 @@ class _SettingState extends State<Settings> {
     final nickname = await prefs.getString("USER_NICKNAME");
     final email = await prefs.getString("USER_EMAIL");
 
-    print("${userNickname} ${userEmail}");
     setState(() {
       userNickname = nickname ?? "";
       userEmail = email ?? "";
@@ -137,7 +135,6 @@ class _SettingState extends State<Settings> {
                                   BorderRadius.all(Radius.circular(13))),
                         ),
                         onPressed: () {
-                          // 구독 버튼
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -176,7 +173,6 @@ class _SettingState extends State<Settings> {
                 height: 65,
                 content: ListTile(
                   onTap: () {
-                    // 계정 정보 페이지로 이동하는 부분
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -259,7 +255,6 @@ class _SettingState extends State<Settings> {
                 height: 65,
                 content: ListTile(
                   onTap: () {
-                    print("의견 보내기");
                     Navigator.push(
                         context,
                         MaterialPageRoute(

@@ -19,9 +19,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    //deleteToken();
     userMe();
     appLoading();
   }
@@ -35,37 +33,26 @@ class _SplashScreenState extends State<SplashScreen> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final bool? isTutorial = prefs.getBool("isTutorial");
 
-    final dio = Dio();
-
     if (isTutorial == false || isTutorial == null) {
       Navigator.of(context)
           .push(MaterialPageRoute(builder: (_) => OnBoardingScreen()));
     } else {
-      // 튜토리얼 한 경우
-      final accessToken = await storage.read(key: ACCESS_TOKEN);
-      final refreshToken = await storage.read(key: REFRESH_TOKEN);
-
       try {
         final tokenResponse = await TokenRefreshService().refresh();
 
         await storage.write(
             key: ACCESS_TOKEN, value: tokenResponse.accessToken);
 
-        // 성공했을 때 유저의 개인정보를 내부 저장소에 저장
         final userInfo = await UserInfoService().findUser();
-        print("유저 정보");
 
-        // nickname, email ? 내부 저장소가 아니라 전역?
         if (userInfo.nickname != null || userInfo.email != null) {
           await prefs.setString("USER_NICKNAME", userInfo.nickname);
           await prefs.setString("USER_EMAIL", userInfo.email);
         }
 
-        // 통신이 되고 write 성공했으면 메인으로
         Navigator.of(context)
             .push(MaterialPageRoute(builder: (_) => MainScreen()));
       } catch (e) {
-        //통신이 실패했다면
         Navigator.of(context)
             .push(MaterialPageRoute(builder: (_) => SignInScreen()));
       }
