@@ -6,7 +6,6 @@ import 'package:me_mind/chat/component/chat_notification.dart';
 import 'package:me_mind/chat/model/chat_message_model.dart';
 import 'package:me_mind/chat/utils/show_snackbar.dart';
 import 'package:me_mind/common/component/datetime_to_text.dart';
-import 'package:me_mind/common/component/dots_indicator.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/layout/topbar/widget/back_arrow.dart';
@@ -28,12 +27,21 @@ class _ChatState extends State<Chat> {
   bool isFolded = false;
   bool isReportIssue = false;
   double prefixHeight = 40;
+  String chatContent = "";
+  TextEditingController controller = TextEditingController();
+
+  void chatContentChange(String msg) {
+    setState(() {
+      chatContent = msg;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
   }
 
-  List chatHistory = [
+  List<ChatMessageModel> chatHistory = [
     {
       "message": "안녕하세요. 구르미에요 :)",
       "index": 1,
@@ -126,7 +134,7 @@ class _ChatState extends State<Chat> {
                       ),
                     ),
                   )
-                : SizedBox(),
+                : const SizedBox(),
             Expanded(
               child: Stack(children: [
                 ListView.builder(
@@ -163,11 +171,11 @@ class _ChatState extends State<Chat> {
                               isFolded = !isFolded;
                             });
                           })
-                      : SizedBox(),
+                      : const SizedBox(),
                 ),
               ]),
             ),
-            _BottomInputField(theme),
+            bottomInputField(controller, theme, chatContentChange),
           ],
         ),
       ),
@@ -184,7 +192,8 @@ class _ChatState extends State<Chat> {
     );
   }
 
-  Widget _BottomInputField(CustomTheme theme) {
+  Widget bottomInputField(
+      TextEditingController controller, CustomTheme theme, Function onChange) {
     return SafeArea(
       child: Padding(
         padding:
@@ -195,7 +204,7 @@ class _ChatState extends State<Chat> {
               children: [
                 Container(
                   key: _containerkey,
-                  constraints: BoxConstraints(minHeight: 78),
+                  constraints: const BoxConstraints(minHeight: 78),
                   padding: const EdgeInsets.only(top: 19, bottom: 19),
                   decoration: BoxDecoration(
                     color: theme.appColors.userInputBackground,
@@ -206,7 +215,6 @@ class _ChatState extends State<Chat> {
                       Column(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          // const Spacer(),
                           Container(
                             margin: const EdgeInsets.fromLTRB(20, 0, 6, 10),
                             child: SvgPicture.asset(
@@ -223,14 +231,9 @@ class _ChatState extends State<Chat> {
                           margin: const EdgeInsets.only(right: 20),
                           child: Stack(children: [
                             TextField(
+                              controller: controller,
                               onChanged: (value) {
-                                if (_containerkey.currentContext != null) {
-                                  final RenderBox renderBox = _containerkey
-                                      .currentContext!
-                                      .findRenderObject() as RenderBox;
-                                  Size size = renderBox.size;
-                                  print(size.height);
-                                }
+                                onChange(value);
                               },
                               showCursor: true,
                               minLines: 1,
@@ -281,14 +284,7 @@ class _ChatState extends State<Chat> {
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     InkWell(
-                                      onTap: () {
-                                        FocusScope.of(context).unfocus();
-                                        setState(() {
-                                          micWidth +=
-                                              isMicOpen ? -272.1 : 272.1;
-                                          isMicOpen = isMicOpen ? false : true;
-                                        });
-                                      },
+                                      onTap: () {},
                                       child: Container(
                                         margin: const EdgeInsets.fromLTRB(
                                             0, 5, 10, 10),
@@ -309,10 +305,33 @@ class _ChatState extends State<Chat> {
                                             borderRadius:
                                                 BorderRadius.circular(50),
                                             color: theme.appColors.activate),
-                                        child: Icon(
-                                          Icons.keyboard_arrow_up,
-                                          color: theme.appColors.seedColor,
-                                          size: 30,
+                                        child: InkWell(
+                                          onTap: () {
+                                            if (chatContent != "") {
+                                              final newChatHistory = [
+                                                ...chatHistory
+                                              ];
+                                              newChatHistory.insert(
+                                                  0,
+                                                  ChatMessageModel(
+                                                      message: chatContent,
+                                                      index: 10,
+                                                      is_ai: false,
+                                                      is_image: false));
+
+                                              setState(() {
+                                                chatHistory = newChatHistory;
+                                                chatContent = "";
+                                              });
+
+                                              controller.clear();
+                                            }
+                                          },
+                                          child: Icon(
+                                            Icons.keyboard_arrow_up,
+                                            color: theme.appColors.seedColor,
+                                            size: 30,
+                                          ),
                                         ),
                                       ),
                                     ),
