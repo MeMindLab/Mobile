@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:me_mind/chat/model/ai_answer_model.dart';
 import 'package:me_mind/chat/model/chat_message_model.dart';
@@ -31,11 +33,19 @@ class ChatStateNotifier extends StateNotifier<List> {
     await Future.delayed(const Duration(seconds: 2));
     try {
       AiAnswerModel answer = await ChatSendService().send(message);
-      newState[0] = ChatMessageModel(
-          index: 11,
-          message: answer.result.answer,
-          is_ai: true,
-          is_image: false);
+      int answerCnt = 0;
+      String displayAnswer = "";
+      Timer.periodic(const Duration(milliseconds: 100), (timer) {
+        if (answerCnt == answer.result.answer.length) {
+          timer.cancel();
+        }
+        displayAnswer += answer.result.answer[answerCnt];
+        newState[0] = ChatMessageModel(
+            index: 11, message: displayAnswer, is_ai: true, is_image: false);
+
+        state = [...newState];
+        answerCnt++;
+      });
     } catch (e) {
       newState[0] = ChatMessageError();
     }

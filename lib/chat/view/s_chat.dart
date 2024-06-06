@@ -130,10 +130,8 @@ class _ChatState extends ConsumerState<Chat> {
                             : index == state.length - 1
                                 ? const EdgeInsets.only(bottom: 10)
                                 : const EdgeInsets.only(bottom: 30.0),
-                        child: Center(
-                          child: ChatMessageTile.fromModel(
-                              state[index], state[index] == 1 ? true : null),
-                        ),
+                        child: ChatMessageTile.fromModel(
+                            state[index], state[index] == 1 ? true : null),
                       );
                     }
                   },
