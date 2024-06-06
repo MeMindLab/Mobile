@@ -51,14 +51,15 @@ class _ChatState extends ConsumerState<Chat> {
       backgroundColor: Colors.white,
       appBarActions: [
         InkWell(
-          onTap: () {
+          onTap: () async {
             setState(() {
               isReportIssue = true;
             });
-            ShowSnackBar()
-                .showSnackBarFunction(context, "리포트를 생성 중입니다.창을 닫지말고 기다려주세요.");
-            setState(() {
-              isReportIssue = false;
+            ShowSnackBar().showSnackBarFunction(context);
+            Future.delayed(const Duration(seconds: 5), () {
+              setState(() {
+                isReportIssue = false;
+              });
             });
           },
           child: SizedBox(
