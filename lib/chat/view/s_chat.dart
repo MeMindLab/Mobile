@@ -3,7 +3,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:me_mind/chat/component/chat_message_tile.dart';
 import 'package:me_mind/chat/component/chat_mic.dart';
 import 'package:me_mind/chat/component/chat_notification.dart';
+import 'package:me_mind/chat/model/ai_answer_model.dart';
 import 'package:me_mind/chat/model/chat_message_model.dart';
+import 'package:me_mind/chat/services/chat_send_service.dart';
 import 'package:me_mind/chat/utils/show_snackbar.dart';
 import 'package:me_mind/common/component/datetime_to_text.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
@@ -41,7 +43,7 @@ class _ChatState extends State<Chat> {
     super.initState();
   }
 
-  List<ChatMessageModel> chatHistory = [
+  List chatHistory = [
     {
       "message": "안녕하세요. 구르미에요 :)",
       "index": 1,
@@ -306,7 +308,7 @@ class _ChatState extends State<Chat> {
                                                 BorderRadius.circular(50),
                                             color: theme.appColors.activate),
                                         child: InkWell(
-                                          onTap: () {
+                                          onTap: () async {
                                             if (chatContent != "") {
                                               final newChatHistory = [
                                                 ...chatHistory
@@ -322,6 +324,22 @@ class _ChatState extends State<Chat> {
                                               setState(() {
                                                 chatHistory = newChatHistory;
                                                 chatContent = "";
+                                              });
+                                              AiAnswerModel answer =
+                                                  await ChatSendService()
+                                                      .send(chatContent);
+
+                                              newChatHistory.insert(
+                                                  0,
+                                                  ChatMessageModel(
+                                                      message:
+                                                          answer.result.answer,
+                                                      index: 10,
+                                                      is_ai: true,
+                                                      is_image: false));
+
+                                              setState(() {
+                                                chatHistory = newChatHistory;
                                               });
 
                                               controller.clear();
