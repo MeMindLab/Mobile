@@ -36,17 +36,17 @@ class _CustomDotsIndicatorState extends State<CustomDotsIndicator> {
   Widget build(BuildContext context) {
     return Container(
       width: 37,
-      height: 30,
+      height: 20,
       padding: const EdgeInsets.only(left: 7),
       child: Align(
         alignment: Alignment.centerLeft,
         child: DotsIndicator(
           dotsCount: 3,
           position: value.toDouble(),
-          decorator: DotsDecorator(
-            color: Colors.grey, // Inactive color
+          decorator: const DotsDecorator(
+            color: Colors.grey,
             activeColor: Colors.blue,
-            spacing: const EdgeInsets.all(3),
+            spacing: EdgeInsets.all(3),
           ),
         ),
       ),

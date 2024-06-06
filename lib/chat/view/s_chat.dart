@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:me_mind/chat/component/chat_message_tile.dart';
 import 'package:me_mind/chat/component/chat_mic.dart';
 import 'package:me_mind/chat/component/chat_notification.dart';
-import 'package:me_mind/chat/model/ai_answer_model.dart';
 import 'package:me_mind/chat/model/chat_message_model.dart';
-import 'package:me_mind/chat/services/chat_send_service.dart';
+import 'package:me_mind/chat/provider/chat_provider.dart';
 import 'package:me_mind/chat/utils/show_snackbar.dart';
 import 'package:me_mind/common/component/datetime_to_text.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
@@ -15,14 +15,14 @@ import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 import 'package:me_mind/screen/main/s_main.dart';
 
-class Chat extends StatefulWidget {
+class Chat extends ConsumerStatefulWidget {
   const Chat({super.key});
 
   @override
-  State<Chat> createState() => _ChatState();
+  ConsumerState<Chat> createState() => _ChatState();
 }
 
-class _ChatState extends State<Chat> {
+class _ChatState extends ConsumerState<Chat> {
   final GlobalKey _containerkey = GlobalKey();
   bool isMicOpen = false;
   double micWidth = 61.63;
@@ -43,42 +43,9 @@ class _ChatState extends State<Chat> {
     super.initState();
   }
 
-  List chatHistory = [
-    {
-      "message": "안녕하세요. 구르미에요 :)",
-      "index": 1,
-      "is_ai": true,
-      "is_image": false
-    },
-    {
-      "message": "오늘 하루 있었던 일이나 느낀 감정을 이야기해주세요.구르미가 모두 들어줄게요!",
-      "index": 1,
-      "is_ai": true,
-      "is_image": false
-    },
-    {"message": "오늘도 힘들었어ㅠㅠㅠ", "index": 2, "is_ai": false, "is_image": false},
-    {
-      "message": "오늘 많이 지치고 힘들었던 날이군요ㅠㅠ 어떤 일들이 힘들었는지 얘기해줄 수 있어요?",
-      "index": 3,
-      "is_ai": true,
-      "is_image": false
-    },
-    {
-      "message":
-          "https://cdn.wadiz.kr/ft/images/green001/2020/1008/20201008002546462_1.gif",
-      "index": 4,
-      "is_ai": false,
-      "is_image": true
-    },
-    {
-      "message": "오늘 많이 지치고 힘들었던 날이군요ㅠㅠ 어떤 일들이 힘들었는지 얘기해줄 수 있어요?",
-      "index": 5,
-      "is_ai": true,
-      "is_image": false
-    },
-  ].reversed.map((e) => ChatMessageModel.fromJson(e)).toList();
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(chatStateNotifierProvider);
     CustomTheme theme = CustomThemeHolder.of(context).theme;
     return DefaultLayout(
       backgroundColor: Colors.white,
@@ -142,19 +109,34 @@ class _ChatState extends State<Chat> {
                 ListView.builder(
                   reverse: true,
                   itemBuilder: (context, index) {
-                    return Padding(
-                      padding: index == chatHistory.length - 1
-                          ? EdgeInsets.zero
-                          : index == 0
-                              ? const EdgeInsets.only(bottom: 10)
-                              : const EdgeInsets.only(bottom: 30.0),
-                      child: Center(
-                        child: ChatMessageTile.fromModel(chatHistory[index],
-                            chatHistory[index] == 1 ? true : null),
-                      ),
-                    );
+                    if (state[index] is ChatMessageLoading) {
+                      return const ChatMessageTile(
+                        message: "",
+                        isAi: true,
+                        isImage: false,
+                        isAirequest: true,
+                      );
+                    } else if (state[index] is ChatMessageError) {
+                      return const ChatMessageTile(
+                        message: "다시 한번 입력해주세요",
+                        isAi: true,
+                        isImage: false,
+                      );
+                    } else {
+                      return Padding(
+                        padding: index == 0
+                            ? EdgeInsets.zero
+                            : index == state.length - 1
+                                ? const EdgeInsets.only(bottom: 10)
+                                : const EdgeInsets.only(bottom: 30.0),
+                        child: Center(
+                          child: ChatMessageTile.fromModel(
+                              state[index], state[index] == 1 ? true : null),
+                        ),
+                      );
+                    }
                   },
-                  itemCount: chatHistory.length,
+                  itemCount: state.length,
                   padding:
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                 ),
@@ -310,36 +292,14 @@ class _ChatState extends State<Chat> {
                                         child: InkWell(
                                           onTap: () async {
                                             if (chatContent != "") {
-                                              final newChatHistory = [
-                                                ...chatHistory
-                                              ];
-                                              newChatHistory.insert(
-                                                  0,
-                                                  ChatMessageModel(
-                                                      message: chatContent,
-                                                      index: 10,
-                                                      is_ai: false,
-                                                      is_image: false));
-
+                                              ref
+                                                  .read(
+                                                      chatStateNotifierProvider
+                                                          .notifier)
+                                                  .addChating(
+                                                      message: chatContent);
                                               setState(() {
-                                                chatHistory = newChatHistory;
                                                 chatContent = "";
-                                              });
-                                              AiAnswerModel answer =
-                                                  await ChatSendService()
-                                                      .send(chatContent);
-
-                                              newChatHistory.insert(
-                                                  0,
-                                                  ChatMessageModel(
-                                                      message:
-                                                          answer.result.answer,
-                                                      index: 10,
-                                                      is_ai: true,
-                                                      is_image: false));
-
-                                              setState(() {
-                                                chatHistory = newChatHistory;
                                               });
 
                                               controller.clear();
