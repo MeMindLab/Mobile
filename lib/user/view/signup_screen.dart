@@ -357,8 +357,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                     Navigator.pop(context);
                                                   },
                                                 ))).show();
-                                        await Future.delayed(
-                                            const Duration(milliseconds: 1000));
                                       }
                                       if (isAppPush == true) {
                                         var permissonStatus =

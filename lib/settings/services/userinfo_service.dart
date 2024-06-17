@@ -16,15 +16,11 @@ class UserInfoService {
     try {
       final response = await dio.get(url);
 
-      if (response.statusCode == 200) {
-        var result = response.data;
+      var result = response.data;
 
-        UserInfoModel userInfo = UserInfoModel.fromJson(result);
+      UserInfoModel userInfo = UserInfoModel.fromJson(result);
 
-        return userInfo;
-      } else {
-        return null;
-      }
+      return userInfo;
     } on DioException catch (error) {
       return null;
     } catch (e) {

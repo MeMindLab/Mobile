@@ -37,9 +37,9 @@ class CustomInterceptor extends Interceptor {
     if (refreshToken == null) {
       return handler.reject(err);
     }
-    final isPath = err.requestOptions.path == 'token/refersh';
+    final isRefereshTokenPath = err.requestOptions.path == 'token/refersh';
 
-    if (err.response?.statusCode == 401 && !isPath) {
+    if (err.response?.statusCode == 401 && !isRefereshTokenPath) {
       final dio = Dio();
 
       try {
