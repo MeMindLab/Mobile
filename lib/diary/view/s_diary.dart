@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:me_mind/common/component/notification_message.dart';
 import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/layout/topbar/widget/back_arrow.dart';
@@ -14,6 +15,14 @@ class Diary extends StatefulWidget {
 }
 
 class _DiaryState extends State<Diary> {
+  bool close = false;
+
+  void onMessageClose() {
+    setState(() {
+      close = true;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -27,6 +36,11 @@ class _DiaryState extends State<Diary> {
       bottomNavigationBar: const RootTab(),
       child: CustomScrollView(
         slivers: [
+          SliverToBoxAdapter(
+            child: close == false
+                ? NotificationMessage(closeCallback: onMessageClose)
+                : null,
+          ),
           const SliverToBoxAdapter(
             child: MySharePictureFragment(),
           ),
