@@ -1,12 +1,12 @@
 import 'package:dio/dio.dart';
+import 'package:me_mind/common/constant/constant.dart';
 import 'package:me_mind/user/interface/auth_interface.dart';
 import 'package:me_mind/user/model/user_signin_model.dart';
 
 class LoginService implements ILogin {
   @override
   Future login(String email, String password) async {
-    // const url = "http://54.206.203.208/users/sign-in";
-    const url = "http://10.0.2.2:8000/users/sign-in";
+    final url = "http://$ip/login";
     final data = {"email": email, "password": password};
 
     final dio = Dio();
@@ -15,13 +15,9 @@ class LoginService implements ILogin {
     try {
       response = await dio.post(url, data: data);
       if (response.statusCode == 200) {
-        final body = response.data['result'];
-        print(body['result']);
-        return UserSignInModel(
-          code: body['code'],
-          msg: body['message'],
-          result: SignInResult.fromJson(body['result']),
-        );
+        final body = response.data;
+
+        return SignInResult.fromJson(body);
       } else {
         return null;
       }

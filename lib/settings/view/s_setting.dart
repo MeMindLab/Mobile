@@ -16,6 +16,7 @@ import 'package:me_mind/common/view/splash_screen.dart';
 import 'package:me_mind/settings/component/certified_box.dart';
 import 'package:me_mind/settings/component/settings_menu.dart';
 import 'package:me_mind/settings/services/logout_service.dart';
+import 'package:me_mind/settings/services/userinfo_service.dart';
 import 'package:me_mind/settings/view/s_faqwebview_screen.dart';
 import 'package:me_mind/settings/view/s_setting_notification.dart';
 import 'package:me_mind/settings/view/s_setting_opinion.dart';
@@ -34,9 +35,10 @@ class Settings extends StatefulWidget {
 class _SettingState extends State<Settings> {
   final dio = Dio();
   bool isPhoneAuth = false;
+  String userEmail = "";
+  String userNickname = "";
 
   void handlePhoneAuth() {
-    print("폰 인증");
     setState(() {
       isPhoneAuth = true;
     });
@@ -46,7 +48,7 @@ class _SettingState extends State<Settings> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     bool? isAuth = await prefs.getBool('is_auth');
-    print(isAuth);
+
     if (isAuth != null) {
       setState(() {
         isPhoneAuth = isAuth;
@@ -54,11 +56,23 @@ class _SettingState extends State<Settings> {
     }
   }
 
+  void getUserInfo() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final nickname = await prefs.getString("USER_NICKNAME");
+    final email = await prefs.getString("USER_EMAIL");
+
+    setState(() {
+      userNickname = nickname ?? "";
+      userEmail = email ?? "";
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     setBottomIdx(3);
     getIsAuth();
+    getUserInfo();
   }
 
   @override
@@ -121,7 +135,6 @@ class _SettingState extends State<Settings> {
                                   BorderRadius.all(Radius.circular(13))),
                         ),
                         onPressed: () {
-                          // 구독 버튼
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -160,12 +173,13 @@ class _SettingState extends State<Settings> {
                 height: 65,
                 content: ListTile(
                   onTap: () {
-                    // 계정 정보 페이지로 이동하는 부분
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => SettingUserInfo(
                                   handlePhoneAuth: handlePhoneAuth,
+                                  userEmail: userEmail,
+                                  userNickname: userNickname,
                                 )));
                   },
                   title: Row(
@@ -241,7 +255,6 @@ class _SettingState extends State<Settings> {
                 height: 65,
                 content: ListTile(
                   onTap: () {
-                    print("의견 보내기");
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -310,14 +323,10 @@ class _SettingState extends State<Settings> {
                                   bgColor: theme.appColors.grayButtonBackground,
                                   content: "네",
                                   onSubmit: () async {
-                                    var response =
-                                        await LogoutService().logout();
-                                    if (response != null) {
-                                      await storage.deleteAll();
-                                      Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (_) => SplashScreen()));
-                                    }
+                                    await storage.deleteAll();
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (_) => SplashScreen()));
                                   }),
                               AlertDialogButton(
                                   theme: theme,

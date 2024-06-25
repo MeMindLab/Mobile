@@ -10,46 +10,48 @@ class CustomInterceptor extends Interceptor {
   @override
   void onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
-    if (options.method == "GET") {
-      options.headers.addAll({
-        "Content-type": "application/json",
-      });
+    if (options.headers["accessToken"] == true) {
+      options.headers.remove("accessToken");
       final accessToken = await storage.read(key: ACCESS_TOKEN);
 
-      if (accessToken != null) {
-        options.headers.addAll({
-          "Authorization": "Bearer $accessToken",
-        });
-      }
+      options.headers.addAll({
+        "authorization": "Bearer $accessToken",
+      });
+    }
+    if (options.headers["refreshToken"] == true) {
+      options.headers.remove("refreshToken");
+      final refreshToken = await storage.read(key: REFRESH_TOKEN);
+
+      options.headers.addAll({
+        "authorization": "Bearer $refreshToken",
+      });
     }
 
-    super.onRequest(options, handler);
+    return super.onRequest(options, handler);
   }
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
-    // TODO: implement onError
     final refreshToken = await storage.read(key: REFRESH_TOKEN);
 
     if (refreshToken == null) {
       return handler.reject(err);
     }
-    // 토큰 검정 실패시
-    if (err.response?.statusCode == 401) {
-      // refreshToken
+    final isRefereshTokenPath = err.requestOptions.path == 'token/refersh';
+
+    if (err.response?.statusCode == 401 && !isRefereshTokenPath) {
       final dio = Dio();
 
       try {
-        final res = await dio.post("http://10.0.2.2:8000/users/oauth/refresh",
+        final res = await dio.get("http://10.0.2.2:8000/token/refresh",
             options: Options(headers: {
-              "refresh_token": "string",
-              "grant_type": "Bearer",
+              "authorization": "Bearer $refreshToken",
             }));
 
-        final accessToken = res.data["result"]["result"]["access_token"];
+        final accessToken = res.data["access_token"];
         final options = err.requestOptions;
 
-        options.headers.addAll({'Authorization': 'Bearer $accessToken'});
+        options.headers.addAll({'authorization': 'Bearer $accessToken'});
 
         await storage.write(key: ACCESS_TOKEN, value: accessToken);
 
@@ -66,7 +68,6 @@ class CustomInterceptor extends Interceptor {
 
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
-    // TODO: implement onResponse
     super.onResponse(response, handler);
   }
 }
