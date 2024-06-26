@@ -9,17 +9,18 @@ class AppColors {
   static const Color gray9 = Color(0xFF313131);
 
   static const Color whiteColor = Colors.white;
-  static const Color blueMain = Color.fromARGB(255, 169, 208, 255);
-  static const Color blue1 = Color(0xFFF1F3F8);
-  static const Color blue2 = Color(0xFFEBEEF5);
-  static const Color blue3 = Color(0xFFE0E6F6);
-  static const Color blue4 = Color(0xFFDCE1F0);
-  static const Color blue5 = Color(0xFFBBD7FF);
+  static const Color blueMain = Color(0xFFB1D8FF);
+  static const Color blue1 = Color(0xFFEEF6FF);
+  static const Color blue2 = Color(0xFFE0EFFF);
+  static const Color blue3 = Color(0xFFCDE5FF);
+  static const Color blue4 = Color(0xFFC0DFFF);
+  static const Color blue5 = Color(0xFFBADCFF);
   static const Color blue6 = Color(0xFF2F8CFA);
-  static const Color blue7 = Color(0xFF596271);
+  static const Color blue7 = Color(0xFF5D7389);
   static const Color blue8 = Color(0xFF202835);
-  static const Color blue10 = Color(0xFFEBEFFC);
-  static const Color yellow = Color.fromRGBO(255, 238, 151, 1.0);
-  static const Color lemonYellow = Color.fromRGBO(255, 199, 0, 1.0);
+  static const Color blue9 = Color(0xFF0064DA);
+  static const Color yellow = Color(0xFFFFEE97);
+  static const Color lemonYellow = Color(0xFFFFC700);
+  static const Color yellow3 = Color(0xFFFFF8BE);
   static const Color midnightBlue = Color(0xFF0064DA);
 }
