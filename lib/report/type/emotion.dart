@@ -3,9 +3,13 @@ enum EmotionType {
       emotion: 'happiness',
       displayName: '행복',
       iconAssetPath: "assets/image/emotion/happiness.png"),
+  comfortable(
+      emotion: "comfortable",
+      displayName: "편안",
+      iconAssetPath: "assets/image/emotion/comfortable.png"),
   excitement(
       emotion: 'excitement',
-      displayName: '신남',
+      displayName: '재미',
       iconAssetPath: "assets/image/emotion/excitement.png"),
   anticipation(
       emotion: 'anticipation',
@@ -17,7 +21,7 @@ enum EmotionType {
       iconAssetPath: "assets/image/emotion/soso.png"),
   pain(
       emotion: 'painful',
-      displayName: '고통',
+      displayName: '짜증',
       iconAssetPath: "assets/image/emotion/painful.png"),
   sadness(
       emotion: 'sadness',
