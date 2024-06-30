@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:me_mind/chat/model/ai_answer_model.dart';
 
@@ -6,7 +8,7 @@ class ChatSendService {
     const url = "http://10.0.2.2:8000/chat/answer";
     final data = {
       "conversation_id": "string",
-      "message": "string",
+      "message": answer,
       "image_url": "string",
       "is_image": true
     };

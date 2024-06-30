@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:me_mind/chat/model/ai_answer_model.dart';
@@ -18,8 +19,7 @@ class ChatStateNotifier extends StateNotifier<List> {
 
   Future<void> addChating({required String message}) async {
     final newState = [...state];
-    // 유저 메세지 입력
-    print(message);
+
     newState.insert(
         0,
         ChatMessageModel(
@@ -30,21 +30,24 @@ class ChatStateNotifier extends StateNotifier<List> {
     newState.insert(0, ChatMessageLoading());
     state = [...newState];
 
-    await Future.delayed(const Duration(seconds: 2));
+    // await Future.delayed(const Duration(seconds: 2));
     try {
       AiAnswerModel answer = await ChatSendService().send(message);
+
       int answerCnt = 0;
       String displayAnswer = "";
-      Timer.periodic(const Duration(milliseconds: 100), (timer) {
-        if (answerCnt == answer.result.answer.length) {
-          timer.cancel();
-        }
-        displayAnswer += answer.result.answer[answerCnt];
-        newState[0] = ChatMessageModel(
-            index: 11, message: displayAnswer, is_ai: true, is_image: false);
 
-        state = [...newState];
-        answerCnt++;
+      Timer.periodic(const Duration(milliseconds: 80), (timer) {
+        if (answerCnt >= answer.result.answer.length - 2) {
+          timer.cancel();
+        } else {
+          displayAnswer += answer.result.answer[answerCnt];
+          newState[0] = ChatMessageModel(
+              index: 11, message: displayAnswer, is_ai: true, is_image: false);
+
+          state = [...newState];
+          answerCnt++;
+        }
       });
     } catch (e) {
       newState[0] = ChatMessageError();
