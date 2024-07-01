@@ -12,8 +12,12 @@ import 'package:me_mind/common/store.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 import 'package:me_mind/common/view/splash_screen.dart';
+import 'package:me_mind/report/view/s_report.dart';
 import 'package:me_mind/screen/main/s_main.dart';
 import 'package:me_mind/settings/component/settings_custom_text_form.dart';
+import 'package:me_mind/settings/model/auth_sms_model.dart';
+import 'package:me_mind/settings/model/auth_sms_verify_model.dart';
+import 'package:me_mind/settings/services/auth_sms_service.dart';
 import 'package:me_mind/settings/utils/phone_number_formatter.dart';
 import 'package:me_mind/settings/view/w_certify_timer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -40,6 +44,7 @@ class _UserInfoFormState extends State<UserInfoForm> {
   final _formKey = GlobalKey<FormState>();
 
   String phoneNumber = "";
+  String code = "";
   String nickname = "";
   String email = "";
   int timerCount = 300;
@@ -99,8 +104,12 @@ class _UserInfoFormState extends State<UserInfoForm> {
 
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
     certifyTimer = CertifyTimer(timerCount: timerCount);
+    nickname = "구르미조아";
+    email = "brainz.paek@gmail.com";
+    print(nickname);
     _timer = Timer(const Duration(seconds: 0), () {});
   }
 
@@ -131,7 +140,7 @@ class _UserInfoFormState extends State<UserInfoForm> {
                 height: 20,
               ),
               SeetingCustomTextFormField(
-                initialText: widget.userNickname,
+                initialText: nickname,
                 bgColor: theme.appColors.seedColor,
                 maxLength: 10,
                 labelText: "닉네임",
@@ -146,7 +155,7 @@ class _UserInfoFormState extends State<UserInfoForm> {
                 height: 12.0,
               ),
               SeetingCustomTextFormField(
-                initialText: widget.userEmail,
+                initialText: email,
                 bgColor: theme.appColors.seedColor,
                 labelText: "이메일",
                 readOnly: widget.isUpdate == false ? true : false,
@@ -170,19 +179,24 @@ class _UserInfoFormState extends State<UserInfoForm> {
                     ? Container(
                         width: 83,
                         height: 35,
-                        margin: EdgeInsets.fromLTRB(0, 5, 7, 5),
+                        margin: const EdgeInsets.fromLTRB(0, 5, 7, 5),
                         child: ElevatedButton(
                           child: Text(
                             isphoneAuthenticated ? "재전송" : "인증요청",
                             style: FontSizes.getContentStyle()
                                 .copyWith(fontWeight: FontWeight.w500),
                           ),
-                          onPressed: () {
+                          onPressed: () async {
                             if (isphoneAuthenticated == false) {
                               setState(() {
                                 isphoneAuthenticated = true;
                               });
                               _startTimer(context, theme);
+                              var result = await AuthSmsService()
+                                  .sendSms(phone: phoneNumber);
+                              print(result);
+
+                              if (result is! AuthSmsModel) return;
                             } else {
                               setState(() {
                                 isTimerStart = false;
@@ -225,14 +239,13 @@ class _UserInfoFormState extends State<UserInfoForm> {
                                   Expanded(
                                     child: SeetingCustomTextFormField(
                                       bgColor: theme.appColors.seedColor,
-                                      maxLength: 4,
-                                      onChanged: (String value) {},
-                                      validator: (value) {
-                                        if (value != "1234") {
-                                          return "인증번호를 확인해주세요";
-                                        }
-                                        return null;
+                                      maxLength: 6,
+                                      onChanged: (String value) {
+                                        setState(() {
+                                          code = value;
+                                        });
                                       },
+                                      validator: (value) {},
                                       suffixWidget: Align(
                                         widthFactor: 1.0,
                                         heightFactor: 1.0,
@@ -261,15 +274,23 @@ class _UserInfoFormState extends State<UserInfoForm> {
                                           .copyWith(
                                               fontWeight: FontWeight.w500),
                                     ),
-                                    onPressed: () {
+                                    onPressed: () async {
                                       if (_formKey.currentState!.validate()) {
                                         _formKey.currentState!.save();
                                         _timer.cancel();
-                                        setState(() {
-                                          timerCount = 300;
-                                          isAuthenticComplete = true;
-                                        });
                                       }
+                                      var result = await AuthSmsService()
+                                          .sendVerify(
+                                              phone: phoneNumber, code: code);
+
+                                      if (result is! AuthSmsVerifyModel) return;
+
+                                      print(result);
+
+                                      setState(() {
+                                        timerCount = 300;
+                                        isAuthenticComplete = true;
+                                      });
                                     },
                                     style: ElevatedButton.styleFrom(
                                       minimumSize: Size.zero,
@@ -301,14 +322,16 @@ class _UserInfoFormState extends State<UserInfoForm> {
                                     width: 25,
                                     height: 25,
                                     fit: BoxFit.scaleDown,
-                                    colorFilter: ColorFilter.mode(
+                                    colorFilter: const ColorFilter.mode(
                                         Colors.blue, BlendMode.srcIn),
                                   ),
                                 ),
                               ),
                             ))
-                  : SizedBox(),
-              isphoneAuthenticated ? const SizedBox(height: 20) : SizedBox(),
+                  : const SizedBox(),
+              isphoneAuthenticated
+                  ? const SizedBox(height: 20)
+                  : const SizedBox(),
             ],
           ),
         ),
