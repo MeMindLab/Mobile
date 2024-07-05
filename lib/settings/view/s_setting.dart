@@ -82,7 +82,7 @@ class _SettingState extends State<Settings> {
     final settingmenus = ['FAQ', '이용 약관', '개인정보 처리방침'];
     return DefaultLayout(
       title: "설정",
-      backgroundColor: theme.appColors.userInputBackground,
+      backgroundColor: AppColors.blue1,
       appBarBgColor: theme.appColors.userInputBackground,
       appBarActions: [LemonNumberWidget(numberText: "10")],
       appBarLeading: const BackArrowLeading(),

@@ -48,7 +48,7 @@ class ReportCard extends StatelessWidget {
           ),
           Expanded(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SingleChildScrollView(
@@ -74,12 +74,17 @@ class ReportCard extends StatelessWidget {
                     style: const TextStyle(fontSize: 14),
                   ),
                 ),
-                Text(
-                  date,
-                  textAlign: TextAlign.right,
-                  style: FontSizes.getCapsuleStyle().copyWith(
-                    color: theme.appColors.datetimeColor,
-                  ),
+                Row(
+                  children: [
+                    const Spacer(),
+                    Text(
+                      date,
+                      textAlign: TextAlign.right,
+                      style: FontSizes.getCapsuleStyle().copyWith(
+                        color: theme.appColors.datetimeColor,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),

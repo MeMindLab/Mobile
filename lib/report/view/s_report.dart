@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:me_mind/common/component/custom_date_picker.dart';
+import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/report/view/f_date_picker_dialog.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
@@ -162,8 +163,7 @@ class _Report extends State<Report> {
           ),
           SliverPadding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            sliver:
-                renderReports(reports: reports, color: theme.appColors.capsule),
+            sliver: renderReports(reports: reports, color: AppColors.blue3),
           ),
         ],
       ),

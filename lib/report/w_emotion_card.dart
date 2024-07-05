@@ -36,54 +36,56 @@ class EmotionCard extends StatelessWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 83,
-      height: 120,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10.0),
-        color: const Color(0xFFFFF8BE),
-      ),
-      child: Stack(
-        alignment: Alignment.topCenter,
-        children: [
-          ClipPath(
-            clipper: MyClipper(),
-            child: Container(
-              height: 64,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.0),
-                color: Theme.of(context).primaryColor,
+    return Material(
+      elevation: 3.0,
+      child: Container(
+        width: 83,
+        height: 120,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10.0),
+          color: Colors.white,
+        ),
+        child: Stack(
+          alignment: Alignment.topCenter,
+          children: [
+            ClipPath(
+              clipper: MyClipper(),
+              child: Container(
+                height: 64,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
               ),
             ),
-          ),
-          Positioned(
-            top: 4,
-            child: Image.asset(
-              emotionType.iconAssetPath,
-              width: 41,
-              height: 41,
-              fit: BoxFit.contain,
+            Positioned(
+              top: 4,
+              child: Image.asset(
+                emotionType.iconAssetPath,
+                width: 41,
+                height: 41,
+                fit: BoxFit.contain,
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 4),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(
-                  emotionType.displayName,
-                  style: FontSizes.getCapsuleHighlightStyle().copyWith(
-                    height: 1,
+            Padding(
+              padding: const EdgeInsets.only(bottom: 4),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    emotionType.displayName,
+                    style: FontSizes.getCapsuleHighlightStyle().copyWith(
+                      height: 1,
+                    ),
                   ),
-                ),
-                Text(
-                  '${emotionPercentage.toStringAsFixed(1)}%',
-                  style: FontSizes.getXSmallStyle().copyWith(),
-                ),
-              ],
+                  Text(
+                    '${emotionPercentage.toStringAsFixed(1)}%',
+                    style: FontSizes.getXSmallStyle().copyWith(),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
