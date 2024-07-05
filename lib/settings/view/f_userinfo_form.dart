@@ -107,9 +107,8 @@ class _UserInfoFormState extends State<UserInfoForm> {
     // TODO: implement initState
     super.initState();
     certifyTimer = CertifyTimer(timerCount: timerCount);
-    nickname = "구르미조아";
-    email = "brainz.paek@gmail.com";
-    print(nickname);
+    nickname = widget.userNickname;
+    email = widget.userEmail;
     _timer = Timer(const Duration(seconds: 0), () {});
   }
 
