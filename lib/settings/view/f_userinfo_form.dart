@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:me_mind/common/component/dialog/d_alert_dialog.dart';
 import 'package:me_mind/common/component/dialog/d_multichoice_dialog.dart';
@@ -8,6 +9,7 @@ import 'package:me_mind/common/component/dialog/w_dialog_button.dart';
 import 'package:me_mind/common/component/rounded_button.dart';
 import 'package:me_mind/common/constant/constant.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
+import 'package:me_mind/common/provider/lemon_provider.dart';
 import 'package:me_mind/common/store.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
@@ -22,7 +24,7 @@ import 'package:me_mind/settings/utils/phone_number_formatter.dart';
 import 'package:me_mind/settings/view/w_certify_timer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class UserInfoForm extends StatefulWidget {
+class UserInfoForm extends ConsumerStatefulWidget {
   bool isUpdate;
   Function onUpdate;
   VoidCallback handlePhoneAuth;
@@ -37,10 +39,10 @@ class UserInfoForm extends StatefulWidget {
       required this.userNickname});
 
   @override
-  State<UserInfoForm> createState() => _UserInfoFormState();
+  ConsumerState<UserInfoForm> createState() => _UserInfoFormState();
 }
 
-class _UserInfoFormState extends State<UserInfoForm> {
+class _UserInfoFormState extends ConsumerState<UserInfoForm> {
   final _formKey = GlobalKey<FormState>();
 
   String phoneNumber = "";
@@ -312,8 +314,8 @@ class _UserInfoFormState extends State<UserInfoForm> {
                               width: deviceWidth,
                               child: SeetingCustomTextFormField(
                                 bgColor: theme.appColors.seedColor,
-                                initialText: "1234",
                                 maxLength: 4,
+                                initialText: code,
                                 onChanged: (String value) {},
                                 suffixWidget: SizedBox(
                                   child: SvgPicture.asset(
@@ -381,16 +383,21 @@ class _UserInfoFormState extends State<UserInfoForm> {
                             "is_auth": isphoneAuthenticated,
                           });
                           // api 통신 후 200
-                          widget.onUpdate(false);
+                          // widget.onUpdate(false);
                           setState(() {
                             isphoneAuthenticated = false;
                           });
-                          if (isAuthenticComplete == true) {
-                            final SharedPreferences prefs =
-                                await SharedPreferences.getInstance();
 
-                            await prefs.setBool("is_auth", true);
-                            widget.handlePhoneAuth();
+                          if (isAuthenticComplete == true) {
+                            // final SharedPreferences prefs =
+                            //     await SharedPreferences.getInstance();
+                            //여기서 레몬 증가
+                            ref
+                                .read(lemonStateNotifierProvider.notifier)
+                                .lemonIncrease();
+
+                            // await prefs.setBool("is_auth", true);
+                            // widget.handlePhoneAuth();
                             MultiChoiceDialog(
                                 context: context,
                                 imageAddr:

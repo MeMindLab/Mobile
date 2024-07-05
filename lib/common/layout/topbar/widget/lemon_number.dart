@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
+import 'package:me_mind/common/provider/lemon_provider.dart';
 
-class LemonNumberWidget extends StatelessWidget {
+class LemonNumberWidget extends ConsumerWidget {
   final String numberText;
 
   const LemonNumberWidget({
@@ -11,7 +13,8 @@ class LemonNumberWidget extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(lemonStateNotifierProvider);
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -22,7 +25,7 @@ class LemonNumberWidget extends StatelessWidget {
         ),
         const SizedBox(width: 3.0),
         Text(
-          numberText,
+          "$state",
           style: FontSizes.getHeadline1Style().copyWith(
             fontWeight: FontWeight.w500,
           ),
