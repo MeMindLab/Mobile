@@ -1,9 +1,10 @@
 import 'package:dio/dio.dart';
-import 'package:me_mind/common/constant/constant.dart';
 import 'package:me_mind/report/model/report_search/report_search_model.dart';
 
 class SearchService {
   Future search(String keyword) async {
+    final dio = Dio();
+
     String uriKeyword = Uri.encodeQueryComponent(keyword);
     String url = 'report/search/$uriKeyword';
 

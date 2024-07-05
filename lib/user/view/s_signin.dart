@@ -45,7 +45,7 @@ class _SignInScreenState extends State<SignInScreen> {
   Widget build(BuildContext context) {
     CustomTheme theme = CustomThemeHolder.of(context).theme;
 
-    final AuthService authService = AuthService(); // AuthService 인스턴스 생성
+    final AuthService authService = AuthService();
 
     return DefaultLayout(
         title: "로그인",
@@ -64,9 +64,9 @@ class _SignInScreenState extends State<SignInScreen> {
                         Padding(
                           padding: const EdgeInsets.only(top: 27),
                           child: Image.asset(
-                            "assets/image/logo/logo.png",
-                            width: 62,
-                            height: 62,
+                            "assets/image/logo/newlogo.png",
+                            width: 252,
+                            height: 58,
                           ),
                         ),
                         const SizedBox(
@@ -120,10 +120,8 @@ class _SignInScreenState extends State<SignInScreen> {
                                   passwordErrorText = "아이디 혹은 비밀번호가 다릅니다.";
                                 });
                               } else {
-                                // 추후 토큰 저장 및 관리
-                                final refreshToken =
-                                    response.result.refreshToken;
-                                final accessToken = response.result.accessToken;
+                                final refreshToken = response.refreshToken;
+                                final accessToken = response.accessToken;
 
                                 await storage.write(
                                     key: ACCESS_TOKEN, value: accessToken);

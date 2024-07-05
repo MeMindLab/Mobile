@@ -8,7 +8,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingUserInfo extends StatefulWidget {
   final VoidCallback handlePhoneAuth;
-  const SettingUserInfo({super.key, required this.handlePhoneAuth});
+  final String? userEmail;
+  final String? userNickname;
+
+  const SettingUserInfo(
+      {super.key,
+      required this.handlePhoneAuth,
+      this.userEmail,
+      this.userNickname});
 
   @override
   State<SettingUserInfo> createState() => _SettingUserInfoState();
@@ -24,29 +31,10 @@ class _SettingUserInfoState extends State<SettingUserInfo> {
     });
   }
 
-  void getIsAuth() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    String? isEmail = await prefs.getString('email');
-    String? isNickname = await prefs.getString('nickname');
-    print(isEmail);
-    if (isEmail != null) {
-      setState(() {
-        email = isEmail;
-      });
-    }
-    if (isNickname != null) {
-      setState(() {
-        nickname = isNickname;
-      });
-    }
-  }
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getIsAuth();
   }
 
   @override
@@ -58,7 +46,7 @@ class _SettingUserInfoState extends State<SettingUserInfo> {
         appBarLeading: isUpdate == false ? const BackArrowLeading() : null,
         backgroundColor: theme.appColors.seedColor,
         child: CustomScrollView(
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           slivers: [
             SliverFillRemaining(
               hasScrollBody: false,
@@ -70,8 +58,8 @@ class _SettingUserInfoState extends State<SettingUserInfo> {
                     isUpdate: isUpdate,
                     onUpdate: onUpdate,
                     handlePhoneAuth: widget.handlePhoneAuth,
-                    userEmail: email,
-                    userNickname: nickname,
+                    userEmail: widget.userEmail ?? email,
+                    userNickname: widget.userNickname ?? nickname,
                   ),
                 ),
               ),

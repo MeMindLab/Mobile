@@ -1,8 +1,12 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:me_mind/common/constant/constant.dart';
+import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
+import 'package:me_mind/common/services/token_refresh_service.dart';
 import 'package:me_mind/common/view/on_boarding.dart';
 import 'package:me_mind/screen/main/s_main.dart';
+import 'package:me_mind/settings/services/userinfo_service.dart';
 import 'package:me_mind/user/view/s_signin.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -16,11 +20,9 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    //deleteToken();
     userMe();
-    checkToken();
+    appLoading();
   }
 
   void deleteToken() async {
@@ -28,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
     await prefs.remove("isTutorial");
   }
 
-  void checkToken() async {
+  void appLoading() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final bool? isTutorial = prefs.getBool("isTutorial");
 
@@ -36,16 +38,24 @@ class _SplashScreenState extends State<SplashScreen> {
       Navigator.of(context)
           .push(MaterialPageRoute(builder: (_) => OnBoardingScreen()));
     } else {
-      // 튜토리얼 한 경우
-      final accessToken = await storage.read(key: ACCESS_TOKEN);
-      final refreshToken = await storage.read(key: REFRESH_TOKEN);
+      try {
+        final tokenResponse = await TokenRefreshService().refresh();
 
-      if (accessToken == null || refreshToken == null) {
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (_) => SignInScreen()));
-      } else {
+        await storage.write(
+            key: ACCESS_TOKEN, value: tokenResponse.accessToken);
+
+        final userInfo = await UserInfoService().findUser();
+
+        if (userInfo.nickname != null || userInfo.email != null) {
+          await prefs.setString("USER_NICKNAME", userInfo.nickname);
+          await prefs.setString("USER_EMAIL", userInfo.email);
+        }
+
         Navigator.of(context)
             .push(MaterialPageRoute(builder: (_) => MainScreen()));
+      } catch (e) {
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (_) => SignInScreen()));
       }
     }
   }
@@ -66,11 +76,23 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return DefaultLayout(
         child: Center(
-      child: Image.asset(
-        'assets/image/splash/splash.png',
-        width: 140,
-        height: 140,
-      ),
-    ));
+            child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          "마음속 나의 친구 미마인드!",
+          style:
+              FontSizes.getContentStyle().copyWith(fontWeight: FontWeight.w700),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        Image.asset(
+          'assets/image/logo/newlogo.png',
+          width: 278,
+          height: 64,
+        ),
+      ],
+    )));
   }
 }

@@ -12,7 +12,6 @@ import 'package:me_mind/common/store.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 import 'package:me_mind/common/view/splash_screen.dart';
-import 'package:me_mind/report/view/s_report.dart';
 import 'package:me_mind/screen/main/s_main.dart';
 import 'package:me_mind/settings/component/settings_custom_text_form.dart';
 import 'package:me_mind/settings/utils/phone_number_formatter.dart';
@@ -66,7 +65,6 @@ class _UserInfoFormState extends State<UserInfoForm> {
         isTimerStart = true;
       });
       _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-        print(timerCount);
         if (timerCount <= 0) {
           _timer.cancel();
           AlertDialogs(
@@ -101,12 +99,8 @@ class _UserInfoFormState extends State<UserInfoForm> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     certifyTimer = CertifyTimer(timerCount: timerCount);
-    nickname = "구르미조아";
-    email = "brainz.paek@gmail.com";
-    print(nickname);
     _timer = Timer(const Duration(seconds: 0), () {});
   }
 
@@ -137,7 +131,7 @@ class _UserInfoFormState extends State<UserInfoForm> {
                 height: 20,
               ),
               SeetingCustomTextFormField(
-                initialText: nickname,
+                initialText: widget.userNickname,
                 bgColor: theme.appColors.seedColor,
                 maxLength: 10,
                 labelText: "닉네임",
@@ -152,7 +146,7 @@ class _UserInfoFormState extends State<UserInfoForm> {
                 height: 12.0,
               ),
               SeetingCustomTextFormField(
-                initialText: email,
+                initialText: widget.userEmail,
                 bgColor: theme.appColors.seedColor,
                 labelText: "이메일",
                 readOnly: widget.isUpdate == false ? true : false,

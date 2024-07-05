@@ -1,10 +1,12 @@
 import 'package:dio/dio.dart';
+import 'package:me_mind/common/constant/constant.dart';
 import 'package:me_mind/user/interface/auth_interface.dart';
 import 'package:me_mind/user/model/user_signup_model.dart';
 
 class SignupService implements Isignup {
-  Future<dynamic> signup(String email, String password, String nickname) async {
-    const url = "http://10.0.2.2:8000/users/sign-up";
+  Future<dynamic> signup(String email, String nickname, String password) async {
+    final url = "http://$ip/users/signup";
+
     final data = {
       "email": email,
       "password": password,
@@ -20,15 +22,14 @@ class SignupService implements Isignup {
 
       if (response.statusCode == 201) {
         var body = response.data;
-
-        return UserSignUpModel(
-            code: body["code"], msg: body["msg"], result: body["result"]);
+        return UserSignUpModel(msg: body["message"]);
       }
     } on DioException catch (e) {
-      if (e.response != null) {
-        return e.response!.data['detail'];
+      if (e.response!.statusCode == 400) {
+        return e.response!.data['message'];
+      } else {
+        return null;
       }
-      print("Dio Error");
     }
   }
 }

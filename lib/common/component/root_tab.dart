@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/store.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
@@ -84,23 +85,22 @@ class _RootTabState extends State<RootTab> {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          isSelected
-              ? AnimatedContainer(
-                  duration: const Duration(milliseconds: 300),
-                  width: 60,
-                  height: 60,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
-                      color: lightTheme.primaryColor),
-                )
-              : const SizedBox(),
+          // isSelected
+          //     ? AnimatedContainer(
+          //         duration: const Duration(milliseconds: 300),
+          //         width: 60,
+          //         height: 60,
+          //         decoration: BoxDecoration(
+          //             borderRadius: BorderRadius.circular(50),
+          //             color: lightTheme.primaryColor),
+          //       )
+          //     : const SizedBox(),
           InkWell(
             onTap: onTap,
             child: Column(children: [
               SvgPicture.asset(svgAsset,
                   colorFilter: isSelected
-                      ? ColorFilter.mode(
-                          theme.appColors.iconButton, BlendMode.srcIn)
+                      ? ColorFilter.mode(AppColors.blue6, BlendMode.srcIn)
                       : null,
                   width: 24,
                   height: 24),
@@ -110,9 +110,8 @@ class _RootTabState extends State<RootTab> {
               Text(
                 title,
                 style: FontSizes.getCapsuleStyle().copyWith(
-                    color: isSelected
-                        ? theme.appColors.iconButton
-                        : theme.appColors.hintText,
+                    color:
+                        isSelected ? AppColors.blue6 : theme.appColors.hintText,
                     fontWeight: FontWeight.w500),
               )
             ]),

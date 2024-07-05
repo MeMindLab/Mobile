@@ -30,8 +30,8 @@ class CustomCircularChart extends StatelessWidget {
               enableAnimation: true,
               gradient: const SweepGradient(
                 colors: <Color>[
-                  Color(0xFFFFF49A),
-                  Color(0xFFFFE27B),
+                  Color(0xFFCDE5FF),
+                  Color(0xFFB1D8FF),
                 ],
                 stops: <double>[0.25, 0.8],
               ),
