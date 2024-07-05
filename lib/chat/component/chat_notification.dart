@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 
@@ -30,6 +31,7 @@ class ChatNotification extends StatelessWidget {
           : EdgeInsets.zero,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
+        border: Border.all(color: AppColors.blueMain, width: 1.5),
         color: isFolded == false
             ? bgColor == null
                 ? lightTheme.primaryColor

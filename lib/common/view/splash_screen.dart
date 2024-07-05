@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:me_mind/common/constant/constant.dart';
+import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/services/token_refresh_service.dart';
 import 'package:me_mind/common/view/on_boarding.dart';
@@ -75,11 +76,23 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return DefaultLayout(
         child: Center(
-      child: Image.asset(
-        'assets/image/splash/splash.png',
-        width: 140,
-        height: 140,
-      ),
-    ));
+            child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          "마음속 나의 친구 미마인드!",
+          style:
+              FontSizes.getContentStyle().copyWith(fontWeight: FontWeight.w700),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        Image.asset(
+          'assets/image/logo/newlogo.png',
+          width: 278,
+          height: 64,
+        ),
+      ],
+    )));
   }
 }

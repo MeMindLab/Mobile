@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/layout/topbar/widget/back_arrow.dart';
@@ -38,7 +39,7 @@ class _ReportDetailState extends State<ReportDetail> {
     return DefaultLayout(
       title: "10월 31일",
       appBarLeading: const BackArrowLeading(),
-      backgroundColor: theme.appColors.reportBgColor,
+      backgroundColor: AppColors.blue1,
       child: SingleChildScrollView(
         physics: const ClampingScrollPhysics(),
         child: Column(
@@ -85,7 +86,7 @@ class _ReportDetailState extends State<ReportDetail> {
                             emotionPercentage: 36.8,
                             emotionType: index % 2 == 0
                                 ? EmotionType.excitement
-                                : EmotionType.happiness,
+                                : EmotionType.comfortable,
                           ),
                         );
                       },
