@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:me_mind/common/constant/constant.dart';
 import 'package:me_mind/common/dio/dio.dart';
 import 'package:me_mind/common/model/user_lemon_model.dart';
+import 'package:me_mind/common/model/user_lemon_patch_model.dart';
 
 class LemonService {
   Future createLemon() async {
@@ -18,6 +19,26 @@ class LemonService {
       var result = response.data;
 
       UserLemonModel model = UserLemonModel.fromJson(result);
+
+      return model;
+    } on DioException catch (error) {
+      return null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future patchLemon({required int userId, required int count}) async {
+    final dio = Dio();
+    final data = {"lemon_count": count};
+
+    try {
+      final response = await dio
+          .patch("http://10.0.2.2:8000/users/$userId/lemon", data: data);
+
+      var result = response.data;
+
+      UserLemonPatchModel model = UserLemonPatchModel.fromJson(result);
 
       return model;
     } on DioException catch (error) {

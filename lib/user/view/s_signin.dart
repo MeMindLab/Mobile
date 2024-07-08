@@ -7,6 +7,7 @@ import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/model/user_lemon_model.dart';
 import 'package:me_mind/common/provider/lemon_provider.dart';
+import 'package:me_mind/common/provider/user_provider.dart';
 import 'package:me_mind/common/services/lemon_service.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
@@ -136,6 +137,8 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
 
                                 final user = await UserInfoService().findUser();
                                 if (user is! UserInfoModel) return;
+                                ref.read(userIdProvider.notifier).state =
+                                    user.id!;
 
                                 if (user.lemons == null) {
                                   final lemon =
