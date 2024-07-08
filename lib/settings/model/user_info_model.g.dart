@@ -16,6 +16,7 @@ UserInfoModel _$UserInfoModelFromJson(Map<String, dynamic> json) =>
       role: json['role'] as String?,
       createdAt: json['created_at'] as String?,
       updatedAt: json['updatedAt'] as String?,
+      lemons: json['lemons'] as int?,
     );
 
 Map<String, dynamic> _$UserInfoModelToJson(UserInfoModel instance) =>
@@ -28,4 +29,5 @@ Map<String, dynamic> _$UserInfoModelToJson(UserInfoModel instance) =>
       'role': instance.role,
       'created_at': instance.createdAt,
       'updatedAt': instance.updatedAt,
+      'lemons': instance.lemons,
     };

@@ -8,11 +8,11 @@ final lemonStateNotifierProvider =
 
 class LemonStateNotifier extends StateNotifier<int> {
   LemonStateNotifier() : super(0) {
-    lemonInit();
+    lemonInit(lemon: 0);
   }
 
-  Future<void> lemonInit() async {
-    state = 0;
+  Future<void> lemonInit({required int lemon}) async {
+    state = lemon;
   }
 
   Future<void> lemonIncrease() async {

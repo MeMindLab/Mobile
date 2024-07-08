@@ -15,6 +15,7 @@ class UserInfoModel {
   final String? createdAt;
   @JsonKey(name: "updatedAt")
   final String? updatedAt;
+  final int? lemons;
 
   UserInfoModel({
     this.email,
@@ -25,6 +26,7 @@ class UserInfoModel {
     this.role,
     this.createdAt,
     this.updatedAt,
+    this.lemons,
   });
 
   factory UserInfoModel.fromJson(Map<String, dynamic> json) =>

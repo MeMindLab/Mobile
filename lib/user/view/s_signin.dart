@@ -1,23 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:me_mind/common/component/custom_text_form.dart';
 import 'package:me_mind/common/component/rounded_button.dart';
 import 'package:me_mind/common/constant/constant.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
+import 'package:me_mind/common/model/user_lemon_model.dart';
+import 'package:me_mind/common/provider/lemon_provider.dart';
+import 'package:me_mind/common/services/lemon_service.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 import 'package:me_mind/screen/main/s_main.dart';
+import 'package:me_mind/settings/model/user_info_model.dart';
+import 'package:me_mind/settings/services/userinfo_service.dart';
 import 'package:me_mind/user/services/login_service.dart';
 import 'package:me_mind/user/view/signup_screen.dart';
 
-class SignInScreen extends StatefulWidget {
+class SignInScreen extends ConsumerStatefulWidget {
   const SignInScreen({super.key});
 
   @override
-  State<SignInScreen> createState() => _SignInScreenState();
+  ConsumerState<SignInScreen> createState() => _SignInScreenState();
 }
 
-class _SignInScreenState extends State<SignInScreen> {
+class _SignInScreenState extends ConsumerState<SignInScreen> {
   late FocusNode _emailFocusNode;
   late FocusNode _passwordFocusNode;
   final _formKey = GlobalKey<FormState>();
@@ -128,6 +134,21 @@ class _SignInScreenState extends State<SignInScreen> {
                                 await storage.write(
                                     key: REFRESH_TOKEN, value: refreshToken);
 
+                                final user = await UserInfoService().findUser();
+                                if (user is! UserInfoModel) return;
+
+                                if (user.lemons == null) {
+                                  final lemon =
+                                      await LemonService().createLemon();
+                                  if (lemon is! UserLemonModel) return;
+                                  ref
+                                      .read(lemonStateNotifierProvider.notifier)
+                                      .lemonInit(lemon: lemon.lemonCount);
+                                } else {
+                                  ref
+                                      .read(lemonStateNotifierProvider.notifier)
+                                      .lemonInit(lemon: user.lemons!);
+                                }
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (_) => const MainScreen(),

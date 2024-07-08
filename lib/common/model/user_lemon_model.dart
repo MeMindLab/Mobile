@@ -4,13 +4,14 @@ part "user_lemon_model.g.dart";
 
 @JsonSerializable()
 class UserLemonModel {
+  @JsonKey(name: "lemon_count")
+  final int lemonCount;
   @JsonKey(name: "user_id")
-  final String userId;
-  final String lemon;
+  final int userId;
 
   UserLemonModel({
+    required this.lemonCount,
     required this.userId,
-    required this.lemon,
   });
 
   factory UserLemonModel.fromJson(Map<String, dynamic> json) =>
