@@ -27,14 +27,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 class UserInfoForm extends ConsumerStatefulWidget {
   bool isUpdate;
   Function onUpdate;
-  VoidCallback handlePhoneAuth;
   final String userEmail;
   final String userNickname;
   UserInfoForm(
       {super.key,
       required this.isUpdate,
       required this.onUpdate,
-      required this.handlePhoneAuth,
       required this.userEmail,
       required this.userNickname});
 
@@ -389,15 +387,10 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                           });
 
                           if (isAuthenticComplete == true) {
-                            // final SharedPreferences prefs =
-                            //     await SharedPreferences.getInstance();
-                            //여기서 레몬 증가
                             ref
                                 .read(lemonStateNotifierProvider.notifier)
                                 .lemonIncrease();
 
-                            // await prefs.setBool("is_auth", true);
-                            // widget.handlePhoneAuth();
                             MultiChoiceDialog(
                                 context: context,
                                 imageAddr:

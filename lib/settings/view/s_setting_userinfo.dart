@@ -8,15 +8,10 @@ import 'package:me_mind/settings/services/userinfo_service.dart';
 import 'package:me_mind/settings/view/f_userinfo_form.dart';
 
 class SettingUserInfo extends StatefulWidget {
-  final VoidCallback handlePhoneAuth;
   final String? userEmail;
   final String? userNickname;
 
-  const SettingUserInfo(
-      {super.key,
-      required this.handlePhoneAuth,
-      this.userEmail,
-      this.userNickname});
+  const SettingUserInfo({super.key, this.userEmail, this.userNickname});
 
   @override
   State<SettingUserInfo> createState() => _SettingUserInfoState();
@@ -34,7 +29,6 @@ class _SettingUserInfoState extends State<SettingUserInfo> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -67,7 +61,6 @@ class _SettingUserInfoState extends State<SettingUserInfo> {
                           return UserInfoForm(
                             isUpdate: isUpdate,
                             onUpdate: onUpdate,
-                            handlePhoneAuth: widget.handlePhoneAuth,
                             userEmail: userInfo.email!,
                             userNickname: userInfo.nickname!,
                           );

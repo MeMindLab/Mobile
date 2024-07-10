@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:me_mind/common/component/dialog/d_multichoice_dialog.dart';
 import 'package:me_mind/common/component/dialog/w_dialog_button.dart';
@@ -9,14 +10,13 @@ import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/layout/topbar/widget/back_arrow.dart';
 import 'package:me_mind/common/layout/topbar/widget/lemon_number.dart';
+import 'package:me_mind/common/provider/user_provider.dart';
 import 'package:me_mind/common/store.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 import 'package:me_mind/common/view/splash_screen.dart';
 import 'package:me_mind/settings/component/certified_box.dart';
 import 'package:me_mind/settings/component/settings_menu.dart';
-import 'package:me_mind/settings/services/logout_service.dart';
-import 'package:me_mind/settings/services/userinfo_service.dart';
 import 'package:me_mind/settings/view/s_faqwebview_screen.dart';
 import 'package:me_mind/settings/view/s_setting_notification.dart';
 import 'package:me_mind/settings/view/s_setting_opinion.dart';
@@ -25,36 +25,18 @@ import 'package:me_mind/settings/view/s_setting_userinfo.dart';
 import 'package:me_mind/settings/view/s_subscribe.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Settings extends StatefulWidget {
+class Settings extends ConsumerStatefulWidget {
   const Settings({super.key});
 
   @override
-  State<Settings> createState() => _SettingState();
+  ConsumerState<Settings> createState() => _SettingState();
 }
 
-class _SettingState extends State<Settings> {
+class _SettingState extends ConsumerState<Settings> {
   final dio = Dio();
-  bool isPhoneAuth = false;
+
   String userEmail = "";
   String userNickname = "";
-
-  void handlePhoneAuth() {
-    setState(() {
-      isPhoneAuth = true;
-    });
-  }
-
-  void getIsAuth() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    bool? isAuth = await prefs.getBool('is_auth');
-
-    if (isAuth != null) {
-      setState(() {
-        isPhoneAuth = isAuth;
-      });
-    }
-  }
 
   void getUserInfo() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -71,7 +53,6 @@ class _SettingState extends State<Settings> {
   void initState() {
     super.initState();
     setBottomIdx(3);
-    getIsAuth();
     getUserInfo();
   }
 
@@ -80,6 +61,7 @@ class _SettingState extends State<Settings> {
     CustomTheme theme = CustomThemeHolder.of(context).theme;
     // 메뉴 모음
     final settingmenus = ['FAQ', '이용 약관', '개인정보 처리방침'];
+    final user = ref.watch(userProvider);
     return DefaultLayout(
       title: "설정",
       backgroundColor: AppColors.blue1,
@@ -177,7 +159,6 @@ class _SettingState extends State<Settings> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => SettingUserInfo(
-                                  handlePhoneAuth: handlePhoneAuth,
                                   userEmail: userEmail,
                                   userNickname: userNickname,
                                 )));
@@ -190,7 +171,7 @@ class _SettingState extends State<Settings> {
                         style: FontSizes.getHeadline2Style()
                             .copyWith(color: theme.appColors.iconButton),
                       ),
-                      CertifiedBox(isCertified: isPhoneAuth),
+                      CertifiedBox(isCertified: user.isVerified!),
                     ],
                   ),
                 ),

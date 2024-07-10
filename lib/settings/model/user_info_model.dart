@@ -10,6 +10,8 @@ class UserInfoModel {
   final String? nickname;
   @JsonKey(name: "is_active")
   final bool? isActive;
+  @JsonKey(name: "is_verified")
+  final bool? isVerified;
   final String? role;
   @JsonKey(name: "created_at")
   final String? createdAt;
@@ -23,6 +25,7 @@ class UserInfoModel {
     this.username,
     this.nickname,
     this.isActive,
+    this.isVerified,
     this.role,
     this.createdAt,
     this.updatedAt,

@@ -5,29 +5,7 @@ import 'package:me_mind/common/model/user_lemon_model.dart';
 import 'package:me_mind/common/model/user_lemon_patch_model.dart';
 
 class LemonService {
-  Future createLemon() async {
-    final dio = Dio();
-    final data = {"lemon_count": 0};
-    dio.interceptors.add(CustomInterceptor(storage: storage));
-    dio.options.headers.clear();
-    dio.options.headers.addAll({'accessToken': true});
-
-    try {
-      final response =
-          await dio.post("http://10.0.2.2:8000/lemons", data: data);
-
-      var result = response.data;
-
-      UserLemonModel model = UserLemonModel.fromJson(result);
-
-      return model;
-    } on DioException catch (error) {
-      return null;
-    } catch (e) {
-      return null;
-    }
-  }
-
+  // 레몬 생성 api 삭제
   Future patchLemon({required int userId, required int count}) async {
     final dio = Dio();
     final data = {"lemon_count": count};
@@ -48,25 +26,21 @@ class LemonService {
     }
   }
 
-  Future getLemon() async {
+  Future getLemon({required int userId}) async {
     final dio = Dio(BaseOptions(baseUrl: "http://10.0.2.2:8000/", headers: {}));
 
-    String url = 'users/1/lemon';
+    String url = 'users/$userId/lemons';
 
     dio.interceptors.add(CustomInterceptor(storage: storage));
 
     try {
       final response = await dio.get(url);
 
-      if (response.statusCode == 200) {
-        var result = response.data;
+      var result = response.data;
 
-        UserLemonModel lemonResult = UserLemonModel.fromJson(result);
+      UserLemonModel lemonResult = UserLemonModel.fromJson(result);
 
-        return lemonResult;
-      } else {
-        return null;
-      }
+      return lemonResult;
     } on DioException catch (error) {
       return null;
     } catch (e) {
