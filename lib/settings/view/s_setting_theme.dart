@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/layout/topbar/widget/back_arrow.dart';
@@ -25,8 +26,8 @@ class _SettingThemaState extends State<SettingTheme> {
     CustomTheme theme = CustomThemeHolder.of(context).theme;
     return DefaultLayout(
         title: "테마 설정",
-        backgroundColor: theme.appColors.userInputBackground,
-        appBarBgColor: theme.appColors.userInputBackground,
+        backgroundColor: AppColors.blue1,
+        appBarBgColor: AppColors.blue1,
         appBarLeading: BackArrowLeading(
           onPressed: () async {
             await setBottomIdx(3);

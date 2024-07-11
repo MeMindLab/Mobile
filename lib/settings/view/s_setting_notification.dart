@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/layout/topbar/widget/back_arrow.dart';
-import 'package:me_mind/common/theme/custom_theme.dart';
-import 'package:me_mind/common/theme/custom_theme_holder.dart';
 import 'package:me_mind/settings/component/custom_switch.dart';
 import 'package:me_mind/settings/component/settings_menu.dart';
 
@@ -19,13 +18,11 @@ class _SettingUserInfoState extends State<SettingNotification> {
   bool isAdvertise = false;
   @override
   Widget build(BuildContext context) {
-    CustomTheme theme = CustomThemeHolder.of(context).theme;
-
     return DefaultLayout(
         title: "알림 설정",
         appBarLeading: const BackArrowLeading(),
-        backgroundColor: theme.appColors.userInputBackground,
-        appBarBgColor: theme.appColors.userInputBackground,
+        backgroundColor: AppColors.blue1,
+        appBarBgColor: AppColors.blue1,
         child: CustomScrollView(
           physics: NeverScrollableScrollPhysics(),
           slivers: [

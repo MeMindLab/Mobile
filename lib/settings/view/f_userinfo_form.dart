@@ -14,7 +14,6 @@ import 'package:me_mind/common/store.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 import 'package:me_mind/common/view/splash_screen.dart';
-import 'package:me_mind/report/view/s_report.dart';
 import 'package:me_mind/screen/main/s_main.dart';
 import 'package:me_mind/settings/component/settings_custom_text_form.dart';
 import 'package:me_mind/settings/model/auth_sms_model.dart';
@@ -48,6 +47,7 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
   String nickname = "";
   String email = "";
   int timerCount = 300;
+  bool isAuthCheck = false;
   late Timer _timer;
   late CertifyTimer certifyTimer;
   bool isphoneAuthenticated = false;
@@ -122,7 +122,7 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
       child: Column(children: [
         Container(
           decoration: BoxDecoration(
-              color: theme.appColors.userInputBackground,
+              color: Color(0xFFF1F3F8),
               borderRadius: BorderRadius.circular(13.0)),
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: Column(
@@ -193,7 +193,6 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                               _startTimer(context, theme);
                               var result = await AuthSmsService()
                                   .sendSms(phone: phoneNumber);
-                              print(result);
 
                               if (result is! AuthSmsModel) return;
                             } else {
@@ -240,6 +239,14 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                                       bgColor: theme.appColors.seedColor,
                                       maxLength: 6,
                                       onChanged: (String value) {
+                                        value.length == 6
+                                            ? setState(() {
+                                                isAuthCheck = true;
+                                              })
+                                            : setState(() {
+                                                isAuthCheck = false;
+                                              });
+
                                         setState(() {
                                           code = value;
                                         });
@@ -294,8 +301,9 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                                     style: ElevatedButton.styleFrom(
                                       minimumSize: Size.zero,
                                       padding: EdgeInsets.zero,
-                                      backgroundColor:
-                                          theme.appColors.grayButtonBackground,
+                                      backgroundColor: isAuthCheck == false
+                                          ? theme.appColors.grayButtonBackground
+                                          : Color(0xFFA9D0FF),
                                       elevation: 0,
                                       foregroundColor:
                                           theme.appColors.iconButton ??

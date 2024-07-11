@@ -65,7 +65,7 @@ class _SettingState extends ConsumerState<Settings> {
     return DefaultLayout(
       title: "설정",
       backgroundColor: AppColors.blue1,
-      appBarBgColor: theme.appColors.userInputBackground,
+      appBarBgColor: AppColors.blue1,
       appBarActions: [LemonNumberWidget(numberText: "10")],
       appBarLeading: const BackArrowLeading(),
       // 설정 화면 Body
