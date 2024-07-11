@@ -18,17 +18,19 @@ import 'package:me_mind/screen/main/s_main.dart';
 import 'package:me_mind/settings/component/settings_custom_text_form.dart';
 import 'package:me_mind/settings/model/auth_sms_model.dart';
 import 'package:me_mind/settings/model/auth_sms_verify_model.dart';
+import 'package:me_mind/settings/model/user_info_model.dart';
 import 'package:me_mind/settings/services/auth_sms_service.dart';
+import 'package:me_mind/settings/services/userinfo_service.dart';
 import 'package:me_mind/settings/utils/phone_number_formatter.dart';
 import 'package:me_mind/settings/view/w_certify_timer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserInfoForm extends ConsumerStatefulWidget {
-  bool isUpdate;
-  Function onUpdate;
+  final bool isUpdate;
+  final Function onUpdate;
   final String userEmail;
   final String userNickname;
-  UserInfoForm(
+  const UserInfoForm(
       {super.key,
       required this.isUpdate,
       required this.onUpdate,
@@ -325,7 +327,7 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                                 onChanged: (String value) {},
                                 suffixWidget: SizedBox(
                                   child: SvgPicture.asset(
-                                    'assets/svg/icon/check.svg',
+                                    'assets/svg/icon/check_all.svg',
                                     width: 25,
                                     height: 25,
                                     fit: BoxFit.scaleDown,
@@ -382,17 +384,20 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
-                          print({
-                            "nickname": nickname,
-                            "email": email,
-                            "phoneNumber": phoneNumber,
-                            "is_auth": isphoneAuthenticated,
-                          });
+
                           // api 통신 후 200
                           // widget.onUpdate(false);
+                          final user = await UserInfoService().putUser(
+                              email: email,
+                              isVerified: isAuthenticComplete,
+                              nickname: nickname);
+
+                          if (user is! UserInfoModel) return;
+
                           setState(() {
                             isphoneAuthenticated = false;
                           });
+                          widget.onUpdate(true);
 
                           if (isAuthenticComplete == true) {
                             ref
