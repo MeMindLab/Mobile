@@ -10,11 +10,7 @@ class UserInfoService {
       required String nickname,
       required bool isVerified}) async {
     final dio = Dio();
-    final data = {
-      "email": email,
-      "nickname": nickname,
-      "is_verified": isVerified
-    };
+    final data = {"email": email, "nickname": nickname, "is_verified": true};
 
     dio.interceptors.add(CustomInterceptor(storage: storage));
     dio.options.headers.clear();

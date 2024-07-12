@@ -385,8 +385,6 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
 
-                          // api 통신 후 200
-                          // widget.onUpdate(false);
                           final user = await UserInfoService().putUser(
                               email: email,
                               isVerified: isAuthenticComplete,
@@ -397,7 +395,7 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                           setState(() {
                             isphoneAuthenticated = false;
                           });
-                          widget.onUpdate(true);
+                          widget.onUpdate(false);
 
                           if (isAuthenticComplete == true) {
                             ref
