@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:me_mind/common/component/dialog/d_alert_dialog.dart';
 import 'package:me_mind/common/component/dialog/w_dialog_button.dart';
 import 'package:me_mind/common/component/rounded_button.dart';
+import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/layout/topbar/widget/back_arrow.dart';
@@ -112,7 +113,7 @@ class _SettingOpinionState extends State<SettingOpinion> {
                         });
                       },
                       hintText: "제목을 입력해주세요",
-                      bgColor: theme.appColors.userInputBackground),
+                      bgColor: AppColors.blue1),
                   const SizedBox(
                     height: 14.5,
                   ),
@@ -135,7 +136,7 @@ class _SettingOpinionState extends State<SettingOpinion> {
                       },
                       maxLines: 8,
                       hintText: "내용을 입력해주세요",
-                      bgColor: theme.appColors.userInputBackground),
+                      bgColor: AppColors.blue1),
                   const SizedBox(
                     height: 14.5,
                   ),
@@ -169,11 +170,11 @@ class _SettingOpinionState extends State<SettingOpinion> {
                                 height: 85,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    color: theme.appColors.userInputBackground),
-                                child: Center(
+                                    color: AppColors.blue1),
+                                child: const Center(
                                     child: Icon(
                                   Icons.add,
-                                  color: theme.appColors.grayButtonBackground,
+                                  color: AppColors.gray5,
                                   size: 35,
                                 )),
                               ),
