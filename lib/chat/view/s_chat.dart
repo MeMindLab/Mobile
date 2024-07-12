@@ -1,11 +1,15 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:me_mind/chat/component/chat_message_tile.dart';
 import 'package:me_mind/chat/component/chat_mic.dart';
 import 'package:me_mind/chat/component/chat_notification.dart';
 import 'package:me_mind/chat/model/chat_message_model.dart';
 import 'package:me_mind/chat/provider/chat_provider.dart';
+import 'package:me_mind/chat/services/image_picker_service.dart';
 import 'package:me_mind/chat/utils/show_snackbar.dart';
 import 'package:me_mind/common/component/datetime_to_text.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
@@ -201,12 +205,23 @@ class _ChatState extends ConsumerState<Chat> {
                         children: [
                           Container(
                             margin: const EdgeInsets.fromLTRB(20, 0, 6, 10),
-                            child: SvgPicture.asset(
-                                'assets/svg/icon/imageUpload.svg',
-                                width: 30,
-                                height: 30,
-                                colorFilter: ColorFilter.mode(
-                                    theme.appColors.activate, BlendMode.srcIn)),
+                            child: InkWell(
+                              onTap: () async {
+                                var result = await ImagePickerService(
+                                        imagePicker: ImagePicker())
+                                    .getImage(ImageSource.gallery);
+
+                                if (result is! File) return;
+                                print(result.runtimeType);
+                              },
+                              child: SvgPicture.asset(
+                                  'assets/svg/icon/imageUpload.svg',
+                                  width: 30,
+                                  height: 30,
+                                  colorFilter: ColorFilter.mode(
+                                      theme.appColors.activate,
+                                      BlendMode.srcIn)),
+                            ),
                           ),
                         ],
                       ),
