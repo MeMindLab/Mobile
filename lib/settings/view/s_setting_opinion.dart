@@ -15,6 +15,7 @@ import 'package:me_mind/common/theme/custom_theme_holder.dart';
 import 'package:me_mind/settings/component/settings_custom_text_form.dart';
 import 'package:me_mind/settings/services/image_picker_service.dart';
 import 'package:me_mind/settings/utils/email_send.dart';
+import 'package:me_mind/settings/view/s_collect_use_screen.dart';
 import 'package:me_mind/settings/view/s_setting.dart';
 
 class SettingOpinion extends StatefulWidget {
@@ -150,13 +151,12 @@ class _SettingOpinionState extends State<SettingOpinion> {
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 4,
-                          mainAxisSpacing: 10, //수평 Padding
-                          crossAxisSpacing: 10, //수직 Padding
+                          mainAxisSpacing: 10,
+                          crossAxisSpacing: 10,
                         ),
                         itemBuilder: (_, int idx) {
                           if (idx == 0) {
                             return InkWell(
-                              // 사진 추가 함수
                               onTap: () async {
                                 var result = await ImagePickerService(
                                         imagePicker: ImagePicker())
@@ -247,13 +247,26 @@ class _SettingOpinionState extends State<SettingOpinion> {
                                 style: FontSizes.getCapsuleStyle().copyWith(
                                     color: theme.appColors.hintText,
                                     fontWeight: FontWeight.w400),
-                                children: const <TextSpan>[
-                                  TextSpan(
-                                      text: "개인정보 수집 및 이용",
-                                      style: TextStyle(
-                                          decoration:
-                                              TextDecoration.underline)),
-                                  TextSpan(text: "에 동의하게 됩니다"),
+                                children: [
+                                  WidgetSpan(
+                                      child: InkWell(
+                                    onTap: () {
+                                      Navigator.push(context,
+                                          MaterialPageRoute(builder: (context) {
+                                        return const CollectUseScreen();
+                                      }));
+                                    },
+                                    child: Text(
+                                      "개인정보 수집 및 이용",
+                                      style:
+                                          FontSizes.getCapsuleStyle().copyWith(
+                                        color: theme.appColors.hintText,
+                                        fontWeight: FontWeight.w400,
+                                        decoration: TextDecoration.underline,
+                                      ),
+                                    ),
+                                  )),
+                                  const TextSpan(text: "에 동의하게 됩니다"),
                                 ]),
                           ),
                         ))

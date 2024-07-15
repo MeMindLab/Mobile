@@ -311,7 +311,7 @@ class _SettingState extends ConsumerState<Settings> {
                                   }),
                               AlertDialogButton(
                                   theme: theme,
-                                  bgColor: lightTheme.primaryColor,
+                                  bgColor: AppColors.blueMain,
                                   content: "아니오",
                                   onSubmit: () {
                                     Navigator.pop(context);

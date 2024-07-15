@@ -25,12 +25,15 @@ class DialogContent extends StatelessWidget {
         Column(
           children: [
             if (imageAddr != null)
-              SizedBox(
-                width: 90,
-                height: 90,
-                child: Image.asset(
-                  imageAddr!,
-                  fit: BoxFit.cover,
+              Padding(
+                padding: const EdgeInsets.only(top: 10.0),
+                child: SizedBox(
+                  width: 146,
+                  height: 109,
+                  child: Image.asset(
+                    imageAddr!,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             if (imageAddr != null)

@@ -7,6 +7,7 @@ import 'package:me_mind/common/component/dialog/d_alert_dialog.dart';
 import 'package:me_mind/common/component/dialog/d_multichoice_dialog.dart';
 import 'package:me_mind/common/component/dialog/w_dialog_button.dart';
 import 'package:me_mind/common/component/rounded_button.dart';
+import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/constant.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/provider/lemon_provider.dart';
@@ -23,6 +24,7 @@ import 'package:me_mind/settings/services/auth_sms_service.dart';
 import 'package:me_mind/settings/services/userinfo_service.dart';
 import 'package:me_mind/settings/utils/phone_number_formatter.dart';
 import 'package:me_mind/settings/view/w_certify_timer.dart';
+import 'package:me_mind/utils/validate.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserInfoForm extends ConsumerStatefulWidget {
@@ -43,7 +45,7 @@ class UserInfoForm extends ConsumerStatefulWidget {
 
 class _UserInfoFormState extends ConsumerState<UserInfoForm> {
   final _formKey = GlobalKey<FormState>();
-
+  final _formAuthKey = GlobalKey<FormState>();
   String phoneNumber = "";
   String code = "";
   String nickname = "";
@@ -55,6 +57,7 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
   bool isphoneAuthenticated = false;
   bool isTimerStart = false;
   bool isAuthenticComplete = false;
+  bool isAuthNumberState = true;
 
   void resetTimer() {
     setState(() {
@@ -80,7 +83,7 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
               actions: [
                 AlertDialogButton(
                   theme: theme,
-                  bgColor: lightTheme.primaryColor,
+                  bgColor: AppColors.blueMain,
                   content: "확인",
                   onSubmit: () {
                     Navigator.pop(context);
@@ -145,6 +148,11 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                 bgColor: theme.appColors.seedColor,
                 maxLength: 10,
                 labelText: "닉네임",
+                validator: (value) {
+                  var nicknameResult = CheckValidate().validateName(value);
+
+                  return nicknameResult;
+                },
                 readOnly: widget.isUpdate == false ? true : false,
                 onChanged: (String value) {
                   setState(() {
@@ -160,6 +168,11 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                 bgColor: theme.appColors.seedColor,
                 labelText: "이메일",
                 readOnly: widget.isUpdate == false ? true : false,
+                validator: (value) {
+                  var emailResult = CheckValidate().validateEmail(value);
+
+                  return emailResult;
+                },
                 onChanged: (String value) {
                   setState(() {
                     email = value;
@@ -169,60 +182,72 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
               const SizedBox(
                 height: 12.0,
               ),
-              SeetingCustomTextFormField(
-                bgColor: theme.appColors.seedColor,
-                labelText: "연락처",
-                enabled: !isphoneAuthenticated,
-                textInputFormatter: [PhoneNumberFormatter()],
-                hintText: isAuthenticComplete ? phoneNumber : "번호를 입력해주세요",
-                readOnly: widget.isUpdate == false ? true : false,
-                suffixWidget: widget.isUpdate && isAuthenticComplete == false
-                    ? Container(
-                        width: 83,
-                        height: 35,
-                        margin: const EdgeInsets.fromLTRB(0, 5, 7, 5),
-                        child: ElevatedButton(
-                          child: Text(
-                            isphoneAuthenticated ? "재전송" : "인증요청",
-                            style: FontSizes.getContentStyle()
-                                .copyWith(fontWeight: FontWeight.w500),
-                          ),
-                          onPressed: () async {
-                            if (isphoneAuthenticated == false) {
-                              setState(() {
-                                isphoneAuthenticated = true;
-                              });
-                              _startTimer(context, theme);
-                              var result = await AuthSmsService()
-                                  .sendSms(phone: phoneNumber);
+              Stack(
+                children: [
+                  SeetingCustomTextFormField(
+                    bgColor: theme.appColors.seedColor,
+                    labelText: "연락처",
+                    enabled: !isphoneAuthenticated,
+                    textInputFormatter: [PhoneNumberFormatter()],
+                    hintText: isAuthenticComplete ? phoneNumber : "번호를 입력해주세요",
+                    readOnly: widget.isUpdate == false ? true : false,
+                    onChanged: (String value) {
+                      setState(() {
+                        phoneNumber = value;
+                      });
+                    },
+                  ),
+                  Positioned(
+                    bottom: 5,
+                    right: 0,
+                    child: widget.isUpdate && isAuthenticComplete == false
+                        ? Container(
+                            width: 83,
+                            height: 35,
+                            margin: const EdgeInsets.fromLTRB(0, 5, 7, 5),
+                            child: ElevatedButton(
+                              child: Text(
+                                isphoneAuthenticated ? "재전송" : "인증요청",
+                                style: FontSizes.getContentStyle()
+                                    .copyWith(fontWeight: FontWeight.w500),
+                              ),
+                              onPressed: phoneNumber.length == 13
+                                  ? () async {
+                                      if (isphoneAuthenticated == false) {
+                                        setState(() {
+                                          isphoneAuthenticated = true;
+                                        });
+                                        _startTimer(context, theme);
+                                        var result = await AuthSmsService()
+                                            .sendSms(phone: phoneNumber);
 
-                              if (result is! AuthSmsModel) return;
-                            } else {
-                              setState(() {
-                                isTimerStart = false;
-                              });
-                              _timer.cancel();
-                              _startTimer(context, theme);
-                            }
-                          },
-                          style: ElevatedButton.styleFrom(
-                            minimumSize: Size.zero,
-                            padding: EdgeInsets.zero,
-                            backgroundColor: lightTheme.primaryColor,
-                            elevation: 0,
-                            foregroundColor: theme.appColors.iconButton,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(13),
+                                        if (result is! AuthSmsModel) return;
+                                      } else {
+                                        setState(() {
+                                          isTimerStart = false;
+                                        });
+                                        _timer.cancel();
+                                        _startTimer(context, theme);
+                                      }
+                                    }
+                                  : () {},
+                              style: ElevatedButton.styleFrom(
+                                minimumSize: Size.zero,
+                                padding: EdgeInsets.zero,
+                                backgroundColor: phoneNumber.length == 13
+                                    ? lightTheme.primaryColor
+                                    : AppColors.gray2,
+                                elevation: 0,
+                                foregroundColor: theme.appColors.iconButton,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(13),
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      )
-                    : null,
-                onChanged: (String value) {
-                  setState(() {
-                    phoneNumber = value;
-                  });
-                },
+                          )
+                        : SizedBox(),
+                  ),
+                ],
               ),
               isphoneAuthenticated == false
                   ? const SizedBox(
@@ -230,113 +255,132 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                     )
                   : const SizedBox(height: 10),
               isphoneAuthenticated
-                  ? SizedBox(
-                      width: deviceWidth,
-                      child: isAuthenticComplete == false
-                          ? Stack(children: [
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: SeetingCustomTextFormField(
-                                      bgColor: theme.appColors.seedColor,
-                                      maxLength: 6,
-                                      onChanged: (String value) {
-                                        value.length == 6
-                                            ? setState(() {
-                                                isAuthCheck = true;
-                                              })
-                                            : setState(() {
-                                                isAuthCheck = false;
-                                              });
+                  ? Form(
+                      key: _formAuthKey,
+                      child: SizedBox(
+                          width: deviceWidth,
+                          child: isAuthenticComplete == false
+                              ? Stack(children: [
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: SeetingCustomTextFormField(
+                                          bgColor: theme.appColors.seedColor,
+                                          maxLength: 6,
+                                          onChanged: (String value) {
+                                            value.length == 6
+                                                ? setState(() {
+                                                    isAuthCheck = true;
+                                                  })
+                                                : setState(() {
+                                                    isAuthCheck = false;
+                                                  });
 
-                                        setState(() {
-                                          code = value;
-                                        });
-                                      },
-                                      validator: (value) {},
-                                      suffixWidget: Align(
-                                        widthFactor: 1.0,
-                                        heightFactor: 1.0,
-                                        child: CertifyTimer(
-                                          timerCount: timerCount,
+                                            setState(() {
+                                              code = value;
+                                            });
+                                          },
+                                          validator: (value) {
+                                            if (isAuthNumberState == false) {
+                                              return "인증번호를 확인해주세요";
+                                            }
+                                            return null;
+                                          },
+                                          suffixWidget: Align(
+                                            widthFactor: 1.0,
+                                            heightFactor: 1.0,
+                                            child: CertifyTimer(
+                                              timerCount: timerCount,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.21,
+                                      ),
+                                    ],
+                                  ),
+                                  Positioned(
+                                    top: 10,
+                                    right: 0,
+                                    child: Container(
+                                      width: 75,
+                                      height: 35,
+                                      child: ElevatedButton(
+                                        child: Text(
+                                          "확인",
+                                          style: FontSizes.getContentStyle()
+                                              .copyWith(
+                                                  fontWeight: FontWeight.w500),
+                                        ),
+                                        onPressed: () async {
+                                          var result = await AuthSmsService()
+                                              .sendVerify(
+                                                  phone: phoneNumber,
+                                                  code: code);
+
+                                          if (result is! AuthSmsVerifyModel ||
+                                              result.data.result.valid ==
+                                                  false) {
+                                            setState(() {
+                                              isAuthNumberState =
+                                                  result.data.result.valid;
+                                            });
+                                            _formAuthKey.currentState!
+                                                .validate();
+
+                                            return;
+                                          }
+
+                                          // print(result);
+
+                                          setState(() {
+                                            timerCount = 300;
+                                            isAuthenticComplete = true;
+                                          });
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          minimumSize: Size.zero,
+                                          padding: EdgeInsets.zero,
+                                          backgroundColor: isAuthCheck == false
+                                              ? theme.appColors
+                                                  .grayButtonBackground
+                                              : Color(0xFFA9D0FF),
+                                          elevation: 0,
+                                          foregroundColor:
+                                              theme.appColors.iconButton ??
+                                                  Colors.black,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(13),
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                  SizedBox(
-                                    width: MediaQuery.of(context).size.width *
-                                        0.21,
-                                  ),
-                                ],
-                              ),
-                              Positioned(
-                                top: 10,
-                                right: 0,
-                                child: Container(
-                                  width: 75,
-                                  height: 35,
-                                  child: ElevatedButton(
-                                    child: Text(
-                                      "확인",
-                                      style: FontSizes.getContentStyle()
-                                          .copyWith(
-                                              fontWeight: FontWeight.w500),
-                                    ),
-                                    onPressed: () async {
-                                      if (_formKey.currentState!.validate()) {
-                                        _formKey.currentState!.save();
-                                        _timer.cancel();
-                                      }
-                                      var result = await AuthSmsService()
-                                          .sendVerify(
-                                              phone: phoneNumber, code: code);
-
-                                      if (result is! AuthSmsVerifyModel) return;
-
-                                      print(result);
-
-                                      setState(() {
-                                        timerCount = 300;
-                                        isAuthenticComplete = true;
-                                      });
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      minimumSize: Size.zero,
-                                      padding: EdgeInsets.zero,
-                                      backgroundColor: isAuthCheck == false
-                                          ? theme.appColors.grayButtonBackground
-                                          : Color(0xFFA9D0FF),
-                                      elevation: 0,
-                                      foregroundColor:
-                                          theme.appColors.iconButton ??
-                                              Colors.black,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(13),
+                                ])
+                              : SizedBox(
+                                  width: deviceWidth,
+                                  child: SeetingCustomTextFormField(
+                                    bgColor: theme.appColors.seedColor,
+                                    maxLength: 4,
+                                    initialText: code,
+                                    onChanged: (String value) {},
+                                    suffixWidget: SizedBox(
+                                      child: SvgPicture.asset(
+                                        'assets/svg/icon/check_all.svg',
+                                        width: 25,
+                                        height: 25,
+                                        fit: BoxFit.scaleDown,
+                                        colorFilter: const ColorFilter.mode(
+                                            Colors.blue, BlendMode.srcIn),
                                       ),
                                     ),
                                   ),
-                                ),
-                              ),
-                            ])
-                          : SizedBox(
-                              width: deviceWidth,
-                              child: SeetingCustomTextFormField(
-                                bgColor: theme.appColors.seedColor,
-                                maxLength: 4,
-                                initialText: code,
-                                onChanged: (String value) {},
-                                suffixWidget: SizedBox(
-                                  child: SvgPicture.asset(
-                                    'assets/svg/icon/check_all.svg',
-                                    width: 25,
-                                    height: 25,
-                                    fit: BoxFit.scaleDown,
-                                    colorFilter: const ColorFilter.mode(
-                                        Colors.blue, BlendMode.srcIn),
-                                  ),
-                                ),
-                              ),
-                            ))
+                                )),
+                    )
                   : const SizedBox(),
               isphoneAuthenticated
                   ? const SizedBox(height: 20)
@@ -461,7 +505,7 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                       actions: [
                         AlertDialogButton(
                             theme: theme,
-                            bgColor: lightTheme.primaryColor,
+                            bgColor: AppColors.blueMain,
                             content: "취소하기",
                             onSubmit: () {
                               Navigator.pop(context);

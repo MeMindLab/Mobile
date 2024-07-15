@@ -27,11 +27,10 @@ class ChatNotification extends StatelessWidget {
       width: double.infinity,
       margin: const EdgeInsets.fromLTRB(20, 10, 15, 0),
       padding: isFolded == false
-          ? const EdgeInsets.fromLTRB(15, 20, 15, 0)
+          ? const EdgeInsets.fromLTRB(16.5, 20, 16.5, 0)
           : EdgeInsets.zero,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
-        border: Border.all(color: AppColors.blueMain, width: 1.5),
         color: isFolded == false
             ? bgColor == null
                 ? lightTheme.primaryColor

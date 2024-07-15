@@ -83,7 +83,9 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                           labelText: "이메일",
                           errorText: emailErrorText,
                           onChanged: (String value) {
-                            email = value;
+                            setState(() {
+                              email = value;
+                            });
                           },
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -102,7 +104,9 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                           isToggle: true,
                           onToggleObscureText: () {},
                           onChanged: (String value) {
-                            password = value;
+                            setState(() {
+                              password = value;
+                            });
                           },
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -116,44 +120,53 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                         ),
                         RoundedButton(
                           text: "로그인",
-                          onPressed: () async {
-                            if (_formKey.currentState!.validate()) {
-                              final response = await authService.loginService
-                                  .login(email, password);
+                          onPressed: email != "" && password != ""
+                              ? () async {
+                                  if (_formKey.currentState!.validate()) {
+                                    final response = await authService
+                                        .loginService
+                                        .login(email, password);
 
-                              if (response == null) {
-                                setState(() {
-                                  emailErrorText = "아이디 혹은 비밀번호가 다릅니다.";
-                                  passwordErrorText = "아이디 혹은 비밀번호가 다릅니다.";
-                                });
-                              } else {
-                                final refreshToken = response.refreshToken;
-                                final accessToken = response.accessToken;
+                                    if (response == null) {
+                                      setState(() {
+                                        emailErrorText = "아이디 혹은 비밀번호가 다릅니다.";
+                                        passwordErrorText =
+                                            "아이디 혹은 비밀번호가 다릅니다.";
+                                      });
+                                    } else {
+                                      final refreshToken =
+                                          response.refreshToken;
+                                      final accessToken = response.accessToken;
 
-                                await storage.write(
-                                    key: ACCESS_TOKEN, value: accessToken);
-                                await storage.write(
-                                    key: REFRESH_TOKEN, value: refreshToken);
+                                      await storage.write(
+                                          key: ACCESS_TOKEN,
+                                          value: accessToken);
+                                      await storage.write(
+                                          key: REFRESH_TOKEN,
+                                          value: refreshToken);
 
-                                final user = await UserInfoService().findUser();
-                                if (user is! UserInfoModel) return;
-                                ref.read(userProvider.notifier).state =
-                                    UserDetailModel().copyWith(
-                                        userId: user.id,
-                                        isVerified: user.isVerified);
+                                      final user =
+                                          await UserInfoService().findUser();
+                                      if (user is! UserInfoModel) return;
+                                      ref.read(userProvider.notifier).state =
+                                          UserDetailModel().copyWith(
+                                              userId: user.id,
+                                              isVerified: user.isVerified);
 
-                                ref
-                                    .read(lemonStateNotifierProvider.notifier)
-                                    .lemonInit(userId: user.id!);
+                                      ref
+                                          .read(lemonStateNotifierProvider
+                                              .notifier)
+                                          .lemonInit(userId: user.id!);
 
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (_) => const MainScreen(),
-                                  ),
-                                );
-                              }
-                            }
-                          },
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (_) => const MainScreen(),
+                                        ),
+                                      );
+                                    }
+                                  }
+                                }
+                              : null,
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 19),

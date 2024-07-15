@@ -39,7 +39,7 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
                     fontWeight: FontWeight.w500, color: foregroundColor),
               )
             : Image.asset(
-                'assets/image/logo/logo.png',
+                'assets/image/logo/symbol.png',
                 width: 35,
                 height: 35,
                 fit: BoxFit.cover,
