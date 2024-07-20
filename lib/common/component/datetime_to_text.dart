@@ -7,3 +7,7 @@ String datetimeType1() {
 String datetimeType2() {
   return DateFormat.jm().format(DateTime.now());
 }
+
+String datetimeType3() {
+  return DateFormat('yyyy-MM-dd').format(DateTime.now());
+}

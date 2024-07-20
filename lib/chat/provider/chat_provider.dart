@@ -4,7 +4,9 @@ import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:me_mind/chat/model/ai_answer_model.dart';
 import 'package:me_mind/chat/model/chat_message_model.dart';
+import 'package:me_mind/chat/model/chat_start_model.dart';
 import 'package:me_mind/chat/services/chat_send_service.dart';
+import 'package:me_mind/chat/services/chat_start_service.dart';
 
 final chatStateNotifierProvider =
     StateNotifierProvider<ChatStateNotifier, List>((ref) {
@@ -97,6 +99,11 @@ class ChatStateNotifier extends StateNotifier<List> {
             "is_image": false
           },
         ].reversed.map((e) => ChatMessageModel.fromJson(e)).toList();
+      }
+      var response = await ChatStartService().load("2024-07-20");
+      print(response);
+      if (response is ChatStartModel) {
+        print(response.chatHistory);
       }
     } catch (e) {
       throw Error();

@@ -18,6 +18,7 @@ import 'package:me_mind/common/layout/topbar/widget/back_arrow.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 import 'package:me_mind/screen/main/s_main.dart';
+import 'package:intl/intl.dart';
 
 class Chat extends ConsumerStatefulWidget {
   const Chat({super.key});
@@ -35,6 +36,7 @@ class _ChatState extends ConsumerState<Chat> {
   double prefixHeight = 40;
   String chatContent = "";
   TextEditingController controller = TextEditingController();
+  String dateFormatted = "";
 
   void chatContentChange(String msg) {
     setState(() {
@@ -45,6 +47,7 @@ class _ChatState extends ConsumerState<Chat> {
   @override
   void initState() {
     super.initState();
+    print(datetimeType3());
   }
 
   @override
