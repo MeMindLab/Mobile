@@ -115,7 +115,7 @@ class _ChatState extends ConsumerState<Chat> {
             Expanded(
               child: Stack(children: [
                 ListView.builder(
-                  reverse: true,
+                  reverse: false,
                   itemBuilder: (context, index) {
                     if (state[index] is ChatMessageLoading) {
                       return const ChatMessageTile(
