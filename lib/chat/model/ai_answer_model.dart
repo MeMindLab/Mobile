@@ -15,9 +15,12 @@ class AiAnswerModel {
 
 @JsonSerializable()
 class Result {
-  final String answer;
+  final String message;
+  @JsonKey(name: "is_enough")
+  final bool isEnough;
   Result({
-    required this.answer,
+    required this.message,
+    required this.isEnough,
   });
 
   factory Result.fromJson(Map<String, dynamic> json) => _$ResultFromJson(json);

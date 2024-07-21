@@ -12,6 +12,7 @@ ChatMessageModel _$ChatMessageModelFromJson(Map<String, dynamic> json) =>
       index: json['index'] as int,
       is_ai: json['is_ai'] as bool,
       is_image: json['is_image'] as bool,
+      createdAt: json['createdAt'] as String,
     );
 
 Map<String, dynamic> _$ChatMessageModelToJson(ChatMessageModel instance) =>
@@ -20,4 +21,5 @@ Map<String, dynamic> _$ChatMessageModelToJson(ChatMessageModel instance) =>
       'index': instance.index,
       'is_ai': instance.is_ai,
       'is_image': instance.is_image,
+      'createdAt': instance.createdAt,
     };

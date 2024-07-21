@@ -115,7 +115,7 @@ class _ChatState extends ConsumerState<Chat> {
             Expanded(
               child: Stack(children: [
                 ListView.builder(
-                  reverse: false,
+                  reverse: true,
                   itemBuilder: (context, index) {
                     if (state[index] is ChatMessageLoading) {
                       return const ChatMessageTile(
@@ -123,12 +123,14 @@ class _ChatState extends ConsumerState<Chat> {
                         isAi: true,
                         isImage: false,
                         isAirequest: true,
+                        createdAt: "",
                       );
                     } else if (state[index] is ChatMessageError) {
                       return const ChatMessageTile(
                         message: "다시 한번 입력해주세요",
                         isAi: true,
                         isImage: false,
+                        createdAt: "",
                       );
                     } else {
                       return Padding(

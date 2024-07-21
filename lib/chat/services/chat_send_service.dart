@@ -19,15 +19,11 @@ class ChatSendService {
     try {
       response = await dio.post(url, data: data);
 
-      if (response.statusCode == 200) {
-        var result = response.data;
+      var result = response.data;
 
-        AiAnswerModel answer = AiAnswerModel.fromJson(result);
+      AiAnswerModel answer = AiAnswerModel.fromJson(result);
 
-        return answer;
-      } else {
-        return null;
-      }
+      return answer;
     } on DioException catch (error) {
       return error;
     } catch (e) {

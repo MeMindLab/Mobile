@@ -17,9 +17,11 @@ Map<String, dynamic> _$AiAnswerModelToJson(AiAnswerModel instance) =>
     };
 
 Result _$ResultFromJson(Map<String, dynamic> json) => Result(
-      answer: json['answer'] as String,
+      message: json['message'] as String,
+      isEnough: json['is_enough'] as bool,
     );
 
 Map<String, dynamic> _$ResultToJson(Result instance) => <String, dynamic>{
-      'answer': instance.answer,
+      'message': instance.message,
+      'is_enough': instance.isEnough,
     };

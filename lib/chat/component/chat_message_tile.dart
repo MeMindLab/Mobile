@@ -10,6 +10,7 @@ class ChatMessageTile extends StatelessWidget {
   final bool isAi;
   final bool isImage;
   final bool isSecond;
+  final String createdAt;
   final bool? isAirequest;
 
   const ChatMessageTile(
@@ -18,6 +19,7 @@ class ChatMessageTile extends StatelessWidget {
       required this.isAi,
       required this.isImage,
       this.isSecond = false,
+      required this.createdAt,
       this.isAirequest = false});
 
   factory ChatMessageTile.fromModel(
@@ -27,6 +29,7 @@ class ChatMessageTile extends StatelessWidget {
       message: chatModel.message,
       isAi: chatModel.is_ai,
       isImage: chatModel.is_image,
+      createdAt: chatModel.createdAt,
     );
   }
   @override
@@ -75,7 +78,7 @@ class ChatMessageTile extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(top: 4, left: 16),
                     child: Text(
-                      "03 : 37 PM",
+                      createdAt,
                       style: FontSizes.getCapsuleStyle().copyWith(
                           color: theme.appColors.hintText,
                           fontSize: 13,
@@ -117,7 +120,7 @@ class ChatMessageTile extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(top: 4, right: 16.0),
                     child: Text(
-                      "03 : 37 PM",
+                      createdAt,
                       style: FontSizes.getCapsuleStyle().copyWith(
                           color: theme.appColors.hintText,
                           fontSize: 13,
