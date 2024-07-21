@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:me_mind/chat/model/chat_message_model.dart';
 import 'package:me_mind/common/component/dots_indicator.dart';
+import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
@@ -42,14 +43,14 @@ class ChatMessageTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Padding(
-                padding: const EdgeInsets.only(bottom: 20, left: 8, right: 12),
+                padding: const EdgeInsets.only(bottom: 23, left: 8, right: 12),
                 child: isSecond
                     ? const SizedBox(
                         width: 50,
                         height: 50,
                       )
                     : Image.asset(
-                        "assets/image/logo/logo.png",
+                        "assets/image/logo/chat_symbol.png",
                         width: 50,
                         height: 50,
                       ),
@@ -61,9 +62,9 @@ class ChatMessageTile extends StatelessWidget {
                     width: deviceWidth * 0.7,
                     padding: const EdgeInsets.symmetric(
                         horizontal: 24, vertical: 16),
-                    decoration: BoxDecoration(
-                        color: theme.appColors.userInputBackground,
-                        borderRadius: const BorderRadius.only(
+                    decoration: const BoxDecoration(
+                        color: AppColors.blue1,
+                        borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(32),
                             topRight: Radius.circular(32),
                             bottomRight: Radius.circular(32))),

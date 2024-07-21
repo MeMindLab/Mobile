@@ -12,13 +12,13 @@ import 'package:me_mind/chat/provider/chat_provider.dart';
 import 'package:me_mind/chat/services/image_picker_service.dart';
 import 'package:me_mind/chat/utils/show_snackbar.dart';
 import 'package:me_mind/common/component/datetime_to_text.dart';
+import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/layout/topbar/widget/back_arrow.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 import 'package:me_mind/screen/main/s_main.dart';
-import 'package:intl/intl.dart';
 
 class Chat extends ConsumerStatefulWidget {
   const Chat({super.key});
@@ -72,12 +72,17 @@ class _ChatState extends ConsumerState<Chat> {
           child: SizedBox(
             child: Row(
               children: [
-                SvgPicture.asset('assets/svg/icon/report.svg',
-                    width: 28,
-                    height: 28,
-                    colorFilter: ColorFilter.mode(
-                        isReportIssue == false ? Colors.grey : Colors.blue,
-                        BlendMode.srcIn)),
+                isReportIssue == false
+                    ? Image.asset(
+                        "assets/image/report/report_off.png",
+                        width: 28,
+                        height: 28,
+                      )
+                    : Image.asset(
+                        "assets/image/report/report_on.png",
+                        width: 28,
+                        height: 28,
+                      )
               ],
             ),
           ),
@@ -88,30 +93,6 @@ class _ChatState extends ConsumerState<Chat> {
       child: SafeArea(
         child: Column(
           children: [
-            isFolded == true
-                ? InkWell(
-                    onTap: () {
-                      setState(() {
-                        isFolded = false;
-                      });
-                    },
-                    child: SizedBox(
-                      height: 40,
-                      width: double.infinity,
-                      child: Center(
-                        child: SizedBox(
-                          height: 20,
-                          width: 20,
-                          child: SvgPicture.asset(
-                            "assets/svg/chat/arrow_down.svg",
-                            width: 20,
-                            height: 20,
-                          ),
-                        ),
-                      ),
-                    ),
-                  )
-                : const SizedBox(),
             Expanded(
               child: Stack(children: [
                 ListView.builder(
@@ -209,7 +190,7 @@ class _ChatState extends ConsumerState<Chat> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Container(
-                            margin: const EdgeInsets.fromLTRB(20, 0, 6, 10),
+                            margin: const EdgeInsets.fromLTRB(20, 0, 10, 10),
                             child: InkWell(
                               onTap: () async {
                                 var result = await ImagePickerService(
@@ -217,15 +198,13 @@ class _ChatState extends ConsumerState<Chat> {
                                     .getImage(ImageSource.gallery);
 
                                 if (result is! File) return;
-                                print(result.runtimeType);
                               },
                               child: SvgPicture.asset(
                                   'assets/svg/icon/imageUpload.svg',
                                   width: 30,
                                   height: 30,
-                                  colorFilter: ColorFilter.mode(
-                                      theme.appColors.activate,
-                                      BlendMode.srcIn)),
+                                  colorFilter: const ColorFilter.mode(
+                                      AppColors.blue7, BlendMode.srcIn)),
                             ),
                           ),
                         ],
@@ -294,21 +273,21 @@ class _ChatState extends ConsumerState<Chat> {
                                             0, 5, 10, 10),
                                         child: SvgPicture.asset(
                                             'assets/svg/icon/mic.svg',
-                                            colorFilter: ColorFilter.mode(
-                                                theme.appColors.activate,
+                                            colorFilter: const ColorFilter.mode(
+                                                AppColors.blue7,
                                                 BlendMode.srcIn)),
                                       ),
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(
-                                          right: 5, bottom: 10),
+                                          right: 8, bottom: 10),
                                       child: Container(
                                         width: 30,
                                         height: 30,
                                         decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(50),
-                                            color: theme.appColors.activate),
+                                            color: AppColors.blue7),
                                         child: InkWell(
                                           onTap: () async {
                                             if (chatContent != "") {
