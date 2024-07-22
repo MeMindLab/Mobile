@@ -108,11 +108,14 @@ class ChatMessageTile extends StatelessWidget {
                             topRight: Radius.circular(32),
                             bottomLeft: Radius.circular(32))),
                     child: isImage
-                        ? Image.network(
-                            message,
-                            width: 269,
-                            height: 269,
-                            fit: BoxFit.cover,
+                        ? ClipRRect(
+                            borderRadius: BorderRadius.circular(23),
+                            child: Image.network(
+                              message,
+                              width: 269,
+                              height: 269,
+                              fit: BoxFit.fill,
+                            ),
                           )
                         : Text(message,
                             style: FontSizes.getCapsuleStyle()

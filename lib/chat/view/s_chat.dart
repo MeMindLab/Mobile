@@ -8,8 +8,10 @@ import 'package:me_mind/chat/component/chat_message_tile.dart';
 import 'package:me_mind/chat/component/chat_mic.dart';
 import 'package:me_mind/chat/component/chat_notification.dart';
 import 'package:me_mind/chat/model/chat_message_model.dart';
+import 'package:me_mind/chat/model/image_upload_model.dart';
 import 'package:me_mind/chat/provider/chat_provider.dart';
 import 'package:me_mind/chat/services/image_picker_service.dart';
+import 'package:me_mind/chat/services/image_upload_service.dart';
 import 'package:me_mind/chat/utils/show_snackbar.dart';
 import 'package:me_mind/common/component/datetime_to_text.dart';
 import 'package:me_mind/common/constant/app_colors.dart';
@@ -198,6 +200,15 @@ class _ChatState extends ConsumerState<Chat> {
                                     .getImage(ImageSource.gallery);
 
                                 if (result is! File) return;
+
+                                var imageUpload =
+                                    await ImageUploadService().upload(result);
+                                if (imageUpload is! ImageUploadModel) return;
+                                ref
+                                    .read(chatStateNotifierProvider.notifier)
+                                    .addChating(
+                                        message: imageUpload.imageUrl,
+                                        isImage: true);
                               },
                               child: SvgPicture.asset(
                                   'assets/svg/icon/imageUpload.svg',

@@ -21,7 +21,8 @@ class ChatStateNotifier extends StateNotifier<List> {
 
   String idProvider;
 
-  Future<void> addChating({required String message}) async {
+  Future<void> addChating(
+      {required String message, bool isImage = false}) async {
     if (idProvider == "") return;
 
     final newState = [...state];
@@ -33,7 +34,7 @@ class ChatStateNotifier extends StateNotifier<List> {
             message: message,
             index: newState[0].index + 1,
             is_ai: false,
-            is_image: false,
+            is_image: isImage,
             createdAt: msgTime));
 
     state = [...newState];
@@ -79,12 +80,12 @@ class ChatStateNotifier extends StateNotifier<List> {
 
           state = response.chatHistory.reversed.map((e) {
             String msgTime = chatAddDateTimeType(e.messageTimestamp);
-
+            bool isImage = e.message.substring(0, 5) == "https" ? true : false;
             return ChatMessageModel.fromJson({
               "message": e.message,
               "index": e.index,
               "is_ai": !e.isFromUser,
-              "is_image": false,
+              "is_image": isImage,
               "createdAt": msgTime,
             });
           }).toList();
