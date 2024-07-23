@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:me_mind/chat/model/ai_answer_model.dart';
 

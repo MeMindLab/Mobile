@@ -6,6 +6,7 @@ import 'package:me_mind/chat/model/chat_start_model.dart';
 import 'package:me_mind/chat/provider/chat_id_provider.dart';
 import 'package:me_mind/chat/services/chat_send_service.dart';
 import 'package:me_mind/chat/services/chat_start_service.dart';
+import 'package:me_mind/chat/utils/string_check.dart';
 import 'package:me_mind/common/component/datetime_to_text.dart';
 
 final chatStateNotifierProvider =
@@ -47,12 +48,17 @@ class ChatStateNotifier extends StateNotifier<List> {
 
       int answerCnt = 0;
       String displayAnswer = "";
+      bool hasEmoji = containsEmojis(answer.result.message);
+      String newAnswer = "";
+      hasEmoji == true
+          ? newAnswer = removeEmojis(answer.result.message)
+          : newAnswer = answer.result.message;
 
       Timer.periodic(const Duration(milliseconds: 80), (timer) {
-        if (answerCnt >= answer.result.message.length - 1) {
+        if (answerCnt >= newAnswer.length - 1) {
           timer.cancel();
         } else {
-          displayAnswer += answer.result.message[answerCnt];
+          displayAnswer += newAnswer[answerCnt];
           newState[0] = ChatMessageModel(
               index: newState[1].index + 1,
               message: displayAnswer,
@@ -80,7 +86,11 @@ class ChatStateNotifier extends StateNotifier<List> {
 
           state = response.chatHistory.reversed.map((e) {
             String msgTime = chatAddDateTimeType(e.messageTimestamp);
-            bool isImage = e.message.substring(0, 5) == "https" ? true : false;
+            bool isImage = false;
+            if (e.message.length > 6) {
+              isImage = e.message.substring(0, 5) == "https" ? true : false;
+            }
+
             return ChatMessageModel.fromJson({
               "message": e.message,
               "index": e.index,
@@ -92,6 +102,7 @@ class ChatStateNotifier extends StateNotifier<List> {
         } else {}
       }
     } catch (e) {
+      print(e);
       throw Error();
     }
   }
