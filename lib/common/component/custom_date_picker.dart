@@ -31,7 +31,7 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
       width: 300,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(13),
-        color: const Color(0xFFBBD7FF).withOpacity(0.8),
+        color: const Color(0xFFBBD7FF),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

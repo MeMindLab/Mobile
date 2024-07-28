@@ -14,12 +14,15 @@ import 'package:me_mind/chat/services/image_picker_service.dart';
 import 'package:me_mind/chat/services/image_upload_service.dart';
 import 'package:me_mind/chat/utils/show_snackbar.dart';
 import 'package:me_mind/common/component/datetime_to_text.dart';
+import 'package:me_mind/common/component/dialog/custom_dialog.dart';
+import 'package:me_mind/common/component/dialog/w_dialog_button.dart';
 import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/layout/topbar/widget/back_arrow.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
+import 'package:me_mind/common/utils/dialog_manager.dart';
 import 'package:me_mind/screen/main/s_main.dart';
 
 class Chat extends ConsumerStatefulWidget {
@@ -49,7 +52,6 @@ class _ChatState extends ConsumerState<Chat> {
   @override
   void initState() {
     super.initState();
-    print(datetimeType3());
   }
 
   @override
@@ -61,6 +63,15 @@ class _ChatState extends ConsumerState<Chat> {
       appBarActions: [
         InkWell(
           onTap: () async {
+            DialogManager(context: context, type: DialogType.lemon).show(
+                titleText: "꿀팁을 드릴께요!",
+                contentText: "비타민이 있으면 리포트 발행이 가능해요.\n번호인증하고 비타민 5개를 받아볼까요?",
+                firstButtonText: "아니오",
+                firstSubmit: () {
+                  Navigator.pop(context);
+                },
+                secondButtonText: "네",
+                secondSubmit: () {});
             setState(() {
               isReportIssue = true;
             });

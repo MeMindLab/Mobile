@@ -2,15 +2,16 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:me_mind/common/component/dialog/d_alert_dialog.dart';
-import 'package:me_mind/common/component/dialog/d_multichoice_dialog.dart';
+import 'package:me_mind/common/component/dialog/custom_dialog.dart';
 import 'package:me_mind/common/component/dialog/w_dialog_button.dart';
 import 'package:me_mind/common/component/rounded_button.dart';
+import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/constant.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/store.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
+import 'package:me_mind/common/utils/dialog_manager.dart';
 import 'package:me_mind/common/view/splash_screen.dart';
 import 'package:me_mind/screen/main/s_main.dart';
 import 'package:me_mind/settings/component/settings_custom_text_form.dart';
@@ -67,19 +68,14 @@ class _UserInfoFormState extends State<UserInfoForm> {
       _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
         if (timerCount <= 0) {
           _timer.cancel();
-          AlertDialogs(
-              context: context,
-              title: "인증번호 입력시간이 초과되었습니다.",
-              actions: [
-                AlertDialogButton(
-                  theme: theme,
-                  bgColor: lightTheme.primaryColor,
-                  content: "확인",
-                  onSubmit: () {
-                    Navigator.pop(context);
-                  },
-                ),
-              ]).show();
+
+          DialogManager(context: context, type: DialogType.oneButton).show(
+            titleText: "인증번호 입력시간이 초과되었습니다.",
+            firstButtonText: "확인",
+            firstSubmit: () {
+              Navigator.pop(context);
+            },
+          );
           resetTimer();
         } else {
           if (isTimerStart == true) {
@@ -369,45 +365,17 @@ class _UserInfoFormState extends State<UserInfoForm> {
 
                             await prefs.setBool("is_auth", true);
                             widget.handlePhoneAuth();
-                            MultiChoiceDialog(
-                                context: context,
-                                imageAddr:
-                                    "assets/image/icon/shining_lemon.png",
-                                title: "번호인증을 완료했어요!",
-                                body: "비타민이 지급되었습니다.",
-                                isNarrow: true,
-                                isRow: true,
-                                actions: [
-                                  AlertDialogButton(
-                                      theme: theme,
-                                      bgColor:
-                                          theme.appColors.grayButtonBackground,
-                                      content: "닫기",
-                                      onSubmit: () {
-                                        Navigator.pop(context);
-                                      }),
-                                  AlertDialogButton(
-                                      theme: theme,
-                                      bgColor: lightTheme.primaryColor,
-                                      content: "리포트 발행하러 가기",
-                                      onSubmit: () async {
-                                        await setBottomIdx(2);
-                                        Navigator.push(
-                                            context,
-                                            PageRouteBuilder(
-                                              pageBuilder:
-                                                  ((BuildContext context,
-                                                          Animation<double>
-                                                              animation1,
-                                                          Animation<double>
-                                                              animation2) =>
-                                                      MainScreen()),
-                                              transitionDuration: Duration.zero,
-                                              reverseTransitionDuration:
-                                                  Duration.zero,
-                                            ));
-                                      }),
-                                ]).show();
+                            DialogManager(
+                                    context: context, type: DialogType.lemon)
+                                .show(
+                                    titleText: "번호인증을 완료했어요!",
+                                    contentText: "비타민이 지급되었습니다.",
+                                    firstButtonText: "닫기",
+                                    firstSubmit: () {
+                                      Navigator.pop(context);
+                                    },
+                                    secondButtonText: "리포트 발행하러 가기",
+                                    secondSubmit: () {});
                           }
                         }
                       },
@@ -419,33 +387,7 @@ class _UserInfoFormState extends State<UserInfoForm> {
         widget.isUpdate == false
             ? InkWell(
                 onTap: () {
-                  MultiChoiceDialog(
-                      imageAddr: "assets/image/logo/crying_logo.png",
-                      context: context,
-                      title: "떠나신다니요..",
-                      body: "미마인드에서 작성해온\n모든 대화내역들이 삭제돼요.\n그래도 정말 탈퇴하시겠어요?",
-                      isRow: false,
-                      actions: [
-                        AlertDialogButton(
-                            theme: theme,
-                            bgColor: lightTheme.primaryColor,
-                            content: "취소하기",
-                            onSubmit: () {
-                              Navigator.pop(context);
-                            }),
-                        AlertDialogButton(
-                            theme: theme,
-                            bgColor: theme.appColors.seedColor,
-                            content: "그래도 탈퇴할게요.",
-                            onSubmit: () async {
-                              final SharedPreferences prefs =
-                                  await SharedPreferences.getInstance();
-                              prefs.remove('isTutorial');
-                              await storage.deleteAll();
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (_) => const SplashScreen()));
-                            }),
-                      ]).show();
+                  // 회원탈퇴 페이지로 이동
                 },
                 child: Text(
                   "계정 탈퇴하기",

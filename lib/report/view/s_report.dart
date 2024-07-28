@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:me_mind/common/component/custom_date_picker.dart';
+import 'package:me_mind/common/component/dialog/custom_dialog.dart';
 import 'package:me_mind/common/constant/app_colors.dart';
+import 'package:me_mind/common/utils/dialog_manager.dart';
 import 'package:me_mind/report/view/f_date_picker_dialog.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
@@ -119,13 +121,13 @@ class _Report extends State<Report> {
                         highlightColor: Colors.transparent,
                         splashColor: Colors.transparent,
                         onTap: () {
-                          Dialogs(
-                                  context: context,
-                                  content: CustomDatePicker(
-                                    selectedDate: DateTime.now(),
-                                  ),
-                                  contentPadding: EdgeInsets.zero)
-                              .callDateDialog();
+                          DialogManager(
+                                  context: context, type: DialogType.custom)
+                              .show(
+                            customWidget: CustomDatePicker(
+                              selectedDate: DateTime.now(),
+                            ),
+                          );
                         },
                         child: Row(
                           children: [
