@@ -4,6 +4,7 @@ import 'package:me_mind/chat/model/ai_answer_model.dart';
 import 'package:me_mind/chat/model/chat_message_model.dart';
 import 'package:me_mind/chat/model/chat_start_model.dart';
 import 'package:me_mind/chat/provider/chat_id_provider.dart';
+import 'package:me_mind/chat/provider/report_issue_provider.dart';
 import 'package:me_mind/chat/services/chat_send_service.dart';
 import 'package:me_mind/chat/services/chat_start_service.dart';
 import 'package:me_mind/chat/utils/string_check.dart';
@@ -12,15 +13,22 @@ import 'package:me_mind/common/component/datetime_to_text.dart';
 final chatStateNotifierProvider =
     StateNotifierProvider<ChatStateNotifier, List>((ref) {
   final idProvider = ref.watch(chatIdProvider);
-  return ChatStateNotifier(idProvider);
+  final reportIssue = ref.watch(reportIssueProvider.notifier);
+  final chatStart = ref.watch(chatStartServiceProvider);
+  return ChatStateNotifier(idProvider, reportIssue,
+      chatStartService: chatStart);
 });
 
 class ChatStateNotifier extends StateNotifier<List> {
-  ChatStateNotifier(this.idProvider) : super([]) {
+  ChatStateNotifier(this.idProvider, this.reportIssue,
+      {required this.chatStartService})
+      : super([]) {
     loading();
   }
 
+  final ChatStartService chatStartService;
   String idProvider;
+  StateController<bool> reportIssue;
 
   Future<void> addChating(
       {required String message, bool isImage = false}) async {
@@ -45,11 +53,15 @@ class ChatStateNotifier extends StateNotifier<List> {
 
     try {
       AiAnswerModel answer = await ChatSendService().send(message, idProvider);
+      reportIssue.state = answer.result.isEnough;
+      print("report isEnough = ${reportIssue.state}");
+      print("answer isEnough = ${answer.result.isEnough}");
 
       int answerCnt = 0;
       String displayAnswer = "";
       bool hasEmoji = containsEmojis(answer.result.message);
       String newAnswer = "";
+
       hasEmoji == true
           ? newAnswer = removeEmojis(answer.result.message)
           : newAnswer = answer.result.message;
@@ -79,10 +91,12 @@ class ChatStateNotifier extends StateNotifier<List> {
   Future<void> loading() async {
     try {
       if (state.isEmpty) {
-        var response = await ChatStartService().load(datetimeType3());
+        var response = await chatStartService.load(datetimeType3());
 
         if (response is ChatStartModel) {
           idProvider = response.conversationId;
+          reportIssue.state = response.isEnough;
+          print("${reportIssue.state} ${response.isEnough}");
 
           state = response.chatHistory.reversed.map((e) {
             String msgTime = chatAddDateTimeType(e.messageTimestamp);

@@ -10,12 +10,11 @@ import 'package:me_mind/chat/component/chat_notification.dart';
 import 'package:me_mind/chat/model/chat_message_model.dart';
 import 'package:me_mind/chat/model/image_upload_model.dart';
 import 'package:me_mind/chat/provider/chat_provider.dart';
+import 'package:me_mind/chat/provider/report_issue_provider.dart';
 import 'package:me_mind/chat/services/image_picker_service.dart';
 import 'package:me_mind/chat/services/image_upload_service.dart';
 import 'package:me_mind/chat/utils/show_snackbar.dart';
 import 'package:me_mind/common/component/datetime_to_text.dart';
-import 'package:me_mind/common/component/dialog/custom_dialog.dart';
-import 'package:me_mind/common/component/dialog/w_dialog_button.dart';
 import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
@@ -37,7 +36,6 @@ class _ChatState extends ConsumerState<Chat> {
   bool isMicOpen = false;
   double micWidth = 61.63;
   bool isFolded = false;
-  bool isReportIssue = false;
   double prefixHeight = 40;
   String chatContent = "";
   TextEditingController controller = TextEditingController();
@@ -63,41 +61,31 @@ class _ChatState extends ConsumerState<Chat> {
       appBarActions: [
         InkWell(
           onTap: () async {
-            DialogManager(context: context, type: DialogType.lemon).show(
-                titleText: "꿀팁을 드릴께요!",
-                contentText: "비타민이 있으면 리포트 발행이 가능해요.\n번호인증하고 비타민 5개를 받아볼까요?",
-                firstButtonText: "아니오",
-                firstSubmit: () {
-                  Navigator.pop(context);
-                },
-                secondButtonText: "네",
-                secondSubmit: () {});
-            setState(() {
-              isReportIssue = true;
-            });
-            ShowSnackBar().showSnackBarFunction(context);
-            Future.delayed(const Duration(seconds: 5), () {
-              setState(() {
-                isReportIssue = false;
-              });
-            });
+            print(state);
+            // DialogManager(context: context, type: DialogType.lemon).show(
+            //     titleText: "꿀팁을 드릴께요!",
+            //     contentText: "비타민이 있으면 리포트 발행이 가능해요.\n번호인증하고 비타민 5개를 받아볼까요?",
+            //     firstButtonText: "아니오",
+            //     firstSubmit: () {
+            //       Navigator.pop(context);
+            //     },
+            //     secondButtonText: "네",
+            //     secondSubmit: () {});
+
+            // ShowSnackBar().showSnackBarFunction(context);
           },
           child: SizedBox(
-            child: Row(
-              children: [
-                isReportIssue == false
-                    ? Image.asset(
-                        "assets/image/report/report_off.png",
-                        width: 28,
-                        height: 28,
-                      )
-                    : Image.asset(
-                        "assets/image/report/report_on.png",
-                        width: 28,
-                        height: 28,
-                      )
-              ],
-            ),
+            child: ref.watch(reportIssueProvider) == false
+                ? Image.asset(
+                    "assets/image/report/report_off.png",
+                    width: 28,
+                    height: 28,
+                  )
+                : Image.asset(
+                    "assets/image/report/report_on.png",
+                    width: 28,
+                    height: 28,
+                  ),
           ),
         ),
       ],
