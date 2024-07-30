@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:me_mind/chat/model/chat_start_model.dart';
-import 'package:me_mind/common/constant/constant.dart';
 import 'package:me_mind/common/dio/dio.dart';
 
 final chatStartServiceProvider = Provider<ChatStartService>((ref) {
@@ -32,6 +31,7 @@ class ChatStartService {
 
     try {
       response = await dio.post(url, data: data);
+      print(dio.options.headers);
 
       if (response.statusCode == 200) {
         var result = response.data;
