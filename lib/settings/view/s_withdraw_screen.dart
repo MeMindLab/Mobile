@@ -13,6 +13,21 @@ class WithDrawScreen extends StatefulWidget {
 }
 
 class _WithDrawScreenState extends State<WithDrawScreen> {
+  ScreenState screen = ScreenState.check;
+  String reason = "";
+
+  void updateReason(String? text) {
+    setState(() {
+      reason = text!;
+    });
+  }
+
+  void changeScreen(ScreenState? state) {
+    setState(() {
+      screen = state!;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(
@@ -21,8 +36,21 @@ class _WithDrawScreenState extends State<WithDrawScreen> {
         child: SafeArea(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.0),
-            child: WithdrawPasswordFragment(),
+            child: screen == ScreenState.check
+                ? WidthdrawCheckFragment(
+                    reasonUpdate: updateReason,
+                    screenUpdate: changeScreen,
+                  )
+                : screen == ScreenState.notice
+                    ? WithdrawNoticeFragment()
+                    : WithdrawPasswordFragment(),
           ),
         ));
   }
+}
+
+enum ScreenState {
+  check,
+  notice,
+  password,
 }

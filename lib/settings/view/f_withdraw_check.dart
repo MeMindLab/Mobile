@@ -4,15 +4,29 @@ import 'package:me_mind/common/component/rounded_button.dart';
 import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/settings/component/settings_custom_text_form.dart';
+import 'package:me_mind/settings/model/withdraw_reason.dart';
+import 'package:me_mind/settings/view/f_withdraw_notice.dart';
+import 'package:me_mind/settings/view/s_withdraw_screen.dart';
 
 class WidthdrawCheckFragment extends StatefulWidget {
-  const WidthdrawCheckFragment({super.key});
+  final Function(String) reasonUpdate;
+  final Function(ScreenState) screenUpdate;
+
+  const WidthdrawCheckFragment(
+      {super.key, required this.reasonUpdate, required this.screenUpdate});
 
   @override
   State<WidthdrawCheckFragment> createState() => _WidthdrawCheckFragmentState();
 }
 
 class _WidthdrawCheckFragmentState extends State<WidthdrawCheckFragment> {
+  WithdrawReason withdrawReason = WithdrawReason(
+      inconveninece: false,
+      point: false,
+      disabled: false,
+      userInfo: false,
+      custom: false);
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -48,27 +62,73 @@ class _WidthdrawCheckFragmentState extends State<WidthdrawCheckFragment> {
         const SizedBox(
           height: 40,
         ),
-        checkTile(content: "이용이 불편하고 장애가 많아요"),
+        InkWell(
+          onTap: () {
+            setState(() {
+              withdrawReason = withdrawReason.update(inconveninece: true);
+            });
+          },
+          child: checkTile(
+              isSelected: withdrawReason.inconveninece,
+              content: "이용이 불편하고 장애가 많아요"),
+        ),
         const SizedBox(
           height: 30,
         ),
-        checkTile(content: "포인트를 다 써버렸어요"),
+        InkWell(
+            onTap: () {
+              setState(() {
+                withdrawReason = withdrawReason.update(point: true);
+              });
+            },
+            child: checkTile(
+                isSelected: withdrawReason.point, content: "포인트를 다 써버렸어요")),
         const SizedBox(
           height: 30,
         ),
-        checkTile(content: "자주 사용하지 않을 것 같아요"),
+        InkWell(
+          onTap: () {
+            setState(() {
+              withdrawReason = withdrawReason.update(disabled: true);
+            });
+          },
+          child: checkTile(
+              isSelected: withdrawReason.disabled, content: "자주 사용하지 않을 것 같아요"),
+        ),
         const SizedBox(
           height: 30,
         ),
-        checkTile(content: "개인 정보가 걱정돼요"),
+        InkWell(
+            onTap: () {
+              setState(() {
+                withdrawReason = withdrawReason.update(userInfo: true);
+              });
+            },
+            child: checkTile(
+                isSelected: withdrawReason.userInfo, content: "개인 정보가 걱정돼요")),
         const SizedBox(
           height: 25,
         ),
-        checkTile(content: ""),
+        InkWell(
+            onTap: () {
+              setState(() {
+                withdrawReason = withdrawReason.update(custom: true);
+              });
+            },
+            child: checkTile(isSelected: withdrawReason.custom, content: "")),
         const Spacer(),
         RoundedButton(
           text: "다음",
-          onPressed: () {},
+          onPressed: () {
+            String text = "";
+            if (withdrawReason.custom != true) {
+              text = withdrawReason.getReason();
+            } else {
+              text = withdrawReason.getReason(text: "");
+            }
+            widget.reasonUpdate(text);
+            widget.screenUpdate(ScreenState.notice);
+          },
         ),
         const SizedBox(
           height: 30,
@@ -78,7 +138,7 @@ class _WidthdrawCheckFragmentState extends State<WidthdrawCheckFragment> {
   }
 }
 
-Widget checkTile({required String? content}) {
+Widget checkTile({required bool isSelected, required String? content}) {
   return Row(
     children: [
       Padding(
@@ -87,6 +147,9 @@ Widget checkTile({required String? content}) {
           'assets/svg/icon/check.svg',
           width: 24,
           height: 24,
+          colorFilter: isSelected == true
+              ? const ColorFilter.mode(AppColors.blue9, BlendMode.srcIn)
+              : null,
         ),
       ),
       SizedBox(
@@ -96,8 +159,9 @@ Widget checkTile({required String? content}) {
         child: content != ""
             ? Text(
                 content!,
-                style: FontSizes.getContentStyle()
-                    .copyWith(fontWeight: FontWeight.w500),
+                style: FontSizes.getContentStyle().copyWith(
+                    fontWeight: FontWeight.w500,
+                    color: isSelected ? AppColors.blue9 : null),
               )
             : SeetingCustomTextFormField(
                 onChanged: (value) {},
