@@ -35,15 +35,19 @@ class _WithDrawScreenState extends State<WithDrawScreen> {
         appBarLeading: const BackArrowLeading(),
         child: SafeArea(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.0),
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: screen == ScreenState.check
                 ? WidthdrawCheckFragment(
                     reasonUpdate: updateReason,
                     screenUpdate: changeScreen,
                   )
                 : screen == ScreenState.notice
-                    ? WithdrawNoticeFragment()
-                    : WithdrawPasswordFragment(),
+                    ? WithdrawNoticeFragment(
+                        screenUpdate: changeScreen,
+                      )
+                    : WithdrawPasswordFragment(
+                        reason: reason,
+                      ),
           ),
         ));
   }

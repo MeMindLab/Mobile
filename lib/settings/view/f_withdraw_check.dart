@@ -5,7 +5,6 @@ import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/settings/component/settings_custom_text_form.dart';
 import 'package:me_mind/settings/model/withdraw_reason.dart';
-import 'package:me_mind/settings/view/f_withdraw_notice.dart';
 import 'package:me_mind/settings/view/s_withdraw_screen.dart';
 
 class WidthdrawCheckFragment extends StatefulWidget {

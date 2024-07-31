@@ -5,15 +5,19 @@ import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
+import 'package:me_mind/settings/view/s_withdraw_screen.dart';
 
 class WithdrawNoticeFragment extends StatefulWidget {
-  const WithdrawNoticeFragment({super.key});
+  final Function(ScreenState) screenUpdate;
+  const WithdrawNoticeFragment({super.key, required this.screenUpdate});
 
   @override
   State<WithdrawNoticeFragment> createState() => _WithdrawNoticeFragmentState();
 }
 
 class _WithdrawNoticeFragmentState extends State<WithdrawNoticeFragment> {
+  bool isCheck = false;
+
   @override
   Widget build(BuildContext context) {
     CustomTheme theme = CustomThemeHolder.of(context).theme;
@@ -28,14 +32,25 @@ class _WithdrawNoticeFragmentState extends State<WithdrawNoticeFragment> {
         ),
         noticeContent(),
         const Spacer(),
-        checkTile(content: "위 사항을 확인했으며, 이에 동의합니다."),
+        InkWell(
+            onTap: () {
+              setState(() {
+                isCheck = !isCheck;
+              });
+            },
+            child: checkTile(
+                isSelect: isCheck, content: "위 사항을 확인했으며, 이에 동의합니다.")),
         const SizedBox(
           height: 25,
         ),
-        RoundedButton(
-          text: "다음",
-          onPressed: () {},
-        ),
+        isCheck == true
+            ? RoundedButton(
+                text: "다음",
+                onPressed: () {
+                  widget.screenUpdate(ScreenState.password);
+                },
+              )
+            : const RoundedButton(text: "다음"),
         const SizedBox(
           height: 30,
         )
@@ -44,7 +59,7 @@ class _WithdrawNoticeFragmentState extends State<WithdrawNoticeFragment> {
   }
 }
 
-Widget checkTile({required String content}) {
+Widget checkTile({required bool isSelect, required String content}) {
   return Row(
     children: [
       Padding(
@@ -54,6 +69,9 @@ Widget checkTile({required String content}) {
           width: 13,
           height: 13,
           fit: BoxFit.fitWidth,
+          colorFilter: isSelect == true
+              ? const ColorFilter.mode(AppColors.blue9, BlendMode.srcIn)
+              : null,
         ),
       ),
       const SizedBox(
@@ -62,8 +80,9 @@ Widget checkTile({required String content}) {
       Expanded(
           child: Text(
         content,
-        style: FontSizes.getContentStyle()
-            .copyWith(fontWeight: FontWeight.w500, color: AppColors.gray7),
+        style: FontSizes.getContentStyle().copyWith(
+            fontWeight: FontWeight.w500,
+            color: isSelect ? AppColors.blue9 : AppColors.gray7),
       )),
       const SizedBox(
         width: 5,
