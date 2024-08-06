@@ -93,7 +93,7 @@ class _CustomTextFormFieldState extends State<SeetingCustomTextFormField> {
           textInputAction: TextInputAction.next,
           maxLength: widget.maxLength,
           maxLines: widget.maxLines,
-          obscureText: _obscureText,
+          obscureText: widget.obscureText,
           autofocus: widget.autoFocus,
           enabled: widget.enabled,
           cursorColor: theme.focusColor,

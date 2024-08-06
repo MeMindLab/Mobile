@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:me_mind/common/component/custom_text_form.dart';
 import 'package:me_mind/common/component/rounded_button.dart';
 import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/constant.dart';
 import 'package:me_mind/common/view/splash_screen.dart';
-import 'package:me_mind/settings/component/settings_custom_text_form.dart';
 import 'package:me_mind/settings/services/withdraw_service.dart';
 
 class WithdrawPasswordFragment extends StatefulWidget {
@@ -16,7 +16,10 @@ class WithdrawPasswordFragment extends StatefulWidget {
 }
 
 class _WithdrawPasswordFragmentState extends State<WithdrawPasswordFragment> {
+  bool isShow = true;
   String password = "";
+  String errorMsg = "";
+  bool isError = false;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -24,17 +27,38 @@ class _WithdrawPasswordFragmentState extends State<WithdrawPasswordFragment> {
         const SizedBox(
           height: 20,
         ),
-        SeetingCustomTextFormField(
-          onChanged: (value) {
+        CustomTextFormField(
+          isLogin: true,
+          hintText: "비밀번호를 입력해주세요",
+          maxLength: 15,
+          errorText: isError == true ? errorMsg : null,
+          obscureText: isShow,
+          onChanged: (String value) {
             setState(() {
               password = value;
             });
           },
-          hintText: "비밀번호를 입력해주세요",
-          bgColor: AppColors.blue1,
-          suffixWidget: const Icon(
-            Icons.visibility_off,
-            color: AppColors.gray6,
+          suffixIcon: Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: SizedBox(
+              width: 24,
+              height: 24,
+              child: IconButton(
+                  onPressed: () {
+                    setState(() {
+                      isShow = !isShow;
+                    });
+                  },
+                  icon: isShow == true
+                      ? const Icon(
+                          Icons.visibility_off,
+                          color: AppColors.gray6,
+                        )
+                      : const Icon(
+                          Icons.visibility,
+                          color: AppColors.gray6,
+                        )),
+            ),
           ),
         ),
         const Spacer(),
@@ -44,7 +68,14 @@ class _WithdrawPasswordFragmentState extends State<WithdrawPasswordFragment> {
                 onPressed: () async {
                   var result = await WithDrawService()
                       .withDraw(password: password, reason: widget.reason);
-                  if (result is! bool) return;
+                  if (result is! bool) {
+                    setState(() {
+                      isError = true;
+                      errorMsg = "비밀번호가 틀렸습니다.";
+                    });
+                    return;
+                  }
+
                   await storage.deleteAll();
                   Navigator.of(context).push(
                       MaterialPageRoute(builder: (_) => const SplashScreen()));

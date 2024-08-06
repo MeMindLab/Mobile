@@ -13,6 +13,18 @@ class WithdrawReason {
     required this.custom,
   });
 
+  bool isNotCheck() {
+    if (inconveninece == false &&
+        point == false &&
+        disabled == false &&
+        userInfo == false &&
+        custom == false) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   WithdrawReason update({
     bool? inconveninece,
     bool? point,

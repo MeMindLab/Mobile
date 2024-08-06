@@ -19,12 +19,19 @@ class WidthdrawCheckFragment extends StatefulWidget {
 }
 
 class _WidthdrawCheckFragmentState extends State<WidthdrawCheckFragment> {
+  String customReason = "";
   WithdrawReason withdrawReason = WithdrawReason(
       inconveninece: false,
       point: false,
       disabled: false,
       userInfo: false,
       custom: false);
+
+  void writeReason(String value) {
+    setState(() {
+      customReason = value;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -109,26 +116,32 @@ class _WidthdrawCheckFragmentState extends State<WidthdrawCheckFragment> {
           height: 25,
         ),
         InkWell(
+            focusColor: Colors.white,
             onTap: () {
               setState(() {
                 withdrawReason = withdrawReason.update(custom: true);
               });
             },
-            child: checkTile(isSelected: withdrawReason.custom, content: "")),
+            child: checkTile(
+                isSelected: withdrawReason.custom,
+                content: "",
+                onChanged: writeReason)),
         const Spacer(),
-        RoundedButton(
-          text: "다음",
-          onPressed: () {
-            String text = "";
-            if (withdrawReason.custom != true) {
-              text = withdrawReason.getReason();
-            } else {
-              text = withdrawReason.getReason(text: "");
-            }
-            widget.reasonUpdate(text);
-            widget.screenUpdate(ScreenState.notice);
-          },
-        ),
+        withdrawReason.isNotCheck()
+            ? const RoundedButton(text: "다음")
+            : RoundedButton(
+                text: "다음",
+                onPressed: () {
+                  String text = "";
+                  if (withdrawReason.custom != true) {
+                    text = withdrawReason.getReason();
+                  } else {
+                    text = withdrawReason.getReason(text: customReason);
+                  }
+                  widget.reasonUpdate(text);
+                  widget.screenUpdate(ScreenState.notice);
+                },
+              ),
         const SizedBox(
           height: 30,
         )
@@ -137,7 +150,8 @@ class _WidthdrawCheckFragmentState extends State<WidthdrawCheckFragment> {
   }
 }
 
-Widget checkTile({required bool isSelected, required String? content}) {
+Widget checkTile(
+    {required bool isSelected, required String? content, Function? onChanged}) {
   return Row(
     children: [
       Padding(
@@ -163,7 +177,9 @@ Widget checkTile({required bool isSelected, required String? content}) {
                     color: isSelected ? AppColors.blue9 : null),
               )
             : SeetingCustomTextFormField(
-                onChanged: (value) {},
+                onChanged: (value) {
+                  onChanged!(value);
+                },
                 bgColor: AppColors.gray1,
                 hintText: "탈퇴 사유를 직접 입력해주세요",
               ),
