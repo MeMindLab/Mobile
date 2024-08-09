@@ -16,29 +16,29 @@ class LemonStateNotifier extends StateNotifier<int> {
 
   LemonStateNotifier(this.ref) : super(0) {}
 
-  Future<void> lemonInit({required int userId}) async {
-    try {
-      final user = ref.watch(userProvider);
-      final response = await LemonService().getLemon(userId: user.userId!);
-      if (response is! UserLemonModel) return;
+  // Future<void> lemonInit({required int userId}) async {
+  //   try {
+  //     final user = ref.watch(userProvider);
+  //     final response = await LemonService().getLemon(userId: user.userId!);
+  //     if (response is! UserLemonModel) return;
 
-      state = response.lemonCount;
-    } catch (e) {
-      state = 0;
-    }
-  }
+  //     state = response.lemonCount;
+  //   } catch (e) {
+  //     state = 0;
+  //   }
+  // }
 
-  Future<void> lemonIncrease() async {
-    try {
-      final user = ref.watch(userProvider);
-      final response = await LemonService()
-          .patchLemon(userId: user.userId!, count: state + 5);
+  // Future<void> lemonIncrease() async {
+  //   try {
+  //     final user = ref.watch(userProvider);
+  //     final response = await LemonService()
+  //         .patchLemon(userId: user.userId!, count: state + 5);
 
-      if (response is UserLemonPatchModel) {
-        state = response.lemonCount;
-      }
-    } catch (e) {
-      state = 0;
-    }
-  }
+  //     if (response is UserLemonPatchModel) {
+  //       state = response.lemonCount;
+  //     }
+  //   } catch (e) {
+  //     state = 0;
+  //   }
+  // }
 }

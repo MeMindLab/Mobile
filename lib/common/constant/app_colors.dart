@@ -24,4 +24,5 @@ class AppColors {
   static const Color lemonYellow = Color(0xFFFFC700);
   static const Color yellow3 = Color(0xFFFFF8BE);
   static const Color midnightBlue = Color(0xFF0064DA);
+  static const Color trashColor = Color(0xFF596271);
 }

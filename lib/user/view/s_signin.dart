@@ -147,16 +147,17 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
 
                                       final user =
                                           await UserInfoService().findUser();
+                                      print(user);
                                       if (user is! UserInfoModel) return;
                                       ref.read(userProvider.notifier).state =
                                           UserDetailModel().copyWith(
                                               userId: user.id,
                                               isVerified: user.isVerified);
 
-                                      ref
-                                          .read(lemonStateNotifierProvider
-                                              .notifier)
-                                          .lemonInit(userId: user.id!);
+                                      // ref
+                                      //     .read(lemonStateNotifierProvider
+                                      //         .notifier)
+                                      //     .lemonInit(userId: user.id!);
 
                                       Navigator.of(context).push(
                                         MaterialPageRoute(

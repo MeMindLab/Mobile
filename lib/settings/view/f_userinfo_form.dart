@@ -442,9 +442,9 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                           widget.onUpdate(false);
 
                           if (isAuthenticComplete == true) {
-                            ref
-                                .read(lemonStateNotifierProvider.notifier)
-                                .lemonIncrease();
+                            // ref
+                            //     .read(lemonStateNotifierProvider.notifier)
+                            //     .lemonIncrease();
 
                             MultiChoiceDialog(
                                 context: context,

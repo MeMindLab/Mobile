@@ -29,7 +29,7 @@ class _MyWidgetState extends State<CollectUseScreen> {
       body: SafeArea(
           child: PopScope(
         canPop: true,
-        onPopInvoked: (didPop) => _goBack(context),
+        onPopInvoked: (isPop) => _goBack(context),
         child: Column(
           children: [
             Expanded(

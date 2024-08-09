@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 final userProvider = StateProvider<UserDetailModel>((ref) => UserDetailModel());
 
 class UserDetailModel {
-  final int? userId;
+  final String? userId;
   final bool? isVerified;
 
   UserDetailModel({
@@ -12,7 +12,7 @@ class UserDetailModel {
   });
 
   UserDetailModel copyWith({
-    int? userId,
+    String? userId,
     bool? isVerified,
   }) {
     return UserDetailModel(

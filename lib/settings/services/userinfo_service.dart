@@ -34,7 +34,7 @@ class UserInfoService {
     dio.interceptors.add(CustomInterceptor(storage: storage));
     dio.options.headers.clear();
     dio.options.headers.addAll({'accessToken': true});
-    String url = "http://$ip/users/me/";
+    String url = "http://$ip/users/me";
 
     try {
       final response = await dio.get(url);
@@ -42,6 +42,7 @@ class UserInfoService {
       var result = response.data;
 
       UserInfoModel userInfo = UserInfoModel.fromJson(result);
+      print(userInfo);
 
       return userInfo;
     } on DioException catch (error) {
