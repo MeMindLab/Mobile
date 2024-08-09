@@ -24,8 +24,6 @@ class ChatHistory {
   final int index;
   @JsonKey(name: "is_from_user")
   final bool isFromUser;
-  @JsonKey(name: "message_timestamp")
-  final String messageTimestamp;
   final String id;
   final String message;
   @JsonKey(name: "conversation_id")
@@ -33,7 +31,6 @@ class ChatHistory {
   ChatHistory({
     required this.index,
     required this.isFromUser,
-    required this.messageTimestamp,
     required this.id,
     required this.message,
     required this.conversationId,

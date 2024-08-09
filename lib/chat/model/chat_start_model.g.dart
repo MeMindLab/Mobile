@@ -25,7 +25,6 @@ Map<String, dynamic> _$ChatStartModelToJson(ChatStartModel instance) =>
 ChatHistory _$ChatHistoryFromJson(Map<String, dynamic> json) => ChatHistory(
       index: json['index'] as int,
       isFromUser: json['is_from_user'] as bool,
-      messageTimestamp: json['message_timestamp'] as String,
       id: json['id'] as String,
       message: json['message'] as String,
       conversationId: json['conversation_id'] as String,
@@ -35,7 +34,6 @@ Map<String, dynamic> _$ChatHistoryToJson(ChatHistory instance) =>
     <String, dynamic>{
       'index': instance.index,
       'is_from_user': instance.isFromUser,
-      'message_timestamp': instance.messageTimestamp,
       'id': instance.id,
       'message': instance.message,
       'conversation_id': instance.conversationId,

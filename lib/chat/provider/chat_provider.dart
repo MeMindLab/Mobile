@@ -7,8 +7,8 @@ import 'package:me_mind/chat/provider/chat_id_provider.dart';
 import 'package:me_mind/chat/provider/report_issue_provider.dart';
 import 'package:me_mind/chat/services/chat_send_service.dart';
 import 'package:me_mind/chat/services/chat_start_service.dart';
-import 'package:me_mind/chat/utils/string_check.dart';
 import 'package:me_mind/common/component/datetime_to_text.dart';
+import 'package:intl/intl.dart';
 
 final chatStateNotifierProvider =
     StateNotifierProvider<ChatStateNotifier, List>((ref) {
@@ -54,23 +54,19 @@ class ChatStateNotifier extends StateNotifier<List> {
     try {
       AiAnswerModel answer = await ChatSendService().send(message, idProvider);
       reportIssue.state = answer.result.isEnough;
-      print("report isEnough = ${reportIssue.state}");
-      print("answer isEnough = ${answer.result.isEnough}");
 
       int answerCnt = 0;
-      String displayAnswer = "";
-      bool hasEmoji = containsEmojis(answer.result.message);
-      String newAnswer = "";
 
-      hasEmoji == true
-          ? newAnswer = removeEmojis(answer.result.message)
-          : newAnswer = answer.result.message;
+      List answerBox = answer.result.message.runes.toList();
+
+      answer.result.message.runes;
+      String displayAnswer = "";
 
       Timer.periodic(const Duration(milliseconds: 80), (timer) {
-        if (answerCnt >= newAnswer.length - 1) {
+        if (answerCnt >= answerBox.length - 1) {
           timer.cancel();
         } else {
-          displayAnswer += newAnswer[answerCnt];
+          displayAnswer += String.fromCharCode(answerBox[answerCnt]);
           newState[0] = ChatMessageModel(
               index: newState[1].index + 1,
               message: displayAnswer,
@@ -99,7 +95,9 @@ class ChatStateNotifier extends StateNotifier<List> {
           print("${reportIssue.state} ${response.isEnough}");
 
           state = response.chatHistory.reversed.map((e) {
-            String msgTime = chatAddDateTimeType(e.messageTimestamp);
+            // String msgTime = chatAddDateTimeType(e.messageTimestamp);
+            String msgTime = chatAddDateTimeType(
+                DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now()));
             bool isImage = false;
             if (e.message.length > 6) {
               isImage = e.message.substring(0, 5) == "https" ? true : false;
