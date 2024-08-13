@@ -6,7 +6,7 @@ import 'package:me_mind/common/model/user_lemon_patch_model.dart';
 
 class LemonService {
   // 레몬 생성 api 삭제
-  Future patchLemon({required int userId, required int count}) async {
+  Future patchLemon({required String userId, required int count}) async {
     final dio = Dio();
     final data = {"lemon_count": count};
 
@@ -26,7 +26,7 @@ class LemonService {
     }
   }
 
-  Future getLemon({required int userId}) async {
+  Future getLemon({required String userId}) async {
     final dio = Dio(BaseOptions(baseUrl: "http://10.0.2.2:8000/", headers: {}));
 
     String url = 'users/$userId/lemons';
