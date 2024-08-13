@@ -12,7 +12,7 @@ import 'package:intl/intl.dart';
 
 final chatStateNotifierProvider =
     StateNotifierProvider<ChatStateNotifier, List>((ref) {
-  final idProvider = ref.watch(chatIdProvider);
+  final idProvider = ref.watch(chatIdProvider.notifier);
   final reportIssue = ref.watch(reportIssueProvider.notifier);
   final chatStart = ref.watch(chatStartServiceProvider);
   return ChatStateNotifier(idProvider, reportIssue,
@@ -27,7 +27,7 @@ class ChatStateNotifier extends StateNotifier<List> {
   }
 
   final ChatStartService chatStartService;
-  String idProvider;
+  StateController<String> idProvider;
   StateController<bool> reportIssue;
 
   Future<void> addChating(
@@ -52,7 +52,8 @@ class ChatStateNotifier extends StateNotifier<List> {
     state = [...newState];
 
     try {
-      AiAnswerModel answer = await ChatSendService().send(message, idProvider);
+      AiAnswerModel answer =
+          await ChatSendService().send(message, idProvider.state);
       reportIssue.state = answer.result.isEnough;
 
       int answerCnt = 0;
@@ -90,7 +91,7 @@ class ChatStateNotifier extends StateNotifier<List> {
         var response = await chatStartService.load(datetimeType3());
 
         if (response is ChatStartModel) {
-          idProvider = response.conversationId;
+          idProvider.state = response.conversationId;
           reportIssue.state = response.isEnough;
           print("${reportIssue.state} ${response.isEnough}");
 

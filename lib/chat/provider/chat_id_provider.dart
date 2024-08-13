@@ -1,3 +1,3 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final chatIdProvider = Provider<String>((ref) => "");
+final chatIdProvider = StateProvider<String>((ref) => "");

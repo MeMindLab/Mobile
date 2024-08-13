@@ -9,6 +9,7 @@ import 'package:me_mind/chat/component/chat_mic.dart';
 import 'package:me_mind/chat/component/chat_notification.dart';
 import 'package:me_mind/chat/model/chat_message_model.dart';
 import 'package:me_mind/chat/model/image_upload_model.dart';
+import 'package:me_mind/chat/provider/chat_id_provider.dart';
 import 'package:me_mind/chat/provider/chat_provider.dart';
 import 'package:me_mind/chat/provider/report_issue_provider.dart';
 import 'package:me_mind/chat/services/image_picker_service.dart';
@@ -22,6 +23,8 @@ import 'package:me_mind/common/layout/topbar/widget/back_arrow.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 import 'package:me_mind/common/utils/dialog_manager.dart';
+import 'package:me_mind/report/model/create_daily/create_daily_model.dart';
+import 'package:me_mind/report/services/daily_service.dart';
 import 'package:me_mind/screen/main/s_main.dart';
 
 class Chat extends ConsumerStatefulWidget {
@@ -55,13 +58,16 @@ class _ChatState extends ConsumerState<Chat> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(chatStateNotifierProvider);
+    final chatId = ref.watch(chatIdProvider);
     CustomTheme theme = CustomThemeHolder.of(context).theme;
     return DefaultLayout(
       backgroundColor: Colors.white,
       appBarActions: [
         InkWell(
           onTap: () async {
-            print(state);
+            var dailyKeyword = DailyService().create(id: chatId);
+            if (dailyKeyword is! CreateDailyModel) return;
+
             // DialogManager(context: context, type: DialogType.lemon).show(
             //     titleText: "꿀팁을 드릴께요!",
             //     contentText: "비타민이 있으면 리포트 발행이 가능해요.\n번호인증하고 비타민 5개를 받아볼까요?",
