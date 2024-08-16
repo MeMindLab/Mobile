@@ -36,7 +36,7 @@ class ChatStartService {
     try {
       response = await dio.post(
         url,
-        data: jsonEncode({"date": date}),
+        data: jsonEncode({"date": "2024-08-15"}),
       );
 
       var result = response.data;

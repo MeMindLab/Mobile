@@ -4,7 +4,7 @@ part 'image_upload_model.g.dart';
 
 @JsonSerializable()
 class ImageUploadModel {
-  @JsonKey(name: "converstaion_id")
+  @JsonKey(name: "conversation_id")
   final String conversationId;
   @JsonKey(name: "image_url")
   final String imageUrl;

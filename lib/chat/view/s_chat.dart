@@ -24,7 +24,9 @@ import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 import 'package:me_mind/common/utils/dialog_manager.dart';
 import 'package:me_mind/report/model/create_daily/create_daily_model.dart';
+import 'package:me_mind/report/provider/report_create_provider.dart';
 import 'package:me_mind/report/services/daily_service.dart';
+import 'package:me_mind/report/services/generate_image.dart';
 import 'package:me_mind/screen/main/s_main.dart';
 
 class Chat extends ConsumerStatefulWidget {
@@ -65,8 +67,7 @@ class _ChatState extends ConsumerState<Chat> {
       appBarActions: [
         InkWell(
           onTap: () async {
-            var dailyKeyword = DailyService().create(id: chatId);
-            if (dailyKeyword is! CreateDailyModel) return;
+            ref.read(reportCreateProvider.notifier).create(uuid: chatId);
 
             // DialogManager(context: context, type: DialogType.lemon).show(
             //     titleText: "꿀팁을 드릴께요!",
@@ -206,8 +207,9 @@ class _ChatState extends ConsumerState<Chat> {
 
                                 if (result is! File) return;
 
-                                var imageUpload =
-                                    await ImageUploadService().upload(result);
+                                var imageUpload = await ImageUploadService()
+                                    .upload(result, ref.watch(chatIdProvider));
+                                print(imageUpload);
                                 if (imageUpload is! ImageUploadModel) return;
                                 ref
                                     .read(chatStateNotifierProvider.notifier)

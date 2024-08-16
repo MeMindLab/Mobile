@@ -8,12 +8,12 @@ part of 'image_upload_model.dart';
 
 ImageUploadModel _$ImageUploadModelFromJson(Map<String, dynamic> json) =>
     ImageUploadModel(
-      conversationId: json['converstaion_id'] as String,
+      conversationId: json['conversation_id'] as String,
       imageUrl: json['image_url'] as String,
     );
 
 Map<String, dynamic> _$ImageUploadModelToJson(ImageUploadModel instance) =>
     <String, dynamic>{
-      'converstaion_id': instance.conversationId,
+      'conversation_id': instance.conversationId,
       'image_url': instance.imageUrl,
     };
