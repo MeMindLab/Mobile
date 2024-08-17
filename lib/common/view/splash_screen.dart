@@ -5,6 +5,7 @@ import 'package:me_mind/common/constant/constant.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/provider/lemon_provider.dart';
+import 'package:me_mind/common/provider/user_provider.dart';
 import 'package:me_mind/common/services/token_refresh_service.dart';
 import 'package:me_mind/common/view/on_boarding.dart';
 import 'package:me_mind/screen/main/s_main.dart';
@@ -52,7 +53,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
           await prefs.setString("USER_NICKNAME", userInfo.nickname);
           await prefs.setString("USER_EMAIL", userInfo.email);
         }
-        await ref
+        ref.watch(userProvider.notifier).state = UserDetailModel()
+            .copyWith(userId: userInfo.id, isVerified: userInfo.isVerified);
+        ref
             .read(lemonStateNotifierProvider.notifier)
             .lemonInit(userId: userInfo.id);
 

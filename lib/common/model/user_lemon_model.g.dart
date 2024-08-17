@@ -9,7 +9,7 @@ part of 'user_lemon_model.dart';
 UserLemonModel _$UserLemonModelFromJson(Map<String, dynamic> json) =>
     UserLemonModel(
       lemonCount: json['lemon_count'] as int,
-      userId: json['user_id'] as int,
+      userId: json['user_id'] as String,
     );
 
 Map<String, dynamic> _$UserLemonModelToJson(UserLemonModel instance) =>

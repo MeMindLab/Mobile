@@ -7,7 +7,7 @@ class UserLemonModel {
   @JsonKey(name: "lemon_count")
   final int lemonCount;
   @JsonKey(name: "user_id")
-  final int userId;
+  final String userId;
 
   UserLemonModel({
     required this.lemonCount,

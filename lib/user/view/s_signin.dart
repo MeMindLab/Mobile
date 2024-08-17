@@ -149,7 +149,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                                           await UserInfoService().findUser();
 
                                       if (user is! UserInfoModel) return;
-                                      ref.read(userProvider.notifier).state =
+                                      ref.watch(userProvider.notifier).state =
                                           UserDetailModel().copyWith(
                                               userId: user.id,
                                               isVerified: user.isVerified);
