@@ -435,6 +435,7 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                               nickname: nickname);
 
                           if (user is! UserInfoModel) return;
+                          print(user);
 
                           setState(() {
                             isphoneAuthenticated = false;
@@ -442,9 +443,10 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                           widget.onUpdate(false);
 
                           if (isAuthenticComplete == true) {
-                            // ref
-                            //     .read(lemonStateNotifierProvider.notifier)
-                            //     .lemonIncrease();
+                            resetTimer();
+                            ref
+                                .read(lemonStateNotifierProvider.notifier)
+                                .lemonIncrease();
 
                             MultiChoiceDialog(
                                 context: context,

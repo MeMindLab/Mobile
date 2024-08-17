@@ -16,7 +16,7 @@ class LemonStateNotifier extends StateNotifier<int> {
 
   LemonStateNotifier(this.ref) : super(0) {}
 
-  Future<void> lemonInit({required String userId}) async {
+  Future lemonInit({required String userId}) async {
     try {
       final user = ref.watch(userProvider);
       final response = await LemonService().getLemon(userId: user.userId!);

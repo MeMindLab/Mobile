@@ -66,7 +66,7 @@ class _SettingState extends ConsumerState<Settings> {
       title: "설정",
       backgroundColor: AppColors.blue1,
       appBarBgColor: AppColors.blue1,
-      appBarActions: [LemonNumberWidget(numberText: "10")],
+      appBarActions: [LemonNumberWidget()],
       appBarLeading: const BackArrowLeading(),
       // 설정 화면 Body
       child: SingleChildScrollView(

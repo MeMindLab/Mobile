@@ -5,11 +5,8 @@ import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/provider/lemon_provider.dart';
 
 class LemonNumberWidget extends ConsumerWidget {
-  final String numberText;
-
   const LemonNumberWidget({
     super.key,
-    required this.numberText,
   });
 
   @override

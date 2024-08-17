@@ -1,8 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:me_mind/common/constant/constant.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
+import 'package:me_mind/common/provider/lemon_provider.dart';
 import 'package:me_mind/common/services/token_refresh_service.dart';
 import 'package:me_mind/common/view/on_boarding.dart';
 import 'package:me_mind/screen/main/s_main.dart';
@@ -10,14 +12,14 @@ import 'package:me_mind/settings/services/userinfo_service.dart';
 import 'package:me_mind/user/view/s_signin.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class SplashScreen extends StatefulWidget {
+class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
+  ConsumerState<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   void initState() {
     super.initState();
@@ -50,6 +52,9 @@ class _SplashScreenState extends State<SplashScreen> {
           await prefs.setString("USER_NICKNAME", userInfo.nickname);
           await prefs.setString("USER_EMAIL", userInfo.email);
         }
+        await ref
+            .read(lemonStateNotifierProvider.notifier)
+            .lemonInit(userId: userInfo.id);
 
         Navigator.of(context)
             .push(MaterialPageRoute(builder: (_) => MainScreen()));
