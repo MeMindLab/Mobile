@@ -27,6 +27,7 @@ import 'package:me_mind/report/model/create_daily/create_daily_model.dart';
 import 'package:me_mind/report/provider/report_create_provider.dart';
 import 'package:me_mind/report/services/daily_service.dart';
 import 'package:me_mind/report/services/generate_image.dart';
+import 'package:me_mind/report/view/s_report_detail.dart';
 import 'package:me_mind/screen/main/s_main.dart';
 
 class Chat extends ConsumerStatefulWidget {
@@ -61,13 +62,40 @@ class _ChatState extends ConsumerState<Chat> {
   Widget build(BuildContext context) {
     final state = ref.watch(chatStateNotifierProvider);
     final chatId = ref.watch(chatIdProvider);
+    final reportState = ref.watch(reportCreateProvider);
     CustomTheme theme = CustomThemeHolder.of(context).theme;
+
+    ref.listen(reportCreateProvider, (previous, next) async {
+      if (next is ReportCreateLoading) {
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        ShowSnackBar().showSnackBarFunction(context, next.stateMsg);
+      }
+      // ReportCreateFailed
+      if (next is ReportCreateFailed) {
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        ShowSnackBar().showSnackBarDurationFunction(context, next.stateMsg);
+      }
+      // ReportCreateSuccess
+      if (next is ReportCreateSuccess) {
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        ShowSnackBar().showSnackBarDurationFunction(context, next.stateMsg);
+        Future.delayed(const Duration(seconds: 2), () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return const ReportDetail();
+          }));
+        });
+      }
+    });
     return DefaultLayout(
       backgroundColor: Colors.white,
       appBarActions: [
         InkWell(
           onTap: () async {
             ref.read(reportCreateProvider.notifier).create(uuid: chatId);
+            // if (reportState is ReportCreateLoading) {
+            //   ShowSnackBar()
+            //       .showSnackBarFunction(context, reportState.stateMsg);
+            // }
 
             // DialogManager(context: context, type: DialogType.lemon).show(
             //     titleText: "꿀팁을 드릴께요!",
@@ -78,8 +106,6 @@ class _ChatState extends ConsumerState<Chat> {
             //     },
             //     secondButtonText: "네",
             //     secondSubmit: () {});
-
-            // ShowSnackBar().showSnackBarFunction(context);
           },
           child: SizedBox(
             child: ref.watch(reportIssueProvider) == false
@@ -209,7 +235,7 @@ class _ChatState extends ConsumerState<Chat> {
 
                                 var imageUpload = await ImageUploadService()
                                     .upload(result, ref.watch(chatIdProvider));
-                                print(imageUpload);
+
                                 if (imageUpload is! ImageUploadModel) return;
                                 ref
                                     .read(chatStateNotifierProvider.notifier)

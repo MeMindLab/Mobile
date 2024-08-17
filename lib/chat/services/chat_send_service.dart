@@ -11,7 +11,6 @@ class ChatSendService {
       "image_url": imageUrl,
       "is_image": false
     };
-    print("이미지 보내는 겁니다. $data");
 
     final dio = Dio();
     Response response;

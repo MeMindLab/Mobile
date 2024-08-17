@@ -36,7 +36,8 @@ class ImageUploadService {
 
       return imageData;
     } on DioException {
-      return null;
+      rethrow;
+      // return null;
     } catch (e) {
       return null;
     }

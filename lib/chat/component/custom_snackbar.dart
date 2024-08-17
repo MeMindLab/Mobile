@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 
@@ -51,6 +52,16 @@ class _CustomSnackBarState extends State<CustomSnackBar> {
         Text(text,
             style: FontSizes.getCapsuleStyle()
                 .copyWith(fontWeight: FontWeight.w500)),
+        const Spacer(),
+        const Padding(
+          padding: EdgeInsets.only(right: 17.0),
+          child: SizedBox(
+              width: 22,
+              height: 22,
+              child: CircularProgressIndicator(
+                color: AppColors.gray4,
+              )),
+        )
       ],
     );
   }
