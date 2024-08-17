@@ -5,10 +5,10 @@ part 'user_lemon_patch_model.g.dart';
 @JsonSerializable()
 class UserLemonPatchModel {
   @JsonKey(name: "user_id")
-  final int userId;
+  final String userId;
   @JsonKey(name: "lemon_count")
   final int lemonCount;
-  final int id;
+  final String id;
 
   UserLemonPatchModel({
     required this.userId,

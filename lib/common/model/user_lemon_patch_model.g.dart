@@ -8,9 +8,9 @@ part of 'user_lemon_patch_model.dart';
 
 UserLemonPatchModel _$UserLemonPatchModelFromJson(Map<String, dynamic> json) =>
     UserLemonPatchModel(
-      userId: json['user_id'] as int,
+      userId: json['user_id'] as String,
       lemonCount: json['lemon_count'] as int,
-      id: json['id'] as int,
+      id: json['id'] as String,
     );
 
 Map<String, dynamic> _$UserLemonPatchModelToJson(
