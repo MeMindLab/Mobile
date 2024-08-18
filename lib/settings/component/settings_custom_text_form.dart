@@ -129,7 +129,10 @@ class _CustomTextFormFieldState extends State<SeetingCustomTextFormField> {
                 borderRadius: BorderRadius.circular(13)),
             errorBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(13),
-                borderSide: BorderSide(color: Colors.red)),
+                borderSide: const BorderSide(color: Colors.red)),
+            focusedErrorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(13),
+                borderSide: const BorderSide(color: Colors.red)),
 
             suffixIcon: widget.obscureText
                 ? GestureDetector(

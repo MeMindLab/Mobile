@@ -37,21 +37,28 @@ class EmotionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      elevation: 3.0,
+      elevation: 1.0,
       child: Container(
         width: 83,
-        height: 120,
+        height: 130,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10.0),
-          color: Colors.white,
-        ),
+            borderRadius: BorderRadius.circular(10.0),
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.9),
+                spreadRadius: 0.1,
+                blurRadius: 0.1,
+                offset: const Offset(0, 0),
+              ),
+            ]),
         child: Stack(
           alignment: Alignment.topCenter,
           children: [
             ClipPath(
               clipper: MyClipper(),
               child: Container(
-                height: 64,
+                height: 74,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.0),
                 ),

@@ -24,7 +24,7 @@ class _TagButtonState extends State<TagButton> {
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 4),
             minimumSize: const Size(0, 0),
             backgroundColor:
-                widget.isSelect ? AppColors.blueMain : AppColors.gray2),
+                widget.isSelect ? AppColors.blue3 : AppColors.gray2),
         onPressed: () {},
         child: Text(
           widget.text,

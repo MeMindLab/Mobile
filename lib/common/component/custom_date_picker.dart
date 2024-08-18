@@ -98,7 +98,7 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
                         Navigator.pop(context, null); // Cancel
                       },
                       child: const Text(
-                        'Cancel',
+                        '취소',
                         style: TextStyle(
                           color: Colors.red,
                           fontSize: 14,
@@ -128,7 +128,7 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
                       },
                       child: const Center(
                         child: Text(
-                          'Clear',
+                          '닫기',
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
@@ -160,7 +160,7 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
                     },
                     child: const Center(
                       child: Text(
-                        'Set',
+                        '확인',
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,

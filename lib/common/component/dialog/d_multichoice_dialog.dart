@@ -65,12 +65,12 @@ class MultiChoiceDialog {
           surfaceTintColor: theme.appColors.badgeBorder,
           contentPadding: EdgeInsets.fromLTRB(
               0, titleTopPadding != null ? titleTopPadding! : 20, 0, 15),
-          actionsPadding: const EdgeInsets.fromLTRB(15, 5, 15, 10),
+          actionsPadding: const EdgeInsets.fromLTRB(15, 0, 15, 13),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(13),
           ),
           content: SizedBox(
-            width: MediaQuery.of(context).size.width * 0.79,
+            width: MediaQuery.of(context).size.width * 0.77,
             child: DialogContent(
                 imageAddr: imageAddr,
                 title: title,

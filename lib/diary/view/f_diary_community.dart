@@ -47,6 +47,9 @@ class _DiaryCommunityFragmentState extends State<DiaryCommunityFragment> {
               ],
             ),
           ),
+          const SizedBox(
+            height: 3,
+          ),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(

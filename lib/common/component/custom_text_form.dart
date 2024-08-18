@@ -86,7 +86,7 @@ class CustomTextFormField extends StatelessWidget {
           autofocus: autoFocus,
           cursorColor: theme.focusColor,
           cursorWidth: 1.5,
-          cursorHeight: 13,
+          cursorHeight: 19,
           onChanged: onChanged,
           style: FontSizes.getContentStyle(),
           decoration: InputDecoration(

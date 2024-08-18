@@ -1,23 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:me_mind/common/component/custom_text_form.dart';
 import 'package:me_mind/common/component/rounded_button.dart';
 import 'package:me_mind/common/constant/constant.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
+import 'package:me_mind/common/model/user_lemon_model.dart';
+import 'package:me_mind/common/provider/lemon_provider.dart';
+import 'package:me_mind/common/provider/user_provider.dart';
+import 'package:me_mind/common/services/lemon_service.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 import 'package:me_mind/screen/main/s_main.dart';
+import 'package:me_mind/settings/model/user_info_model.dart';
+import 'package:me_mind/settings/services/userinfo_service.dart';
 import 'package:me_mind/user/services/login_service.dart';
 import 'package:me_mind/user/view/signup_screen.dart';
 
-class SignInScreen extends StatefulWidget {
+class SignInScreen extends ConsumerStatefulWidget {
   const SignInScreen({super.key});
 
   @override
-  State<SignInScreen> createState() => _SignInScreenState();
+  ConsumerState<SignInScreen> createState() => _SignInScreenState();
 }
 
-class _SignInScreenState extends State<SignInScreen> {
+class _SignInScreenState extends ConsumerState<SignInScreen> {
   late FocusNode _emailFocusNode;
   late FocusNode _passwordFocusNode;
   final _formKey = GlobalKey<FormState>();
@@ -76,7 +83,9 @@ class _SignInScreenState extends State<SignInScreen> {
                           labelText: "이메일",
                           errorText: emailErrorText,
                           onChanged: (String value) {
-                            email = value;
+                            setState(() {
+                              email = value;
+                            });
                           },
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -95,7 +104,9 @@ class _SignInScreenState extends State<SignInScreen> {
                           isToggle: true,
                           onToggleObscureText: () {},
                           onChanged: (String value) {
-                            password = value;
+                            setState(() {
+                              password = value;
+                            });
                           },
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -109,33 +120,54 @@ class _SignInScreenState extends State<SignInScreen> {
                         ),
                         RoundedButton(
                           text: "로그인",
-                          onPressed: () async {
-                            if (_formKey.currentState!.validate()) {
-                              final response = await authService.loginService
-                                  .login(email, password);
+                          onPressed: email != "" && password != ""
+                              ? () async {
+                                  if (_formKey.currentState!.validate()) {
+                                    final response = await authService
+                                        .loginService
+                                        .login(email, password);
 
-                              if (response == null) {
-                                setState(() {
-                                  emailErrorText = "아이디 혹은 비밀번호가 다릅니다.";
-                                  passwordErrorText = "아이디 혹은 비밀번호가 다릅니다.";
-                                });
-                              } else {
-                                final refreshToken = response.refreshToken;
-                                final accessToken = response.accessToken;
+                                    if (response == null) {
+                                      setState(() {
+                                        emailErrorText = "아이디 혹은 비밀번호가 다릅니다.";
+                                        passwordErrorText =
+                                            "아이디 혹은 비밀번호가 다릅니다.";
+                                      });
+                                    } else {
+                                      final refreshToken =
+                                          response.refreshToken;
+                                      final accessToken = response.accessToken;
 
-                                await storage.write(
-                                    key: ACCESS_TOKEN, value: accessToken);
-                                await storage.write(
-                                    key: REFRESH_TOKEN, value: refreshToken);
+                                      await storage.write(
+                                          key: ACCESS_TOKEN,
+                                          value: accessToken);
+                                      await storage.write(
+                                          key: REFRESH_TOKEN,
+                                          value: refreshToken);
 
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (_) => const MainScreen(),
-                                  ),
-                                );
-                              }
-                            }
-                          },
+                                      final user =
+                                          await UserInfoService().findUser();
+
+                                      if (user is! UserInfoModel) return;
+                                      ref.watch(userProvider.notifier).state =
+                                          UserDetailModel().copyWith(
+                                              userId: user.id,
+                                              isVerified: user.isVerified);
+
+                                      ref
+                                          .read(lemonStateNotifierProvider
+                                              .notifier)
+                                          .lemonInit(userId: user.id!);
+
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (_) => const MainScreen(),
+                                        ),
+                                      );
+                                    }
+                                  }
+                                }
+                              : null,
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 19),

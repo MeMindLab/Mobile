@@ -10,6 +10,8 @@ import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/layout/topbar/widget/back_arrow.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
+import 'package:me_mind/settings/view/s_collect_use_screen.dart';
+import 'package:me_mind/settings/view/s_service_use_screen.dart';
 import 'package:me_mind/user/component/custom_checkbox.dart';
 import 'package:me_mind/user/model/user_signup_model.dart';
 import 'package:me_mind/user/services/signup_service.dart';
@@ -258,10 +260,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           title: "[필수] 서비스 이용약관 동의",
                           svg: "check.svg",
                           isChecked: isService,
-                          trailing: Text("보기",
-                              style: FontSizes.getCapsuleStyle().copyWith(
-                                  decoration: TextDecoration.underline,
-                                  color: theme.appColors.hintText)),
+                          trailing: InkWell(
+                            onTap: () {
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
+                                return const ServiceUseScreen();
+                              }));
+                            },
+                            child: Text("보기",
+                                style: FontSizes.getCapsuleStyle().copyWith(
+                                    decoration: TextDecoration.underline,
+                                    color: theme.appColors.hintText)),
+                          ),
                           onChanged: (value) {
                             onTermsChange("service", !isService);
                           }),
@@ -272,10 +282,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           title: "[필수] 개인정보 수집 및 이용 동의",
                           svg: "check.svg",
                           isChecked: isPersonalInfo,
-                          trailing: Text("보기",
-                              style: FontSizes.getCapsuleStyle().copyWith(
-                                  decoration: TextDecoration.underline,
-                                  color: theme.appColors.hintText)),
+                          trailing: InkWell(
+                            onTap: () {
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
+                                return const CollectUseScreen();
+                              }));
+                            },
+                            child: Text("보기",
+                                style: FontSizes.getCapsuleStyle().copyWith(
+                                    decoration: TextDecoration.underline,
+                                    color: theme.appColors.hintText)),
+                          ),
                           onChanged: (value) {
                             onTermsChange("personal", !isPersonalInfo);
                           }),

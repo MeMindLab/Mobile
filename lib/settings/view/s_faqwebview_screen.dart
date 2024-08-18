@@ -36,31 +36,6 @@ class _MyWidgetState extends State<FaqWebviewScreen> {
               child: InAppWebView(
                 key: webViewKey,
                 initialUrlRequest: URLRequest(url: myUrl),
-                // initialOptions: InAppWebViewGroupOptions(
-                //   crossPlatform: InAppWebViewOptions(
-                //       javaScriptCanOpenWindowsAutomatically: true,
-                //       javaScriptEnabled: true,
-                //       useOnDownloadStart: true,
-                //       useOnLoadResource: true,
-                //       useShouldOverrideUrlLoading: true,
-                //       mediaPlaybackRequiresUserGesture: true,
-                //       allowFileAccessFromFileURLs: true,
-                //       allowUniversalAccessFromFileURLs: true,
-                //       verticalScrollBarEnabled: true,
-                //       userAgent:
-                //           'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.122 Safari/537.36'),
-                //   android: AndroidInAppWebViewOptions(
-                //       useHybridComposition: true,
-                //       allowContentAccess: true,
-                //       builtInZoomControls: true,
-                //       thirdPartyCookiesEnabled: true,
-                //       allowFileAccess: true,
-                //       supportMultipleWindows: true),
-                //   ios: IOSInAppWebViewOptions(
-                //     allowsInlineMediaPlayback: true,
-                //     allowsBackForwardNavigationGestures: true,
-                //   ),
-                // ),
                 onWebViewCreated: (InAppWebViewController controller) {
                   webViewController = controller;
                 },
