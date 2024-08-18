@@ -37,48 +37,63 @@ class ChatStateNotifier extends StateNotifier<List> {
     final newState = [...state];
 
     String msgTime = chatAddDateTimeType(null);
-    newState.insert(
-        0,
-        ChatMessageModel(
-            message: message,
-            index: newState[0].index + 1,
-            is_ai: false,
-            is_image: isImage,
-            createdAt: msgTime));
 
     state = [...newState];
-
-    newState.insert(0, ChatMessageLoading());
-    state = [...newState];
+    if (isImage == false) {
+      newState.insert(
+          0,
+          ChatMessageModel(
+              message: message,
+              index: newState[0].index + 1,
+              is_ai: false,
+              is_image: isImage,
+              createdAt: msgTime));
+      newState.insert(0, ChatMessageLoading());
+      state = [...newState];
+    }
 
     try {
-      AiAnswerModel answer =
-          await ChatSendService().send(message, idProvider.state);
+      AiAnswerModel answer = isImage
+          ? await ChatSendService()
+              .send("", idProvider.state, imageUrl: message, isImage: true)
+          : await ChatSendService().send(message, idProvider.state);
       reportIssue.state = answer.result.isEnough;
 
-      int answerCnt = 0;
+      if (isImage == false) {
+        int answerCnt = 0;
 
-      List answerBox = answer.result.message.runes.toList();
+        List answerBox = answer.result.message.runes.toList();
 
-      answer.result.message.runes;
-      String displayAnswer = "";
+        answer.result.message.runes;
+        String displayAnswer = "";
 
-      Timer.periodic(const Duration(milliseconds: 80), (timer) {
-        if (answerCnt >= answerBox.length - 1) {
-          timer.cancel();
-        } else {
-          displayAnswer += String.fromCharCode(answerBox[answerCnt]);
-          newState[0] = ChatMessageModel(
-              index: newState[1].index + 1,
-              message: displayAnswer,
-              is_ai: true,
-              is_image: false,
-              createdAt: msgTime);
+        Timer.periodic(const Duration(milliseconds: 80), (timer) {
+          if (answerCnt >= answerBox.length - 1) {
+            timer.cancel();
+          } else {
+            displayAnswer += String.fromCharCode(answerBox[answerCnt]);
+            newState[0] = ChatMessageModel(
+                index: newState[1].index + 1,
+                message: displayAnswer,
+                is_ai: true,
+                is_image: false,
+                createdAt: msgTime);
 
-          state = [...newState];
-          answerCnt++;
-        }
-      });
+            state = [...newState];
+            answerCnt++;
+          }
+        });
+      } else {
+        newState.insert(
+            0,
+            ChatMessageModel(
+                message: message,
+                index: newState[0].index + 1,
+                is_ai: false,
+                is_image: isImage,
+                createdAt: msgTime));
+        state = [...newState];
+      }
     } catch (e) {
       newState[0] = ChatMessageError();
     }
@@ -99,18 +114,24 @@ class ChatStateNotifier extends StateNotifier<List> {
             // String msgTime = chatAddDateTimeType(e.messageTimestamp);
             String msgTime = chatAddDateTimeType(
                 DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now()));
-            bool isImage = false;
-            if (e.message.length > 6) {
-              isImage = e.message.substring(0, 5) == "https" ? true : false;
-            }
 
-            return ChatMessageModel.fromJson({
-              "message": e.message,
-              "index": e.index,
-              "is_ai": !e.isFromUser,
-              "is_image": isImage,
-              "createdAt": msgTime,
-            });
+            if (e.imageUrl is String) {
+              return ChatMessageModel.fromJson({
+                "message": e.imageUrl,
+                "index": e.index,
+                "is_ai": !e.isFromUser,
+                "is_image": true,
+                "createdAt": msgTime,
+              });
+            } else {
+              return ChatMessageModel.fromJson({
+                "message": e.message,
+                "index": e.index,
+                "is_ai": !e.isFromUser,
+                "is_image": false,
+                "createdAt": msgTime,
+              });
+            }
           }).toList();
         } else {}
       }

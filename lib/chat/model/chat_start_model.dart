@@ -28,13 +28,16 @@ class ChatHistory {
   final String message;
   @JsonKey(name: "conversation_id")
   final String conversationId;
-  ChatHistory({
-    required this.index,
-    required this.isFromUser,
-    required this.id,
-    required this.message,
-    required this.conversationId,
-  });
+  @JsonKey(name: "image_url")
+  String? imageUrl;
+
+  ChatHistory(
+      {required this.index,
+      required this.isFromUser,
+      required this.id,
+      required this.message,
+      required this.conversationId,
+      this.imageUrl});
 
   factory ChatHistory.fromJson(Map<String, dynamic> json) =>
       _$ChatHistoryFromJson(json);

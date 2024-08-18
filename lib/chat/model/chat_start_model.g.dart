@@ -28,6 +28,7 @@ ChatHistory _$ChatHistoryFromJson(Map<String, dynamic> json) => ChatHistory(
       id: json['id'] as String,
       message: json['message'] as String,
       conversationId: json['conversation_id'] as String,
+      imageUrl: json['image_url'] as String?,
     );
 
 Map<String, dynamic> _$ChatHistoryToJson(ChatHistory instance) =>
@@ -37,4 +38,5 @@ Map<String, dynamic> _$ChatHistoryToJson(ChatHistory instance) =>
       'id': instance.id,
       'message': instance.message,
       'conversation_id': instance.conversationId,
+      'image_url': instance.imageUrl,
     };

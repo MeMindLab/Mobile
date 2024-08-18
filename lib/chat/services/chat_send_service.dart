@@ -3,13 +3,13 @@ import 'package:me_mind/chat/model/ai_answer_model.dart';
 
 class ChatSendService {
   Future send(String answer, String conversationId,
-      {String imageUrl = ""}) async {
+      {String imageUrl = "", bool isImage = false}) async {
     const url = "http://10.0.2.2:8000/chat/answer";
     final data = {
       "conversation_id": conversationId,
       "message": answer,
       "image_url": imageUrl,
-      "is_image": false
+      "is_image": isImage
     };
 
     final dio = Dio();

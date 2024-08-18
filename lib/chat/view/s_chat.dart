@@ -92,10 +92,6 @@ class _ChatState extends ConsumerState<Chat> {
         InkWell(
           onTap: () async {
             ref.read(reportCreateProvider.notifier).create(uuid: chatId);
-            // if (reportState is ReportCreateLoading) {
-            //   ShowSnackBar()
-            //       .showSnackBarFunction(context, reportState.stateMsg);
-            // }
 
             // DialogManager(context: context, type: DialogType.lemon).show(
             //     titleText: "꿀팁을 드릴께요!",
