@@ -11,6 +11,7 @@ class ImageUploadService {
     const url = "http://10.0.2.2:8000/upload";
     Map<String, dynamic> queryParams = {
       'conversation_id': uuid,
+      "is_drawing": true,
     };
     String fileName = file.path.split('/').last;
     FormData formData = FormData.fromMap({

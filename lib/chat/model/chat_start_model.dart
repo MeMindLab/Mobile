@@ -21,22 +21,23 @@ class ChatStartModel {
 
 @JsonSerializable()
 class ChatHistory {
-  final int index;
+  final int order;
   @JsonKey(name: "is_from_user")
   final bool isFromUser;
+  @JsonKey(name: "message_id")
   final String id;
   final String message;
-  @JsonKey(name: "conversation_id")
-  final String conversationId;
+  @JsonKey(name: "message_timestamp")
+  final String messageTimestamp;
   @JsonKey(name: "image_url")
   String? imageUrl;
 
   ChatHistory(
-      {required this.index,
+      {required this.order,
       required this.isFromUser,
       required this.id,
       required this.message,
-      required this.conversationId,
+      required this.messageTimestamp,
       this.imageUrl});
 
   factory ChatHistory.fromJson(Map<String, dynamic> json) =>

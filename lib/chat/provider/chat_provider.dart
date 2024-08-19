@@ -8,7 +8,6 @@ import 'package:me_mind/chat/provider/report_issue_provider.dart';
 import 'package:me_mind/chat/services/chat_send_service.dart';
 import 'package:me_mind/chat/services/chat_start_service.dart';
 import 'package:me_mind/common/component/datetime_to_text.dart';
-import 'package:intl/intl.dart';
 
 final chatStateNotifierProvider =
     StateNotifierProvider<ChatStateNotifier, List>((ref) {
@@ -108,17 +107,14 @@ class ChatStateNotifier extends StateNotifier<List> {
         if (response is ChatStartModel) {
           idProvider.state = response.conversationId;
           reportIssue.state = response.isEnough;
-          print("${reportIssue.state} ${response.isEnough}");
 
           state = response.chatHistory.reversed.map((e) {
-            // String msgTime = chatAddDateTimeType(e.messageTimestamp);
-            String msgTime = chatAddDateTimeType(
-                DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now()));
+            String msgTime = chatAddDateTimeType(e.messageTimestamp);
 
             if (e.imageUrl is String) {
               return ChatMessageModel.fromJson({
                 "message": e.imageUrl,
-                "index": e.index,
+                "index": e.order,
                 "is_ai": !e.isFromUser,
                 "is_image": true,
                 "createdAt": msgTime,
@@ -126,7 +122,7 @@ class ChatStateNotifier extends StateNotifier<List> {
             } else {
               return ChatMessageModel.fromJson({
                 "message": e.message,
-                "index": e.index,
+                "index": e.order,
                 "is_ai": !e.isFromUser,
                 "is_image": false,
                 "createdAt": msgTime,
