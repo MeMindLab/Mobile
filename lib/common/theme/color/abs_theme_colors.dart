@@ -51,4 +51,6 @@ abstract class AbstractThemeColors {
   Color get loginInputBackground => AppColors.blue1;
 
   Color get capsule => AppColors.blue3;
+
+  Color get trashColor => AppColors.trashColor;
 }
