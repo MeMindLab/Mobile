@@ -230,7 +230,8 @@ class _ChatState extends ConsumerState<Chat> {
                                 if (result is! File) return;
 
                                 var imageUpload = await ImageUploadService()
-                                    .upload(result, ref.watch(chatIdProvider));
+                                    .upload(result, ref.watch(chatIdProvider),
+                                        false);
 
                                 if (imageUpload is! ImageUploadModel) return;
                                 ref

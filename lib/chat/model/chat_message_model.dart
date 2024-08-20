@@ -8,15 +8,15 @@ abstract class ChatMessageBase {}
 class ChatMessageModel extends ChatMessageBase {
   final String message;
   final int index;
-  final bool is_ai;
-  final bool is_image;
+  final bool isAi;
+  final bool isImage;
   final String createdAt;
 
   ChatMessageModel({
     required this.message,
     required this.index,
-    required this.is_ai,
-    required this.is_image,
+    required this.isAi,
+    required this.isImage,
     required this.createdAt,
   });
 

@@ -28,8 +28,8 @@ class ChatMessageTile extends StatelessWidget {
     return ChatMessageTile(
       isSecond: isSecond ?? false,
       message: chatModel.message,
-      isAi: chatModel.is_ai,
-      isImage: chatModel.is_image,
+      isAi: chatModel.isAi,
+      isImage: chatModel.isImage,
       createdAt: chatModel.createdAt,
     );
   }

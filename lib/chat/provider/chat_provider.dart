@@ -44,8 +44,8 @@ class ChatStateNotifier extends StateNotifier<List> {
           ChatMessageModel(
               message: message,
               index: newState[0].index + 1,
-              is_ai: false,
-              is_image: isImage,
+              isAi: false,
+              isImage: isImage,
               createdAt: msgTime));
       newState.insert(0, ChatMessageLoading());
       state = [...newState];
@@ -74,8 +74,8 @@ class ChatStateNotifier extends StateNotifier<List> {
             newState[0] = ChatMessageModel(
                 index: newState[1].index + 1,
                 message: displayAnswer,
-                is_ai: true,
-                is_image: false,
+                isAi: true,
+                isImage: false,
                 createdAt: msgTime);
 
             state = [...newState];
@@ -88,8 +88,8 @@ class ChatStateNotifier extends StateNotifier<List> {
             ChatMessageModel(
                 message: message,
                 index: newState[0].index + 1,
-                is_ai: false,
-                is_image: isImage,
+                isAi: false,
+                isImage: isImage,
                 createdAt: msgTime));
         state = [...newState];
       }
@@ -111,23 +111,13 @@ class ChatStateNotifier extends StateNotifier<List> {
           state = response.chatHistory.reversed.map((e) {
             String msgTime = chatAddDateTimeType(e.messageTimestamp);
 
-            if (e.imageUrl is String) {
-              return ChatMessageModel.fromJson({
-                "message": e.imageUrl,
-                "index": e.order,
-                "is_ai": !e.isFromUser,
-                "is_image": true,
-                "createdAt": msgTime,
-              });
-            } else {
-              return ChatMessageModel.fromJson({
-                "message": e.message,
-                "index": e.order,
-                "is_ai": !e.isFromUser,
-                "is_image": false,
-                "createdAt": msgTime,
-              });
-            }
+            return ChatMessageModel.fromJson({
+              "message": e.message,
+              "index": e.order,
+              "isAi": !e.isFromUser,
+              "isImage": e.imageUrl is String ? true : false,
+              "createdAt": msgTime,
+            });
           }).toList();
         } else {}
       }

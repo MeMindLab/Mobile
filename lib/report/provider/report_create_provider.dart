@@ -40,18 +40,18 @@ class ReportCreateStateNotifier extends StateNotifier<ReportCreateBase> {
       // generate-image로 생성한 이미지 다운
       // 반환받은 이미지 임시 저장소에 저장
       Dio dio = Dio();
-      // final fileName = basename(newDiary);
+
       final fileName = newDiary.substring(87, 148);
 
       final filePath = '${directory.path}/download_$fileName.png';
 
       await dio.download(newDiary, filePath);
-      // print(filePath);
+
       final XFile file = XFile(filePath);
-      // File loadedFile = File(filePath);
-      // print(loadedFile);
+
       // 임시 저장소에 저장된 이미지 /upload API로 업로드
-      var imageUrl = await ImageUploadService().upload(File(file.path), uuid);
+      var imageUrl =
+          await ImageUploadService().upload(File(file.path), uuid, true);
       print(imageUrl);
 
       // 레몬 1감소 실행
@@ -61,8 +61,6 @@ class ReportCreateStateNotifier extends StateNotifier<ReportCreateBase> {
       state = ReportCreateFailed(stateMsg: "레포트 발급에 실패했습니다.");
       print(e);
     }
-
-// 후 레포트 상세 페이지 이동
   }
 }
 
