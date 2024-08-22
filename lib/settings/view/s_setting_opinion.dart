@@ -260,7 +260,8 @@ class _SettingOpinionState extends State<SettingOpinion> {
                                     child: Text(
                                       "개인정보 수집 및 이용",
                                       style:
-                                          FontSizes.getCapsuleStyle().copyWith(
+                                          FontSizes.getCapsuleHighlightStyle()
+                                              .copyWith(
                                         color: theme.appColors.hintText,
                                         fontWeight: FontWeight.w400,
                                         decoration: TextDecoration.underline,

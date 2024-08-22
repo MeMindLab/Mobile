@@ -3,6 +3,9 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:me_mind/chat/model/image_update_model.dart';
+import 'package:me_mind/chat/model/image_upload_model.dart';
+import 'package:me_mind/chat/services/image_update_service.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -52,7 +55,13 @@ class ReportCreateStateNotifier extends StateNotifier<ReportCreateBase> {
       // 임시 저장소에 저장된 이미지 /upload API로 업로드
       var imageUrl =
           await ImageUploadService().upload(File(file.path), uuid, true);
-      print(imageUrl);
+
+      if (imageUrl is! ImageUploadModel) return;
+
+      var updateResult =
+          await ImageUpdateService().update(uuid, imageUrl.imageUrl);
+
+      if (updateResult is! ImageUpdateModel) return;
 
       // 레몬 1감소 실행
       // 레포트 발급 성공

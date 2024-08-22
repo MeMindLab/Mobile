@@ -59,7 +59,7 @@ class _DiaryState extends State<Diary> {
           SliverToBoxAdapter(
             child: Container(
               height: 10,
-              color: Color(0xFFDCE1F0),
+              color: AppColors.blue1,
             ),
           ),
           const SliverToBoxAdapter(
