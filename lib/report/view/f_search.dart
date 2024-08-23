@@ -74,7 +74,7 @@ class _SearchFragmentState extends State<SearchFragment> {
                             }
                             return Expanded(
                                 child: CustomScrollView(slivers: [
-                              renderReports(reports: newReports)
+                              // renderReports(reports: newReports)
                             ]));
                           }
                         }

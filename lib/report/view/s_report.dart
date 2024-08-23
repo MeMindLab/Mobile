@@ -161,10 +161,10 @@ class _Report extends State<Report> {
               ],
             ),
           ),
-          SliverPadding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            sliver: renderReports(reports: reports, color: AppColors.blue3),
-          ),
+          // SliverPadding(
+          //   padding: const EdgeInsets.symmetric(horizontal: 20),
+          //   sliver: renderReports(reports: reports, color: AppColors.blue3),
+          // ),
         ],
       ),
     );

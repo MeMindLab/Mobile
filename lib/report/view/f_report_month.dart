@@ -3,13 +3,14 @@ import 'package:flutter_svg/svg.dart';
 import 'package:me_mind/common/component/custom_date_picker.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
+import 'package:me_mind/report/model/report_month/report_month_model.dart';
 import 'package:me_mind/report/utils/reports.dart';
 import 'package:me_mind/report/view/f_date_picker_dialog.dart';
 import 'package:me_mind/report/view/s_report_search.dart';
 
 class ReportMonthFragment extends StatelessWidget {
   final String datetime;
-  final List<ReportData>? reports;
+  final List<Report>? reports;
 
   const ReportMonthFragment({
     super.key,
