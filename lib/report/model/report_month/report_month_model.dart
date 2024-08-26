@@ -2,8 +2,14 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'report_month_model.g.dart';
 
+abstract class ReportCursorPaginationBase {}
+
+class ReportCursorPaginationError extends ReportCursorPaginationBase {}
+
+class ReportCursorPaginationLoading extends ReportCursorPaginationBase {}
+
 @JsonSerializable()
-class ReportMonthModel {
+class ReportMonthModel extends ReportCursorPaginationBase {
   @JsonKey(name: "next_cursor")
   final String? nextCursor;
   final List<Report>? reports;
@@ -14,6 +20,16 @@ class ReportMonthModel {
 
   factory ReportMonthModel.fromJson(Map<String, dynamic> json) =>
       _$ReportMonthModelFromJson(json);
+
+  ReportMonthModel copyWith({
+    String? nextCursor,
+    List<Report>? reports,
+  }) {
+    return ReportMonthModel(
+      nextCursor: nextCursor ?? this.nextCursor,
+      reports: reports ?? this.reports,
+    );
+  }
 }
 
 @JsonSerializable()
@@ -34,4 +50,25 @@ class Report {
   });
 
   factory Report.fromJson(Map<String, dynamic> json) => _$ReportFromJson(json);
+
+  Report copyWith({
+    String? id,
+    List<String>? tags,
+    String? aiSummary,
+    String? thumbnail,
+    String? createdAt,
+  }) {
+    return Report(
+      id: id ?? this.id,
+      tags: tags ?? this.tags,
+      aiSummary: aiSummary ?? this.aiSummary,
+      thumbnail: thumbnail ?? this.thumbnail,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+}
+
+class ReportCursorPaginationFetchingMore extends ReportMonthModel {
+  ReportCursorPaginationFetchingMore(
+      {required super.nextCursor, required super.reports});
 }

@@ -3,9 +3,10 @@ import 'package:me_mind/common/constant/constant.dart';
 import 'package:me_mind/report/model/report_month/report_month_model.dart';
 
 class ReportMonthlyService {
-  Future getReports() async {
+  Future getReports({required Map<String, dynamic> parameters}) async {
     final url = "http://$ip/report/monthly-reports";
-    Map<String, dynamic> parameters = {"year": 2024, "month": 8, "limit": 5};
+
+    // Map<String, dynamic> parameters = {"year": 2024, "month": 8, "limit": 5};
 
     final dio = Dio();
     Response response;
@@ -17,7 +18,7 @@ class ReportMonthlyService {
 
       return result;
     } catch (e) {
-      return null;
+      rethrow;
     }
   }
 }
