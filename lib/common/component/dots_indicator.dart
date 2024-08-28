@@ -18,7 +18,7 @@ class _CustomDotsIndicatorState extends State<CustomDotsIndicator> {
   void initState() {
     super.initState();
 
-    timer = Timer.periodic(Duration(milliseconds: 500), (timer) {
+    timer = Timer.periodic(const Duration(milliseconds: 500), (timer) {
       setState(() {
         value = (value + 1) % 3;
       });
@@ -35,7 +35,7 @@ class _CustomDotsIndicatorState extends State<CustomDotsIndicator> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 37,
+      width: 60,
       height: 20,
       padding: const EdgeInsets.only(left: 7),
       child: Align(

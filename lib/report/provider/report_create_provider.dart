@@ -32,36 +32,37 @@ class ReportCreateStateNotifier extends StateNotifier<ReportCreateBase> {
       // 1. /report/create-daily API로 레포트 생성
       final report = await DailyService().create(id: uuid);
       if (report is! CreateDailyModel) return;
-      state = ReportCreateLoading(stateMsg: "그림일기를 생성중입니다.");
 
-      // /generate-image API로 1의 tags를 기준으로 이미지 반환
-      final pictureDiary = await GenerateImage().create(tags: report.keyword);
-      if (pictureDiary is! String) return;
-      final newDiary = pictureDiary as String;
-      print(pictureDiary);
-      final directory = await getTemporaryDirectory();
-      // generate-image로 생성한 이미지 다운
-      // 반환받은 이미지 임시 저장소에 저장
-      Dio dio = Dio();
+      // state = ReportCreateLoading(stateMsg: "그림일기를 생성중입니다.");
 
-      final fileName = newDiary.substring(87, 148);
+      // // /generate-image API로 1의 tags를 기준으로 이미지 반환
+      // final pictureDiary = await GenerateImage().create(tags: report.keyword);
+      // if (pictureDiary is! String) return;
+      // final newDiary = pictureDiary as String;
+      // print(pictureDiary);
+      // final directory = await getTemporaryDirectory();
+      // // generate-image로 생성한 이미지 다운
+      // // 반환받은 이미지 임시 저장소에 저장
+      // Dio dio = Dio();
 
-      final filePath = '${directory.path}/download_$fileName.png';
+      // final fileName = newDiary.substring(87, 148);
 
-      await dio.download(newDiary, filePath);
+      // final filePath = '${directory.path}/download_$fileName.png';
 
-      final XFile file = XFile(filePath);
+      // await dio.download(newDiary, filePath);
 
-      // 임시 저장소에 저장된 이미지 /upload API로 업로드
-      var imageUrl =
-          await ImageUploadService().upload(File(file.path), uuid, true);
+      // final XFile file = XFile(filePath);
 
-      if (imageUrl is! ImageUploadModel) return;
+      // // 임시 저장소에 저장된 이미지 /upload API로 업로드
+      // var imageUrl =
+      //     await ImageUploadService().upload(File(file.path), uuid, true);
 
-      var updateResult =
-          await ImageUpdateService().update(uuid, imageUrl.imageUrl);
+      // if (imageUrl is! ImageUploadModel) return;
 
-      if (updateResult is! ImageUpdateModel) return;
+      // var updateResult =
+      //     await ImageUpdateService().update(uuid, imageUrl.imageUrl);
+
+      // if (updateResult is! ImageUpdateModel) return;
 
       // 레몬 1감소 실행
       // 레포트 발급 성공

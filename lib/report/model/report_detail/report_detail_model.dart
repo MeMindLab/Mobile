@@ -2,8 +2,14 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'report_detail_model.g.dart';
 
+abstract class ReportDetailState {}
+
+class ReportDetailFailed extends ReportDetailState {}
+
+class ReportDetailLoading extends ReportDetailState {}
+
 @JsonSerializable()
-class ReportDetailModel {
+class ReportDetailModel extends ReportDetailState {
   @JsonKey(name: "report_id")
   final String? reportId;
   @JsonKey(name: "report_summary")
@@ -27,6 +33,26 @@ class ReportDetailModel {
   });
   factory ReportDetailModel.fromJson(Map<String, dynamic> json) =>
       _$ReportDetailModelFromJson(json);
+
+  ReportDetailModel copyWith({
+    String? reportId,
+    ReportSummary? reportSummary,
+    Emotions? emotions,
+    String? conversationId,
+    DrawingDiary? drawingDiary,
+    List<ChatHistory>? chatHistory,
+    List<String>? images,
+  }) {
+    return ReportDetailModel(
+      reportId: reportId ?? this.reportId,
+      reportSummary: reportSummary ?? this.reportSummary,
+      emotions: emotions ?? this.emotions,
+      conversationId: conversationId ?? this.conversationId,
+      drawingDiary: drawingDiary ?? this.drawingDiary,
+      chatHistory: chatHistory ?? this.chatHistory,
+      images: images ?? this.images,
+    );
+  }
 }
 
 @JsonSerializable()
@@ -99,4 +125,15 @@ class ChatHistory {
 
   factory ChatHistory.fromJson(Map<String, dynamic> json) =>
       _$ChatHistoryFromJson(json);
+}
+
+class ReportDetailSuccess extends ReportDetailModel {
+  ReportDetailSuccess(
+      {required super.chatHistory,
+      required super.conversationId,
+      required super.drawingDiary,
+      required super.emotions,
+      required super.images,
+      required super.reportId,
+      required super.reportSummary});
 }
