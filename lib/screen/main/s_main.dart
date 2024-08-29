@@ -48,7 +48,7 @@ class _MainScreenState extends State<MainScreen> {
       backgroundColor: Color(0xffF1F3F8),
       bottomNavigationBar: const RootTab(),
       appBarBgColor: Color(0xffF1F3F8),
-      appBarActions: [LemonNumberWidget(numberText: "5")],
+      appBarActions: [LemonNumberWidget()],
       isappBarImage: true,
       title: "로고",
       child: SafeArea(

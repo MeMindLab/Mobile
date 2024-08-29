@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:me_mind/common/component/dialog/d_alert_dialog.dart';
 import 'package:me_mind/common/component/dialog/w_dialog_button.dart';
 import 'package:me_mind/common/component/rounded_button.dart';
+import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/layout/topbar/widget/back_arrow.dart';
@@ -14,6 +15,7 @@ import 'package:me_mind/common/theme/custom_theme_holder.dart';
 import 'package:me_mind/settings/component/settings_custom_text_form.dart';
 import 'package:me_mind/settings/services/image_picker_service.dart';
 import 'package:me_mind/settings/utils/email_send.dart';
+import 'package:me_mind/settings/view/s_collect_use_screen.dart';
 import 'package:me_mind/settings/view/s_setting.dart';
 
 class SettingOpinion extends StatefulWidget {
@@ -112,7 +114,7 @@ class _SettingOpinionState extends State<SettingOpinion> {
                         });
                       },
                       hintText: "제목을 입력해주세요",
-                      bgColor: theme.appColors.userInputBackground),
+                      bgColor: AppColors.blue1),
                   const SizedBox(
                     height: 14.5,
                   ),
@@ -135,7 +137,7 @@ class _SettingOpinionState extends State<SettingOpinion> {
                       },
                       maxLines: 8,
                       hintText: "내용을 입력해주세요",
-                      bgColor: theme.appColors.userInputBackground),
+                      bgColor: AppColors.blue1),
                   const SizedBox(
                     height: 14.5,
                   ),
@@ -149,13 +151,12 @@ class _SettingOpinionState extends State<SettingOpinion> {
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 4,
-                          mainAxisSpacing: 10, //수평 Padding
-                          crossAxisSpacing: 10, //수직 Padding
+                          mainAxisSpacing: 10,
+                          crossAxisSpacing: 10,
                         ),
                         itemBuilder: (_, int idx) {
                           if (idx == 0) {
                             return InkWell(
-                              // 사진 추가 함수
                               onTap: () async {
                                 var result = await ImagePickerService(
                                         imagePicker: ImagePicker())
@@ -169,11 +170,11 @@ class _SettingOpinionState extends State<SettingOpinion> {
                                 height: 85,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    color: theme.appColors.userInputBackground),
-                                child: Center(
+                                    color: AppColors.blue1),
+                                child: const Center(
                                     child: Icon(
                                   Icons.add,
-                                  color: theme.appColors.grayButtonBackground,
+                                  color: AppColors.gray5,
                                   size: 35,
                                 )),
                               ),
@@ -246,13 +247,26 @@ class _SettingOpinionState extends State<SettingOpinion> {
                                 style: FontSizes.getCapsuleStyle().copyWith(
                                     color: theme.appColors.hintText,
                                     fontWeight: FontWeight.w400),
-                                children: const <TextSpan>[
-                                  TextSpan(
-                                      text: "개인정보 수집 및 이용",
-                                      style: TextStyle(
-                                          decoration:
-                                              TextDecoration.underline)),
-                                  TextSpan(text: "에 동의하게 됩니다"),
+                                children: [
+                                  WidgetSpan(
+                                      child: InkWell(
+                                    onTap: () {
+                                      Navigator.push(context,
+                                          MaterialPageRoute(builder: (context) {
+                                        return const CollectUseScreen();
+                                      }));
+                                    },
+                                    child: Text(
+                                      "개인정보 수집 및 이용",
+                                      style:
+                                          FontSizes.getCapsuleStyle().copyWith(
+                                        color: theme.appColors.hintText,
+                                        fontWeight: FontWeight.w400,
+                                        decoration: TextDecoration.underline,
+                                      ),
+                                    ),
+                                  )),
+                                  const TextSpan(text: "에 동의하게 됩니다"),
                                 ]),
                           ),
                         ))

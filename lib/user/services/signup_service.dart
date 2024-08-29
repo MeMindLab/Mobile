@@ -7,12 +7,7 @@ class SignupService implements Isignup {
   Future<dynamic> signup(String email, String nickname, String password) async {
     final url = "http://$ip/users/signup";
 
-    final data = {
-      "email": email,
-      "password": password,
-      "username": nickname,
-      "nickname": nickname
-    };
+    final data = {"email": email, "password": password, "nickname": nickname};
 
     final dio = Dio();
     Response response;
@@ -20,10 +15,8 @@ class SignupService implements Isignup {
     try {
       response = await dio.post(url, data: data);
 
-      if (response.statusCode == 201) {
-        var body = response.data;
-        return UserSignUpModel(msg: body["message"]);
-      }
+      var body = response.data;
+      return UserSignUpModel.fromJson(body);
     } on DioException catch (e) {
       if (e.response!.statusCode == 400) {
         return e.response!.data['message'];

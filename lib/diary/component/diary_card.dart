@@ -99,45 +99,63 @@ class DiaryCard extends StatelessWidget {
 }
 
 Widget popUpMenu() {
-  List<String> menuList = ["공유 해제", "제목 수정", "AI 리포트 보기"];
-
   return Transform.translate(
     offset: const Offset(10, 0),
     child: PopupMenuButton(
-        constraints: const BoxConstraints(maxHeight: 150, maxWidth: 132),
+        iconColor: AppColors.gray5,
+        constraints: const BoxConstraints(maxHeight: 150, maxWidth: 142),
         offset: const Offset(0, 40),
         elevation: 0,
         padding: EdgeInsets.zero,
-        color: lightTheme.primaryColor,
+        color: AppColors.blueMain,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(13),
         ),
         onSelected: (value) {},
-        itemBuilder: (context) {
-          return [
-            for (var item in menuList)
+        itemBuilder: (context) => <PopupMenuEntry>[
               PopupMenuItem(
-                  height: 43,
-                  value: item,
-                  onTap: () {
-                    if (item == "제목 수정") {
-                      DiaryDialogs(
-                        context: context,
-                        contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 15, vertical: 27),
-                        content: diaryDialogContent(context),
-                      ).callTitleUpdateDialog();
-                    }
-                  },
+                  height: 29,
+                  value: "공유 해제",
+                  onTap: () {},
                   child: Center(
                     child: Text(
-                      item,
+                      "공유 해제",
                       style: FontSizes.getContentStyle()
                           .copyWith(fontWeight: FontWeight.w500),
                     ),
                   )),
-          ];
-        }),
+              const PopupMenuDivider(),
+              PopupMenuItem(
+                  height: 29,
+                  value: "제목 수정",
+                  onTap: () {
+                    DiaryDialogs(
+                      context: context,
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 15, vertical: 27),
+                      content: diaryDialogContent(context),
+                    ).callTitleUpdateDialog();
+                  },
+                  child: Center(
+                    child: Text(
+                      "제목 수정",
+                      style: FontSizes.getContentStyle()
+                          .copyWith(fontWeight: FontWeight.w500),
+                    ),
+                  )),
+              const PopupMenuDivider(),
+              PopupMenuItem(
+                  height: 29,
+                  value: "AI 리포트 보기",
+                  onTap: () {},
+                  child: Center(
+                    child: Text(
+                      "AI 리포트 보기",
+                      style: FontSizes.getContentStyle()
+                          .copyWith(fontWeight: FontWeight.w500),
+                    ),
+                  )),
+            ]),
   );
 }
 

@@ -3,19 +3,15 @@ import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/layout/topbar/widget/back_arrow.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
+import 'package:me_mind/settings/model/user_info_model.dart';
+import 'package:me_mind/settings/services/userinfo_service.dart';
 import 'package:me_mind/settings/view/f_userinfo_form.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingUserInfo extends StatefulWidget {
-  final VoidCallback handlePhoneAuth;
   final String? userEmail;
   final String? userNickname;
 
-  const SettingUserInfo(
-      {super.key,
-      required this.handlePhoneAuth,
-      this.userEmail,
-      this.userNickname});
+  const SettingUserInfo({super.key, this.userEmail, this.userNickname});
 
   @override
   State<SettingUserInfo> createState() => _SettingUserInfoState();
@@ -33,7 +29,6 @@ class _SettingUserInfoState extends State<SettingUserInfo> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -53,15 +48,27 @@ class _SettingUserInfoState extends State<SettingUserInfo> {
               child: SafeArea(
                 bottom: false,
                 child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: UserInfoForm(
-                    isUpdate: isUpdate,
-                    onUpdate: onUpdate,
-                    handlePhoneAuth: widget.handlePhoneAuth,
-                    userEmail: widget.userEmail ?? email,
-                    userNickname: widget.userNickname ?? nickname,
-                  ),
-                ),
+                    padding: const EdgeInsets.all(20.0),
+                    child: FutureBuilder(
+                      future: UserInfoService().findUser(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        } else if (snapshot.hasData) {
+                          var userInfo = snapshot.data as UserInfoModel;
+                          return UserInfoForm(
+                            isUpdate: isUpdate,
+                            onUpdate: onUpdate,
+                            userEmail: userInfo.email!,
+                            userNickname: userInfo.nickname!,
+                          );
+                        } else {
+                          return const Center(child: Text('계정정보 불러오기 실패'));
+                        }
+                      },
+                    )),
               ),
             )
           ],

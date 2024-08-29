@@ -75,13 +75,14 @@ class _ReportDetailState extends State<ReportDetail> {
                     height: 9.3,
                   ),
                   SizedBox(
-                    height: 90,
+                    height: 100,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: 7,
                       itemBuilder: (BuildContext context, int index) {
                         return Padding(
-                          padding: const EdgeInsets.only(right: 7),
+                          padding: const EdgeInsets.only(
+                              right: 7, top: 5, bottom: 5),
                           child: EmotionCard(
                             emotionPercentage: 36.8,
                             emotionType: index % 2 == 0
@@ -252,16 +253,25 @@ class _ReportDetailState extends State<ReportDetail> {
                               diaryFolded == false
                                   ? SvgPicture.asset(
                                       'assets/svg/icon/book.svg',
+                                      colorFilter: const ColorFilter.mode(
+                                        AppColors.gray7,
+                                        BlendMode.srcIn,
+                                      ),
                                     )
                                   : SvgPicture.asset(
-                                      'assets/svg/icon/foldedBook.svg'),
+                                      'assets/svg/icon/foldedBook.svg',
+                                      colorFilter: const ColorFilter.mode(
+                                        AppColors.gray7,
+                                        BlendMode.srcIn,
+                                      ),
+                                    ),
                               Padding(
                                 padding: const EdgeInsets.only(left: 4),
                                 child: Text(
                                   diaryFolded == false ? "접기" : "펼치기",
                                   style: FontSizes.getCapsuleHighlightStyle()
                                       .copyWith(
-                                    color: theme.appColors.iconBook,
+                                    color: AppColors.gray7,
                                   ),
                                 ),
                               ),

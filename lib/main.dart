@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
-
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'app.dart';
 
 void main() async {
@@ -9,11 +9,13 @@ void main() async {
 
   runApp(
     EasyLocalization(
-      supportedLocales: const [Locale('en'), Locale('ko')],
-      fallbackLocale: const Locale('en'),
+      supportedLocales: const [Locale('ko'), Locale('en')],
+      fallbackLocale: const Locale('ko'),
       path: 'assets/translations',
       useOnlyLangCode: true,
-      child: const App(),
+      child: const ProviderScope(
+        child: App(),
+      ),
     ),
   );
 }
