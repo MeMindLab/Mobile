@@ -10,7 +10,7 @@ class WithDrawService {
     dio.options.headers.clear();
     dio.options.headers.addAll({'accessToken': true});
     String url = "http://$ip/users/withdraw";
-    print(data);
+
     try {
       final response = await dio.delete(url, data: data);
 
