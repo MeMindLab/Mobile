@@ -8,7 +8,7 @@ import 'package:me_mind/settings/model/withdraw_reason.dart';
 import 'package:me_mind/settings/view/s_withdraw_screen.dart';
 
 class WidthdrawCheckFragment extends StatefulWidget {
-  final Function(String) reasonUpdate;
+  final Function(List) reasonUpdate;
   final Function(ScreenState) screenUpdate;
 
   const WidthdrawCheckFragment(
@@ -71,7 +71,8 @@ class _WidthdrawCheckFragmentState extends State<WidthdrawCheckFragment> {
         InkWell(
           onTap: () {
             setState(() {
-              withdrawReason = withdrawReason.update(inconveninece: true);
+              withdrawReason = withdrawReason.update(
+                  inconveninece: !withdrawReason.inconveninece);
             });
           },
           child: checkTile(
@@ -84,7 +85,8 @@ class _WidthdrawCheckFragmentState extends State<WidthdrawCheckFragment> {
         InkWell(
             onTap: () {
               setState(() {
-                withdrawReason = withdrawReason.update(point: true);
+                withdrawReason =
+                    withdrawReason.update(point: !withdrawReason.point);
               });
             },
             child: checkTile(
@@ -95,7 +97,8 @@ class _WidthdrawCheckFragmentState extends State<WidthdrawCheckFragment> {
         InkWell(
           onTap: () {
             setState(() {
-              withdrawReason = withdrawReason.update(disabled: true);
+              withdrawReason =
+                  withdrawReason.update(disabled: !withdrawReason.disabled);
             });
           },
           child: checkTile(
@@ -107,7 +110,8 @@ class _WidthdrawCheckFragmentState extends State<WidthdrawCheckFragment> {
         InkWell(
             onTap: () {
               setState(() {
-                withdrawReason = withdrawReason.update(userInfo: true);
+                withdrawReason =
+                    withdrawReason.update(userInfo: !withdrawReason.userInfo);
               });
             },
             child: checkTile(
@@ -119,7 +123,8 @@ class _WidthdrawCheckFragmentState extends State<WidthdrawCheckFragment> {
             focusColor: Colors.white,
             onTap: () {
               setState(() {
-                withdrawReason = withdrawReason.update(custom: true);
+                withdrawReason =
+                    withdrawReason.update(custom: !withdrawReason.custom);
               });
             },
             child: checkTile(
@@ -132,13 +137,15 @@ class _WidthdrawCheckFragmentState extends State<WidthdrawCheckFragment> {
             : RoundedButton(
                 text: "다음",
                 onPressed: () {
-                  String text = "";
+                  // String text = "";
+                  List reasons = [];
                   if (withdrawReason.custom != true) {
-                    text = withdrawReason.getReason();
+                    reasons = withdrawReason.getReason();
                   } else {
-                    text = withdrawReason.getReason(text: customReason);
+                    reasons = withdrawReason.getReason(text: customReason);
                   }
-                  widget.reasonUpdate(text);
+                  print(reasons);
+                  widget.reasonUpdate(reasons);
                   widget.screenUpdate(ScreenState.notice);
                 },
               ),

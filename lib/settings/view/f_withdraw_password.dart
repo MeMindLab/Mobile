@@ -7,7 +7,7 @@ import 'package:me_mind/common/view/splash_screen.dart';
 import 'package:me_mind/settings/services/withdraw_service.dart';
 
 class WithdrawPasswordFragment extends StatefulWidget {
-  final String reason;
+  final List reason;
   const WithdrawPasswordFragment({super.key, required this.reason});
 
   @override

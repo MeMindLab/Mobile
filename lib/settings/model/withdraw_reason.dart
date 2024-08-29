@@ -32,56 +32,32 @@ class WithdrawReason {
     bool? userInfo,
     bool? custom,
   }) {
-    if (inconveninece == true) {
-      return this.copyWith(
-          inconveninece: true,
-          point: false,
-          disabled: false,
-          userInfo: false,
-          custom: false);
-    } else if (point == true) {
-      return copyWith(
-          inconveninece: false,
-          point: true,
-          disabled: false,
-          userInfo: false,
-          custom: false);
-    } else if (disabled == true) {
-      return copyWith(
-          inconveninece: false,
-          point: false,
-          disabled: true,
-          userInfo: false,
-          custom: false);
-    } else if (userInfo == true) {
-      return copyWith(
-          inconveninece: false,
-          point: false,
-          disabled: false,
-          userInfo: true,
-          custom: false);
-    } else {
-      return copyWith(
-          inconveninece: false,
-          point: false,
-          disabled: false,
-          userInfo: false,
-          custom: true);
-    }
+    return copyWith(
+        custom: custom,
+        disabled: disabled,
+        inconveninece: inconveninece,
+        point: point,
+        userInfo: userInfo);
   }
 
-  String getReason({String? text}) {
+  List getReason({String? text}) {
+    List<String> reasonBox = [];
     if (inconveninece == true) {
-      return "이용이 불편하고 장애가 많아요";
-    } else if (point == true) {
-      return "포인트를 다 써버렷어요";
-    } else if (disabled == true) {
-      return "자주 사용하지 않을 것 같아요";
-    } else if (userInfo == true) {
-      return "개인 정보가 걱정돼요";
-    } else {
-      return text!;
+      reasonBox.add("이용이 불편하고 장애가 많아요");
     }
+    if (point == true) {
+      reasonBox.add("포인트를 다 써버렷어요");
+    }
+    if (disabled == true) {
+      reasonBox.add("자주 사용하지 않을 것 같아요");
+    }
+    if (userInfo == true) {
+      reasonBox.add("개인 정보가 걱정돼요");
+    }
+    if (custom == true) {
+      reasonBox.add(text!);
+    }
+    return reasonBox;
   }
 
   WithdrawReason copyWith({

@@ -14,11 +14,11 @@ class WithDrawScreen extends StatefulWidget {
 
 class _WithDrawScreenState extends State<WithDrawScreen> {
   ScreenState screen = ScreenState.check;
-  String reason = "";
+  List reason = [];
 
-  void updateReason(String? text) {
+  void updateReason(List? reasons) {
     setState(() {
-      reason = text!;
+      reason = reasons!;
     });
   }
 
