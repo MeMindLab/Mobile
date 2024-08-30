@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:me_mind/report/interface/report_param_factory.dart';
 import 'package:me_mind/report/model/params_month/params_month_model.dart';
 import 'package:me_mind/report/model/params_search/params_search_model.dart';
-import 'package:me_mind/report/model/report_month/report_month_model.dart';
+import 'package:me_mind/report/model/report_model/report_model.dart';
 import 'package:me_mind/report/model/report_param/report_param_model.dart';
 import 'package:me_mind/report/services/report_monthly_service.dart';
 
@@ -35,7 +35,7 @@ class ReportStateNotifier extends StateNotifier<ReportCursorPaginationBase> {
         return;
       }
       if (fetchMore) {
-        final pState = state as ReportMonthModel;
+        final pState = state as ReportModel;
         if (pState.nextCursor == null) return;
         // 무한 스크롤
         state = ReportCursorPaginationFetchingMore(
@@ -45,7 +45,7 @@ class ReportStateNotifier extends StateNotifier<ReportCursorPaginationBase> {
         state = ReportCursorPaginationLoading();
       }
 
-      ReportMonthModel response = await ReportMonthlyService()
+      ReportModel response = await ReportMonthlyService()
           .getReports(parameters: parameters.toJson());
       print(response);
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:me_mind/report/component/report_card.dart';
-import 'package:me_mind/report/model/report_month/report_month_model.dart';
+import 'package:me_mind/report/model/report_model/report_model.dart';
 import 'package:me_mind/report/view/s_report_detail.dart';
 
 class ReportData {

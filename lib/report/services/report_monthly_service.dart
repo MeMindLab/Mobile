@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:me_mind/common/constant/constant.dart';
-import 'package:me_mind/report/model/report_month/report_month_model.dart';
+import 'package:me_mind/report/model/report_model/report_model.dart';
 
 class ReportMonthlyService {
   Future getReports({required Map<String, dynamic> parameters}) async {
@@ -14,7 +14,7 @@ class ReportMonthlyService {
     try {
       response = await dio.get(url, queryParameters: parameters);
 
-      ReportMonthModel result = ReportMonthModel.fromJson(response.data);
+      ReportModel result = ReportModel.fromJson(response.data);
 
       return result;
     } catch (e) {

@@ -4,7 +4,7 @@ import 'package:me_mind/common/component/root_tab.dart';
 
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/layout/topbar/widget/back_arrow.dart';
-import 'package:me_mind/report/model/report_month/report_month_model.dart';
+import 'package:me_mind/report/model/report_model/report_model.dart';
 import 'package:me_mind/report/model/report_param/report_param_model.dart';
 import 'package:me_mind/report/provider/cursor_pagination_provider.dart';
 import 'package:me_mind/report/services/report_monthly_service.dart';
@@ -73,7 +73,7 @@ class _ReportMonthState extends ConsumerState<ReportMonth> {
           bottomNavigationBar: RootTab(),
           child: Center(child: Text("레포트를 불러오지 못했습니다.")));
     }
-    final newState = state as ReportMonthModel;
+    final newState = state as ReportModel;
     return DefaultLayout(
       title: "리포트",
       appBarLeading: const BackArrowLeading(),
