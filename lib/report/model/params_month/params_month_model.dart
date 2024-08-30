@@ -1,9 +1,10 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:me_mind/report/provider/cursor_pagination_provider.dart';
 
 part 'params_month_model.g.dart';
 
 @JsonSerializable(includeIfNull: false)
-class ParamsMonthModel {
+class ParamsMonthModel extends ParamsModel {
   final int year;
   final int month;
   final int? limit;
@@ -18,8 +19,10 @@ class ParamsMonthModel {
   factory ParamsMonthModel.fromJson(Map<String, dynamic> json) =>
       _$ParamsMonthModelFromJson(json);
 
+  @override
   Map<String, dynamic> toJson() => _$ParamsMonthModelToJson(this);
 
+  @override
   ParamsMonthModel copyWith({
     int? year,
     int? month,

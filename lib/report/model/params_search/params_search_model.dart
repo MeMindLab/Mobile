@@ -1,9 +1,10 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:me_mind/report/provider/cursor_pagination_provider.dart';
 
 part 'params_search_model.g.dart';
 
 @JsonSerializable(includeIfNull: false)
-class ParamsSearchModel {
+class ParamsSearchModel extends ParamsModel {
   final String keywords;
   final int? limit;
   final String? cursor;
@@ -15,7 +16,10 @@ class ParamsSearchModel {
 
   factory ParamsSearchModel.fromJson(Map<String, dynamic> json) =>
       _$ParamsSearchModelFromJson(json);
+  @override
+  Map<String, dynamic> toJson() => _$ParamsSearchModelToJson(this);
 
+  @override
   ParamsSearchModel copyWith({
     String? keywords,
     int? limit,

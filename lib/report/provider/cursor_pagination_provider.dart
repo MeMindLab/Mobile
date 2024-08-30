@@ -27,8 +27,9 @@ class ReportStateNotifier extends StateNotifier<ReportCursorPaginationBase> {
     try {
       final isLoading = state is ReportCursorPaginationLoading;
       final isFetchMore = state is ReportCursorPaginationFetchingMore;
-      var parameters =
-          ParamsMonthModel(year: year!, month: month!, limit: fetchCount);
+      var parameters = keywords == null
+          ? ParamsMonthModel(year: year!, month: month!, limit: fetchCount)
+          : ParamsSearchModel(keywords: keywords, limit: fetchCount);
 
       // 새로고침하는 경우
       if (fetchMore && (isLoading || isFetchMore)) {
@@ -45,9 +46,11 @@ class ReportStateNotifier extends StateNotifier<ReportCursorPaginationBase> {
         state = ReportCursorPaginationLoading();
       }
 
-      ReportModel response = await ReportMonthlyService()
-          .getReports(parameters: parameters.toJson());
-      print(response);
+      ReportService service = ReportServiceFactory.createService(
+          ReportParameter(year: year, month: month, keywords: keywords));
+
+      ReportModel response =
+          await service.fetchData(parameters: parameters.toJson());
 
       if (state is ReportCursorPaginationFetchingMore) {
         final pState = state as ReportCursorPaginationFetchingMore;
@@ -61,4 +64,9 @@ class ReportStateNotifier extends StateNotifier<ReportCursorPaginationBase> {
       state = ReportCursorPaginationError();
     }
   }
+}
+
+abstract class ParamsModel {
+  ParamsModel copyWith({String? cursor});
+  Map<String, dynamic> toJson();
 }
