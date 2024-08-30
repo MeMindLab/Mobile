@@ -47,6 +47,7 @@ class ReportStateNotifier extends StateNotifier<ReportCursorPaginationBase> {
 
       ReportMonthModel response = await ReportMonthlyService()
           .getReports(parameters: parameters.toJson());
+      print(response);
 
       if (state is ReportCursorPaginationFetchingMore) {
         final pState = state as ReportCursorPaginationFetchingMore;
