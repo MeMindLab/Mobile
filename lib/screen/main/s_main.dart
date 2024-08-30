@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:me_mind/chat/view/s_chat.dart';
 import 'package:me_mind/chat/view/s_trash.dart';
+import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/layout/topbar/widget/lemon_number.dart';
 import 'package:me_mind/common/store.dart';
@@ -45,9 +46,9 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(
-      backgroundColor: Color(0xffF1F3F8),
+      backgroundColor: AppColors.blue1,
       bottomNavigationBar: const RootTab(),
-      appBarBgColor: Color(0xffF1F3F8),
+      appBarBgColor: AppColors.blue1,
       appBarActions: [LemonNumberWidget()],
       isappBarImage: true,
       title: "로고",

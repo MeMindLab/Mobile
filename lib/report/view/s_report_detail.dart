@@ -386,13 +386,14 @@ class _ReportDetailState extends ConsumerState<ReportDetail> {
                               physics: const NeverScrollableScrollPhysics(),
                               crossAxisCount: 2,
                               shrinkWrap: true,
-                              children: List.generate(3, (index) {
+                              children:
+                                  List.generate(result.images!.length, (index) {
                                 return Container(
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(13),
-                                    image: const DecorationImage(
-                                      image: NetworkImage(
-                                          "https://buffer.com/library/content/images/2023/10/free-images-for-commercial-use--20-.png"),
+                                    image: DecorationImage(
+                                      image:
+                                          NetworkImage(result.images![index]),
                                       fit: BoxFit.cover,
                                     ),
                                   ),
