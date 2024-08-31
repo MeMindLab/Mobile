@@ -31,6 +31,7 @@ class ReportDetail extends ConsumerStatefulWidget {
 class _ReportDetailState extends ConsumerState<ReportDetail> {
   bool diaryFolded = false;
   bool isLoaded = true;
+  int imagesCnt = 1;
   @override
   void initState() {
     super.initState();
@@ -258,12 +259,25 @@ class _ReportDetailState extends ConsumerState<ReportDetail> {
                                       )
                                     : null,
                                 child: detail.drawingDiary == null
-                                    ? const SizedBox(
-                                        width: double.infinity,
-                                        height: double.infinity,
-                                        child: Center(
-                                          child: CustomDotsIndicator(),
-                                        ),
+                                    ? Stack(
+                                        children: [
+                                          Container(
+                                            width: double.infinity,
+                                            height: double.infinity,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                                color: const Color(0xFF191919)
+                                                    .withOpacity(0.87)),
+                                          ),
+                                          const SizedBox(
+                                            width: double.infinity,
+                                            height: double.infinity,
+                                            child: Center(
+                                              child: CustomDotsIndicator(),
+                                            ),
+                                          )
+                                        ],
                                       )
                                     : null,
                               ),
@@ -344,6 +358,11 @@ class _ReportDetailState extends ConsumerState<ReportDetail> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: List.generate(
                                     result.chatHistory!.length, (index) {
+                                  if (result.chatHistory![index].isImage ==
+                                      true) return Text("사진 $imagesCnt");
+                                  setState(() {
+                                    imagesCnt += 1;
+                                  });
                                   if (result.chatHistory![index].role == "ai") {
                                     return Text(
                                         "ai : ${result.chatHistory![index].content}");

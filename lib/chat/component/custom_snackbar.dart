@@ -53,15 +53,6 @@ class _CustomSnackBarState extends State<CustomSnackBar> {
             style: FontSizes.getCapsuleStyle()
                 .copyWith(fontWeight: FontWeight.w500)),
         const Spacer(),
-        const Padding(
-          padding: EdgeInsets.only(right: 17.0),
-          child: SizedBox(
-              width: 22,
-              height: 22,
-              child: CircularProgressIndicator(
-                color: AppColors.gray4,
-              )),
-        )
       ],
     );
   }
