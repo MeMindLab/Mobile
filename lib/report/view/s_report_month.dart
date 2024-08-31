@@ -38,11 +38,15 @@ class _ReportMonthState extends ConsumerState<ReportMonth> {
   void scrollListener() {
     if (scrollController.offset >
         scrollController.position.maxScrollExtent - 300) {
+      String defaultDateTime = DateFormat("yyyy.MM").format(reportDate);
+      List dateList = defaultDateTime.split(".");
+      int reportYear = int.parse(dateList[0]);
+      int reportMonth = int.parse(dateList[1]);
       ref
           .read(reportProvider(
-                  ReportParamModel(year: 2024, month: 8, keyword: ""))
+                  ReportParamModel(year: reportYear, month: reportMonth))
               .notifier)
-          .paginate(fetchMore: true, year: 2024, month: 8);
+          .paginate(fetchMore: true, year: reportYear, month: reportMonth);
     }
   }
 
@@ -88,7 +92,11 @@ class _ReportMonthState extends ConsumerState<ReportMonth> {
           ReportMonthFragment(
             reports: newState.reports,
             datetime: defaultDateTime,
-          )
+          ),
+          if (state is ReportCursorPaginationFetchingMore)
+            const Center(
+              child: CircularProgressIndicator(),
+            ),
         ]),
       ),
     );

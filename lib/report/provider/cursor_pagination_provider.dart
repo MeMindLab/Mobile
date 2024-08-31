@@ -1,7 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:me_mind/report/interface/report_param_factory.dart';
 import 'package:me_mind/report/model/params_month/params_month_model.dart';
-import 'package:me_mind/report/model/params_search/params_search_model.dart';
 import 'package:me_mind/report/model/report_model/report_model.dart';
 import 'package:me_mind/report/model/report_param/report_param_model.dart';
 import 'package:me_mind/report/services/report_monthly_service.dart';
@@ -15,27 +14,27 @@ final reportProvider = StateNotifierProvider.family<ReportStateNotifier,
 class ReportStateNotifier extends StateNotifier<ReportCursorPaginationBase> {
   final ReportParamModel? param;
   ReportStateNotifier(this.param) : super(ReportCursorPaginationLoading()) {
-    paginate(year: param!.year, month: param!.month, keywords: param!.keyword);
+    paginate(year: param!.year, month: param!.month);
   }
 
-  Future<void> paginate(
-      {int fetchCount = 6,
-      bool fetchMore = false,
-      int? year,
-      int? month,
-      String? keywords}) async {
+  Future<void> paginate({
+    int fetchCount = 6,
+    bool fetchMore = false,
+    int? year,
+    int? month,
+  }) async {
     try {
       final isLoading = state is ReportCursorPaginationLoading;
       final isFetchMore = state is ReportCursorPaginationFetchingMore;
       var parameters =
           ParamsMonthModel(year: year!, month: month!, limit: fetchCount);
-
       // 새로고침하는 경우
       if (fetchMore && (isLoading || isFetchMore)) {
         return;
       }
       if (fetchMore) {
         final pState = state as ReportModel;
+
         if (pState.nextCursor == null) return;
         // 무한 스크롤
         state = ReportCursorPaginationFetchingMore(
@@ -46,7 +45,7 @@ class ReportStateNotifier extends StateNotifier<ReportCursorPaginationBase> {
       }
 
       ReportService service = ReportServiceFactory.createService(
-          ReportParameter(year: year, month: month, keywords: keywords));
+          ReportParameter(year: year, month: month));
 
       final ReportModel response =
           await service.fetchData(parameters: parameters.toJson());

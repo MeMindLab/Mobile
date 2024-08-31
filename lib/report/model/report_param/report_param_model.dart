@@ -4,11 +4,9 @@ part 'report_param_model.g.dart';
 
 @JsonSerializable()
 class ReportParamModel {
-  final String? keyword;
   final int? year;
   final int? month;
   ReportParamModel({
-    this.keyword,
     this.year,
     this.month,
   });
@@ -18,11 +16,10 @@ class ReportParamModel {
     if (identical(this, other)) return true;
 
     return other is ReportParamModel &&
-        other.keyword == keyword &&
         other.year == year &&
         other.month == month;
   }
 
   @override
-  int get hashCode => keyword.hashCode ^ year.hashCode ^ month.hashCode;
+  int get hashCode => year.hashCode ^ month.hashCode;
 }
