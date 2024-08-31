@@ -112,7 +112,7 @@ class ChatStateNotifier extends StateNotifier<List> {
             String msgTime = chatAddDateTimeType(e.messageTimestamp);
 
             return ChatMessageModel.fromJson({
-              "message": e.message,
+              "message": e.message == "" ? e.imageUrl : e.message,
               "index": e.order,
               "isAi": !e.isFromUser,
               "isImage": e.imageUrl is String ? true : false,
