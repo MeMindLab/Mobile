@@ -12,7 +12,7 @@ class ReportSearchService implements ReportService {
     Response response;
 
     try {
-      response = await dio.get(url, queryParameters: parameters);
+      response = await dio.post(url, queryParameters: parameters);
 
       ReportModel result = ReportModel.fromJson(response.data);
 

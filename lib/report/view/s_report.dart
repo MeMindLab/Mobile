@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:me_mind/common/component/custom_date_picker.dart';
 import 'package:me_mind/common/constant/app_colors.dart';
+import 'package:me_mind/report/model/report_model/report_model.dart';
+import 'package:me_mind/report/model/report_param/report_param_model.dart';
+import 'package:me_mind/report/provider/cursor_pagination_provider.dart';
 import 'package:me_mind/report/view/f_date_picker_dialog.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
@@ -15,14 +19,14 @@ import 'package:me_mind/report/utils/reports.dart';
 import 'package:me_mind/report/view/s_report_search.dart';
 import 'package:intl/intl.dart';
 
-class Report extends StatefulWidget {
+class Report extends ConsumerStatefulWidget {
   const Report({super.key});
 
   @override
-  State<Report> createState() => _Report();
+  ConsumerState<Report> createState() => _Report();
 }
 
-class _Report extends State<Report> {
+class _Report extends ConsumerState<Report> {
   String? date;
 
   @override
@@ -38,33 +42,11 @@ class _Report extends State<Report> {
   @override
   Widget build(BuildContext context) {
     CustomTheme theme = CustomThemeHolder.of(context).theme;
-
-    List<ReportData> reports = [
-      ReportData(
-        keywords: ["키워드1", "키워드2"],
-        summary:
-            "이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summa이곳에는 ai summary 내용이 들어가게 됩니다.",
-        date: '2023.10.31',
-      ),
-      ReportData(
-        keywords: ["키워드1", "키워드2"],
-        summary:
-            "이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summa이곳에는 ai summary 내용이 들어가게 됩니다.",
-        date: '2023.10.31',
-      ),
-      ReportData(
-        keywords: ["키워드1", "키워드2"],
-        summary:
-            "이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summa이곳에는 ai summary 내용이 들어가게 됩니다.",
-        date: '2023.10.31',
-      ),
-      ReportData(
-        keywords: ["키워드1", "키워드2"],
-        summary:
-            "이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summa이곳에는 ai summary 내용이 들어가게 됩니다.",
-        date: '2023.10.31',
-      ),
-    ];
+    List dateList = date!.split(".");
+    int reportYear = int.parse(dateList[0]);
+    int reportMonth = int.parse(dateList[1]);
+    final state = ref.watch(
+        reportProvider(ReportParamModel(year: reportYear, month: reportMonth)));
 
     return DefaultLayout(
       title: "리포트",
@@ -161,10 +143,23 @@ class _Report extends State<Report> {
               ],
             ),
           ),
-          // SliverPadding(
-          //   padding: const EdgeInsets.symmetric(horizontal: 20),
-          //   sliver: renderReports(reports: reports, color: AppColors.blue3),
-          // ),
+          if (state is ReportCursorPaginationLoading)
+            const SliverToBoxAdapter(
+              child: Column(children: [
+                const SizedBox(
+                  height: 100,
+                ),
+                Center(
+                  child: CircularProgressIndicator(),
+                )
+              ]),
+            ),
+          if (state is ReportModel)
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              sliver: renderReports(
+                  reports: state.reports!, color: AppColors.blue3),
+            ),
         ],
       ),
     );

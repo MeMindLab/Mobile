@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
@@ -24,6 +25,7 @@ class ReportCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     CustomTheme theme = CustomThemeHolder.of(context).theme;
+    String newDate = DateFormat("yyyy.MM.dd").format(DateTime.parse(date));
 
     return IntrinsicHeight(
       child: Row(
@@ -78,7 +80,7 @@ class ReportCard extends StatelessWidget {
                   children: [
                     const Spacer(),
                     Text(
-                      date,
+                      newDate,
                       textAlign: TextAlign.right,
                       style: FontSizes.getCapsuleStyle().copyWith(
                         color: theme.appColors.datetimeColor,

@@ -56,8 +56,12 @@ class _ReportMonthState extends ConsumerState<ReportMonth> {
   @override
   Widget build(BuildContext context) {
     String defaultDateTime = DateFormat("yyyy.MM").format(reportDate);
-    final state =
-        ref.watch(reportProvider(ReportParamModel(year: 2024, month: 8)));
+    List dateList = defaultDateTime.split(".");
+    int reportYear = int.parse(dateList[0]);
+    int reportMonth = int.parse(dateList[1]);
+
+    final state = ref.watch(
+        reportProvider(ReportParamModel(year: reportYear, month: reportMonth)));
 
     if (state is ReportCursorPaginationLoading) {
       return const DefaultLayout(
