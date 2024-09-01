@@ -1,3 +1,4 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -5,7 +6,9 @@ import 'package:me_mind/common/component/custom_date_picker.dart';
 import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/report/model/report_model/report_model.dart';
 import 'package:me_mind/report/model/report_param/report_param_model.dart';
+import 'package:me_mind/report/model/report_weekly/report_weekly_model.dart';
 import 'package:me_mind/report/provider/cursor_pagination_provider.dart';
+import 'package:me_mind/report/services/report_weekly_service.dart';
 import 'package:me_mind/report/view/f_date_picker_dialog.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
@@ -77,9 +80,60 @@ class _Report extends ConsumerState<Report> {
                           maxWidth: MediaQuery.of(context).size.width * 0.82,
                           maxHeight: 165,
                         ),
-                        child: const AspectRatio(
+                        child: AspectRatio(
                           aspectRatio: 1.70,
-                          child: ReportChart(),
+                          child: FutureBuilder(
+                              future: ReportWeeklyService()
+                                  .fetchData(date: "2024-08-30"),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return const Center(
+                                      child: CircularProgressIndicator());
+                                } else if (snapshot.connectionState ==
+                                    ConnectionState.done) {
+                                  if (snapshot.hasError) {
+                                    return Center(
+                                        child:
+                                            Text('Error: ${snapshot.error}'));
+                                  } else if (snapshot.hasData) {
+                                    final result =
+                                        snapshot.data as ReportWeeklyModel;
+                                    List<TodayScore> newData = result.results!;
+                                    print(newData.length);
+                                    int totalLength = newData.length;
+                                    List<TodayScore> newBox = newData.sublist(
+                                      totalLength > 7 ? totalLength - 7 : 0,
+                                      totalLength,
+                                    );
+
+                                    List<String> dates = newBox
+                                        .map((item) => item.date)
+                                        .toList();
+                                    List<FlSpot> flSpots = [];
+                                    for (int i = 0; i < newBox.length; i++) {
+                                      flSpots.add(FlSpot((i * 2).toDouble(),
+                                          newBox[i].score / 20));
+                                    }
+
+                                    while (dates.length < 7) {
+                                      dates.add("");
+                                    }
+
+                                    while (flSpots.length < 7) {
+                                      flSpots.add(FlSpot(
+                                          (flSpots.length - 1).toDouble(), 0));
+                                    }
+
+                                    return ReportChart(
+                                      dates: dates,
+                                      data: newBox,
+                                      spots: flSpots,
+                                    );
+                                  }
+                                }
+                                return Container();
+                              }),
                         ),
                       ),
                     ],
