@@ -20,6 +20,7 @@ import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/layout/topbar/widget/back_arrow.dart';
+import 'package:me_mind/common/provider/user_provider.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 import 'package:me_mind/common/utils/dialog_manager.dart';
@@ -62,20 +63,20 @@ class _ChatState extends ConsumerState<Chat> {
   Widget build(BuildContext context) {
     final state = ref.watch(chatStateNotifierProvider);
     final chatId = ref.watch(chatIdProvider);
-    final reportState = ref.watch(reportCreateProvider);
+
     CustomTheme theme = CustomThemeHolder.of(context).theme;
 
     ref.listen(reportCreateProvider, (previous, next) async {
       if (next is ReportCreateLoading) {
+        print(next.stateMsg);
         ScaffoldMessenger.of(context).hideCurrentSnackBar();
         ShowSnackBar().showSnackBarFunction(context, next.stateMsg);
       }
-      // ReportCreateFailed
       if (next is ReportCreateFailed) {
         ScaffoldMessenger.of(context).hideCurrentSnackBar();
         ShowSnackBar().showSnackBarDurationFunction(context, next.stateMsg);
       }
-      // ReportCreateSuccess
+
       if (next is ReportCreateSuccess) {
         ScaffoldMessenger.of(context).hideCurrentSnackBar();
         ShowSnackBar().showSnackBarDurationFunction(context, next.stateMsg);
