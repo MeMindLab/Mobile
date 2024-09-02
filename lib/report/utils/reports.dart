@@ -13,12 +13,11 @@ class ReportData {
 }
 
 SliverList renderReports({required List<Report> reports, Color? color}) {
-  print(reports.length);
   return SliverList(
     delegate: SliverChildBuilderDelegate(
       (context, index) {
         final report = reports[index];
-        print(report);
+
         return Padding(
           padding: const EdgeInsets.only(bottom: 20),
           child: InkWell(
@@ -27,6 +26,7 @@ SliverList renderReports({required List<Report> reports, Color? color}) {
                   .push(MaterialPageRoute(builder: (_) => ReportDetail()));
             },
             child: ReportCard(
+              imageUrl: report.thumbnail,
               keywords: report.tags!,
               summary: report.aiSummary!,
               date: report.createdAt!,

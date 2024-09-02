@@ -31,11 +31,26 @@ class Report extends ConsumerStatefulWidget {
 
 class _Report extends ConsumerState<Report> {
   String? date;
+  final ScrollController scrollController = ScrollController();
+  void scrollListener() {
+    if (scrollController.offset >
+        scrollController.position.maxScrollExtent - 300) {
+      String defaultDateTime = DateFormat("yyyy.MM").format(DateTime.now());
+      List dateList = defaultDateTime.split(".");
+      int reportYear = int.parse(dateList[0]);
+      int reportMonth = int.parse(dateList[1]);
+      ref
+          .read(reportProvider(
+                  ReportParamModel(year: reportYear, month: reportMonth))
+              .notifier)
+          .paginate(fetchMore: true, year: reportYear, month: reportMonth);
+    }
+  }
 
   @override
   void initState() {
     super.initState();
-
+    scrollController.addListener(scrollListener);
     setState(() {
       date = DateFormat("yyyy.MM").format(DateTime.now());
     });
@@ -45,6 +60,7 @@ class _Report extends ConsumerState<Report> {
   @override
   Widget build(BuildContext context) {
     CustomTheme theme = CustomThemeHolder.of(context).theme;
+
     List dateList = date!.split(".");
     int reportYear = int.parse(dateList[0]);
     int reportMonth = int.parse(dateList[1]);
@@ -56,6 +72,7 @@ class _Report extends ConsumerState<Report> {
       appBarLeading: const BackArrowLeading(),
       bottomNavigationBar: const RootTab(),
       child: CustomScrollView(
+        controller: scrollController,
         slivers: [
           SliverToBoxAdapter(
             child: Column(
@@ -84,7 +101,7 @@ class _Report extends ConsumerState<Report> {
                           aspectRatio: 1.70,
                           child: FutureBuilder(
                               future: ReportWeeklyService()
-                                  .fetchData(date: "2024-08-30"),
+                                  .fetchData(date: "2024-08-31"),
                               builder: (context, snapshot) {
                                 if (snapshot.connectionState ==
                                     ConnectionState.waiting) {
@@ -100,7 +117,7 @@ class _Report extends ConsumerState<Report> {
                                     final result =
                                         snapshot.data as ReportWeeklyModel;
                                     List<TodayScore> newData = result.results!;
-                                    print(newData.length);
+
                                     int totalLength = newData.length;
                                     List<TodayScore> newBox = newData.sublist(
                                       totalLength > 7 ? totalLength - 7 : 0,
@@ -122,7 +139,7 @@ class _Report extends ConsumerState<Report> {
 
                                     while (flSpots.length < 7) {
                                       flSpots.add(FlSpot(
-                                          (flSpots.length - 1).toDouble(), 0));
+                                          (flSpots.length * 2).toDouble(), 0));
                                     }
 
                                     return ReportChart(
@@ -172,7 +189,7 @@ class _Report extends ConsumerState<Report> {
                                 fontWeight: FontWeight.w400,
                               ),
                             ),
-                            Icon(
+                            const Icon(
                               Icons.arrow_forward_ios_outlined,
                               size: 18.0,
                               color: Colors.black,
@@ -188,7 +205,7 @@ class _Report extends ConsumerState<Report> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (_) => ReportSearch()));
+                                  builder: (_) => const ReportSearch()));
                         },
                       ),
                     ],
@@ -200,7 +217,7 @@ class _Report extends ConsumerState<Report> {
           if (state is ReportCursorPaginationLoading)
             const SliverToBoxAdapter(
               child: Column(children: [
-                const SizedBox(
+                SizedBox(
                   height: 100,
                 ),
                 Center(
@@ -208,12 +225,34 @@ class _Report extends ConsumerState<Report> {
                 )
               ]),
             ),
-          if (state is ReportModel)
-            SliverPadding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              sliver: renderReports(
-                  reports: state.reports!, color: AppColors.blue3),
+          if (state is ReportCursorPaginationError)
+            const SliverToBoxAdapter(
+              child: Column(children: [
+                SizedBox(
+                  height: 100,
+                ),
+                Center(
+                  child: Text("리포트를 불러오지 못했습니다."),
+                )
+              ]),
             ),
+          if (state is ReportModel)
+            state.reports!.isEmpty
+                ? const SliverToBoxAdapter(
+                    child: Column(children: [
+                      SizedBox(
+                        height: 100,
+                      ),
+                      Center(
+                        child: Text("리포트가 없습니다."),
+                      )
+                    ]),
+                  )
+                : SliverPadding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    sliver: renderReports(
+                        reports: state.reports!, color: AppColors.blue3),
+                  ),
         ],
       ),
     );
