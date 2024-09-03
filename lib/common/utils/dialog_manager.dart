@@ -55,6 +55,7 @@ class DialogManager {
                       children: [
                         Text(
                           contentText,
+                          textAlign: TextAlign.center,
                           style: FontSizes.getContentStyle().copyWith(
                               fontWeight: FontWeight.w400,
                               color: AppColors.gray9),
@@ -92,6 +93,7 @@ class DialogManager {
                       children: [
                         Text(
                           contentText,
+                          textAlign: TextAlign.center,
                           style: FontSizes.getContentStyle().copyWith(
                               fontWeight: FontWeight.w400,
                               color: AppColors.gray9),
@@ -147,6 +149,7 @@ class DialogManager {
                       children: [
                         Text(
                           contentText,
+                          textAlign: TextAlign.center,
                           style: FontSizes.getContentStyle().copyWith(
                               fontWeight: FontWeight.w400,
                               color: AppColors.gray9),

@@ -31,6 +31,7 @@ import 'package:me_mind/report/services/daily_service.dart';
 import 'package:me_mind/report/services/generate_image.dart';
 import 'package:me_mind/report/view/s_report_detail.dart';
 import 'package:me_mind/screen/main/s_main.dart';
+import 'package:me_mind/settings/view/s_setting_notification.dart';
 import 'package:me_mind/settings/view/s_setting_userinfo.dart';
 
 class Chat extends ConsumerStatefulWidget {
@@ -49,6 +50,10 @@ class _ChatState extends ConsumerState<Chat> {
   String chatContent = "";
   TextEditingController controller = TextEditingController();
   String dateFormatted = "";
+  bool dialog1 = false;
+  bool dialog2 = false;
+  bool dialog3 = false;
+  bool dialog4 = false;
 
   void chatContentChange(String msg) {
     setState(() {
@@ -67,11 +72,51 @@ class _ChatState extends ConsumerState<Chat> {
     final chatId = ref.watch(chatIdProvider);
     final reportIssue = ref.watch(reportIssueProvider);
     final lemon = ref.watch(lemonStateNotifierProvider);
+    final user = ref.watch(userProvider);
 
     CustomTheme theme = CustomThemeHolder.of(context).theme;
 
+    ref.listen(reportIssueProvider, (previous, next) {
+      if (next && lemon == 0) {
+        if (user.isVerified! && dialog3 == false) {
+          dialog3 = true;
+          DialogManager(context: context, type: DialogType.twoButton).show(
+              titleText: "데모버전 이용이 끝났어요.",
+              contentText: "정식출시일을 기다려주세요!\n일기는 계속 작성 가능하며\n데이터는 보존할게요.",
+              firstButtonText: "닫기",
+              firstSubmit: () {
+                Navigator.pop(context);
+              },
+              secondButtonText: "이메일알림 받기",
+              secondSubmit: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) {
+                  return const SettingNotification();
+                }));
+              });
+        } else if (user.isVerified == false && dialog4 == false) {
+          dialog4 = true;
+          DialogManager(context: context, type: DialogType.twoButton).show(
+              titleText: "앗, 비타민이 없으시군요!",
+              contentText: "리포트 발행은 비타민이 필요해요.\n번호인증 후 무료 5개를 받으시겠어요?",
+              firstButtonText: "아니오",
+              firstSubmit: () {
+                Navigator.pop(context);
+              },
+              secondButtonText: "네",
+              secondSubmit: () {
+                Navigator.of(context)
+                    .pushReplacement(MaterialPageRoute(builder: (context) {
+                  return const SettingUserInfo();
+                }));
+              });
+        }
+      }
+    });
+
     ref.listen(chatStateNotifierProvider, (previous, next) {
-      if (lemon == 0 && next.length == 1) {
+      if (lemon == 0 && next.length == 1 && dialog1 == false) {
+        dialog1 = true;
         DialogManager(context: context, type: DialogType.twoButton).show(
             titleText: "꿀팁을 드릴께요!",
             contentText: "비타민이 있으면 리포트 발행이 가능해요.\n번호인증하고 비타민 5개를 받아볼까요?",
@@ -81,7 +126,26 @@ class _ChatState extends ConsumerState<Chat> {
             },
             secondButtonText: "네",
             secondSubmit: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+              Navigator.of(context)
+                  .pushReplacement(MaterialPageRoute(builder: (context) {
+                return const SettingUserInfo();
+              }));
+            });
+      }
+      if (lemon == 0 && next.length == 5 && dialog2 == false) {
+        dialog2 = true;
+        DialogManager(context: context, type: DialogType.twoButton).show(
+            titleText: "참고해주세요!",
+            contentText:
+                "비타민이 소진되어 리포트 발행이 불가해요.\n추후 충전서비스가 출시될 예정이니\n조금만 기다려주세요.",
+            firstButtonText: "닫기",
+            firstSubmit: () {
+              Navigator.pop(context);
+            },
+            secondButtonText: "이메일알림 받기",
+            secondSubmit: () {
+              Navigator.of(context)
+                  .pushReplacement(MaterialPageRoute(builder: (context) {
                 return const SettingUserInfo();
               }));
             });
@@ -90,7 +154,6 @@ class _ChatState extends ConsumerState<Chat> {
 
     ref.listen(reportCreateProvider, (previous, next) async {
       if (next is ReportCreateLoading) {
-        print(next.stateMsg);
         ScaffoldMessenger.of(context).hideCurrentSnackBar();
         ShowSnackBar().showSnackBarFunction(context, next.stateMsg);
       }

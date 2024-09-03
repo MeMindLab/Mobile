@@ -18,7 +18,7 @@ final chatStartServiceProvider = Provider<ChatStartService>((ref) {
 class ChatStartService {
   Future load(String date) async {
     final url = "http://$ip/chat/start";
-    Map<String, dynamic> data = {"date": "2024-08-26"};
+    Map<String, dynamic> data = {"date": date};
 
     final dio = Dio();
     Response response;
@@ -30,7 +30,7 @@ class ChatStartService {
     try {
       response = await dio.post(
         url,
-        data: jsonEncode({"date": "2024-09-08"}),
+        data: jsonEncode(data),
       );
 
       var result = response.data;
