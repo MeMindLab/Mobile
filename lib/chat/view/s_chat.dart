@@ -20,6 +20,7 @@ import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/layout/topbar/widget/back_arrow.dart';
+import 'package:me_mind/common/provider/lemon_provider.dart';
 import 'package:me_mind/common/provider/user_provider.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
@@ -30,6 +31,7 @@ import 'package:me_mind/report/services/daily_service.dart';
 import 'package:me_mind/report/services/generate_image.dart';
 import 'package:me_mind/report/view/s_report_detail.dart';
 import 'package:me_mind/screen/main/s_main.dart';
+import 'package:me_mind/settings/view/s_setting_userinfo.dart';
 
 class Chat extends ConsumerStatefulWidget {
   const Chat({super.key});
@@ -63,8 +65,28 @@ class _ChatState extends ConsumerState<Chat> {
   Widget build(BuildContext context) {
     final state = ref.watch(chatStateNotifierProvider);
     final chatId = ref.watch(chatIdProvider);
+    final reportIssue = ref.watch(reportIssueProvider);
+    final lemon = ref.watch(lemonStateNotifierProvider);
 
     CustomTheme theme = CustomThemeHolder.of(context).theme;
+
+    ref.listen(chatStateNotifierProvider, (previous, next) {
+      if (lemon == 0 && next.length == 1) {
+        DialogManager(context: context, type: DialogType.twoButton).show(
+            titleText: "꿀팁을 드릴께요!",
+            contentText: "비타민이 있으면 리포트 발행이 가능해요.\n번호인증하고 비타민 5개를 받아볼까요?",
+            firstButtonText: "아니오",
+            firstSubmit: () {
+              Navigator.pop(context);
+            },
+            secondButtonText: "네",
+            secondSubmit: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                return const SettingUserInfo();
+              }));
+            });
+      }
+    });
 
     ref.listen(reportCreateProvider, (previous, next) async {
       if (next is ReportCreateLoading) {
@@ -91,21 +113,23 @@ class _ChatState extends ConsumerState<Chat> {
       backgroundColor: Colors.white,
       appBarActions: [
         InkWell(
-          onTap: () async {
-            ref.read(reportCreateProvider.notifier).create(uuid: chatId);
+          onTap: reportIssue == true
+              ? () async {
+                  ref.read(reportCreateProvider.notifier).create(uuid: chatId);
 
-            // DialogManager(context: context, type: DialogType.lemon).show(
-            //     titleText: "꿀팁을 드릴께요!",
-            //     contentText: "비타민이 있으면 리포트 발행이 가능해요.\n번호인증하고 비타민 5개를 받아볼까요?",
-            //     firstButtonText: "아니오",
-            //     firstSubmit: () {
-            //       Navigator.pop(context);
-            //     },
-            //     secondButtonText: "네",
-            //     secondSubmit: () {});
-          },
+                  // DialogManager(context: context, type: DialogType.lemon).show(
+                  //     titleText: "꿀팁을 드릴께요!",
+                  //     contentText: "비타민이 있으면 리포트 발행이 가능해요.\n번호인증하고 비타민 5개를 받아볼까요?",
+                  //     firstButtonText: "아니오",
+                  //     firstSubmit: () {
+                  //       Navigator.pop(context);
+                  //     },
+                  //     secondButtonText: "네",
+                  //     secondSubmit: () {});
+                }
+              : null,
           child: SizedBox(
-            child: ref.watch(reportIssueProvider) == false
+            child: reportIssue == false
                 ? Image.asset(
                     "assets/image/report/report_off.png",
                     width: 28,
@@ -308,18 +332,18 @@ class _ChatState extends ConsumerState<Chat> {
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
-                                    InkWell(
-                                      onTap: () {},
-                                      child: Container(
-                                        margin: const EdgeInsets.fromLTRB(
-                                            0, 5, 10, 10),
-                                        child: SvgPicture.asset(
-                                            'assets/svg/icon/mic.svg',
-                                            colorFilter: const ColorFilter.mode(
-                                                AppColors.blue7,
-                                                BlendMode.srcIn)),
-                                      ),
-                                    ),
+                                    // InkWell(
+                                    //   onTap: () {},
+                                    //   child: Container(
+                                    //     margin: const EdgeInsets.fromLTRB(
+                                    //         0, 5, 10, 10),
+                                    //     child: SvgPicture.asset(
+                                    //         'assets/svg/icon/mic.svg',
+                                    //         colorFilter: const ColorFilter.mode(
+                                    //             AppColors.blue7,
+                                    //             BlendMode.srcIn)),
+                                    //   ),
+                                    // ),
                                     Padding(
                                       padding: const EdgeInsets.only(
                                           right: 8, bottom: 10),

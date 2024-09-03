@@ -30,7 +30,7 @@ class ChatStartService {
     try {
       response = await dio.post(
         url,
-        data: jsonEncode({"date": "2024-09-03"}),
+        data: jsonEncode({"date": "2024-09-08"}),
       );
 
       var result = response.data;
@@ -39,10 +39,9 @@ class ChatStartService {
 
       return answer;
     } on DioException catch (error) {
-      print(error.response);
-      return error;
+      rethrow;
     } catch (e) {
-      return null;
+      rethrow;
     }
   }
 }

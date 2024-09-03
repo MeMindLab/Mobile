@@ -29,9 +29,9 @@ class ReportCreateStateNotifier extends StateNotifier<ReportCreateBase> {
       state = ReportCreateLoading(stateMsg: "레몬을 1 감소합니다.");
       await ref.read(lemonStateNotifierProvider.notifier).lemonDecrease();
 
-      // 레몬 1감소 실행
-      // 레포트 발급 성공
-      state = ReportCreateSuccess(stateMsg: "레포트 발급에 성공했습니다.");
+      Future.delayed(const Duration(seconds: 2), () {
+        state = ReportCreateSuccess(stateMsg: "레포트 발급에 성공했습니다.");
+      });
     } catch (e) {
       state = ReportCreateFailed(stateMsg: "레포트 발급에 실패했습니다.");
       print(e);
