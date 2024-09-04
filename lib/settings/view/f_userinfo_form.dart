@@ -467,7 +467,8 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
         widget.isUpdate == false
             ? InkWell(
                 onTap: () {
-                  // 회원탈퇴 페이지로 이동
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (_) => const WithDrawScreen()));
                 },
                 child: Text(
                   "계정 탈퇴하기",
