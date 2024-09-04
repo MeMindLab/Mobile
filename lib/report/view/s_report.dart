@@ -31,6 +31,7 @@ class Report extends ConsumerStatefulWidget {
 
 class _Report extends ConsumerState<Report> {
   String? date;
+  String? weeklyDate;
   final ScrollController scrollController = ScrollController();
   void scrollListener() {
     if (scrollController.offset >
@@ -53,6 +54,7 @@ class _Report extends ConsumerState<Report> {
     scrollController.addListener(scrollListener);
     setState(() {
       date = DateFormat("yyyy.MM").format(DateTime.now());
+      weeklyDate = DateFormat("yyyy-MM-dd").format(DateTime.now());
     });
     setBottomIdx(1);
   }
@@ -101,7 +103,7 @@ class _Report extends ConsumerState<Report> {
                           aspectRatio: 1.70,
                           child: FutureBuilder(
                               future: ReportWeeklyService()
-                                  .fetchData(date: "2024-08-31"),
+                                  .fetchData(date: weeklyDate!),
                               builder: (context, snapshot) {
                                 if (snapshot.connectionState ==
                                     ConnectionState.waiting) {
@@ -120,7 +122,7 @@ class _Report extends ConsumerState<Report> {
 
                                     int totalLength = newData.length;
                                     List<TodayScore> newBox = newData.sublist(
-                                      totalLength > 7 ? totalLength - 7 : 0,
+                                      totalLength > 7 ? totalLength - 7 : 1,
                                       totalLength,
                                     );
 
@@ -139,7 +141,8 @@ class _Report extends ConsumerState<Report> {
 
                                     while (flSpots.length < 7) {
                                       flSpots.add(FlSpot(
-                                          (flSpots.length * 2).toDouble(), 0));
+                                          (flSpots.length * 2).toDouble(),
+                                          0.07));
                                     }
 
                                     return ReportChart(

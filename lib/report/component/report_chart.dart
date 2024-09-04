@@ -24,8 +24,10 @@ Widget leftTitleWidgets(double value, TitleMeta meta) {
 }
 
 List<Color> gradientBarColors = [
-  Colors.blue,
-  Colors.lightBlue,
+  const Color(0xFF94BFFF),
+  const Color(0xFF0085FF),
+  const Color(0xFF94BFFF),
+  const Color(0xFFCDDEFF),
 ];
 
 List<Color> customGradientColors = [
@@ -122,17 +124,6 @@ class ReportChart extends StatelessWidget {
       lineBarsData: [
         LineChartBarData(
           spots: spots,
-          // spots: const [
-          //   FlSpot(0, 3),
-          //   FlSpot(1, 2.5),
-          //   FlSpot(2.6, 2),
-          //   FlSpot(4.9, 5),
-          //   FlSpot(6.8, 3.1),
-          //   FlSpot(8, 4),
-          //   FlSpot(9.5, 3),
-          //   FlSpot(11, 4),
-          //   FlSpot(12, 7),
-          // ],
           isCurved: true,
           gradient: LinearGradient(
             colors: gradientBarColors,
