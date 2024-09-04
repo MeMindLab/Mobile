@@ -25,10 +25,7 @@ import 'package:me_mind/common/provider/user_provider.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 import 'package:me_mind/common/utils/dialog_manager.dart';
-import 'package:me_mind/report/model/create_daily/create_daily_model.dart';
 import 'package:me_mind/report/provider/report_create_provider.dart';
-import 'package:me_mind/report/services/daily_service.dart';
-import 'package:me_mind/report/services/generate_image.dart';
 import 'package:me_mind/report/view/s_report_detail.dart';
 import 'package:me_mind/screen/main/s_main.dart';
 import 'package:me_mind/settings/view/s_setting_notification.dart';
@@ -77,7 +74,7 @@ class _ChatState extends ConsumerState<Chat> {
     CustomTheme theme = CustomThemeHolder.of(context).theme;
 
     ref.listen(reportIssueProvider, (previous, next) {
-      if (next && lemon == 0) {
+      if (next && lemon == 1) {
         if (user.isVerified! && dialog3 == false) {
           dialog3 = true;
           DialogManager(context: context, type: DialogType.twoButton).show(
@@ -115,7 +112,10 @@ class _ChatState extends ConsumerState<Chat> {
     });
 
     ref.listen(chatStateNotifierProvider, (previous, next) {
-      if (lemon == 0 && next.length == 1 && dialog1 == false) {
+      if (lemon == 1 &&
+          next.length == 1 &&
+          dialog1 == false &&
+          user.isVerified! == false) {
         dialog1 = true;
         DialogManager(context: context, type: DialogType.twoButton).show(
             titleText: "꿀팁을 드릴께요!",
@@ -132,7 +132,10 @@ class _ChatState extends ConsumerState<Chat> {
               }));
             });
       }
-      if (lemon == 0 && next.length == 5 && dialog2 == false) {
+      if (lemon == 0 &&
+          next.length == 5 &&
+          dialog2 == false &&
+          user.isVerified! == true) {
         dialog2 = true;
         DialogManager(context: context, type: DialogType.twoButton).show(
             titleText: "참고해주세요!",
@@ -179,16 +182,6 @@ class _ChatState extends ConsumerState<Chat> {
           onTap: reportIssue == true
               ? () async {
                   ref.read(reportCreateProvider.notifier).create(uuid: chatId);
-
-                  // DialogManager(context: context, type: DialogType.lemon).show(
-                  //     titleText: "꿀팁을 드릴께요!",
-                  //     contentText: "비타민이 있으면 리포트 발행이 가능해요.\n번호인증하고 비타민 5개를 받아볼까요?",
-                  //     firstButtonText: "아니오",
-                  //     firstSubmit: () {
-                  //       Navigator.pop(context);
-                  //     },
-                  //     secondButtonText: "네",
-                  //     secondSubmit: () {});
                 }
               : null,
           child: SizedBox(
