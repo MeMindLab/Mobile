@@ -23,6 +23,7 @@ import 'package:me_mind/settings/model/user_info_model.dart';
 import 'package:me_mind/settings/services/auth_sms_service.dart';
 import 'package:me_mind/settings/services/userinfo_service.dart';
 import 'package:me_mind/settings/utils/phone_number_formatter.dart';
+import 'package:me_mind/settings/view/s_withdraw_screen.dart';
 import 'package:me_mind/settings/view/w_certify_timer.dart';
 import 'package:me_mind/utils/validate.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -498,33 +499,8 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
         widget.isUpdate == false
             ? InkWell(
                 onTap: () {
-                  MultiChoiceDialog(
-                      imageAddr: "assets/image/logo/crying_logo.png",
-                      context: context,
-                      title: "떠나신다니요..",
-                      body: "미마인드에서 작성해온\n모든 대화내역들이 삭제돼요.\n그래도 정말 탈퇴하시겠어요?",
-                      isRow: false,
-                      actions: [
-                        AlertDialogButton(
-                            theme: theme,
-                            bgColor: AppColors.blueMain,
-                            content: "취소하기",
-                            onSubmit: () {
-                              Navigator.pop(context);
-                            }),
-                        AlertDialogButton(
-                            theme: theme,
-                            bgColor: theme.appColors.seedColor,
-                            content: "그래도 탈퇴할게요.",
-                            onSubmit: () async {
-                              final SharedPreferences prefs =
-                                  await SharedPreferences.getInstance();
-                              prefs.remove('isTutorial');
-                              await storage.deleteAll();
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (_) => const SplashScreen()));
-                            }),
-                      ]).show();
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (_) => const WithDrawScreen()));
                 },
                 child: Text(
                   "계정 탈퇴하기",
