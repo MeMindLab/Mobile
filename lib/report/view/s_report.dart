@@ -3,7 +3,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:me_mind/common/component/custom_date_picker.dart';
 import 'package:me_mind/common/component/dialog/custom_dialog.dart';
 import 'package:me_mind/common/constant/app_colors.dart';
-import 'package:me_mind/common/utils/dialog_manager.dart';
 import 'package:me_mind/report/model/report_model/report_model.dart';
 import 'package:me_mind/report/model/report_param/report_param_model.dart';
 import 'package:me_mind/report/model/report_weekly/report_weekly_model.dart';
@@ -21,6 +20,7 @@ import 'package:me_mind/report/component/report_chart.dart';
 import 'package:me_mind/report/utils/reports.dart';
 import 'package:me_mind/report/view/s_report_search.dart';
 import 'package:intl/intl.dart';
+import 'package:me_mind/common/utils/dialog_manager.dart';
 
 class Report extends StatefulWidget {
   const Report({super.key});
