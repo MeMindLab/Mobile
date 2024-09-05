@@ -22,7 +22,8 @@ import 'package:me_mind/report/w_capsule.dart';
 import 'package:me_mind/report/w_emotion_card.dart';
 
 class ReportDetail extends ConsumerStatefulWidget {
-  const ReportDetail({super.key});
+  final String conversationId;
+  const ReportDetail({super.key, required this.conversationId});
 
   @override
   ConsumerState<ReportDetail> createState() => _ReportDetailState();
@@ -43,8 +44,8 @@ class _ReportDetailState extends ConsumerState<ReportDetail> {
   Widget build(BuildContext context) {
     CustomTheme theme = CustomThemeHolder.of(context).theme;
     Color keywordColor = Theme.of(context).cardColor;
-    final id = ref.watch(chatIdProvider);
-    final detail = ref.watch(reportDetailProvider(id));
+    // final id = ref.watch(chatIdProvider);
+    final detail = ref.watch(reportDetailProvider(widget.conversationId));
     if (detail is ReportDetailLoading) {
       return const DefaultLayout(
           title: "8월 19일",

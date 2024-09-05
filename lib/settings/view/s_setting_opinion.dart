@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
@@ -224,52 +225,54 @@ class _SettingOpinionState extends State<SettingOpinion> {
                         });
                       },
                       child: Row(children: [
-                        Container(
-                            padding: const EdgeInsets.only(left: 5),
-                            width: 24,
-                            height: 24,
-                            child: SvgPicture.asset(
-                              'assets/svg/icon/check_all.svg',
+                        Transform.translate(
+                          offset: const Offset(0, -5),
+                          child: Container(
+                              padding: const EdgeInsets.only(left: 5),
                               width: 24,
                               height: 24,
-                              fit: BoxFit.scaleDown,
-                              colorFilter: infoCheck
-                                  ? ColorFilter.mode(
-                                      theme.appColors.confirmText,
-                                      BlendMode.srcIn)
-                                  : null,
-                            )),
+                              child: SvgPicture.asset(
+                                'assets/svg/icon/check_all.svg',
+                                width: 24,
+                                height: 24,
+                                fit: BoxFit.scaleDown,
+                                colorFilter: infoCheck
+                                    ? ColorFilter.mode(
+                                        theme.appColors.confirmText,
+                                        BlendMode.srcIn)
+                                    : null,
+                              )),
+                        ),
                         Flexible(
                             child: Container(
                           padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                           child: RichText(
                             text: TextSpan(
-                                text: "수집된 정보는 의견에 대한 답변 목적으로 활용되며,\n의견을 보내시면 ",
-                                style: FontSizes.getCapsuleStyle().copyWith(
+                              text: "수집된 정보는 의견에 대한 답변 목적으로 활용되며,\n의견을 보내시면 ",
+                              style: FontSizes.getCapsuleStyle().copyWith(
+                                color: theme.appColors.hintText,
+                                fontWeight: FontWeight.w400,
+                              ),
+                              children: [
+                                TextSpan(
+                                  text: "개인정보 수집 및 이용",
+                                  style: FontSizes.getCapsuleHighlightStyle()
+                                      .copyWith(
                                     color: theme.appColors.hintText,
-                                    fontWeight: FontWeight.w400),
-                                children: [
-                                  WidgetSpan(
-                                      child: InkWell(
-                                    onTap: () {
+                                    fontWeight: FontWeight.w400,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
                                       Navigator.push(context,
                                           MaterialPageRoute(builder: (context) {
                                         return const CollectUseScreen();
                                       }));
                                     },
-                                    child: Text(
-                                      "개인정보 수집 및 이용",
-                                      style:
-                                          FontSizes.getCapsuleHighlightStyle()
-                                              .copyWith(
-                                        color: theme.appColors.hintText,
-                                        fontWeight: FontWeight.w400,
-                                        decoration: TextDecoration.underline,
-                                      ),
-                                    ),
-                                  )),
-                                  const TextSpan(text: "에 동의하게 됩니다"),
-                                ]),
+                                ),
+                                const TextSpan(text: "에 동의하게 됩니다"),
+                              ],
+                            ),
                           ),
                         ))
                       ]),

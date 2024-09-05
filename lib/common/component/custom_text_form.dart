@@ -20,27 +20,28 @@ class CustomTextFormField extends StatelessWidget {
   final VoidCallback? onToggleObscureText;
   final bool isToggle;
   final bool? isLogin;
+  final TextStyle? textStyle;
 
-  const CustomTextFormField({
-    super.key,
-    this.hintText,
-    this.errorText,
-    this.maxLength,
-    this.labelText,
-    this.obscureText = false,
-    this.autoFocus = false,
-    this.suffixIcon,
-    this.borderColor,
-    this.validator,
-    this.controller,
-    this.onFieldSubmitted,
-    this.focusNode,
-    required this.onChanged,
-    this.readOnly = false,
-    this.onToggleObscureText,
-    this.isToggle = false,
-    this.isLogin = false,
-  });
+  const CustomTextFormField(
+      {super.key,
+      this.hintText,
+      this.errorText,
+      this.maxLength,
+      this.labelText,
+      this.obscureText = false,
+      this.autoFocus = false,
+      this.suffixIcon,
+      this.borderColor,
+      this.validator,
+      this.controller,
+      this.onFieldSubmitted,
+      this.focusNode,
+      required this.onChanged,
+      this.readOnly = false,
+      this.onToggleObscureText,
+      this.isToggle = false,
+      this.isLogin = false,
+      this.textStyle});
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +89,7 @@ class CustomTextFormField extends StatelessWidget {
           cursorWidth: 1.5,
           cursorHeight: 19,
           onChanged: onChanged,
-          style: FontSizes.getContentStyle(),
+          style: textStyle ?? FontSizes.getContentStyle(),
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.fromLTRB(5, 15, 15, 15),
             prefix: const Padding(

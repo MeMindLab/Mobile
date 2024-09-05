@@ -41,15 +41,16 @@ class _RootTabState extends State<RootTab> {
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(50),
                 border: Border.all(
-                  width: 1,
-                  color: theme.appColors.seedColor,
+                  color: const Color.fromRGBO(93, 115, 137, 0.15),
+                  width: 0.5,
                 ),
                 boxShadow: const [
                   BoxShadow(
                     color: Color.fromRGBO(212, 215, 225, 0.25),
-                    offset: Offset(0.0, -2.0),
-                    blurRadius: 4.0,
-                  )
+                    blurRadius: 4,
+                    spreadRadius: 1,
+                    offset: Offset(0, 0),
+                  ),
                 ],
               ),
               child: Column(

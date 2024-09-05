@@ -170,7 +170,9 @@ class _ChatState extends ConsumerState<Chat> {
         ShowSnackBar().showSnackBarDurationFunction(context, next.stateMsg);
         Future.delayed(const Duration(seconds: 2), () {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return const ReportDetail();
+            return ReportDetail(
+              conversationId: chatId,
+            );
           }));
         });
       }

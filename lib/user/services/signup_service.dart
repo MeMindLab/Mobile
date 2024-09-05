@@ -14,6 +14,7 @@ class SignupService implements Isignup {
 
     try {
       response = await dio.post(url, data: data);
+      print(response);
 
       var body = response.data;
       return UserSignUpModel.fromJson(body);

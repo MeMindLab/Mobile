@@ -3,6 +3,7 @@ import 'package:me_mind/common/component/custom_text_form.dart';
 import 'package:me_mind/common/component/rounded_button.dart';
 import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/constant.dart';
+import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/view/splash_screen.dart';
 import 'package:me_mind/settings/services/withdraw_service.dart';
 
@@ -30,6 +31,8 @@ class _WithdrawPasswordFragmentState extends State<WithdrawPasswordFragment> {
         CustomTextFormField(
           isLogin: true,
           hintText: "비밀번호를 입력해주세요",
+          textStyle: FontSizes.getContentStyle()
+              .copyWith(color: AppColors.gray6, fontWeight: FontWeight.w400),
           maxLength: 15,
           errorText: isError == true ? errorMsg : null,
           obscureText: isShow,

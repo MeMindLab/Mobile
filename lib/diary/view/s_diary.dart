@@ -5,6 +5,7 @@ import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/layout/topbar/widget/back_arrow.dart';
 import 'package:me_mind/diary/view/f_diary_community.dart';
 import 'package:me_mind/diary/view/f_my_share_picture.dart';
+import 'package:me_mind/diary/view/f_wait.dart';
 import 'package:me_mind/diary/view/w_diary_floating_button.dart';
 
 class Diary extends StatefulWidget {
@@ -41,32 +42,33 @@ class _DiaryState extends State<Diary> {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultLayout(
+    return const DefaultLayout(
       title: "그림일기",
-      appBarLeading: const BackArrowLeading(),
-      floatingActionButton: DiaryFloatingButton(scrollToTop: _scrollToTop),
-      child: CustomScrollView(
-        controller: scrollController,
-        slivers: [
-          SliverToBoxAdapter(
-            child: close == false
-                ? NotificationMessage(closeCallback: onMessageClose)
-                : null,
-          ),
-          const SliverToBoxAdapter(
-            child: MySharePictureFragment(),
-          ),
-          SliverToBoxAdapter(
-            child: Container(
-              height: 10,
-              color: AppColors.blue1,
-            ),
-          ),
-          const SliverToBoxAdapter(
-            child: DiaryCommunityFragment(),
-          )
-        ],
-      ),
+      appBarLeading: BackArrowLeading(),
+      // floatingActionButton: DiaryFloatingButton(scrollToTop: _scrollToTop),
+      child: DiaryFragment(),
+      // child: CustomScrollView(
+      //   controller: scrollController,
+      //   slivers: [
+      //     SliverToBoxAdapter(
+      //       child: close == false
+      //           ? NotificationMessage(closeCallback: onMessageClose)
+      //           : null,
+      //     ),
+      //     const SliverToBoxAdapter(
+      //       child: MySharePictureFragment(),
+      //     ),
+      //     SliverToBoxAdapter(
+      //       child: Container(
+      //         height: 10,
+      //         color: AppColors.blue1,
+      //       ),
+      //     ),
+      //     const SliverToBoxAdapter(
+      //       child: DiaryCommunityFragment(),
+      //     )
+      //   ],
+      // ),
     );
   }
 }

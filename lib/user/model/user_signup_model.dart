@@ -5,7 +5,7 @@ part 'user_signup_model.g.dart';
 @JsonSerializable()
 class UserSignUpModel {
   final String email;
-  final int id;
+  final String id;
   final String nickname;
   @JsonKey(name: "is_active")
   final bool isActive;

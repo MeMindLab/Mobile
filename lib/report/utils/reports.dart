@@ -22,8 +22,10 @@ SliverList renderReports({required List<Report> reports, Color? color}) {
           padding: const EdgeInsets.only(bottom: 20),
           child: InkWell(
             onTap: () {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (_) => ReportDetail()));
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (_) => ReportDetail(
+                        conversationId: reports[index].conversationId!,
+                      )));
             },
             child: ReportCard(
               imageUrl: report.thumbnail,
