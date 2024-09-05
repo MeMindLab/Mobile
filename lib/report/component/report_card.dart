@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
@@ -6,7 +7,7 @@ import 'package:me_mind/common/theme/custom_theme_holder.dart';
 import 'package:me_mind/report/w_capsule.dart';
 
 class ReportCard extends StatelessWidget {
-  final Image? image;
+  final String? imageUrl;
   final List<String> keywords;
   final String summary;
   final String date;
@@ -14,7 +15,7 @@ class ReportCard extends StatelessWidget {
 
   const ReportCard({
     super.key,
-    this.image,
+    this.imageUrl,
     required this.keywords,
     required this.summary,
     required this.date,
@@ -24,6 +25,7 @@ class ReportCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     CustomTheme theme = CustomThemeHolder.of(context).theme;
+    String newDate = DateFormat("yyyy.MM.dd").format(DateTime.parse(date));
 
     return IntrinsicHeight(
       child: Row(
@@ -37,10 +39,22 @@ class ReportCard extends StatelessWidget {
             height: 124,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(8.0),
-              child: Image.asset(
-                'assets/image/onboarding/page1.png',
-                fit: BoxFit.cover,
-              ),
+              child: imageUrl == null
+                  ? Image.asset(
+                      'assets/image/onboarding/page1.png',
+                      fit: BoxFit.cover,
+                    )
+                  : Image.network(
+                      imageUrl!,
+                      fit: BoxFit.cover,
+                      errorBuilder: (BuildContext context, Object exception,
+                          StackTrace? stackTrace) {
+                        return Image.asset(
+                          'assets/image/onboarding/page1.png',
+                          fit: BoxFit.cover,
+                        );
+                      },
+                    ),
             ),
           ),
           const SizedBox(
@@ -78,7 +92,7 @@ class ReportCard extends StatelessWidget {
                   children: [
                     const Spacer(),
                     Text(
-                      date,
+                      newDate,
                       textAlign: TextAlign.right,
                       style: FontSizes.getCapsuleStyle().copyWith(
                         color: theme.appColors.datetimeColor,

@@ -1,7 +1,14 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:me_mind/common/component/custom_date_picker.dart';
 import 'package:me_mind/common/constant/app_colors.dart';
+import 'package:me_mind/report/model/report_model/report_model.dart';
+import 'package:me_mind/report/model/report_param/report_param_model.dart';
+import 'package:me_mind/report/model/report_weekly/report_weekly_model.dart';
+import 'package:me_mind/report/provider/cursor_pagination_provider.dart';
+import 'package:me_mind/report/services/report_weekly_service.dart';
 import 'package:me_mind/report/view/f_date_picker_dialog.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
@@ -15,22 +22,39 @@ import 'package:me_mind/report/utils/reports.dart';
 import 'package:me_mind/report/view/s_report_search.dart';
 import 'package:intl/intl.dart';
 
-class Report extends StatefulWidget {
+class Report extends ConsumerStatefulWidget {
   const Report({super.key});
 
   @override
-  State<Report> createState() => _Report();
+  ConsumerState<Report> createState() => _Report();
 }
 
-class _Report extends State<Report> {
+class _Report extends ConsumerState<Report> {
   String? date;
+  String? weeklyDate;
+  final ScrollController scrollController = ScrollController();
+  void scrollListener() {
+    if (scrollController.offset >
+        scrollController.position.maxScrollExtent - 300) {
+      String defaultDateTime = DateFormat("yyyy.MM").format(DateTime.now());
+      List dateList = defaultDateTime.split(".");
+      int reportYear = int.parse(dateList[0]);
+      int reportMonth = int.parse(dateList[1]);
+      ref
+          .read(reportProvider(
+                  ReportParamModel(year: reportYear, month: reportMonth))
+              .notifier)
+          .paginate(fetchMore: true, year: reportYear, month: reportMonth);
+    }
+  }
 
   @override
   void initState() {
     super.initState();
-
+    scrollController.addListener(scrollListener);
     setState(() {
       date = DateFormat("yyyy.MM").format(DateTime.now());
+      weeklyDate = DateFormat("yyyy-MM-dd").format(DateTime.now());
     });
     setBottomIdx(1);
   }
@@ -39,38 +63,18 @@ class _Report extends State<Report> {
   Widget build(BuildContext context) {
     CustomTheme theme = CustomThemeHolder.of(context).theme;
 
-    List<ReportData> reports = [
-      ReportData(
-        keywords: ["키워드1", "키워드2"],
-        summary:
-            "이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summa이곳에는 ai summary 내용이 들어가게 됩니다.",
-        date: '2023.10.31',
-      ),
-      ReportData(
-        keywords: ["키워드1", "키워드2"],
-        summary:
-            "이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summa이곳에는 ai summary 내용이 들어가게 됩니다.",
-        date: '2023.10.31',
-      ),
-      ReportData(
-        keywords: ["키워드1", "키워드2"],
-        summary:
-            "이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summa이곳에는 ai summary 내용이 들어가게 됩니다.",
-        date: '2023.10.31',
-      ),
-      ReportData(
-        keywords: ["키워드1", "키워드2"],
-        summary:
-            "이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summa이곳에는 ai summary 내용이 들어가게 됩니다.",
-        date: '2023.10.31',
-      ),
-    ];
+    List dateList = date!.split(".");
+    int reportYear = int.parse(dateList[0]);
+    int reportMonth = int.parse(dateList[1]);
+    final state = ref.watch(
+        reportProvider(ReportParamModel(year: reportYear, month: reportMonth)));
 
     return DefaultLayout(
       title: "리포트",
       appBarLeading: const BackArrowLeading(),
       bottomNavigationBar: const RootTab(),
       child: CustomScrollView(
+        controller: scrollController,
         slivers: [
           SliverToBoxAdapter(
             child: Column(
@@ -95,9 +99,61 @@ class _Report extends State<Report> {
                           maxWidth: MediaQuery.of(context).size.width * 0.82,
                           maxHeight: 165,
                         ),
-                        child: const AspectRatio(
+                        child: AspectRatio(
                           aspectRatio: 1.70,
-                          child: ReportChart(),
+                          child: FutureBuilder(
+                              future: ReportWeeklyService()
+                                  .fetchData(date: weeklyDate!),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return const Center(
+                                      child: CircularProgressIndicator());
+                                } else if (snapshot.connectionState ==
+                                    ConnectionState.done) {
+                                  if (snapshot.hasError) {
+                                    return Center(
+                                        child:
+                                            Text('Error: ${snapshot.error}'));
+                                  } else if (snapshot.hasData) {
+                                    final result =
+                                        snapshot.data as ReportWeeklyModel;
+                                    List<TodayScore> newData = result.results!;
+
+                                    int totalLength = newData.length;
+                                    List<TodayScore> newBox = newData.sublist(
+                                      totalLength > 7 ? totalLength - 7 : 1,
+                                      totalLength,
+                                    );
+
+                                    List<String> dates = newBox
+                                        .map((item) => item.date)
+                                        .toList();
+                                    List<FlSpot> flSpots = [];
+                                    for (int i = 0; i < newBox.length; i++) {
+                                      flSpots.add(FlSpot((i * 2).toDouble(),
+                                          newBox[i].score / 20));
+                                    }
+
+                                    while (dates.length < 7) {
+                                      dates.add("");
+                                    }
+
+                                    while (flSpots.length < 7) {
+                                      flSpots.add(FlSpot(
+                                          (flSpots.length * 2).toDouble(),
+                                          0.07));
+                                    }
+
+                                    return ReportChart(
+                                      dates: dates,
+                                      data: newBox,
+                                      spots: flSpots,
+                                    );
+                                  }
+                                }
+                                return Container();
+                              }),
                         ),
                       ),
                     ],
@@ -136,7 +192,7 @@ class _Report extends State<Report> {
                                 fontWeight: FontWeight.w400,
                               ),
                             ),
-                            Icon(
+                            const Icon(
                               Icons.arrow_forward_ios_outlined,
                               size: 18.0,
                               color: Colors.black,
@@ -152,7 +208,7 @@ class _Report extends State<Report> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (_) => ReportSearch()));
+                                  builder: (_) => const ReportSearch()));
                         },
                       ),
                     ],
@@ -161,10 +217,45 @@ class _Report extends State<Report> {
               ],
             ),
           ),
-          SliverPadding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            sliver: renderReports(reports: reports, color: AppColors.blue3),
-          ),
+          if (state is ReportCursorPaginationLoading)
+            const SliverToBoxAdapter(
+              child: Column(children: [
+                SizedBox(
+                  height: 100,
+                ),
+                Center(
+                  child: CircularProgressIndicator(),
+                )
+              ]),
+            ),
+          if (state is ReportCursorPaginationError)
+            const SliverToBoxAdapter(
+              child: Column(children: [
+                SizedBox(
+                  height: 100,
+                ),
+                Center(
+                  child: Text("리포트를 불러오지 못했습니다."),
+                )
+              ]),
+            ),
+          if (state is ReportModel)
+            state.reports!.isEmpty
+                ? const SliverToBoxAdapter(
+                    child: Column(children: [
+                      SizedBox(
+                        height: 100,
+                      ),
+                      Center(
+                        child: Text("리포트가 없습니다."),
+                      )
+                    ]),
+                  )
+                : SliverPadding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    sliver: renderReports(
+                        reports: state.reports!, color: AppColors.blue3),
+                  ),
         ],
       ),
     );

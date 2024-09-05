@@ -1,105 +1,101 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:me_mind/common/component/root_tab.dart';
-
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/layout/topbar/widget/back_arrow.dart';
-import 'package:me_mind/report/utils/reports.dart';
+import 'package:me_mind/report/model/report_model/report_model.dart';
+import 'package:me_mind/report/model/report_param/report_param_model.dart';
+import 'package:me_mind/report/provider/cursor_pagination_provider.dart';
 import 'package:me_mind/report/view/f_report_month.dart';
 import 'package:intl/intl.dart';
 
-class ReportMonth extends StatefulWidget {
+class ReportMonth extends ConsumerStatefulWidget {
   final DateTime selectedDate;
 
   const ReportMonth({super.key, required this.selectedDate});
 
   @override
-  State<ReportMonth> createState() => _ReportMonthState();
+  ConsumerState<ReportMonth> createState() => _ReportMonthState();
 }
 
-class _ReportMonthState extends State<ReportMonth> {
+class _ReportMonthState extends ConsumerState<ReportMonth> {
   late DateTime reportDate;
+  final ScrollController scrollController = ScrollController();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
+    scrollController.addListener(scrollListener);
     setState(() {
       reportDate = widget.selectedDate;
     });
   }
 
+  void scrollListener() {
+    if (scrollController.offset >
+        scrollController.position.maxScrollExtent - 300) {
+      String defaultDateTime = DateFormat("yyyy.MM").format(reportDate);
+      List dateList = defaultDateTime.split(".");
+      int reportYear = int.parse(dateList[0]);
+      int reportMonth = int.parse(dateList[1]);
+      ref
+          .read(reportProvider(
+                  ReportParamModel(year: reportYear, month: reportMonth))
+              .notifier)
+          .paginate(fetchMore: true, year: reportYear, month: reportMonth);
+    }
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    scrollController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    List<ReportData> reports = [
-      ReportData(
-        keywords: ["키워드1", "키워드2"],
-        summary:
-            "이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summa이곳에는 ai summary 내용이 들어가게 됩니다.",
-        date: '2023.10.31',
-      ),
-      ReportData(
-        keywords: ["키워드1", "키워드2"],
-        summary:
-            "이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summa이곳에는 ai summary 내용이 들어가게 됩니다.",
-        date: '2023.10.31',
-      ),
-      ReportData(
-        keywords: ["키워드1", "키워드2"],
-        summary:
-            "이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summa이곳에는 ai summary 내용이 들어가게 됩니다.",
-        date: '2023.10.31',
-      ),
-      ReportData(
-        keywords: ["키워드1", "키워드2"],
-        summary:
-            "이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summa이곳에는 ai summary 내용이 들어가게 됩니다.",
-        date: '2023.10.31',
-      ),
-      ReportData(
-        keywords: ["키워드1", "키워드2"],
-        summary:
-            "이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summa이곳에는 ai summary 내용이 들어가게 됩니다.",
-        date: '2023.10.31',
-      ),
-      ReportData(
-        keywords: ["키워드1", "키워드2"],
-        summary:
-            "이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summa이곳에는 ai summary 내용이 들어가게 됩니다.",
-        date: '2023.10.31',
-      ),
-      ReportData(
-        keywords: ["키워드1", "키워드2"],
-        summary:
-            "이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summa이곳에는 ai summary 내용이 들어가게 됩니다.",
-        date: '2023.10.31',
-      ),
-      ReportData(
-        keywords: ["키워드1", "키워드2"],
-        summary:
-            "이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summa이곳에는 ai summary 내용이 들어가게 됩니다.",
-        date: '2023.10.31',
-      ),
-      ReportData(
-        keywords: ["키워드1", "키워드2"],
-        summary:
-            "이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summary 내용이 들어가게 됩니다이곳에는 ai summa이곳에는 ai summary 내용이 들어가게 됩니다.",
-        date: '2023.10.31',
-      ),
-    ];
-
-    // DateTime now = DateTime.now();
-    // String defaultDateTime =
-    //     '${now.year}.${now.month.toString().padLeft(2, '0')}';
     String defaultDateTime = DateFormat("yyyy.MM").format(reportDate);
+    List dateList = defaultDateTime.split(".");
+    int reportYear = int.parse(dateList[0]);
+    int reportMonth = int.parse(dateList[1]);
+
+    final state = ref.watch(
+        reportProvider(ReportParamModel(year: reportYear, month: reportMonth)));
+
+    if (state is ReportCursorPaginationLoading) {
+      return const DefaultLayout(
+          title: "리포트",
+          appBarLeading: BackArrowLeading(),
+          bottomNavigationBar: RootTab(),
+          child: Center(child: CircularProgressIndicator()));
+    }
+    if (state is ReportCursorPaginationError) {
+      return const DefaultLayout(
+          title: "리포트",
+          appBarLeading: BackArrowLeading(),
+          bottomNavigationBar: RootTab(),
+          child: Center(child: Text("레포트를 불러오지 못했습니다.")));
+    }
+    final newState = state as ReportModel;
     return DefaultLayout(
       title: "리포트",
       appBarLeading: const BackArrowLeading(),
-      child: ReportMonthFragment(
-        reports: reports,
-        datetime: defaultDateTime,
+      bottomNavigationBar: const RootTab(),
+      child: SingleChildScrollView(
+        controller: scrollController,
+        child: Column(children: [
+          ReportMonthFragment(
+            reports: newState.reports,
+            datetime: defaultDateTime,
+          ),
+          if (state is ReportCursorPaginationFetchingMore)
+            const Center(
+              child: CircularProgressIndicator(),
+            ),
+        ]),
       ),
-      bottomNavigationBar: RootTab(),
     );
   }
 }
