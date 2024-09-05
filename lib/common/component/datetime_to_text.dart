@@ -7,3 +7,14 @@ String datetimeType1() {
 String datetimeType2() {
   return DateFormat.jm().format(DateTime.now());
 }
+
+String datetimeType3() {
+  return DateFormat('yyyy-MM-dd').format(DateTime.now());
+}
+
+String chatAddDateTimeType(String? time) {
+  DateTime dateTime = time == null ? DateTime.now() : DateTime.parse(time);
+
+  String msgTime = DateFormat('hh:mm a').format(dateTime.toLocal());
+  return msgTime;
+}

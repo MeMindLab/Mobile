@@ -7,6 +7,7 @@ import 'package:me_mind/report/model/report_model/report_model.dart';
 import 'package:me_mind/report/utils/reports.dart';
 import 'package:me_mind/report/view/f_date_picker_dialog.dart';
 import 'package:me_mind/report/view/s_report_search.dart';
+import 'package:me_mind/common/utils/dialog_manager.dart';
 
 class ReportMonthFragment extends StatelessWidget {
   final String datetime;
@@ -38,13 +39,12 @@ class ReportMonthFragment extends StatelessWidget {
                     highlightColor: Colors.transparent,
                     splashColor: Colors.transparent,
                     onTap: () {
-                      Dialogs(
-                              context: context,
-                              content: CustomDatePicker(
-                                selectedDate: DateTime.now(),
-                              ),
-                              contentPadding: EdgeInsets.zero)
-                          .callDateDialog();
+                      DialogManager(context: context, type: DialogType.custom)
+                          .show(
+                        customWidget: CustomDatePicker(
+                          selectedDate: DateTime.now(),
+                        ),
+                      );
                     },
                     child: Row(
                       children: [
@@ -53,7 +53,7 @@ class ReportMonthFragment extends StatelessWidget {
                           style: FontSizes.getHeadline1Style()
                               .copyWith(fontWeight: FontWeight.w500),
                         ),
-                        Icon(
+                        const Icon(
                           Icons.arrow_forward_ios_outlined,
                           size: 18.0,
                           color: Colors.black,
@@ -66,8 +66,10 @@ class ReportMonthFragment extends StatelessWidget {
                   visualDensity: VisualDensity.compact,
                   onPressed: () {
                     // 아이콘 버튼의 동작을 정의합니다.
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (_) => ReportSearch()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => const ReportSearch()));
                   },
                   icon: SvgPicture.asset(
                     'assets/svg/icon/search.svg',

@@ -2,144 +2,138 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'report_detail_model.g.dart';
 
+abstract class ReportDetailState {}
+
+class ReportDetailFailed extends ReportDetailState {}
+
+class ReportDetailLoading extends ReportDetailState {}
+
 @JsonSerializable()
-class ReportDetailModel {
-  final String code;
-  final String msg;
-  final Result result;
-
+class ReportDetailModel extends ReportDetailState {
+  @JsonKey(name: "report_id")
+  final String? reportId;
+  @JsonKey(name: "report_summary")
+  final ReportSummary? reportSummary;
+  final Emotions? emotions;
+  @JsonKey(name: "conversation_id")
+  final String? conversationId;
+  @JsonKey(name: "drawing_diary")
+  final DrawingDiary? drawingDiary;
+  @JsonKey(name: "chat_history")
+  final List<ChatHistory>? chatHistory;
+  final List<String>? images;
   ReportDetailModel({
-    required this.code,
-    required this.msg,
-    required this.result,
+    this.reportId,
+    this.reportSummary,
+    this.emotions,
+    this.conversationId,
+    this.drawingDiary,
+    this.chatHistory,
+    this.images,
   });
-
   factory ReportDetailModel.fromJson(Map<String, dynamic> json) =>
       _$ReportDetailModelFromJson(json);
-}
 
-@JsonSerializable()
-class Result {
-  final Report report;
-  Result({
-    required this.report,
-  });
-
-  factory Result.fromJson(Map<String, dynamic> json) => _$ResultFromJson(json);
-}
-
-@JsonSerializable()
-class Report {
-  @JsonKey(name: 'report_id')
-  final int reportId;
-  @JsonKey(name: 'created_at')
-  final String createdAt;
-  final String date;
-  final int score;
-  @JsonKey(name: 'sentiment_analysis')
-  final SentimentAnalysis sentimentAnalysis;
-  @JsonKey(name: 'report_summary')
-  final ReportSummary reportSummary;
-  @JsonKey(name: 'drawing_diary')
-  final DrawingDiary drawingDiary;
-  @JsonKey(name: 'chat_history')
-  final List<ChatHistory> chatHistory;
-  @JsonKey(name: 'attached_photo')
-  final List<AttachedPhoto> attachedPhoto;
-  Report({
-    required this.reportId,
-    required this.createdAt,
-    required this.date,
-    required this.score,
-    required this.sentimentAnalysis,
-    required this.reportSummary,
-    required this.drawingDiary,
-    required this.chatHistory,
-    required this.attachedPhoto,
-  });
-
-  factory Report.fromJson(Map<String, dynamic> json) => _$ReportFromJson(json);
-}
-
-@JsonSerializable()
-class SentimentAnalysis {
-  final int sad;
-  final int happy;
-  final int expectation;
-  final int soso;
-  final int sick;
-  final int excited;
-  SentimentAnalysis({
-    required this.sad,
-    required this.happy,
-    required this.expectation,
-    required this.soso,
-    required this.sick,
-    required this.excited,
-  });
-
-  factory SentimentAnalysis.fromJson(Map<String, dynamic> json) =>
-      _$SentimentAnalysisFromJson(json);
+  ReportDetailModel copyWith({
+    String? reportId,
+    ReportSummary? reportSummary,
+    Emotions? emotions,
+    String? conversationId,
+    DrawingDiary? drawingDiary,
+    List<ChatHistory>? chatHistory,
+    List<String>? images,
+  }) {
+    return ReportDetailModel(
+      reportId: reportId ?? this.reportId,
+      reportSummary: reportSummary ?? this.reportSummary,
+      emotions: emotions ?? this.emotions,
+      conversationId: conversationId ?? this.conversationId,
+      drawingDiary: drawingDiary ?? this.drawingDiary,
+      chatHistory: chatHistory ?? this.chatHistory,
+      images: images ?? this.images,
+    );
+  }
 }
 
 @JsonSerializable()
 class ReportSummary {
-  final List<String> tags;
+  final String? summary;
+  final List<String>? tags;
   ReportSummary({
-    required this.tags,
+    this.summary,
+    this.tags,
   });
-
   factory ReportSummary.fromJson(Map<String, dynamic> json) =>
       _$ReportSummaryFromJson(json);
 }
 
 @JsonSerializable()
 class DrawingDiary {
-  @JsonKey(name: 'image_title')
-  final String imageTitle;
-  @JsonKey(name: 'image_url')
-  final String imageUrl;
-
+  @JsonKey(name: "image_url")
+  final String? imageUrl;
+  @JsonKey(name: "image_title")
+  final String? imageTitle;
   DrawingDiary({
-    required this.imageTitle,
-    required this.imageUrl,
+    this.imageUrl,
+    this.imageTitle,
   });
-
   factory DrawingDiary.fromJson(Map<String, dynamic> json) =>
       _$DrawingDiaryFromJson(json);
 }
 
 @JsonSerializable()
+class Emotions {
+  @JsonKey(name: "comfortable_percentage")
+  final double? comfortablePercentage;
+  @JsonKey(name: "happy_percentage")
+  final double? happyPercentage;
+  @JsonKey(name: "sad_percentage")
+  final double? sadPercentage;
+  @JsonKey(name: "joyful_percentage")
+  final double? joyfulPercentage;
+  @JsonKey(name: "annoyed_percentage")
+  final double? annoyedPercentage;
+  @JsonKey(name: "lethargic_percentage")
+  final double? lethargicPercentage;
+  @JsonKey(name: "total_score")
+  final double? totalScore;
+  Emotions({
+    this.comfortablePercentage,
+    this.happyPercentage,
+    this.sadPercentage,
+    this.joyfulPercentage,
+    this.annoyedPercentage,
+    this.lethargicPercentage,
+    this.totalScore,
+  });
+
+  factory Emotions.fromJson(Map<String, dynamic> json) =>
+      _$EmotionsFromJson(json);
+}
+
+@JsonSerializable()
 class ChatHistory {
-  final int id;
-  final String message;
-  final int index;
-  @JsonKey(name: 'is_ai')
-  final bool isAi;
-  @JsonKey(name: 'is_image')
-  final bool isImage;
+  final String? role;
+  final String? content;
+  @JsonKey(name: "is_image")
+  final bool? isImage;
   ChatHistory({
-    required this.id,
-    required this.message,
-    required this.index,
-    required this.isAi,
-    required this.isImage,
+    this.role,
+    this.content,
+    this.isImage,
   });
 
   factory ChatHistory.fromJson(Map<String, dynamic> json) =>
       _$ChatHistoryFromJson(json);
 }
 
-@JsonSerializable()
-class AttachedPhoto {
-  final int id;
-  @JsonKey(name: 'image_url')
-  final String imageUrl;
-  AttachedPhoto({
-    required this.id,
-    required this.imageUrl,
-  });
-
-  factory AttachedPhoto.fromJson(Map<String, dynamic> json) =>
-      _$AttachedPhotoFromJson(json);
+class ReportDetailSuccess extends ReportDetailModel {
+  ReportDetailSuccess(
+      {required super.chatHistory,
+      required super.conversationId,
+      required super.drawingDiary,
+      required super.emotions,
+      required super.images,
+      required super.reportId,
+      required super.reportSummary});
 }

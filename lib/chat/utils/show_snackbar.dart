@@ -2,18 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:me_mind/chat/component/custom_snackbar.dart';
 
 class ShowSnackBar {
-  showSnackBarFunction(context, String text, {bool? isBack = false}) {
+  showSnackBarFunction(context, String msg) {
     SnackBar snackBar = SnackBar(
-      content: CustomSnackBar(),
+      content: CustomSnackBar(text: msg),
       backgroundColor: Colors.transparent,
       elevation: 0,
       dismissDirection: DismissDirection.up,
+      duration: const Duration(days: 1),
       behavior: SnackBarBehavior.floating,
       margin: EdgeInsets.only(
-        bottom: MediaQuery.of(context).size.height - 230,
+        bottom: MediaQuery.of(context).size.height - 160,
       ),
     );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
 
+  showSnackBarDurationFunction(context, String msg) {
+    SnackBar snackBar = SnackBar(
+      content: CustomSnackBar(text: msg),
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      dismissDirection: DismissDirection.up,
+      duration: const Duration(seconds: 2),
+      behavior: SnackBarBehavior.floating,
+      margin: EdgeInsets.only(
+        bottom: MediaQuery.of(context).size.height - 160,
+      ),
+    );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }

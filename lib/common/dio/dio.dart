@@ -1,6 +1,18 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:me_mind/common/constant/constant.dart';
+import 'package:me_mind/common/storage/secure_storage.dart';
+
+final dioProvider = Provider<Dio>((ref) {
+  final dio = Dio();
+
+  final storage = ref.watch(secureStorageProvider);
+
+  dio.interceptors.add(CustomInterceptor(storage: storage));
+
+  return dio;
+});
 
 class CustomInterceptor extends Interceptor {
   final FlutterSecureStorage storage;
@@ -13,7 +25,7 @@ class CustomInterceptor extends Interceptor {
     if (options.headers["accessToken"] == true) {
       options.headers.remove("accessToken");
       final accessToken = await storage.read(key: ACCESS_TOKEN);
-
+      options.headers.clear();
       options.headers.addAll({
         "authorization": "Bearer $accessToken",
       });
@@ -21,7 +33,7 @@ class CustomInterceptor extends Interceptor {
     if (options.headers["refreshToken"] == true) {
       options.headers.remove("refreshToken");
       final refreshToken = await storage.read(key: REFRESH_TOKEN);
-
+      options.headers.clear();
       options.headers.addAll({
         "authorization": "Bearer $refreshToken",
       });

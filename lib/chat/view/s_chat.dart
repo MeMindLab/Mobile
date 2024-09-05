@@ -1,204 +1,201 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:me_mind/chat/component/chat_message_tile.dart';
 import 'package:me_mind/chat/component/chat_mic.dart';
 import 'package:me_mind/chat/component/chat_notification.dart';
+import 'package:me_mind/chat/model/chat_message_model.dart';
+import 'package:me_mind/chat/model/image_upload_model.dart';
+import 'package:me_mind/chat/provider/chat_id_provider.dart';
+import 'package:me_mind/chat/provider/chat_provider.dart';
+import 'package:me_mind/chat/provider/report_issue_provider.dart';
+import 'package:me_mind/chat/services/image_picker_service.dart';
+import 'package:me_mind/chat/services/image_upload_service.dart';
 import 'package:me_mind/chat/utils/show_snackbar.dart';
 import 'package:me_mind/common/component/datetime_to_text.dart';
-import 'package:me_mind/common/component/dots_indicator.dart';
+import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/layout/topbar/widget/back_arrow.dart';
+import 'package:me_mind/common/provider/lemon_provider.dart';
+import 'package:me_mind/common/provider/user_provider.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
+import 'package:me_mind/common/utils/dialog_manager.dart';
+import 'package:me_mind/report/provider/report_create_provider.dart';
+import 'package:me_mind/report/view/s_report_detail.dart';
 import 'package:me_mind/screen/main/s_main.dart';
+import 'package:me_mind/settings/view/s_setting_notification.dart';
+import 'package:me_mind/settings/view/s_setting_userinfo.dart';
 
-class Chat extends StatefulWidget {
+class Chat extends ConsumerStatefulWidget {
   const Chat({super.key});
 
   @override
-  State<Chat> createState() => _ChatState();
+  ConsumerState<Chat> createState() => _ChatState();
 }
 
-class _ChatState extends State<Chat> {
+class _ChatState extends ConsumerState<Chat> {
   final GlobalKey _containerkey = GlobalKey();
   bool isMicOpen = false;
   double micWidth = 61.63;
   bool isFolded = false;
-  bool isReportIssue = false;
   double prefixHeight = 40;
+  String chatContent = "";
+  TextEditingController controller = TextEditingController();
+  String dateFormatted = "";
+  bool dialog1 = false;
+  bool dialog2 = false;
+  bool dialog3 = false;
+  bool dialog4 = false;
+
+  void chatContentChange(String msg) {
+    setState(() {
+      chatContent = msg;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
   }
 
-  Widget AiCommentTile(
-      {CustomTheme? theme,
-      String? commentContent,
-      bool isAirequest = false,
-      bool isStart = false,
-      bool isSameGureumi = false}) {
-    return Container(
-      padding: isStart == true
-          ? const EdgeInsets.all(0)
-          : const EdgeInsets.only(top: 30),
-      child: ListTile(
-        minVerticalPadding: 0,
-        visualDensity: VisualDensity(vertical: 2),
-        leading: Container(
-          constraints: BoxConstraints(
-            minWidth: MediaQuery.of(context).size.width * 0.1,
-            minHeight: double.infinity,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              const Spacer(),
-              isSameGureumi == false
-                  ? Image.asset(
-                      'assets/image/logo/chatlogo.png',
-                      width: 50,
-                      height: 50,
-                      fit: BoxFit.fill,
-                    )
-                  : const SizedBox(
-                      width: 50,
-                      height: 50,
-                    ),
-            ],
-          ),
-        ),
-        title: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-              decoration: BoxDecoration(
-                color: theme!.appColors.userInputBackground,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(32),
-                  bottomLeft: Radius.circular(0),
-                  topRight: Radius.circular(32),
-                  bottomRight: Radius.circular(32),
-                ),
-              ),
-              constraints: BoxConstraints(
-                maxWidth: MediaQuery.of(context).size.width * 0.68,
-              ),
-              child: isAirequest == false
-                  ? Text(
-                      commentContent!,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.black,
-                      ),
-                    )
-                  : CustomDotsIndicator(),
-            ),
-            Container(
-              margin: const EdgeInsets.only(left: 8, top: 4),
-              child: Text(
-                datetimeType2(),
-                style: FontSizes.getCapsuleStyle().copyWith(
-                    color: theme.appColors.hintText,
-                    fontSize: 13,
-                    fontWeight: FontWeight.w400),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget UserCommentTile({
-    CustomTheme? theme,
-    String? commentContent,
-  }) {
-    return Container(
-      padding: const EdgeInsets.only(top: 30),
-      child: ListTile(
-        minVerticalPadding: 0,
-        leading: const SizedBox(
-          width: 50,
-          height: 50,
-        ),
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
-              decoration: BoxDecoration(
-                color: theme!.appColors.userChatBackground,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(32),
-                  bottomLeft: Radius.circular(32),
-                  topRight: Radius.circular(32),
-                  bottomRight: Radius.circular(0),
-                ),
-              ),
-              constraints: BoxConstraints(
-                maxWidth: MediaQuery.of(context).size.width * 0.68,
-              ),
-              child: Text(
-                commentContent!,
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.black,
-                ),
-              ),
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width * 0.7,
-              margin: const EdgeInsets.only(right: 8, top: 4),
-              child: Align(
-                  alignment: Alignment.centerRight,
-                  child: Text(
-                    datetimeType2(),
-                    style: FontSizes.getCapsuleStyle().copyWith(
-                        color: theme.appColors.hintText,
-                        fontSize: 13,
-                        fontWeight: FontWeight.w400),
-                  )),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(chatStateNotifierProvider);
+    final chatId = ref.watch(chatIdProvider);
+    final reportIssue = ref.watch(reportIssueProvider);
+    final lemon = ref.watch(lemonStateNotifierProvider);
+    final user = ref.watch(userProvider);
+
     CustomTheme theme = CustomThemeHolder.of(context).theme;
+
+    ref.listen(reportIssueProvider, (previous, next) {
+      if (next && lemon == 1) {
+        if (user.isVerified! && dialog3 == false) {
+          dialog3 = true;
+          DialogManager(context: context, type: DialogType.twoButton).show(
+              titleText: "데모버전 이용이 끝났어요.",
+              contentText: "정식출시일을 기다려주세요!\n일기는 계속 작성 가능하며\n데이터는 보존할게요.",
+              firstButtonText: "닫기",
+              firstSubmit: () {
+                Navigator.pop(context);
+              },
+              secondButtonText: "이메일알림 받기",
+              secondSubmit: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) {
+                  return const SettingNotification();
+                }));
+              });
+        } else if (user.isVerified == false && dialog4 == false) {
+          dialog4 = true;
+          DialogManager(context: context, type: DialogType.twoButton).show(
+              titleText: "앗, 비타민이 없으시군요!",
+              contentText: "리포트 발행은 비타민이 필요해요.\n번호인증 후 무료 5개를 받으시겠어요?",
+              firstButtonText: "아니오",
+              firstSubmit: () {
+                Navigator.pop(context);
+              },
+              secondButtonText: "네",
+              secondSubmit: () {
+                Navigator.of(context)
+                    .pushReplacement(MaterialPageRoute(builder: (context) {
+                  return const SettingUserInfo();
+                }));
+              });
+        }
+      }
+    });
+
+    ref.listen(chatStateNotifierProvider, (previous, next) {
+      if (lemon == 1 &&
+          next.length == 1 &&
+          dialog1 == false &&
+          user.isVerified! == false) {
+        dialog1 = true;
+        DialogManager(context: context, type: DialogType.twoButton).show(
+            titleText: "꿀팁을 드릴께요!",
+            contentText: "비타민이 있으면 리포트 발행이 가능해요.\n번호인증하고 비타민 5개를 받아볼까요?",
+            firstButtonText: "아니오",
+            firstSubmit: () {
+              Navigator.pop(context);
+            },
+            secondButtonText: "네",
+            secondSubmit: () {
+              Navigator.of(context)
+                  .pushReplacement(MaterialPageRoute(builder: (context) {
+                return const SettingUserInfo();
+              }));
+            });
+      }
+      if (lemon == 0 &&
+          next.length == 5 &&
+          dialog2 == false &&
+          user.isVerified! == true) {
+        dialog2 = true;
+        DialogManager(context: context, type: DialogType.twoButton).show(
+            titleText: "참고해주세요!",
+            contentText:
+                "비타민이 소진되어 리포트 발행이 불가해요.\n추후 충전서비스가 출시될 예정이니\n조금만 기다려주세요.",
+            firstButtonText: "닫기",
+            firstSubmit: () {
+              Navigator.pop(context);
+            },
+            secondButtonText: "이메일알림 받기",
+            secondSubmit: () {
+              Navigator.of(context)
+                  .pushReplacement(MaterialPageRoute(builder: (context) {
+                return const SettingUserInfo();
+              }));
+            });
+      }
+    });
+
+    ref.listen(reportCreateProvider, (previous, next) async {
+      if (next is ReportCreateLoading) {
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        ShowSnackBar().showSnackBarFunction(context, next.stateMsg);
+      }
+      if (next is ReportCreateFailed) {
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        ShowSnackBar().showSnackBarDurationFunction(context, next.stateMsg);
+      }
+
+      if (next is ReportCreateSuccess) {
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        ShowSnackBar().showSnackBarDurationFunction(context, next.stateMsg);
+        Future.delayed(const Duration(seconds: 2), () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return const ReportDetail();
+          }));
+        });
+      }
+    });
     return DefaultLayout(
       backgroundColor: Colors.white,
       appBarActions: [
         InkWell(
-          onTap: () {
-            setState(() {
-              isReportIssue = true;
-            });
-            ShowSnackBar()
-                .showSnackBarFunction(context, "리포트를 생성 중입니다.창을 닫지말고 기다려주세요.");
-            setState(() {
-              isReportIssue = false;
-            });
-          },
+          onTap: reportIssue == true
+              ? () async {
+                  ref.read(reportCreateProvider.notifier).create(uuid: chatId);
+                }
+              : null,
           child: SizedBox(
-            child: Row(
-              children: [
-                SvgPicture.asset('assets/svg/icon/report.svg',
+            child: reportIssue == false
+                ? Image.asset(
+                    "assets/image/report/report_off.png",
                     width: 28,
                     height: 28,
-                    colorFilter: ColorFilter.mode(
-                        isReportIssue == false ? Colors.grey : Colors.blue,
-                        BlendMode.srcIn)),
-              ],
-            ),
+                  )
+                : Image.asset(
+                    "assets/image/report/report_on.png",
+                    width: 28,
+                    height: 28,
+                  ),
           ),
         ),
       ],
@@ -207,61 +204,41 @@ class _ChatState extends State<Chat> {
       child: SafeArea(
         child: Column(
           children: [
-            isFolded == true
-                ? InkWell(
-                    onTap: () {
-                      setState(() {
-                        isFolded = false;
-                      });
-                    },
-                    child: SizedBox(
-                      height: 40,
-                      width: double.infinity,
-                      child: Center(
-                        child: SizedBox(
-                          height: 20,
-                          width: 20,
-                          child: SvgPicture.asset(
-                            "assets/svg/chat/arrow_down.svg",
-                            width: 20,
-                            height: 20,
-                          ),
-                        ),
-                      ),
-                    ),
-                  )
-                : SizedBox(),
             Expanded(
               child: Stack(children: [
-                ListView(
-                  shrinkWrap: true,
+                ListView.builder(
                   reverse: true,
-                  children: [
-                    AiCommentTile(theme: theme, isAirequest: true),
-                    UserCommentTile(
-                        theme: theme,
-                        commentContent:
-                            "여름에는 더 힘든 것 같애..\n아침부터 에어컨이 고장난거야 ㅠㅠ 출근 준비하는데 너무 더워서 땀을 뻘뻘흘렸엉.."),
-                    AiCommentTile(
-                        theme: theme,
-                        commentContent:
-                            '오늘 많이 지치고 힘들었던 날이군요ㅜㅜ어떤 일들이 힘들었는지 얘기해줄 수 있어요?'),
-                    UserCommentTile(
-                        theme: theme, commentContent: '오늘도 힘들었어ㅠㅠㅠ'),
-                    AiCommentTile(
-                        theme: theme,
-                        commentContent:
-                            '오늘 하루 있었던 일이나 느낀 감정은 이야기해주세요. 구르미가 모두 들어줄게요!',
-                        isStart: true,
-                        isSameGureumi: true),
-                    AiCommentTile(
-                        theme: theme,
-                        commentContent: "안녕하세요. 구르미에요:)",
-                        isStart: true),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                  ],
+                  itemBuilder: (context, index) {
+                    if (state[index] is ChatMessageLoading) {
+                      return const ChatMessageTile(
+                        message: "",
+                        isAi: true,
+                        isImage: false,
+                        isAirequest: true,
+                        createdAt: "",
+                      );
+                    } else if (state[index] is ChatMessageError) {
+                      return const ChatMessageTile(
+                        message: "다시 한번 입력해주세요",
+                        isAi: true,
+                        isImage: false,
+                        createdAt: "",
+                      );
+                    } else {
+                      return Padding(
+                        padding: index == 0
+                            ? EdgeInsets.zero
+                            : index == state.length - 1
+                                ? const EdgeInsets.only(bottom: 10)
+                                : const EdgeInsets.only(bottom: 30.0),
+                        child: ChatMessageTile.fromModel(
+                            state[index], state[index] == 1 ? true : null),
+                      );
+                    }
+                  },
+                  itemCount: state.length,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                 ),
                 Positioned(
                   top: 0,
@@ -279,11 +256,11 @@ class _ChatState extends State<Chat> {
                               isFolded = !isFolded;
                             });
                           })
-                      : SizedBox(),
+                      : const SizedBox(),
                 ),
               ]),
             ),
-            _BottomInputField(theme),
+            bottomInputField(controller, theme, chatContentChange),
           ],
         ),
       ),
@@ -300,7 +277,8 @@ class _ChatState extends State<Chat> {
     );
   }
 
-  Widget _BottomInputField(CustomTheme theme) {
+  Widget bottomInputField(
+      TextEditingController controller, CustomTheme theme, Function onChange) {
     return SafeArea(
       child: Padding(
         padding:
@@ -309,11 +287,9 @@ class _ChatState extends State<Chat> {
             width: double.infinity,
             child: Column(
               children: [
-                // 입력창
                 Container(
                   key: _containerkey,
-                  constraints: BoxConstraints(minHeight: 78),
-                  // height: 78,
+                  constraints: const BoxConstraints(minHeight: 78),
                   padding: const EdgeInsets.only(top: 19, bottom: 19),
                   decoration: BoxDecoration(
                     color: theme.appColors.userInputBackground,
@@ -324,15 +300,34 @@ class _ChatState extends State<Chat> {
                       Column(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          // const Spacer(),
                           Container(
-                            margin: const EdgeInsets.fromLTRB(20, 0, 6, 10),
-                            child: SvgPicture.asset(
-                                'assets/svg/icon/imageUpload.svg',
-                                width: 30,
-                                height: 30,
-                                colorFilter: ColorFilter.mode(
-                                    theme.appColors.activate, BlendMode.srcIn)),
+                            margin: const EdgeInsets.fromLTRB(20, 0, 10, 10),
+                            child: InkWell(
+                              onTap: () async {
+                                var result = await ImagePickerService(
+                                        imagePicker: ImagePicker())
+                                    .getImage(ImageSource.gallery);
+
+                                if (result is! File) return;
+
+                                var imageUpload = await ImageUploadService()
+                                    .upload(result, ref.watch(chatIdProvider),
+                                        false);
+
+                                if (imageUpload is! ImageUploadModel) return;
+                                ref
+                                    .read(chatStateNotifierProvider.notifier)
+                                    .addChating(
+                                        message: imageUpload.imageUrl,
+                                        isImage: true);
+                              },
+                              child: SvgPicture.asset(
+                                  'assets/svg/icon/imageUpload.svg',
+                                  width: 30,
+                                  height: 30,
+                                  colorFilter: const ColorFilter.mode(
+                                      AppColors.blue7, BlendMode.srcIn)),
+                            ),
                           ),
                         ],
                       ),
@@ -341,14 +336,9 @@ class _ChatState extends State<Chat> {
                           margin: const EdgeInsets.only(right: 20),
                           child: Stack(children: [
                             TextField(
+                              controller: controller,
                               onChanged: (value) {
-                                if (_containerkey.currentContext != null) {
-                                  final RenderBox renderBox = _containerkey
-                                      .currentContext!
-                                      .findRenderObject() as RenderBox;
-                                  Size size = renderBox.size;
-                                  print(size.height);
-                                }
+                                onChange(value);
                               },
                               showCursor: true,
                               minLines: 1,
@@ -398,39 +388,49 @@ class _ChatState extends State<Chat> {
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
-                                    InkWell(
-                                      onTap: () {
-                                        FocusScope.of(context).unfocus();
-                                        setState(() {
-                                          micWidth +=
-                                              isMicOpen ? -272.1 : 272.1;
-                                          isMicOpen = isMicOpen ? false : true;
-                                        });
-                                      },
-                                      child: Container(
-                                        margin: const EdgeInsets.fromLTRB(
-                                            0, 5, 10, 10),
-                                        child: SvgPicture.asset(
-                                            'assets/svg/icon/mic.svg',
-                                            colorFilter: ColorFilter.mode(
-                                                theme.appColors.activate,
-                                                BlendMode.srcIn)),
-                                      ),
-                                    ),
+                                    // InkWell(
+                                    //   onTap: () {},
+                                    //   child: Container(
+                                    //     margin: const EdgeInsets.fromLTRB(
+                                    //         0, 5, 10, 10),
+                                    //     child: SvgPicture.asset(
+                                    //         'assets/svg/icon/mic.svg',
+                                    //         colorFilter: const ColorFilter.mode(
+                                    //             AppColors.blue7,
+                                    //             BlendMode.srcIn)),
+                                    //   ),
+                                    // ),
                                     Padding(
                                       padding: const EdgeInsets.only(
-                                          right: 5, bottom: 10),
+                                          right: 8, bottom: 10),
                                       child: Container(
                                         width: 30,
                                         height: 30,
                                         decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(50),
-                                            color: theme.appColors.activate),
-                                        child: Icon(
-                                          Icons.keyboard_arrow_up,
-                                          color: theme.appColors.seedColor,
-                                          size: 30,
+                                            color: AppColors.blue7),
+                                        child: InkWell(
+                                          onTap: () async {
+                                            if (chatContent != "") {
+                                              ref
+                                                  .read(
+                                                      chatStateNotifierProvider
+                                                          .notifier)
+                                                  .addChating(
+                                                      message: chatContent);
+                                              setState(() {
+                                                chatContent = "";
+                                              });
+
+                                              controller.clear();
+                                            }
+                                          },
+                                          child: Icon(
+                                            Icons.keyboard_arrow_up,
+                                            color: theme.appColors.seedColor,
+                                            size: 30,
+                                          ),
                                         ),
                                       ),
                                     ),

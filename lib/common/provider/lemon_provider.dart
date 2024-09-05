@@ -43,4 +43,18 @@ class LemonStateNotifier extends StateNotifier<int> {
       state = 0;
     }
   }
+
+  Future<void> lemonDecrease() async {
+    try {
+      final user = ref.watch(userProvider);
+      final response = await LemonService()
+          .patchLemon(userId: user.userId!, count: state - 1);
+
+      if (response is UserLemonPatchModel) {
+        state = response.lemonCount;
+      }
+    } catch (e) {
+      state = 0;
+    }
+  }
 }

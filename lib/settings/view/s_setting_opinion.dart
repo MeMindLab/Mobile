@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:me_mind/common/component/dialog/d_alert_dialog.dart';
+import 'package:me_mind/common/component/dialog/custom_dialog.dart';
 import 'package:me_mind/common/component/dialog/w_dialog_button.dart';
 import 'package:me_mind/common/component/rounded_button.dart';
 import 'package:me_mind/common/constant/app_colors.dart';
@@ -12,6 +12,7 @@ import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/layout/topbar/widget/back_arrow.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
+import 'package:me_mind/common/utils/dialog_manager.dart';
 import 'package:me_mind/settings/component/settings_custom_text_form.dart';
 import 'package:me_mind/settings/services/image_picker_service.dart';
 import 'package:me_mind/settings/utils/email_send.dart';
@@ -259,7 +260,8 @@ class _SettingOpinionState extends State<SettingOpinion> {
                                     child: Text(
                                       "개인정보 수집 및 이용",
                                       style:
-                                          FontSizes.getCapsuleStyle().copyWith(
+                                          FontSizes.getCapsuleHighlightStyle()
+                                              .copyWith(
                                         color: theme.appColors.hintText,
                                         fontWeight: FontWeight.w400,
                                         decoration: TextDecoration.underline,
@@ -284,20 +286,18 @@ class _SettingOpinionState extends State<SettingOpinion> {
                                     body: body,
                                     attachments: attachments)
                                 .then((value) async {
-                              await AlertDialogs(
-                                  context: context,
-                                  title: "의견을 성공적으로 보냈어요!",
-                                  body: "답변은 추후 등록한 이메일로 전송됩니다.",
-                                  actions: [
-                                    AlertDialogButton(
-                                      theme: theme,
-                                      bgColor: lightTheme.primaryColor,
-                                      content: "닫기",
-                                      onSubmit: () {
-                                        Navigator.pop(context);
-                                      },
-                                    ),
-                                  ]).show();
+                              DialogManager(
+                                      context: context,
+                                      type: DialogType.oneButton)
+                                  .show(
+                                titleText: "의견을 성공적으로 보냈어요!",
+                                contentText: "답변은 추후 등록한 이메일로 전송됩니다.",
+                                firstButtonText: "닫기",
+                                firstSubmit: () {
+                                  Navigator.pop(context);
+                                },
+                              );
+
                               await Navigator.pushReplacement(
                                   context,
                                   PageRouteBuilder(

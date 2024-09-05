@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:me_mind/common/component/dialog/d_multichoice_dialog.dart';
+import 'package:me_mind/common/component/dialog/custom_dialog.dart';
 import 'package:me_mind/common/component/dialog/w_dialog_button.dart';
 import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/constant.dart';
@@ -14,6 +14,7 @@ import 'package:me_mind/common/provider/user_provider.dart';
 import 'package:me_mind/common/store.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
+import 'package:me_mind/common/utils/dialog_manager.dart';
 import 'package:me_mind/common/view/splash_screen.dart';
 import 'package:me_mind/settings/component/certified_box.dart';
 import 'package:me_mind/settings/component/settings_menu.dart';
@@ -284,42 +285,30 @@ class _SettingState extends ConsumerState<Settings> {
                 height: 10,
               ),
               SettingMenu(
-                subscribe: false,
-                height: 65,
-                content: ListTile(
-                    title: Text(
-                      "로그아웃",
-                      style: FontSizes.getHeadline2Style()
-                          .copyWith(color: theme.appColors.iconButton),
-                    ),
-                    onTap: () => MultiChoiceDialog(
-                            context: context,
-                            title: "로그아웃 하시겠어요?",
-                            titleTopPadding: 30,
-                            isRow: true,
-                            isNarrow: true,
-                            actions: [
-                              AlertDialogButton(
-                                  theme: theme,
-                                  bgColor: theme.appColors.grayButtonBackground,
-                                  content: "네",
-                                  onSubmit: () async {
-                                    await storage.deleteAll();
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (_) => SplashScreen()));
-                                  }),
-                              AlertDialogButton(
-                                  theme: theme,
-                                  bgColor: AppColors.blueMain,
-                                  content: "아니오",
-                                  onSubmit: () {
-                                    Navigator.pop(context);
-                                  }),
-                            ],
-                            textAlign: TextAlign.center)
-                        .show()),
-              )
+                  subscribe: false,
+                  height: 65,
+                  content: ListTile(
+                      title: Text(
+                        "로그아웃",
+                        style: FontSizes.getHeadline2Style()
+                            .copyWith(color: theme.appColors.iconButton),
+                      ),
+                      onTap: () {
+                        DialogManager(
+                                context: context, type: DialogType.twoButton)
+                            .show(
+                                titleText: "로그아웃 하시겠어요?",
+                                firstButtonText: "네",
+                                firstSubmit: () async {
+                                  await storage.deleteAll();
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (_) => const SplashScreen()));
+                                },
+                                secondButtonText: "아니오",
+                                secondSubmit: () {
+                                  Navigator.pop(context);
+                                });
+                      }))
             ],
           ),
         ),

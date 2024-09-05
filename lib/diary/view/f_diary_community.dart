@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/diary/component/community_picture.dart';
 import 'package:me_mind/diary/component/tag_button.dart';
@@ -35,7 +36,7 @@ class _DiaryCommunityFragmentState extends State<DiaryCommunityFragment> {
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 17.0, bottom: 10),
+            padding: const EdgeInsets.only(top: 24.0, bottom: 10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -106,7 +107,7 @@ Widget popUpMenu(String title, Function onPressed) {
           Text(
             title,
             style: FontSizes.getContentStyle()
-                .copyWith(fontWeight: FontWeight.w400),
+                .copyWith(fontWeight: FontWeight.w400, color: AppColors.gray7),
           ),
           const SizedBox(
             width: 2,
