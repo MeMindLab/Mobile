@@ -2,8 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:me_mind/common/component/dialog/custom_dialog.dart';
-import 'package:me_mind/common/component/dialog/w_dialog_button.dart';
 import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/constant.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
@@ -19,12 +17,13 @@ import 'package:me_mind/common/view/splash_screen.dart';
 import 'package:me_mind/settings/component/certified_box.dart';
 import 'package:me_mind/settings/component/settings_menu.dart';
 import 'package:me_mind/settings/view/s_faqwebview_screen.dart';
+import 'package:me_mind/settings/view/s_personal_policy_screen.dart';
+import 'package:me_mind/settings/view/s_service_use_screen.dart';
 import 'package:me_mind/settings/view/s_setting_notification.dart';
 import 'package:me_mind/settings/view/s_setting_opinion.dart';
 import 'package:me_mind/settings/view/s_setting_theme.dart';
 import 'package:me_mind/settings/view/s_setting_userinfo.dart';
 import 'package:me_mind/settings/view/s_subscribe.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Settings extends ConsumerStatefulWidget {
   const Settings({super.key});
@@ -36,25 +35,11 @@ class Settings extends ConsumerStatefulWidget {
 class _SettingState extends ConsumerState<Settings> {
   final dio = Dio();
 
-  String userEmail = "";
-  String userNickname = "";
-
-  void getUserInfo() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final nickname = await prefs.getString("USER_NICKNAME");
-    final email = await prefs.getString("USER_EMAIL");
-
-    setState(() {
-      userNickname = nickname ?? "";
-      userEmail = email ?? "";
-    });
-  }
-
   @override
   void initState() {
     super.initState();
     setBottomIdx(3);
-    getUserInfo();
+    // getUserInfo();
   }
 
   @override
@@ -160,8 +145,10 @@ class _SettingState extends ConsumerState<Settings> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => SettingUserInfo(
-                                  userEmail: userEmail,
-                                  userNickname: userNickname,
+                                  userEmail: user.email,
+                                  userNickname: user.name,
+                                  phoneNumber: user.phoneNumber,
+                                  isVerified: user.isVerified!,
                                 )));
                   },
                   title: Row(
@@ -259,11 +246,16 @@ class _SettingState extends ConsumerState<Settings> {
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemBuilder: (BuildContext contexnt, int idx) {
+                        List pages = [
+                          const FaqWebviewScreen(),
+                          const ServiceUseScreen(),
+                          const PersonalPolicyScreen()
+                        ];
                         return InkWell(
                           onTap: () {
                             Navigator.push(context,
                                 MaterialPageRoute(builder: (context) {
-                              return FaqWebviewScreen();
+                              return pages[idx];
                             }));
                           },
                           child: ListTile(

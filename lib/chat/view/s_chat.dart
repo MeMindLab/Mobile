@@ -28,6 +28,7 @@ import 'package:me_mind/common/utils/dialog_manager.dart';
 import 'package:me_mind/report/provider/report_create_provider.dart';
 import 'package:me_mind/report/view/s_report_detail.dart';
 import 'package:me_mind/screen/main/s_main.dart';
+import 'package:me_mind/settings/view/s_setting.dart';
 import 'package:me_mind/settings/view/s_setting_notification.dart';
 import 'package:me_mind/settings/view/s_setting_userinfo.dart';
 
@@ -104,7 +105,7 @@ class _ChatState extends ConsumerState<Chat> {
               secondSubmit: () {
                 Navigator.of(context)
                     .pushReplacement(MaterialPageRoute(builder: (context) {
-                  return const SettingUserInfo();
+                  return const Settings();
                 }));
               });
         }
@@ -128,7 +129,7 @@ class _ChatState extends ConsumerState<Chat> {
             secondSubmit: () {
               Navigator.of(context)
                   .pushReplacement(MaterialPageRoute(builder: (context) {
-                return const SettingUserInfo();
+                return const Settings();
               }));
             });
       }
@@ -149,7 +150,7 @@ class _ChatState extends ConsumerState<Chat> {
             secondSubmit: () {
               Navigator.of(context)
                   .pushReplacement(MaterialPageRoute(builder: (context) {
-                return const SettingUserInfo();
+                return const Settings();
               }));
             });
       }
@@ -172,6 +173,7 @@ class _ChatState extends ConsumerState<Chat> {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
             return ReportDetail(
               conversationId: chatId,
+              createdAt: DateTime.now().toLocal().toIso8601String(),
             );
           }));
         });

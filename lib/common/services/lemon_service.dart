@@ -11,9 +11,9 @@ class LemonService {
     final data = {"lemon_count": count};
 
     try {
-      final response = await dio
-          .patch("http://10.0.2.2:8000/users/$userId/lemon", data: data);
-
+      // final response =
+      //     await dio.patch("http://$ip/users/$userId/lemon", data: data);
+      final response = await dio.patch("$ip/users/$userId/lemon", data: data);
       var result = response.data;
 
       UserLemonPatchModel model = UserLemonPatchModel.fromJson(result);
@@ -27,8 +27,8 @@ class LemonService {
   }
 
   Future getLemon({required String userId}) async {
-    final dio = Dio(BaseOptions(baseUrl: "http://10.0.2.2:8000/", headers: {}));
-
+    // final dio = Dio(BaseOptions(baseUrl: "http://$ip/", headers: {}));
+    final dio = Dio(BaseOptions(baseUrl: "$ip/", headers: {}));
     String url = 'users/$userId/lemons';
 
     dio.interceptors.add(CustomInterceptor(storage: storage));

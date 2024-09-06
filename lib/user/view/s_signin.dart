@@ -152,7 +152,10 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                                       ref.watch(userProvider.notifier).state =
                                           UserDetailModel().copyWith(
                                               userId: user.id,
-                                              isVerified: user.isVerified);
+                                              isVerified: user.isVerified,
+                                              email: user.email!,
+                                              name: user.nickname,
+                                              phoneNumber: user.mobile);
 
                                       ref
                                           .read(lemonStateNotifierProvider

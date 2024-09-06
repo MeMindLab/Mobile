@@ -5,7 +5,8 @@ import 'package:me_mind/user/model/user_signup_model.dart';
 
 class SignupService implements Isignup {
   Future<dynamic> signup(String email, String nickname, String password) async {
-    final url = "http://$ip/users/signup";
+    // final url = "http://$ip/users/signup";
+    final url = "$ip/users/signup";
 
     final data = {"email": email, "password": password, "nickname": nickname};
 

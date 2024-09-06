@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:me_mind/common/constant/constant.dart';
 import 'package:me_mind/common/dio/dio.dart';
@@ -8,17 +10,23 @@ class UserInfoService {
   Future putUser(
       {required String email,
       required String nickname,
+      required String mobile,
       required bool isVerified}) async {
     final dio = Dio();
-    final data = {"email": email, "nickname": nickname, "is_verified": true};
+    final data = {
+      "email": email,
+      "is_verified": isVerified,
+      "mobile": mobile,
+      "nickname": nickname,
+    };
 
     dio.interceptors.add(CustomInterceptor(storage: storage));
     dio.options.headers.clear();
     dio.options.headers.addAll({'accessToken': true});
-    String url = "http://$ip/users/me";
+    String url = "https://backend-wandering-glitter-8053.fly.dev/users/me";
 
     try {
-      final response = await dio.put(url, data: data);
+      final response = await dio.put(url, data: jsonEncode(data));
 
       var result = response.data;
 
@@ -34,7 +42,8 @@ class UserInfoService {
     dio.interceptors.add(CustomInterceptor(storage: storage));
     dio.options.headers.clear();
     dio.options.headers.addAll({'accessToken': true});
-    String url = "http://$ip/users/me";
+    // String url = "http://$ip/users/me";
+    String url = "$ip/users/me";
 
     try {
       final response = await dio.get(url);

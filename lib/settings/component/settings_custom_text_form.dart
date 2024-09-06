@@ -21,6 +21,7 @@ class SeetingCustomTextFormField extends StatefulWidget {
   final FormFieldSetter? onSaved;
   final List<TextInputFormatter>? textInputFormatter;
   final bool? enabled;
+  final TextEditingController? textEditingController;
 
   const SeetingCustomTextFormField({
     super.key,
@@ -40,6 +41,7 @@ class SeetingCustomTextFormField extends StatefulWidget {
     this.onSaved,
     this.textInputFormatter,
     this.enabled = true,
+    this.textEditingController,
   });
   @override
   State<SeetingCustomTextFormField> createState() =>
@@ -89,6 +91,7 @@ class _CustomTextFormFieldState extends State<SeetingCustomTextFormField> {
             ),
           ),
         TextFormField(
+          controller: widget.textEditingController,
           initialValue: widget.initialText,
           textInputAction: TextInputAction.next,
           maxLength: widget.maxLength,

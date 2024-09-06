@@ -8,7 +8,8 @@ import 'package:me_mind/user/model/user_signin_model.dart';
 class LoginService implements ILogin {
   @override
   Future login(String email, String password) async {
-    final url = "http://$ip/auth/login";
+    // final url = "http://$ip/auth/login";
+    final url = "$ip/auth/login";
     final data = {"email": email, "password": password};
 
     final dio = Dio();

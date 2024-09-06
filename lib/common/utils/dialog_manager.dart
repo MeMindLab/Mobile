@@ -3,6 +3,7 @@ import 'package:me_mind/common/component/dialog/custom_dialog.dart';
 import 'package:me_mind/common/component/dialog/w_dialog_button.dart';
 import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
+import 'package:me_mind/common/theme/custom_theme.dart';
 
 enum DialogType {
   lemon,
@@ -161,6 +162,7 @@ class DialogManager {
                 firstText: firstButtonText!,
                 firstSubmit: firstSubmit!,
                 secondText: secondButtonText,
+                secondColor: lightTheme.primaryColor,
                 secondSubmit: secondSubmit,
               ),
             ));

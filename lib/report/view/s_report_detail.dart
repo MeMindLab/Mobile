@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:me_mind/chat/provider/chat_id_provider.dart';
 import 'package:me_mind/common/component/dots_indicator.dart';
 import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
@@ -15,15 +14,15 @@ import 'package:me_mind/common/theme/custom_theme_holder.dart';
 import 'package:me_mind/report/component/report_circular_chart.dart';
 import 'package:me_mind/report/model/report_detail/report_detail_model.dart';
 import 'package:me_mind/report/provider/report_detail_provider.dart';
-import 'package:me_mind/report/services/report_detail_service.dart';
-
 import 'package:me_mind/report/type/emotion.dart';
 import 'package:me_mind/report/w_capsule.dart';
 import 'package:me_mind/report/w_emotion_card.dart';
 
 class ReportDetail extends ConsumerStatefulWidget {
   final String conversationId;
-  const ReportDetail({super.key, required this.conversationId});
+  final String createdAt;
+  const ReportDetail(
+      {super.key, required this.conversationId, required this.createdAt});
 
   @override
   ConsumerState<ReportDetail> createState() => _ReportDetailState();
@@ -33,10 +32,11 @@ class _ReportDetailState extends ConsumerState<ReportDetail> {
   bool diaryFolded = false;
   bool isLoaded = true;
   int imagesCnt = 1;
+  late DateTime dateTime;
   @override
   void initState() {
     super.initState();
-
+    dateTime = DateTime.parse(widget.createdAt);
     setBottomIdx(1);
   }
 
@@ -47,26 +47,26 @@ class _ReportDetailState extends ConsumerState<ReportDetail> {
     // final id = ref.watch(chatIdProvider);
     final detail = ref.watch(reportDetailProvider(widget.conversationId));
     if (detail is ReportDetailLoading) {
-      return const DefaultLayout(
-          title: "8월 19일",
-          appBarLeading: BackArrowLeading(),
+      return DefaultLayout(
+          title: "${dateTime.month}월 ${dateTime.day}일",
+          appBarLeading: const BackArrowLeading(),
           backgroundColor: AppColors.blue1,
-          child: Center(
+          child: const Center(
             child: CircularProgressIndicator(),
           ));
     }
     if (detail is ReportDetailFailed) {
-      return const DefaultLayout(
-          title: "8월 19일",
-          appBarLeading: BackArrowLeading(),
+      return DefaultLayout(
+          title: "${dateTime.month}월 ${dateTime.day}일",
+          appBarLeading: const BackArrowLeading(),
           backgroundColor: AppColors.blue1,
-          child: Center(
+          child: const Center(
             child: Text("리포트를 불러오지 못했습니다."),
           ));
     } else {
       final result = detail as ReportDetailModel;
       return DefaultLayout(
-          title: "8월 19일",
+          title: "${dateTime.month}월 ${dateTime.day}일",
           appBarLeading: const BackArrowLeading(),
           backgroundColor: AppColors.blue1,
           child: SingleChildScrollView(
@@ -225,12 +225,12 @@ class _ReportDetailState extends ConsumerState<ReportDetail> {
                             ),
                             Row(
                               children: [
-                                SvgPicture.asset(
-                                  "assets/svg/icon/sharingDiary.svg",
-                                  colorFilter: ColorFilter.mode(
-                                      theme.appColors.iconBook,
-                                      BlendMode.srcIn),
-                                ),
+                                // SvgPicture.asset(
+                                //   "assets/svg/icon/sharingDiary.svg",
+                                //   colorFilter: ColorFilter.mode(
+                                //       theme.appColors.iconBook,
+                                //       BlendMode.srcIn),
+                                // ),
                                 const SizedBox(width: 7),
                                 SvgPicture.asset(
                                   'assets/svg/icon/upload.svg',

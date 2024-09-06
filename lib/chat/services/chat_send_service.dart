@@ -1,10 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:me_mind/chat/model/ai_answer_model.dart';
+import 'package:me_mind/common/constant/constant.dart';
 
 class ChatSendService {
   Future send(String answer, String conversationId,
       {String imageUrl = "", bool isImage = false}) async {
-    const url = "http://10.0.2.2:8000/chat/answer";
+    final url = "http://$ip/chat/answer";
     final data = {
       "conversation_id": conversationId,
       "message": answer,

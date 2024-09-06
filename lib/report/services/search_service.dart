@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:me_mind/common/constant/constant.dart';
 import 'package:me_mind/report/model/report_search/report_search_model.dart';
 
 class SearchService {
@@ -8,7 +9,7 @@ class SearchService {
     String uriKeyword = Uri.encodeQueryComponent(keyword);
     String url = 'report/search/$uriKeyword';
 
-    dio.options.baseUrl = "http://10.0.2.2:8000/";
+    dio.options.baseUrl = "http://$ip/";
     Response response;
 
     try {

@@ -10,6 +10,7 @@ import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/constant.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/provider/lemon_provider.dart';
+import 'package:me_mind/common/provider/user_provider.dart';
 import 'package:me_mind/common/store.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
@@ -33,12 +34,16 @@ class UserInfoForm extends ConsumerStatefulWidget {
   final Function onUpdate;
   final String userEmail;
   final String userNickname;
+  final String? userPhoneNumber;
+  final bool isVerified;
   const UserInfoForm(
       {super.key,
       required this.isUpdate,
       required this.onUpdate,
       required this.userEmail,
-      required this.userNickname});
+      required this.userNickname,
+      this.userPhoneNumber,
+      required this.isVerified});
 
   @override
   ConsumerState<UserInfoForm> createState() => _UserInfoFormState();
@@ -47,17 +52,17 @@ class UserInfoForm extends ConsumerStatefulWidget {
 class _UserInfoFormState extends ConsumerState<UserInfoForm> {
   final _formKey = GlobalKey<FormState>();
   final _formAuthKey = GlobalKey<FormState>();
-  String phoneNumber = "";
+  final TextEditingController nameController = TextEditingController(text: "");
+  final TextEditingController emailController = TextEditingController(text: "");
+  final TextEditingController phoneController = TextEditingController(text: "");
   String code = "";
-  String nickname = "";
-  String email = "";
   int timerCount = 300;
   bool isAuthCheck = false;
   late Timer _timer;
   late CertifyTimer certifyTimer;
   bool isphoneAuthenticated = false;
   bool isTimerStart = false;
-  bool isAuthenticComplete = false;
+  late bool isAuthenticComplete;
   bool isAuthNumberState = true;
 
   void resetTimer() {
@@ -108,8 +113,10 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
     // TODO: implement initState
     super.initState();
     certifyTimer = CertifyTimer(timerCount: timerCount);
-    nickname = widget.userNickname;
-    email = widget.userEmail;
+    nameController.text = widget.userNickname;
+    emailController.text = widget.userEmail;
+    phoneController.text = widget.userPhoneNumber ?? "";
+    isAuthenticComplete = widget.isVerified;
     _timer = Timer(const Duration(seconds: 0), () {});
   }
 
@@ -140,7 +147,7 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                 height: 20,
               ),
               SeetingCustomTextFormField(
-                initialText: nickname,
+                textEditingController: nameController,
                 bgColor: theme.appColors.seedColor,
                 maxLength: 10,
                 labelText: "닉네임",
@@ -150,17 +157,13 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                   return nicknameResult;
                 },
                 readOnly: widget.isUpdate == false ? true : false,
-                onChanged: (String value) {
-                  setState(() {
-                    nickname = value;
-                  });
-                },
+                onChanged: (String value) {},
               ),
               const SizedBox(
                 height: 12.0,
               ),
               SeetingCustomTextFormField(
-                initialText: email,
+                textEditingController: emailController,
                 bgColor: theme.appColors.seedColor,
                 labelText: "이메일",
                 readOnly: widget.isUpdate == false ? true : false,
@@ -169,11 +172,7 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
 
                   return emailResult;
                 },
-                onChanged: (String value) {
-                  setState(() {
-                    email = value;
-                  });
-                },
+                onChanged: (String value) {},
               ),
               const SizedBox(
                 height: 12.0,
@@ -181,17 +180,17 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
               Stack(
                 children: [
                   SeetingCustomTextFormField(
+                    textEditingController: phoneController,
                     bgColor: theme.appColors.seedColor,
                     labelText: "연락처",
-                    enabled: !isphoneAuthenticated,
+                    enabled:
+                        !isphoneAuthenticated && isAuthenticComplete == false,
                     textInputFormatter: [PhoneNumberFormatter()],
-                    hintText: isAuthenticComplete ? phoneNumber : "번호를 입력해주세요",
+                    hintText: isAuthenticComplete
+                        ? widget.userPhoneNumber
+                        : "번호를 입력해주세요",
                     readOnly: widget.isUpdate == false ? true : false,
-                    onChanged: (String value) {
-                      setState(() {
-                        phoneNumber = value;
-                      });
-                    },
+                    onChanged: (String value) {},
                   ),
                   Positioned(
                     bottom: 5,
@@ -207,7 +206,7 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                                 style: FontSizes.getContentStyle()
                                     .copyWith(fontWeight: FontWeight.w500),
                               ),
-                              onPressed: phoneNumber.length == 13
+                              onPressed: phoneController.text.length == 13
                                   ? () async {
                                       if (isphoneAuthenticated == false) {
                                         setState(() {
@@ -215,7 +214,8 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                                         });
                                         _startTimer(context, theme);
                                         var result = await AuthSmsService()
-                                            .sendSms(phone: phoneNumber);
+                                            .sendSms(
+                                                phone: phoneController.text);
 
                                         if (result is! AuthSmsModel) return;
                                       } else {
@@ -230,9 +230,10 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                               style: ElevatedButton.styleFrom(
                                 minimumSize: Size.zero,
                                 padding: EdgeInsets.zero,
-                                backgroundColor: phoneNumber.length == 13
-                                    ? lightTheme.primaryColor
-                                    : AppColors.gray2,
+                                backgroundColor:
+                                    phoneController.text.length == 13
+                                        ? lightTheme.primaryColor
+                                        : AppColors.gray2,
                                 elevation: 0,
                                 foregroundColor: theme.appColors.iconButton,
                                 shape: RoundedRectangleBorder(
@@ -314,7 +315,7 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                                         onPressed: () async {
                                           var result = await AuthSmsService()
                                               .sendVerify(
-                                                  phone: phoneNumber,
+                                                  phone: phoneController.text,
                                                   code: code);
 
                                           if (result is! AuthSmsVerifyModel ||
@@ -329,8 +330,6 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
 
                                             return;
                                           }
-
-                                          // print(result);
 
                                           setState(() {
                                             timerCount = 300;
@@ -407,6 +406,9 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                     backgroundColor: theme.appColors.seedColor,
                     onPressed: () {
                       widget.onUpdate(false);
+                      nameController.text = widget.userNickname;
+                      emailController.text = widget.userEmail;
+                      phoneController.text = widget.userPhoneNumber ?? "";
                       resetTimer();
                     },
                   ),
@@ -426,12 +428,20 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                           _formKey.currentState!.save();
 
                           final user = await UserInfoService().putUser(
-                              email: email,
+                              mobile: phoneController.text,
+                              email: emailController.text,
                               isVerified: isAuthenticComplete,
-                              nickname: nickname);
+                              nickname: nameController.text);
 
                           if (user is! UserInfoModel) return;
-                          print(user);
+
+                          ref.watch(userProvider.notifier).state =
+                              UserDetailModel().copyWith(
+                                  userId: user.id,
+                                  isVerified: user.isVerified,
+                                  email: user.email!,
+                                  name: user.nickname,
+                                  phoneNumber: user.mobile);
 
                           setState(() {
                             isphoneAuthenticated = false;
@@ -444,8 +454,6 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                                 .read(lemonStateNotifierProvider.notifier)
                                 .lemonIncrease();
 
-                            // await prefs.setBool("is_auth", true);
-                            // widget.handlePhoneAuth();
                             DialogManager(
                                     context: context, type: DialogType.lemon)
                                 .show(
@@ -456,7 +464,12 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                                       Navigator.pop(context);
                                     },
                                     secondButtonText: "리포트 발행하러 가기",
-                                    secondSubmit: () {});
+                                    secondSubmit: () {
+                                      Navigator.of(context).pushReplacement(
+                                          MaterialPageRoute(builder: (context) {
+                                        return const MainScreen();
+                                      }));
+                                    });
                           }
                         }
                       },

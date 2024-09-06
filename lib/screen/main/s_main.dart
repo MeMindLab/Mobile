@@ -120,10 +120,11 @@ class _MainScreenState extends State<MainScreen> {
                     debugPrint("자바스크립트 채널2");
 
                     if (args[0] == "diaryButton") {
+                      // 감정쓰레기통 스크린 이동
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const Chat(),
+                          builder: (context) => const Trash(),
                         ),
                       );
                     }
@@ -135,11 +136,10 @@ class _MainScreenState extends State<MainScreen> {
                     debugPrint("자바스크립트 채널1");
 
                     if (args[0] == "trashButton") {
-                      // 감정쓰레기통 스크린 이동
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const Trash(),
+                          builder: (context) => const Chat(),
                         ),
                       );
                     }
