@@ -5,7 +5,7 @@ import 'package:me_mind/common/constant/constant.dart';
 class ChatSendService {
   Future send(String answer, String conversationId,
       {String imageUrl = "", bool isImage = false}) async {
-    final url = "http://$ip/chat/answer";
+    final url = "$ip/chat/answer";
     final data = {
       "conversation_id": conversationId,
       "message": answer,

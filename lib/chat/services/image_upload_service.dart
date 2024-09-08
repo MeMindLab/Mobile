@@ -8,7 +8,7 @@ import 'package:me_mind/common/dio/dio.dart';
 
 class ImageUploadService {
   Future upload(File file, String uuid, bool isDrawing) async {
-    final url = "http://$ip/upload";
+    final url = "$ip/upload";
 
     Map<String, dynamic> queryParams = {
       'conversation_id': uuid,

@@ -9,7 +9,8 @@ class WithDrawService {
     dio.interceptors.add(CustomInterceptor(storage: storage));
     dio.options.headers.clear();
     dio.options.headers.addAll({'accessToken': true});
-    String url = "http://$ip/users/withdraw";
+    // String url = "http://$ip/users/withdraw";
+    String url = "$ip/users/withdraw";
 
     try {
       final response = await dio.delete(url, data: data);

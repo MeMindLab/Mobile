@@ -9,7 +9,7 @@ class SearchService {
     String uriKeyword = Uri.encodeQueryComponent(keyword);
     String url = 'report/search/$uriKeyword';
 
-    dio.options.baseUrl = "http://$ip/";
+    dio.options.baseUrl = "$ip/";
     Response response;
 
     try {

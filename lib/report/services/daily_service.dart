@@ -7,7 +7,7 @@ import 'package:me_mind/report/model/create_daily/create_daily_model.dart';
 
 class DailyService {
   Future create({required String id}) async {
-    final url = "http://$ip/report/create-daily";
+    final url = "$ip/report/create-daily";
     final data = {"conversation_id": id};
 
     final dio = Dio();

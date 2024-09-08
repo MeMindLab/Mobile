@@ -3,7 +3,7 @@ import 'package:me_mind/common/constant/constant.dart';
 
 class GenerateImage {
   Future create({required List<String> tags}) async {
-    final url = "http://$ip/generate-image";
+    final url = "$ip/generate-image";
 
     final dio = Dio();
     Response response;

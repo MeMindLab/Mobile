@@ -4,8 +4,7 @@ import 'package:me_mind/report/model/report_weekly/report_weekly_model.dart';
 
 class ReportWeeklyService {
   Future fetchData({required String date}) async {
-    final url = "http://$ip/report/weekly-scores?target_date=$date";
-
+    final url = "$ip/report/weekly-scores?target_date=$date";
     final dio = Dio();
     Response response;
 

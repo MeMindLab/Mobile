@@ -11,8 +11,6 @@ class LemonService {
     final data = {"lemon_count": count};
 
     try {
-      // final response =
-      //     await dio.patch("http://$ip/users/$userId/lemon", data: data);
       final response = await dio.patch("$ip/users/$userId/lemon", data: data);
       var result = response.data;
 
@@ -27,7 +25,6 @@ class LemonService {
   }
 
   Future getLemon({required String userId}) async {
-    // final dio = Dio(BaseOptions(baseUrl: "http://$ip/", headers: {}));
     final dio = Dio(BaseOptions(baseUrl: "$ip/", headers: {}));
     String url = 'users/$userId/lemons';
 

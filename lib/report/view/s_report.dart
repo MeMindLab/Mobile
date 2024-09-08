@@ -120,13 +120,24 @@ class _Report extends ConsumerState<Report> {
                                   } else if (snapshot.hasData) {
                                     final result =
                                         snapshot.data as ReportWeeklyModel;
-                                    List<TodayScore> newData = result.results!;
+                                    print(result);
+                                    List<TodayScore> newData =
+                                        result.results!.length == 0
+                                            ? []
+                                            : result.results!;
+                                    print(newData);
 
                                     int totalLength = newData.length;
-                                    List<TodayScore> newBox = newData.sublist(
-                                      totalLength > 7 ? totalLength - 7 : 1,
-                                      totalLength,
-                                    );
+                                    List<TodayScore> newBox =
+                                        newData.length == 0
+                                            ? []
+                                            : newData.sublist(
+                                                totalLength > 7
+                                                    ? totalLength - 7
+                                                    : 1,
+                                                totalLength,
+                                              );
+                                    print(newBox);
 
                                     List<String> dates = newBox
                                         .map((item) => item.date)

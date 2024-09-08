@@ -4,7 +4,7 @@ import 'package:me_mind/common/constant/constant.dart';
 
 class ImageUpdateService {
   Future update(String uuid, String imageUrl) async {
-    final url = "http://$ip/update-image";
+    final url = "$ip/update-image";
     Map<String, dynamic> queryParams = {
       'conversation_id': uuid,
       "image_url": imageUrl,

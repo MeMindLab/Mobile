@@ -3,7 +3,7 @@ import 'package:me_mind/common/constant/constant.dart';
 
 class LogoutService {
   Future logout() async {
-    var url = 'http://$ip/users/logout';
+    var url = '$ip/users/logout';
 
     final dio = Dio();
     Response response;

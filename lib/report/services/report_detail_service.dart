@@ -4,8 +4,7 @@ import 'package:me_mind/report/model/report_detail/report_detail_model.dart';
 
 class ReportDetailService {
   Future show({required String conversationId}) async {
-    final url = "http://$ip/report/detail/$conversationId";
-
+    final url = "$ip/report/detail/$conversationId";
     final dio = Dio();
 
     Response response;
