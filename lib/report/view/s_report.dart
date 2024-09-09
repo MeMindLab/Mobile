@@ -10,6 +10,7 @@ import 'package:me_mind/report/model/report_param/report_param_model.dart';
 import 'package:me_mind/report/model/report_weekly/report_weekly_model.dart';
 import 'package:me_mind/report/provider/cursor_pagination_provider.dart';
 import 'package:me_mind/report/services/report_weekly_service.dart';
+import 'package:me_mind/report/utils/weekly_flchart_data.dart';
 import 'package:me_mind/report/view/f_date_picker_dialog.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
@@ -125,18 +126,12 @@ class _Report extends ConsumerState<Report> {
                                         result.results!.length == 0
                                             ? []
                                             : result.results!;
-                                    print(newData);
+                                    // print(newData);
 
                                     int totalLength = newData.length;
+                                    print(totalLength);
                                     List<TodayScore> newBox =
-                                        newData.length == 0
-                                            ? []
-                                            : newData.sublist(
-                                                totalLength > 7
-                                                    ? totalLength - 7
-                                                    : 1,
-                                                totalLength,
-                                              );
+                                        newData.length == 0 ? [] : newData;
                                     print(newBox);
 
                                     List<String> dates = newBox
@@ -148,15 +143,34 @@ class _Report extends ConsumerState<Report> {
                                           newBox[i].score / 20));
                                     }
 
-                                    while (dates.length < 7) {
-                                      dates.add("");
+                                    // while (dates.length < 7) {
+                                    //   dates.add("");
+                                    // }
+                                    DateFormat dateFormat = DateFormat('MM/dd');
+                                    WeeklyFlChartData().getDates(dates: dates);
+                                    if (dates.isEmpty) {
+                                      dates.add(
+                                          dateFormat.format(DateTime.now()));
                                     }
+                                    String lastDateString = dates.last;
+                                    DateTime lastDate =
+                                        dateFormat.parse(lastDateString);
 
-                                    while (flSpots.length < 7) {
-                                      flSpots.add(FlSpot(
-                                          (flSpots.length * 2).toDouble(),
-                                          0.07));
+                                    for (int i = 1;
+                                        i < 7 - totalLength + 1;
+                                        i++) {
+                                      DateTime newDate =
+                                          lastDate.add(Duration(days: i));
+                                      dates.add(dateFormat.format(newDate));
                                     }
+                                    // print(dates);
+                                    WeeklyFlChartData().getDates(dates: dates);
+
+                                    // while (flSpots.length < 7) {
+                                    //   flSpots.add(FlSpot(
+                                    //       (flSpots.length * 2).toDouble(),
+                                    //       0.07));
+                                    // }
 
                                     return ReportChart(
                                       dates: dates,

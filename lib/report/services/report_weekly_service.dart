@@ -10,7 +10,7 @@ class ReportWeeklyService {
 
     try {
       response = await dio.get(url);
-
+      print(response);
       ReportWeeklyModel result = ReportWeeklyModel.fromJson(response.data);
 
       return result;

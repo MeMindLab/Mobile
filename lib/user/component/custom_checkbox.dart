@@ -14,6 +14,7 @@ class CustomCheckBox extends StatefulWidget {
   final EdgeInsetsGeometry? padding;
   final bool isChecked;
   final bool? isBold;
+  final bool? isAll;
 
   const CustomCheckBox({
     Key? key,
@@ -25,6 +26,7 @@ class CustomCheckBox extends StatefulWidget {
     this.padding,
     required this.isChecked,
     this.isBold = false,
+    this.isAll = false,
   }) : super(key: key);
 
   @override

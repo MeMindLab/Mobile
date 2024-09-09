@@ -245,86 +245,98 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             CheckValidate().validateConfirmPassword(pwd, value),
                       ),
                       const Spacer(),
-                      CustomCheckBox(
+                      Stack(children: [
+                        CustomCheckBox(
                           title: "전체 동의",
                           isBold: true,
                           svg: "check_all.svg",
                           isChecked: isAll,
                           onChanged: (value) {
                             onTermsChange("all", !isAll);
-                          }),
-                      const SizedBox(
-                        height: 12,
-                      ),
-                      CustomCheckBox(
-                          title: "[필수] 서비스 이용약관 동의",
-                          svg: "check.svg",
-                          isChecked: isService,
-                          trailing: InkWell(
-                            onTap: () {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) {
-                                return const ServiceUseScreen();
-                              }));
-                            },
-                            child: Text("보기",
-                                style: FontSizes.getCapsuleStyle().copyWith(
-                                    decoration: TextDecoration.underline,
-                                    color: theme.appColors.hintText)),
+                          },
+                        ),
+                        Positioned(
+                          right: 5,
+                          child: InkWell(
+                            child:
+                                Image.asset("assets/image/icon/arrow_down.png"),
+                            onTap: () {},
                           ),
-                          onChanged: (value) {
-                            onTermsChange("service", !isService);
-                          }),
-                      const SizedBox(
-                        height: 9,
-                      ),
-                      CustomCheckBox(
-                          title: "[필수] 개인정보 수집 및 이용 동의",
-                          svg: "check.svg",
-                          isChecked: isPersonalInfo,
-                          trailing: InkWell(
-                            onTap: () {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) {
-                                return const CollectUseScreen();
-                              }));
-                            },
-                            child: Text("보기",
-                                style: FontSizes.getCapsuleStyle().copyWith(
-                                    decoration: TextDecoration.underline,
-                                    color: theme.appColors.hintText)),
-                          ),
-                          onChanged: (value) {
-                            onTermsChange("personal", !isPersonalInfo);
-                          }),
-                      const SizedBox(
-                        height: 9,
-                      ),
-                      CustomCheckBox(
-                          title: "[선택] 앱 Push 수신 동의",
-                          svg: "check.svg",
-                          isChecked: isAppPush,
-                          trailing: Text("보기",
-                              style: FontSizes.getCapsuleStyle().copyWith(
-                                  decoration: TextDecoration.underline,
-                                  color: theme.appColors.hintText)),
-                          onChanged: (value) {
-                            onTermsChange("appPush", !isAppPush);
-                          }),
-                      const SizedBox(
-                        height: 9,
-                      ),
-                      CustomCheckBox(
-                          title: "[선택] 광고성 정보 수신 동의",
-                          svg: "check.svg",
-                          isChecked: isAdvertising,
-                          trailing: Text("보기",
-                              style: FontSizes.getCapsuleStyle().copyWith(
-                                  decoration: TextDecoration.underline,
-                                  color: theme.appColors.hintText)),
-                          onChanged: (value) {
-                            onTermsChange("advertise", !isAdvertising);
-                          }),
+                        )
+                      ]),
+
+                      // const SizedBox(
+                      //   height: 12,
+                      // ),
+                      // CustomCheckBox(
+                      //     title: "[필수] 서비스 이용약관 동의",
+                      //     svg: "check.svg",
+                      //     isChecked: isService,
+                      //     trailing: InkWell(
+                      //       onTap: () {
+                      //         Navigator.push(context,
+                      //             MaterialPageRoute(builder: (context) {
+                      //           return const ServiceUseScreen();
+                      //         }));
+                      //       },
+                      //       child: Text("보기",
+                      //           style: FontSizes.getCapsuleStyle().copyWith(
+                      //               decoration: TextDecoration.underline,
+                      //               color: theme.appColors.hintText)),
+                      //     ),
+                      //     onChanged: (value) {
+                      //       onTermsChange("service", !isService);
+                      //     }),
+                      // const SizedBox(
+                      //   height: 9,
+                      // ),
+                      // CustomCheckBox(
+                      //     title: "[필수] 개인정보 수집 및 이용 동의",
+                      //     svg: "check.svg",
+                      //     isChecked: isPersonalInfo,
+                      //     trailing: InkWell(
+                      //       onTap: () {
+                      //         Navigator.push(context,
+                      //             MaterialPageRoute(builder: (context) {
+                      //           return const CollectUseScreen();
+                      //         }));
+                      //       },
+                      //       child: Text("보기",
+                      //           style: FontSizes.getCapsuleStyle().copyWith(
+                      //               decoration: TextDecoration.underline,
+                      //               color: theme.appColors.hintText)),
+                      //     ),
+                      //     onChanged: (value) {
+                      //       onTermsChange("personal", !isPersonalInfo);
+                      //     }),
+                      // const SizedBox(
+                      //   height: 9,
+                      // ),
+                      // CustomCheckBox(
+                      //     title: "[선택] 앱 Push 수신 동의",
+                      //     svg: "check.svg",
+                      //     isChecked: isAppPush,
+                      //     trailing: Text("보기",
+                      //         style: FontSizes.getCapsuleStyle().copyWith(
+                      //             decoration: TextDecoration.underline,
+                      //             color: theme.appColors.hintText)),
+                      //     onChanged: (value) {
+                      //       onTermsChange("appPush", !isAppPush);
+                      //     }),
+                      // const SizedBox(
+                      //   height: 9,
+                      // ),
+                      // CustomCheckBox(
+                      //     title: "[선택] 광고성 정보 수신 동의",
+                      //     svg: "check.svg",
+                      //     isChecked: isAdvertising,
+                      //     trailing: Text("보기",
+                      //         style: FontSizes.getCapsuleStyle().copyWith(
+                      //             decoration: TextDecoration.underline,
+                      //             color: theme.appColors.hintText)),
+                      //     onChanged: (value) {
+                      //       onTermsChange("advertise", !isAdvertising);
+                      //     }),
                       const SizedBox(
                         height: 28,
                       ),
