@@ -1,10 +1,15 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:me_mind/common/component/custom_text_form.dart';
 import 'package:me_mind/common/component/dialog/d_bottom_sheet.dart';
 import 'package:me_mind/common/component/dialog/w_bottom_sheet_content.dart';
 import 'package:me_mind/common/component/rounded_button.dart';
+import 'package:me_mind/common/constant/app_colors.dart';
+import 'package:me_mind/common/constant/constant.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/layout/topbar/widget/back_arrow.dart';
@@ -12,26 +17,36 @@ import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 import 'package:me_mind/settings/view/s_collect_use_screen.dart';
 import 'package:me_mind/settings/view/s_service_use_screen.dart';
+import 'package:me_mind/user/component/agree_checkSet_component.dart';
 import 'package:me_mind/user/component/custom_checkbox.dart';
+import 'package:me_mind/user/model/sign_up_agree.dart';
 import 'package:me_mind/user/model/user_signup_model.dart';
+import 'package:me_mind/user/provider/agree_provider.dart';
 import 'package:me_mind/user/services/signup_service.dart';
 import 'package:me_mind/user/view/s_signup_welcome.dart';
 import 'package:me_mind/utils/permission.dart';
 import 'package:me_mind/utils/validate.dart';
 
-class SignUpScreen extends StatefulWidget {
+class SignUpScreen extends ConsumerStatefulWidget {
   const SignUpScreen({super.key});
 
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+  ConsumerState<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
+class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   final formKey = GlobalKey<FormState>();
   String email = "";
   String name = "";
   String pwd = "";
   String brandName = "memind";
+  // SignUpAgree signUpAgree = SignUpAgree(
+  //     isSubmitted: false,
+  //     isAll: false,
+  //     isService: false,
+  //     isPersonalInfo: false,
+  //     isAppPush: false,
+  //     isAdvertising: false);
 
   bool emailCheck = false;
   bool nicknameCheck = false;
@@ -100,6 +115,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     CustomTheme theme = CustomThemeHolder.of(context).theme;
+    final agree = ref.watch(agreeStateNotifierProvider);
+    ref.listen(agreeStateNotifierProvider, (prev, next) {
+      if (next.isAll == true) {
+        print("dhk");
+      }
+    });
 
     return DefaultLayout(
       title: "회원가입",
@@ -246,13 +267,33 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       const Spacer(),
                       Stack(children: [
+                        // InkWell(
+                        //   onTap: () {
+                        //     ref
+                        //         .read(agreeStateNotifierProvider.notifier)
+                        //         .updateAll(isTrue: !agree.isAll);
+                        //   },
+                        //   child: SvgPicture.asset(
+                        //     'assets/svg/icon/check_all.svg',
+                        //     colorFilter: ColorFilter.mode(
+                        //         agree.isAll
+                        //             ? theme.appColors.checkColor
+                        //             : AppColors.gray6,
+                        //         BlendMode.srcIn),
+                        //   ),
+                        // ),
                         CustomCheckBox(
                           title: "전체 동의",
                           isBold: true,
                           svg: "check_all.svg",
-                          isChecked: isAll,
-                          onChanged: (value) {
-                            onTermsChange("all", !isAll);
+                          isChecked: agree.isAll,
+                          onChanged: () {
+                            print("하이");
+                            // onTermsChange("all", !isAll);
+                            ref
+                                .read(agreeStateNotifierProvider.notifier)
+                                .updateAll(isTrue: !agree.isAll);
+                            print(agree.isAll);
                           },
                         ),
                         Positioned(
@@ -260,7 +301,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           child: InkWell(
                             child:
                                 Image.asset("assets/image/icon/arrow_down.png"),
-                            onTap: () {},
+                            onTap: () {
+                              BottomSheets(
+                                      context: context,
+                                      height: 368,
+                                      bodies: const AgreeCheckSetComponent())
+                                  .show();
+                            },
                           ),
                         )
                       ]),

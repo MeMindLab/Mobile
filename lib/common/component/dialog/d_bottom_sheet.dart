@@ -4,16 +4,20 @@ class BottomSheets {
   final BuildContext context;
   final TextAlign textAlign;
   final Widget bodies;
+  final double? height;
+  final bool? isBarrier;
 
   BottomSheets(
       {required this.context,
       this.textAlign = TextAlign.center,
-      required this.bodies});
+      required this.bodies,
+      this.isBarrier = false,
+      this.height});
 
   show() async {
     await showModalBottomSheet(
         context: context,
-        barrierColor: Colors.transparent,
+        barrierColor: isBarrier == true ? Colors.black : Colors.transparent,
         backgroundColor: Colors.transparent,
         isDismissible: true,
         useSafeArea: true,
@@ -21,7 +25,7 @@ class BottomSheets {
           var deviceWidth = MediaQuery.of(context).size.width;
           return Container(
               width: deviceWidth,
-              height: 280,
+              height: height ?? 280,
               decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: const BorderRadius.only(
