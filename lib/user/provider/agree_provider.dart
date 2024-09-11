@@ -16,7 +16,6 @@ class AgreeStateNotifier extends StateNotifier<SignUpAgree> {
             isAdvertising: false));
 
   updateAll({required bool isTrue}) {
-    print(isTrue);
     final updateState = state.copyWith(
         isSubmitted: isTrue,
         isAll: isTrue,
@@ -24,6 +23,52 @@ class AgreeStateNotifier extends StateNotifier<SignUpAgree> {
         isPersonalInfo: isTrue,
         isAppPush: isTrue,
         isAdvertising: isTrue);
+    state = updateState;
+  }
+
+  updateService({required bool isTrue}) {
+    final updateState = state.copyWith(
+        isService: isTrue,
+        isSubmitted: isTrue && state.isPersonalInfo ? true : false,
+        isAll: isTrue &&
+                state.isPersonalInfo &&
+                state.isAppPush &&
+                state.isAdvertising
+            ? true
+            : false);
+    state = updateState;
+  }
+
+  updatePersonal({required bool isTrue}) {
+    final updateState = state.copyWith(
+        isPersonalInfo: isTrue,
+        isSubmitted: state.isService && isTrue ? true : false,
+        isAll:
+            state.isService && isTrue && state.isAppPush && state.isAdvertising
+                ? true
+                : false);
+    state = updateState;
+  }
+
+  updateAppPush({required bool isTrue}) {
+    final updateState = state.copyWith(
+        isAppPush: isTrue,
+        isAll: state.isService &&
+                state.isPersonalInfo &&
+                isTrue &&
+                state.isAdvertising
+            ? true
+            : false);
+    state = updateState;
+  }
+
+  updateAdverTising({required bool isTrue}) {
+    final updateState = state.copyWith(
+        isAdvertising: isTrue,
+        isAll:
+            state.isService && state.isPersonalInfo && state.isAppPush && isTrue
+                ? true
+                : false);
     state = updateState;
   }
 }
