@@ -12,6 +12,7 @@ class CustomTextFormField extends StatelessWidget {
   final ValueChanged<String> onChanged;
   final Widget? suffixIcon;
   final Color? borderColor;
+  final Color? bgColor;
   final FormFieldValidator? validator;
   final TextEditingController? controller;
   final ValueChanged<String>? onFieldSubmitted;
@@ -31,6 +32,7 @@ class CustomTextFormField extends StatelessWidget {
       this.obscureText = false,
       this.autoFocus = false,
       this.suffixIcon,
+      this.bgColor,
       this.borderColor,
       this.validator,
       this.controller,
@@ -102,7 +104,7 @@ class CustomTextFormField extends StatelessWidget {
                 height: 0, color: Colors.red, fontWeight: FontWeight.w500),
             hintStyle: FontSizes.getContentStyle()
                 .copyWith(fontWeight: FontWeight.w400),
-            fillColor: inputBackground,
+            fillColor: bgColor ?? inputBackground,
             filled: true, // false 배경색 없음 true 있음
             border: baseBorder,
             enabledBorder: baseBorder.copyWith(

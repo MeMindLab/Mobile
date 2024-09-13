@@ -7,6 +7,7 @@ import 'package:me_mind/common/component/custom_text_form.dart';
 import 'package:me_mind/common/component/dialog/d_bottom_sheet.dart';
 import 'package:me_mind/common/component/dialog/w_bottom_sheet_content.dart';
 import 'package:me_mind/common/component/rounded_button.dart';
+import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/layout/topbar/widget/back_arrow.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
@@ -39,6 +40,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   bool pwdShow = true;
   String? errorEmailText;
   String? errorNameText;
+  TextEditingController referralController = TextEditingController(text: "");
 
   @override
   Widget build(BuildContext context) {
@@ -188,6 +190,17 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                         validator: (value) =>
                             CheckValidate().validateConfirmPassword(pwd, value),
                       ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      CustomTextFormField(
+                        isLogin: false,
+                        labelText: "추천인 (선택)",
+                        controller: referralController,
+                        hintText: "추천인 코드를 입력해주세요",
+                        bgColor: AppColors.gray1,
+                        onChanged: (String value) {},
+                      ),
                       const Spacer(),
                       Stack(children: [
                         CustomCheckBox(
@@ -227,8 +240,12 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                                 text: "가입하기",
                                 onPressed: () async {
                                   if (formKey.currentState!.validate()) {
-                                    var response = await SignupService()
-                                        .signup(email, name, pwd);
+                                    var response = await SignupService().signup(
+                                        email,
+                                        name,
+                                        pwd,
+                                        referralController.text);
+                                    print(response);
 
                                     if (response is String) {
                                       if (response == "Invalid Email") {
