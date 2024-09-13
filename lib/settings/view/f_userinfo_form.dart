@@ -24,6 +24,7 @@ import 'package:me_mind/settings/model/auth_sms_model.dart';
 import 'package:me_mind/settings/model/auth_sms_verify_model.dart';
 import 'package:me_mind/settings/model/user_info_model.dart';
 import 'package:me_mind/settings/services/auth_sms_service.dart';
+import 'package:me_mind/settings/services/user_validation_service.dart';
 import 'package:me_mind/settings/services/userinfo_service.dart';
 import 'package:me_mind/settings/utils/phone_number_formatter.dart';
 import 'package:me_mind/settings/view/s_withdraw_screen.dart';
@@ -60,12 +61,16 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
   String code = "";
   int timerCount = 300;
   bool isAuthCheck = false;
+  bool isEmailCheck = false;
+  bool isNameCheck = false;
   late Timer _timer;
   late CertifyTimer certifyTimer;
   bool isphoneAuthenticated = false;
   bool isTimerStart = false;
   late bool isAuthenticComplete;
   bool isAuthNumberState = true;
+  String? errorNameText;
+  String? errorEmailText;
 
   void resetTimer() {
     setState(() {
@@ -176,6 +181,7 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                 SeetingCustomTextFormField(
                   textEditingController: nameController,
                   bgColor: theme.appColors.seedColor,
+                  errorText: errorNameText,
                   maxLength: 10,
                   labelText: "닉네임",
                   validator: (value) {
@@ -188,19 +194,49 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                 ),
                 Positioned(
                   right: 0,
-                  bottom: 5,
+                  top: 40,
                   child: Container(
                     width: 70,
                     height: 35,
                     margin: const EdgeInsets.fromLTRB(0, 5, 7, 5),
                     child: ElevatedButton(
-                        child: Text(
-                          "확인",
-                          style: FontSizes.getContentStyle()
-                              .copyWith(fontWeight: FontWeight.w500),
-                        ),
+                        child: isNameCheck == true
+                            ? SvgPicture.asset(
+                                'assets/svg/icon/check.svg',
+                                colorFilter: ColorFilter.mode(
+                                    theme.appColors.seedColor, BlendMode.srcIn),
+                              )
+                            : Text(
+                                "확인",
+                                style: FontSizes.getContentStyle()
+                                    .copyWith(fontWeight: FontWeight.w500),
+                              ),
                         style: checkButtonStyle(theme),
-                        onPressed: () {}),
+                        onPressed: widget.isUpdate
+                            ? () async {
+                                if (widget.userNickname ==
+                                    nameController.text) {
+                                  setState(() {
+                                    errorNameText = "기존 닉네임입니다.";
+                                    isNameCheck = false;
+                                  });
+                                }
+                                final result = await UserValidationService()
+                                    .checkName(name: nameController.text);
+                                print(result);
+                                if (result != null) {
+                                  setState(() {
+                                    isNameCheck = true;
+                                    errorNameText = null;
+                                  });
+                                } else {
+                                  setState(() {
+                                    errorNameText = "이미 사용중인 닉네임입니다.";
+                                    isNameCheck = false;
+                                  });
+                                }
+                              }
+                            : null),
                   ),
                 ),
               ]),
@@ -211,6 +247,7 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                 SeetingCustomTextFormField(
                   textEditingController: emailController,
                   bgColor: theme.appColors.seedColor,
+                  errorText: errorEmailText,
                   labelText: "이메일",
                   readOnly: widget.isUpdate == false ? true : false,
                   validator: (value) {
@@ -222,19 +259,48 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                 ),
                 Positioned(
                   right: 0,
-                  bottom: 5,
+                  top: 40,
                   child: Container(
                     width: 70,
                     height: 35,
                     margin: const EdgeInsets.fromLTRB(0, 5, 7, 5),
                     child: ElevatedButton(
-                        child: Text(
-                          "확인",
-                          style: FontSizes.getContentStyle()
-                              .copyWith(fontWeight: FontWeight.w500),
-                        ),
+                        child: isEmailCheck == true
+                            ? SvgPicture.asset(
+                                'assets/svg/icon/check.svg',
+                                colorFilter: ColorFilter.mode(
+                                    theme.appColors.seedColor, BlendMode.srcIn),
+                              )
+                            : Text(
+                                "확인",
+                                style: FontSizes.getContentStyle()
+                                    .copyWith(fontWeight: FontWeight.w500),
+                              ),
                         style: checkButtonStyle(theme),
-                        onPressed: () {}),
+                        onPressed: widget.isUpdate
+                            ? () async {
+                                if (widget.userEmail == emailController.text) {
+                                  setState(() {
+                                    errorEmailText = "기존 이메일입니다.";
+                                    isEmailCheck = false;
+                                  });
+                                }
+                                final result = await UserValidationService()
+                                    .checkEmail(email: emailController.text);
+                                print(result);
+                                if (result != null) {
+                                  setState(() {
+                                    isEmailCheck = true;
+                                    errorEmailText = null;
+                                  });
+                                } else {
+                                  setState(() {
+                                    errorEmailText = "이미 사용중인 이메일입니다.";
+                                    isEmailCheck = false;
+                                  });
+                                }
+                              }
+                            : null),
                   ),
                 ),
               ]),
@@ -483,7 +549,9 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                 Expanded(
                   child: SizedBox(
                     child: RoundedButton(
-                      backgroundColor: isAuthenticComplete == true
+                      backgroundColor: isAuthenticComplete == true ||
+                              isEmailCheck ||
+                              isNameCheck
                           ? theme.appColors.blueButtonBackground
                           : theme.appColors.grayButtonBackground,
                       text: "저장",
