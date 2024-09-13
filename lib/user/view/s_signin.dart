@@ -31,6 +31,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
 
   String email = "";
   String password = "";
+  bool pwdShow = false;
   String? emailErrorText;
   String? passwordErrorText;
 
@@ -99,10 +100,19 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                         ),
                         CustomTextFormField(
                           labelText: "비밀번호",
-                          obscureText: true,
+                          obscureText: !pwdShow,
                           errorText: passwordErrorText,
-                          isToggle: true,
-                          onToggleObscureText: () {},
+                          suffixIcon: InkWell(
+                            onTap: () {
+                              setState(() {
+                                pwdShow = !pwdShow;
+                              });
+                            },
+                            child: Icon(
+                              pwdShow ? Icons.visibility : Icons.visibility_off,
+                              color: theme.appColors.hintText,
+                            ),
+                          ),
                           onChanged: (String value) {
                             setState(() {
                               password = value;
