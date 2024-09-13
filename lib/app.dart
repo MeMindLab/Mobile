@@ -6,6 +6,7 @@ import 'package:me_mind/chat/view/s_trash.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/view/splash_screen.dart';
 import 'package:me_mind/settings/view/s_setting.dart';
+import 'package:me_mind/settings/view/s_setting_userinfo.dart';
 import 'package:me_mind/settings/view/s_withdraw_screen.dart';
 import 'package:me_mind/user/view/s_signin.dart';
 import 'package:me_mind/user/view/s_signup_welcome.dart';
@@ -62,7 +63,7 @@ class AppState extends State<App> with WidgetsBindingObserver {
           locale: context.locale,
           title: 'Me mind',
           theme: CustomThemeHolder.of(context).theme.themeData,
-          home: const SignUpScreen(),
+          home: const SplashScreen(),
         );
       }),
     );

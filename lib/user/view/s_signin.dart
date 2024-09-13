@@ -126,6 +126,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                                     final response = await authService
                                         .loginService
                                         .login(email, password);
+                                    print(response);
 
                                     if (response == null) {
                                       setState(() {

@@ -17,7 +17,9 @@ class BottomSheets {
   show() async {
     await showModalBottomSheet(
         context: context,
-        barrierColor: isBarrier == true ? Colors.black : Colors.transparent,
+        barrierColor: isBarrier == true
+            ? Colors.black.withOpacity(0.6)
+            : Colors.transparent,
         backgroundColor: Colors.transparent,
         isDismissible: true,
         useSafeArea: true,

@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:me_mind/chat/utils/show_snackbar.dart';
 import 'package:me_mind/common/component/dots_indicator.dart';
 import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
@@ -14,6 +15,7 @@ import 'package:me_mind/common/theme/custom_theme_holder.dart';
 import 'package:me_mind/report/component/report_circular_chart.dart';
 import 'package:me_mind/report/model/report_detail/report_detail_model.dart';
 import 'package:me_mind/report/provider/report_detail_provider.dart';
+import 'package:me_mind/report/services/image_download_service.dart';
 import 'package:me_mind/report/type/emotion.dart';
 import 'package:me_mind/report/w_capsule.dart';
 import 'package:me_mind/report/w_emotion_card.dart';
@@ -225,18 +227,24 @@ class _ReportDetailState extends ConsumerState<ReportDetail> {
                             ),
                             Row(
                               children: [
-                                // SvgPicture.asset(
-                                //   "assets/svg/icon/sharingDiary.svg",
-                                //   colorFilter: ColorFilter.mode(
-                                //       theme.appColors.iconBook,
-                                //       BlendMode.srcIn),
-                                // ),
                                 const SizedBox(width: 7),
-                                SvgPicture.asset(
-                                  'assets/svg/icon/upload.svg',
-                                  colorFilter: ColorFilter.mode(
-                                      theme.appColors.iconBook,
-                                      BlendMode.srcIn),
+                                InkWell(
+                                  onTap: () async {
+                                    print("저장");
+                                    final data = await ImageDownloadService()
+                                        .downloadAndSaveImage(
+                                            result.drawingDiary!.imageUrl!);
+                                    if (data != null) {
+                                      ShowSnackBar().showBottomSnackBar(
+                                          context, "갤러리에 저장되었습니다.");
+                                    }
+                                  },
+                                  child: SvgPicture.asset(
+                                    'assets/svg/icon/upload.svg',
+                                    colorFilter: ColorFilter.mode(
+                                        theme.appColors.iconBook,
+                                        BlendMode.srcIn),
+                                  ),
                                 ),
                                 const SizedBox(width: 5),
                               ],

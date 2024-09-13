@@ -57,6 +57,7 @@ dependencies:
   permission_handler: ^11.2.0
   json_annotation: ^4.8.1
   flutter_riverpod: ^2.5.1
+  image_gallery_saver: "^2.0.3"
 
   #audio
   record: ^5.0.4

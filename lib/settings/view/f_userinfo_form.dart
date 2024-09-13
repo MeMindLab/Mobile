@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:me_mind/chat/utils/show_snackbar.dart';
 import 'package:me_mind/common/component/dialog/custom_dialog.dart';
 import 'package:me_mind/common/component/dialog/w_dialog_button.dart';
 import 'package:me_mind/common/component/rounded_button.dart';
@@ -146,34 +148,96 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
               const SizedBox(
                 height: 20,
               ),
-              SeetingCustomTextFormField(
-                textEditingController: nameController,
-                bgColor: theme.appColors.seedColor,
-                maxLength: 10,
-                labelText: "닉네임",
-                validator: (value) {
-                  var nicknameResult = CheckValidate().validateName(value);
-
-                  return nicknameResult;
-                },
-                readOnly: widget.isUpdate == false ? true : false,
-                onChanged: (String value) {},
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "추천인 코드 ",
+                    style: FontSizes.getCapsuleStyle().copyWith(
+                        fontWeight: FontWeight.w400, color: AppColors.gray7),
+                  ),
+                  Text("DKEJDU32 ",
+                      style: FontSizes.getCapsuleStyle().copyWith(
+                          fontWeight: FontWeight.w400, color: AppColors.gray9)),
+                  InkWell(
+                      onTap: () {
+                        Clipboard.setData(
+                            const ClipboardData(text: "DKEJDU32"));
+                        // ShowSnackBar()
+                        //     .showBottomSnackBar(context, "추천인 코드가 복사되었습니다.");
+                      },
+                      child: Image.asset("assets/image/icon/copy.png")),
+                  Text(" 복사하기",
+                      style: FontSizes.getCapsuleStyle().copyWith(
+                          fontWeight: FontWeight.w400, color: AppColors.blue9)),
+                ],
               ),
+              Stack(children: [
+                SeetingCustomTextFormField(
+                  textEditingController: nameController,
+                  bgColor: theme.appColors.seedColor,
+                  maxLength: 10,
+                  labelText: "닉네임",
+                  validator: (value) {
+                    var nicknameResult = CheckValidate().validateName(value);
+
+                    return nicknameResult;
+                  },
+                  readOnly: widget.isUpdate == false ? true : false,
+                  onChanged: (String value) {},
+                ),
+                Positioned(
+                  right: 0,
+                  bottom: 5,
+                  child: Container(
+                    width: 70,
+                    height: 35,
+                    margin: const EdgeInsets.fromLTRB(0, 5, 7, 5),
+                    child: ElevatedButton(
+                        child: Text(
+                          "확인",
+                          style: FontSizes.getContentStyle()
+                              .copyWith(fontWeight: FontWeight.w500),
+                        ),
+                        style: checkButtonStyle(theme),
+                        onPressed: () {}),
+                  ),
+                ),
+              ]),
               const SizedBox(
                 height: 12.0,
               ),
-              SeetingCustomTextFormField(
-                textEditingController: emailController,
-                bgColor: theme.appColors.seedColor,
-                labelText: "이메일",
-                readOnly: widget.isUpdate == false ? true : false,
-                validator: (value) {
-                  var emailResult = CheckValidate().validateEmail(value);
+              Stack(children: [
+                SeetingCustomTextFormField(
+                  textEditingController: emailController,
+                  bgColor: theme.appColors.seedColor,
+                  labelText: "이메일",
+                  readOnly: widget.isUpdate == false ? true : false,
+                  validator: (value) {
+                    var emailResult = CheckValidate().validateEmail(value);
 
-                  return emailResult;
-                },
-                onChanged: (String value) {},
-              ),
+                    return emailResult;
+                  },
+                  onChanged: (String value) {},
+                ),
+                Positioned(
+                  right: 0,
+                  bottom: 5,
+                  child: Container(
+                    width: 70,
+                    height: 35,
+                    margin: const EdgeInsets.fromLTRB(0, 5, 7, 5),
+                    child: ElevatedButton(
+                        child: Text(
+                          "확인",
+                          style: FontSizes.getContentStyle()
+                              .copyWith(fontWeight: FontWeight.w500),
+                        ),
+                        style: checkButtonStyle(theme),
+                        onPressed: () {}),
+                  ),
+                ),
+              ]),
               const SizedBox(
                 height: 12.0,
               ),
@@ -492,6 +556,21 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
               )
             : const Text(""),
       ]),
+    );
+  }
+
+  ButtonStyle checkButtonStyle(theme) {
+    return ElevatedButton.styleFrom(
+      minimumSize: Size.zero,
+      padding: EdgeInsets.zero,
+      backgroundColor: isAuthCheck == false
+          ? theme.appColors.grayButtonBackground
+          : Color(0xFFA9D0FF),
+      elevation: 0,
+      foregroundColor: theme.appColors.iconButton ?? Colors.black,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(13),
+      ),
     );
   }
 }
