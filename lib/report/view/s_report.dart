@@ -163,14 +163,8 @@ class _Report extends ConsumerState<Report> {
                                           lastDate.add(Duration(days: i));
                                       dates.add(dateFormat.format(newDate));
                                     }
-                                    // print(dates);
-                                    WeeklyFlChartData().getDates(dates: dates);
 
-                                    // while (flSpots.length < 7) {
-                                    //   flSpots.add(FlSpot(
-                                    //       (flSpots.length * 2).toDouble(),
-                                    //       0.07));
-                                    // }
+                                    WeeklyFlChartData().getDates(dates: dates);
 
                                     return ReportChart(
                                       dates: dates,

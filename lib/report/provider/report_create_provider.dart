@@ -3,19 +3,23 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:me_mind/common/provider/lemon_provider.dart';
 import 'package:me_mind/common/services/lemon_service.dart';
 import 'package:me_mind/report/model/create_daily/create_daily_model.dart';
+import 'package:me_mind/report/provider/report_id_provider.dart';
 import 'package:me_mind/report/services/daily_service.dart';
 
 final reportCreateProvider =
     StateNotifierProvider<ReportCreateStateNotifier, ReportCreateBase>((ref) {
-  final notifier = ReportCreateStateNotifier(ref);
+  final notifier = ReportCreateStateNotifier(ref, reportIdProvider);
+
   return notifier;
 });
 
 class ReportCreateStateNotifier extends StateNotifier<ReportCreateBase> {
   final StateNotifierProviderRef<ReportCreateStateNotifier, ReportCreateBase>
       ref;
+  final StateProvider provider;
 
-  ReportCreateStateNotifier(this.ref) : super(ReportCreateAwaiting());
+  ReportCreateStateNotifier(this.ref, this.provider)
+      : super(ReportCreateAwaiting());
 
   Future create({required String uuid}) async {
     // 발급 과정
@@ -28,6 +32,10 @@ class ReportCreateStateNotifier extends StateNotifier<ReportCreateBase> {
 
       state = ReportCreateLoading(stateMsg: "레몬을 1 감소합니다.");
       await ref.read(lemonStateNotifierProvider.notifier).lemonDecrease();
+
+      // ref.read(provider.notifier).state = report.reportId;
+
+      // print(ref.watch(reportIdProvider));
 
       Future.delayed(const Duration(seconds: 2), () {
         state = ReportCreateSuccess(stateMsg: "레포트 발급에 성공했습니다.");

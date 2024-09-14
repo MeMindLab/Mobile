@@ -52,7 +52,8 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
   @override
   Widget build(BuildContext context) {
     CustomTheme theme = CustomThemeHolder.of(context).theme;
-
+    FocusNode emailFocus = FocusNode();
+    FocusNode pwdFocus = FocusNode();
     final AuthService authService = AuthService();
 
     return DefaultLayout(
@@ -82,6 +83,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                         ),
                         CustomTextFormField(
                           labelText: "이메일",
+                          focusNode: emailFocus,
                           errorText: emailErrorText,
                           onChanged: (String value) {
                             setState(() {
@@ -99,8 +101,10 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                           height: 12.0,
                         ),
                         CustomTextFormField(
+                          // focusNode: pwdFocus,
                           labelText: "비밀번호",
                           obscureText: !pwdShow,
+                          borderColor: Colors.transparent,
                           errorText: passwordErrorText,
                           suffixIcon: InkWell(
                             onTap: () {
@@ -132,6 +136,8 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                           text: "로그인",
                           onPressed: email != "" && password != ""
                               ? () async {
+                                  emailFocus.unfocus();
+                                  pwdFocus.unfocus();
                                   if (_formKey.currentState!.validate()) {
                                     final response = await authService
                                         .loginService

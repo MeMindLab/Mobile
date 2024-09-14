@@ -29,6 +29,7 @@ class ReportDetailNotifier extends StateNotifier<ReportDetailState> {
   ) async {
     try {
       final response = await ReportDetailService().show(conversationId: id);
+      print("report detail부르기");
 
       if (response is! ReportDetailModel) return;
 
@@ -46,6 +47,8 @@ class ReportDetailNotifier extends StateNotifier<ReportDetailState> {
         // /generate-image API로 1의 tags를 기준으로 이미지 반환
         final pictureDiary = await GenerateImage()
             .create(tags: newResponse.reportSummary!.tags!);
+        print("이미지 생성성");
+        print(pictureDiary);
         if (pictureDiary is! String) return;
         // final newDiary = pictureDiary as String;
         // print(pictureDiary);
@@ -65,15 +68,18 @@ class ReportDetailNotifier extends StateNotifier<ReportDetailState> {
         // // 임시 저장소에 저장된 이미지 /upload API로 업로드
         var imageUrl =
             await ImageUploadService().upload(File(file.path), id, true);
+        print("이미지 업로드");
 
         if (imageUrl is! ImageUploadModel) return;
 
         var updateResult =
             await ImageUpdateService().update(id, imageUrl.imageUrl);
+        print("이미지 업데이트");
 
         if (updateResult is! ImageUpdateModel) return;
 
         final result = await ReportDetailService().show(conversationId: id);
+        print("다시 불러오기");
 
         if (result is! ReportDetailModel) return;
 

@@ -18,7 +18,8 @@ final chatStartServiceProvider = Provider<ChatStartService>((ref) {
 class ChatStartService {
   Future load(String date) async {
     final url = "$ip/chat/start";
-    Map<String, dynamic> data = {"date": date};
+    Map<String, dynamic> data = {"date": "2024-09-14"};
+    // Map<String, dynamic> data = {"date": date};
 
     final dio = Dio();
     Response response;

@@ -46,6 +46,7 @@ class _ReportDetailState extends ConsumerState<ReportDetail> {
   Widget build(BuildContext context) {
     CustomTheme theme = CustomThemeHolder.of(context).theme;
     Color keywordColor = Theme.of(context).cardColor;
+    print(widget.conversationId);
     // final id = ref.watch(chatIdProvider);
     final detail = ref.watch(reportDetailProvider(widget.conversationId));
     if (detail is ReportDetailLoading) {

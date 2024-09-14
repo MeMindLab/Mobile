@@ -19,7 +19,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   final GlobalKey webViewKey = GlobalKey();
   // Uri myUrl = Uri.parse("https://d2ygt4x04f8e42.cloudfront.net");
-  Uri myUrl = Uri.parse("http://10.0.2.2:3000/");
+  Uri myUrl = Uri.parse("https://main--memind.netlify.app/");
   late final InAppWebViewController webViewController;
   late final PullToRefreshController pullToRefreshController;
   double progress = 0;
@@ -124,7 +124,7 @@ class _MainScreenState extends State<MainScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const Trash(),
+                          builder: (context) => const Chat(),
                         ),
                       );
                     }
@@ -139,7 +139,7 @@ class _MainScreenState extends State<MainScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const Chat(),
+                          builder: (context) => const Trash(),
                         ),
                       );
                     }
