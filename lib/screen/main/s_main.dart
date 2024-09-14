@@ -156,6 +156,15 @@ class _MainScreenState extends State<MainScreen> {
                             );
                           }
                         });
+
+                    // webViewController.evaluateJavascript(
+                    //     source: 'getToken("$token")');
+
+                    webViewController.addJavaScriptHandler(
+                        handlerName: "requestToken",
+                        callback: (args) async {
+                          return token;
+                        });
                   },
                   onConsoleMessage: (controller, consoleMessage) {
                     print(consoleMessage);
