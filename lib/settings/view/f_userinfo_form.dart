@@ -220,10 +220,11 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                                     errorNameText = "기존 닉네임입니다.";
                                     isNameCheck = false;
                                   });
+                                  return;
                                 }
                                 final result = await UserValidationService()
                                     .checkName(name: nameController.text);
-                                print(result);
+
                                 if (result != null) {
                                   setState(() {
                                     isNameCheck = true;
@@ -536,6 +537,11 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                     backgroundColor: theme.appColors.seedColor,
                     onPressed: () {
                       widget.onUpdate(false);
+                      _formKey.currentState?.reset();
+                      setState(() {
+                        errorEmailText = null;
+                        errorNameText = null;
+                      });
                       nameController.text = widget.userNickname;
                       emailController.text = widget.userEmail;
                       phoneController.text = widget.userPhoneNumber ?? "";
@@ -582,9 +588,6 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
 
                           if (isAuthenticComplete == true) {
                             resetTimer();
-                            ref
-                                .read(lemonStateNotifierProvider.notifier)
-                                .lemonIncrease();
 
                             DialogManager(
                                     context: context, type: DialogType.lemon)

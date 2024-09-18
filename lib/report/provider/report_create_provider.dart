@@ -3,12 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:me_mind/common/provider/lemon_provider.dart';
 import 'package:me_mind/common/services/lemon_service.dart';
 import 'package:me_mind/report/model/create_daily/create_daily_model.dart';
-import 'package:me_mind/report/provider/report_id_provider.dart';
 import 'package:me_mind/report/services/daily_service.dart';
 
 final reportCreateProvider =
     StateNotifierProvider<ReportCreateStateNotifier, ReportCreateBase>((ref) {
-  final notifier = ReportCreateStateNotifier(ref, reportIdProvider);
+  final notifier = ReportCreateStateNotifier(ref);
 
   return notifier;
 });
@@ -16,10 +15,8 @@ final reportCreateProvider =
 class ReportCreateStateNotifier extends StateNotifier<ReportCreateBase> {
   final StateNotifierProviderRef<ReportCreateStateNotifier, ReportCreateBase>
       ref;
-  final StateProvider provider;
 
-  ReportCreateStateNotifier(this.ref, this.provider)
-      : super(ReportCreateAwaiting());
+  ReportCreateStateNotifier(this.ref) : super(ReportCreateAwaiting());
 
   Future create({required String uuid}) async {
     // 발급 과정
@@ -30,8 +27,8 @@ class ReportCreateStateNotifier extends StateNotifier<ReportCreateBase> {
       final report = await DailyService().create(id: uuid);
       if (report is! CreateDailyModel) return;
 
-      state = ReportCreateLoading(stateMsg: "레몬을 1 감소합니다.");
-      await ref.read(lemonStateNotifierProvider.notifier).lemonDecrease();
+      // state = ReportCreateLoading(stateMsg: "레몬을 1 감소합니다.");
+      // await ref.read(lemonStateNotifierProvider.notifier).lemonDecrease();
 
       // ref.read(provider.notifier).state = report.reportId;
 

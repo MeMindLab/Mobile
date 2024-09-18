@@ -25,8 +25,8 @@ class SignInScreen extends ConsumerStatefulWidget {
 }
 
 class _SignInScreenState extends ConsumerState<SignInScreen> {
-  late FocusNode _emailFocusNode;
-  late FocusNode _passwordFocusNode;
+  FocusNode emailFocus = FocusNode();
+  FocusNode pwdFocus = FocusNode();
   final _formKey = GlobalKey<FormState>();
 
   String email = "";
@@ -38,179 +38,177 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
   @override
   void initState() {
     super.initState();
-    _emailFocusNode = FocusNode();
-    _passwordFocusNode = FocusNode();
-  }
-
-  @override
-  void dispose() {
-    _emailFocusNode.dispose();
-    _passwordFocusNode.dispose();
-    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     CustomTheme theme = CustomThemeHolder.of(context).theme;
-    FocusNode emailFocus = FocusNode();
-    FocusNode pwdFocus = FocusNode();
+
     final AuthService authService = AuthService();
 
     return DefaultLayout(
         title: "로그인",
-        child: CustomScrollView(
-          slivers: [
-            SliverFillRemaining(
-              hasScrollBody: false,
-              child: SafeArea(
-                bottom: false,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 27),
-                          child: Image.asset(
-                            "assets/image/logo/newlogo.png",
-                            width: 252,
-                            height: 58,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 40,
-                        ),
-                        CustomTextFormField(
-                          labelText: "이메일",
-                          focusNode: emailFocus,
-                          errorText: emailErrorText,
-                          onChanged: (String value) {
-                            setState(() {
-                              email = value;
-                            });
-                          },
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "이메일을 입력해주세요!";
-                            }
-                            return null;
-                          },
-                        ),
-                        const SizedBox(
-                          height: 12.0,
-                        ),
-                        CustomTextFormField(
-                          // focusNode: pwdFocus,
-                          labelText: "비밀번호",
-                          obscureText: !pwdShow,
-                          borderColor: Colors.transparent,
-                          errorText: passwordErrorText,
-                          suffixIcon: InkWell(
-                            onTap: () {
-                              setState(() {
-                                pwdShow = !pwdShow;
-                              });
-                            },
-                            child: Icon(
-                              pwdShow ? Icons.visibility : Icons.visibility_off,
-                              color: theme.appColors.hintText,
+        child: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
+          child: CustomScrollView(
+            slivers: [
+              SliverFillRemaining(
+                hasScrollBody: false,
+                child: SafeArea(
+                  bottom: false,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 27),
+                            child: Image.asset(
+                              "assets/image/logo/newlogo.png",
+                              width: 252,
+                              height: 58,
                             ),
                           ),
-                          onChanged: (String value) {
-                            setState(() {
-                              password = value;
-                            });
-                          },
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "비밀번호를 입력해주세요!";
-                            }
-                            return null;
-                          },
-                        ),
-                        const SizedBox(
-                          height: 40,
-                        ),
-                        RoundedButton(
-                          text: "로그인",
-                          onPressed: email != "" && password != ""
-                              ? () async {
-                                  emailFocus.unfocus();
-                                  pwdFocus.unfocus();
-                                  if (_formKey.currentState!.validate()) {
-                                    final response = await authService
-                                        .loginService
-                                        .login(email, password);
-                                    print(response);
-
-                                    if (response == null) {
-                                      setState(() {
-                                        emailErrorText = "아이디 혹은 비밀번호가 다릅니다.";
-                                        passwordErrorText =
-                                            "아이디 혹은 비밀번호가 다릅니다.";
-                                      });
-                                    } else {
-                                      final refreshToken =
-                                          response.refreshToken;
-                                      final accessToken = response.accessToken;
-
-                                      await storage.write(
-                                          key: ACCESS_TOKEN,
-                                          value: accessToken);
-                                      await storage.write(
-                                          key: REFRESH_TOKEN,
-                                          value: refreshToken);
-
-                                      final user =
-                                          await UserInfoService().findUser();
-
-                                      if (user is! UserInfoModel) return;
-                                      ref.watch(userProvider.notifier).state =
-                                          UserDetailModel().copyWith(
-                                              userId: user.id,
-                                              isVerified: user.isVerified,
-                                              email: user.email!,
-                                              name: user.nickname,
-                                              phoneNumber: user.mobile);
-
-                                      ref
-                                          .read(lemonStateNotifierProvider
-                                              .notifier)
-                                          .lemonInit(userId: user.id!);
-
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          builder: (_) => const MainScreen(),
-                                        ),
-                                      );
-                                    }
-                                  }
-                                }
-                              : null,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 19),
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (_) => const SignUpScreen()));
+                          const SizedBox(
+                            height: 40,
+                          ),
+                          CustomTextFormField(
+                            labelText: "이메일",
+                            focusNode: emailFocus,
+                            errorText: emailErrorText,
+                            onChanged: (String value) {
+                              setState(() {
+                                email = value;
+                              });
                             },
-                            child: Text(
-                              "회원가입",
-                              style: FontSizes.getCapsuleStyle().copyWith(
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "이메일을 입력해주세요!";
+                              }
+                              return null;
+                            },
+                          ),
+                          const SizedBox(
+                            height: 12.0,
+                          ),
+                          CustomTextFormField(
+                            focusNode: pwdFocus,
+                            labelText: "비밀번호",
+                            obscureText: !pwdShow,
+                            borderColor: Colors.transparent,
+                            errorText: passwordErrorText,
+                            suffixIcon: InkWell(
+                              onTap: () {
+                                setState(() {
+                                  pwdShow = !pwdShow;
+                                });
+                              },
+                              child: Icon(
+                                pwdShow
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
                                 color: theme.appColors.hintText,
                               ),
                             ),
+                            onChanged: (String value) {
+                              setState(() {
+                                password = value;
+                              });
+                            },
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "비밀번호를 입력해주세요!";
+                              }
+                              return null;
+                            },
                           ),
-                        ),
-                      ],
+                          const SizedBox(
+                            height: 40,
+                          ),
+                          RoundedButton(
+                            text: "로그인",
+                            onPressed: email != "" && password != ""
+                                ? () async {
+                                    FocusScope.of(context).unfocus();
+                                    if (_formKey.currentState!.validate()) {
+                                      final response = await authService
+                                          .loginService
+                                          .login(email, password);
+                                      print(response);
+
+                                      if (response == null) {
+                                        setState(() {
+                                          emailErrorText = "아이디 혹은 비밀번호가 다릅니다.";
+                                          passwordErrorText =
+                                              "아이디 혹은 비밀번호가 다릅니다.";
+                                        });
+                                      } else {
+                                        final refreshToken =
+                                            response.refreshToken;
+                                        final accessToken =
+                                            response.accessToken;
+
+                                        await storage.write(
+                                            key: ACCESS_TOKEN,
+                                            value: accessToken);
+                                        await storage.write(
+                                            key: REFRESH_TOKEN,
+                                            value: refreshToken);
+
+                                        final user =
+                                            await UserInfoService().findUser();
+
+                                        if (user is! UserInfoModel) return;
+                                        ref.watch(userProvider.notifier).state =
+                                            UserDetailModel().copyWith(
+                                                userId: user.id,
+                                                isVerified: user.isVerified,
+                                                email: user.email!,
+                                                name: user.nickname,
+                                                phoneNumber: user.mobile);
+
+                                        ref
+                                            .read(lemonStateNotifierProvider
+                                                .notifier)
+                                            .lemonInit(userId: user.id!);
+
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (_) => const MainScreen(),
+                                          ),
+                                        );
+                                      }
+                                    }
+                                  }
+                                : null,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 19),
+                            child: GestureDetector(
+                              onTap: () {
+                                FocusScope.of(context).unfocus();
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (_) => const SignUpScreen()));
+                              },
+                              child: Text(
+                                "회원가입",
+                                style: FontSizes.getCapsuleStyle().copyWith(
+                                  color: theme.appColors.hintText,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ));
   }
 }
