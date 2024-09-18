@@ -292,9 +292,11 @@ class _SettingState extends ConsumerState<Settings> {
                                 titleText: "로그아웃 하시겠어요?",
                                 firstButtonText: "네",
                                 firstSubmit: () async {
+                                  await Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(
+                                          builder: (_) =>
+                                              const SplashScreen()));
                                   await storage.deleteAll();
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (_) => const SplashScreen()));
                                 },
                                 secondButtonText: "아니오",
                                 secondSubmit: () {

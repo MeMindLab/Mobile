@@ -60,10 +60,10 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
             .lemonInit(userId: userInfo.id);
 
         Navigator.of(context)
-            .push(MaterialPageRoute(builder: (_) => MainScreen()));
+            .pushReplacement(MaterialPageRoute(builder: (_) => MainScreen()));
       } catch (e) {
         Navigator.of(context)
-            .push(MaterialPageRoute(builder: (_) => SignInScreen()));
+            .pushReplacement(MaterialPageRoute(builder: (_) => SignInScreen()));
       }
     }
   }
