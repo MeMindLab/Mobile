@@ -56,7 +56,7 @@ class _SettingState extends ConsumerState<Settings> {
       appBarLeading: const BackArrowLeading(),
       // 설정 화면 Body
       child: SingleChildScrollView(
-        physics: const NeverScrollableScrollPhysics(),
+        physics: const ClampingScrollPhysics(),
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Column(
@@ -224,7 +224,7 @@ class _SettingState extends ConsumerState<Settings> {
                 height: 65,
                 content: ListTile(
                   onTap: () {
-                    Navigator.push(
+                    Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                             builder: (context) => const SettingOpinion()));

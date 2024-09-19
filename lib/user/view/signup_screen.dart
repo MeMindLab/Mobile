@@ -20,9 +20,12 @@ import 'package:me_mind/user/services/signup_service.dart';
 import 'package:me_mind/user/view/s_signup_welcome.dart';
 import 'package:me_mind/utils/permission.dart';
 import 'package:me_mind/utils/validate.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignUpScreen extends ConsumerStatefulWidget {
-  const SignUpScreen({super.key});
+  final bool isOnBoarding;
+
+  const SignUpScreen({super.key, required this.isOnBoarding});
 
   @override
   ConsumerState<SignUpScreen> createState() => _SignUpScreenState();
@@ -49,7 +52,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
 
     return DefaultLayout(
       title: "회원가입",
-      appBarLeading: const BackArrowLeading(),
+      appBarLeading: widget.isOnBoarding ? null : const BackArrowLeading(),
       backgroundColor: Colors.white,
       child: CustomScrollView(
         slivers: [

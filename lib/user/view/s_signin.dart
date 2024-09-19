@@ -197,7 +197,9 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                                 onTap: () {
                                   FocusScope.of(context).unfocus();
                                   Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (_) => const SignUpScreen()));
+                                      builder: (_) => const SignUpScreen(
+                                            isOnBoarding: false,
+                                          )));
                                 },
                                 child: Text(
                                   "회원가입",

@@ -42,14 +42,10 @@ List<Widget> customDialogActions(
   return isColumn == false
       ? isSecond == false
           ? [
-              Expanded(
-                child: Row(children: [
-                  AlertDialogButton(
-                    bgColor: firstColor ?? AppColors.blueMain,
-                    content: firstText,
-                    onSubmit: firstSubmit,
-                  )
-                ]),
+              AlertDialogButton(
+                bgColor: firstColor ?? AppColors.blueMain,
+                content: firstText,
+                onSubmit: firstSubmit,
               )
             ]
           : [

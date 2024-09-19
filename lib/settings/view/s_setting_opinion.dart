@@ -283,12 +283,12 @@ class _SettingOpinionState extends State<SettingOpinion> {
                   ),
                   RoundedButton(
                     onPressed: infoCheck == true && subject != "" && body != ""
-                        ? () {
-                            EmailSend.send(
-                                    subject: subject,
-                                    body: body,
-                                    attachments: attachments)
-                                .then((value) async {
+                        ? () async {
+                            await EmailSend.send(
+                              subject: subject,
+                              body: body,
+                              attachments: attachments,
+                            ).then((value) {
                               DialogManager(
                                       context: context,
                                       type: DialogType.oneButton)
@@ -297,20 +297,22 @@ class _SettingOpinionState extends State<SettingOpinion> {
                                 contentText: "답변은 추후 등록한 이메일로 전송됩니다.",
                                 firstButtonText: "닫기",
                                 firstSubmit: () {
-                                  Navigator.pop(context);
+                                  int count = 0;
+                                  Navigator.pushAndRemoveUntil(
+                                      context,
+                                      PageRouteBuilder(
+                                        pageBuilder: ((BuildContext context,
+                                                Animation<double> animation1,
+                                                Animation<double> animation2) =>
+                                            const Settings()),
+                                        transitionDuration: Duration.zero,
+                                        reverseTransitionDuration:
+                                            Duration.zero,
+                                      ), (Route<dynamic> route) {
+                                    return count++ == 2;
+                                  });
                                 },
                               );
-
-                              await Navigator.pushReplacement(
-                                  context,
-                                  PageRouteBuilder(
-                                    pageBuilder: ((BuildContext context,
-                                            Animation<double> animation1,
-                                            Animation<double> animation2) =>
-                                        Settings()),
-                                    transitionDuration: Duration.zero,
-                                    reverseTransitionDuration: Duration.zero,
-                                  ));
                             });
                           }
                         : null,
