@@ -104,7 +104,20 @@ class _MainScreenState extends State<MainScreen> {
                       myUrl = uri!;
                     });
                   },
-                  onLoadStop: (InAppWebViewController controller, uri) {
+                  onLoadStop: (InAppWebViewController controller, uri) async {
+                    controller.addJavaScriptHandler(
+                        handlerName: "requestToken",
+                        callback: (args) async {
+                          debugPrint("토큰 전송");
+                          return token;
+                        });
+                    await controller.evaluateJavascript(source: """
+                      window.flutter_inappwebview.callHandler('requestToken').then(function(token) {
+                        window.receivedToken = token;
+                        console.log("Token received from Flutter: " + token);
+                        // 받은 토큰으로 필요한 작업 수행
+                      });
+                    """);
                     setState(() {
                       myUrl = uri!;
                     });
@@ -155,15 +168,6 @@ class _MainScreenState extends State<MainScreen> {
                               ),
                             );
                           }
-                        });
-
-                    // webViewController.evaluateJavascript(
-                    //     source: 'getToken("$token")');
-
-                    webViewController.addJavaScriptHandler(
-                        handlerName: "requestToken",
-                        callback: (args) async {
-                          return token;
                         });
                   },
                   onConsoleMessage: (controller, consoleMessage) {
