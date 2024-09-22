@@ -35,6 +35,8 @@ class Report extends ConsumerStatefulWidget {
 class _Report extends ConsumerState<Report> {
   String? date;
   String? weeklyDate;
+  Future<ReportWeeklyModel>? _future;
+
   final ScrollController scrollController = ScrollController();
   void scrollListener() {
     if (scrollController.offset >
@@ -51,6 +53,11 @@ class _Report extends ConsumerState<Report> {
     }
   }
 
+  Future<ReportWeeklyModel>? _fetchData() async {
+    final result = await ReportWeeklyService().fetchData(date: weeklyDate!);
+    return result;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -60,6 +67,7 @@ class _Report extends ConsumerState<Report> {
       weeklyDate = DateFormat("yyyy-MM-dd").format(DateTime.now());
     });
     setBottomIdx(1);
+    _future = _fetchData();
   }
 
   @override
@@ -105,8 +113,7 @@ class _Report extends ConsumerState<Report> {
                         child: AspectRatio(
                           aspectRatio: 1.70,
                           child: FutureBuilder(
-                              future: ReportWeeklyService()
-                                  .fetchData(date: weeklyDate!),
+                              future: _future,
                               builder: (context, snapshot) {
                                 if (snapshot.connectionState ==
                                     ConnectionState.waiting) {

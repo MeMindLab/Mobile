@@ -54,9 +54,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
         }
         ref.watch(userProvider.notifier).state = UserDetailModel()
             .copyWith(userId: userInfo.id, isVerified: userInfo.isVerified);
-        ref
-            .read(lemonStateNotifierProvider.notifier)
-            .lemonInit(userId: userInfo.id);
+        ref.read(lemonStateNotifierProvider.notifier).lemonInit();
 
         Navigator.of(context)
             .pushReplacement(MaterialPageRoute(builder: (_) => MainScreen()));

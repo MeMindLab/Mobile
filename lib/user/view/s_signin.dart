@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:me_mind/common/component/custom_text_form.dart';
 import 'package:me_mind/common/component/rounded_button.dart';
+import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/constant.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
-import 'package:me_mind/common/model/user_lemon_model.dart';
-import 'package:me_mind/common/provider/lemon_provider.dart';
 import 'package:me_mind/common/provider/user_provider.dart';
-import 'package:me_mind/common/services/lemon_service.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 import 'package:me_mind/screen/main/s_main.dart';
@@ -34,6 +32,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
   bool pwdShow = false;
   String? emailErrorText;
   String? passwordErrorText;
+  bool isLogin = false;
 
   @override
   void initState() {
@@ -130,66 +129,87 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                             const SizedBox(
                               height: 40,
                             ),
-                            RoundedButton(
-                              text: "로그인",
-                              onPressed: email != "" && password != ""
-                                  ? () async {
-                                      FocusScope.of(context).unfocus();
-                                      if (_formKey.currentState!.validate()) {
-                                        final response = await authService
-                                            .loginService
-                                            .login(email, password);
-                                        print(response);
+                            Stack(
+                              children: [
+                                RoundedButton(
+                                  text: isLogin == false ? "로그인" : "",
+                                  onPressed: email != "" && password != ""
+                                      ? () async {
+                                          FocusScope.of(context).unfocus();
+                                          setState(() => isLogin = true);
+                                          if (_formKey.currentState!
+                                              .validate()) {
+                                            final response = await authService
+                                                .loginService
+                                                .login(email, password);
 
-                                        if (response == null) {
-                                          setState(() {
-                                            emailErrorText =
-                                                "아이디 혹은 비밀번호가 다릅니다.";
-                                            passwordErrorText =
-                                                "아이디 혹은 비밀번호가 다릅니다.";
-                                          });
-                                        } else {
-                                          final refreshToken =
-                                              response.refreshToken;
-                                          final accessToken =
-                                              response.accessToken;
+                                            if (response == null) {
+                                              setState(() {
+                                                emailErrorText =
+                                                    "아이디 혹은 비밀번호가 다릅니다.";
+                                                passwordErrorText =
+                                                    "아이디 혹은 비밀번호가 다릅니다.";
+                                              });
+                                              setState(() => isLogin = false);
+                                            } else {
+                                              final refreshToken =
+                                                  response.refreshToken;
+                                              final accessToken =
+                                                  response.accessToken;
 
-                                          await storage.write(
-                                              key: ACCESS_TOKEN,
-                                              value: accessToken);
-                                          await storage.write(
-                                              key: REFRESH_TOKEN,
-                                              value: refreshToken);
+                                              await storage.write(
+                                                  key: ACCESS_TOKEN,
+                                                  value: accessToken);
+                                              await storage.write(
+                                                  key: REFRESH_TOKEN,
+                                                  value: refreshToken);
 
-                                          final user = await UserInfoService()
-                                              .findUser();
+                                              final user =
+                                                  await UserInfoService()
+                                                      .findUser();
 
-                                          if (user is! UserInfoModel) return;
-                                          ref
-                                                  .watch(userProvider.notifier)
-                                                  .state =
-                                              UserDetailModel().copyWith(
-                                                  userId: user.id,
-                                                  isVerified: user.isVerified,
-                                                  email: user.email!,
-                                                  name: user.nickname,
-                                                  phoneNumber: user.mobile);
+                                              if (user is! UserInfoModel) {
+                                                setState(() => isLogin = false);
+                                                return;
+                                              }
 
-                                          ref
-                                              .read(lemonStateNotifierProvider
-                                                  .notifier)
-                                              .lemonInit(userId: user.id!);
+                                              ref
+                                                      .watch(userProvider.notifier)
+                                                      .state =
+                                                  UserDetailModel().copyWith(
+                                                      userId: user.id,
+                                                      isVerified:
+                                                          user.isVerified,
+                                                      email: user.email!,
+                                                      name: user.nickname,
+                                                      phoneNumber: user.mobile);
 
-                                          Navigator.of(context).pushReplacement(
-                                            MaterialPageRoute(
-                                              builder: (_) =>
-                                                  const MainScreen(),
-                                            ),
-                                          );
+                                              Navigator.of(context)
+                                                  .pushReplacement(
+                                                MaterialPageRoute(
+                                                  builder: (_) =>
+                                                      const MainScreen(),
+                                                ),
+                                              );
+                                            }
+                                          }
                                         }
-                                      }
-                                    }
-                                  : null,
+                                      : null,
+                                ),
+                                if (isLogin)
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 15.0),
+                                    child: Center(
+                                        child: SizedBox(
+                                      width: 24,
+                                      height: 24,
+                                      child: CircularProgressIndicator(
+                                        color: theme.appColors.seedColor,
+                                        strokeWidth: 3,
+                                      ),
+                                    )),
+                                  ),
+                              ],
                             ),
                             Padding(
                               padding: const EdgeInsets.only(top: 19),
