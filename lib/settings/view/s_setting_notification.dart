@@ -5,6 +5,7 @@ import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/layout/topbar/widget/back_arrow.dart';
 import 'package:me_mind/settings/component/custom_switch.dart';
 import 'package:me_mind/settings/component/settings_menu.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingNotification extends StatefulWidget {
   const SettingNotification({super.key});
@@ -17,6 +18,33 @@ class _SettingUserInfoState extends State<SettingNotification> {
   bool isService = false;
   bool isAdvertise = false;
   @override
+  void dispose() {
+    setInfoState();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getInfoState();
+  }
+
+  getInfoState() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    setState(() {
+      isAdvertise = prefs.getBool("adverTisingAccept") ?? false;
+      isService = prefs.getBool("appPushAccept") ?? false;
+    });
+  }
+
+  setInfoState() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('adverTisingAccept', isAdvertise);
+    await prefs.setBool('appPushAccept', isService);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return DefaultLayout(
         title: "알림 설정",
@@ -24,7 +52,7 @@ class _SettingUserInfoState extends State<SettingNotification> {
         backgroundColor: AppColors.blue1,
         appBarBgColor: AppColors.blue1,
         child: CustomScrollView(
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           slivers: [
             SliverFillRemaining(
               hasScrollBody: false,

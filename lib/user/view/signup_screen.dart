@@ -242,6 +242,8 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                             ? RoundedButton(
                                 text: "가입하기",
                                 onPressed: () async {
+                                  final SharedPreferences prefs =
+                                      await SharedPreferences.getInstance();
                                   if (formKey.currentState!.validate()) {
                                     var response = await SignupService().signup(
                                         email,
@@ -289,6 +291,10 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                                                 ))).show();
                                       }
                                       if (agree.isAppPush == true) {
+                                        await prefs.setBool('adverTisingAccept',
+                                            agree.isAdvertising);
+                                        await prefs.setBool(
+                                            'appPushAccept', agree.isAppPush);
                                         var permissonStatus =
                                             await DevicePermission()
                                                 .accessNotification();
@@ -298,8 +304,13 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                                               MaterialPageRoute(
                                                   builder: (_) =>
                                                       SignUpWelcome()));
+                                          return;
                                         }
                                       }
+                                      await prefs.setBool('adverTisingAccept',
+                                          agree.isAdvertising);
+                                      await prefs.setBool(
+                                          'appPushAccept', agree.isAppPush);
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
