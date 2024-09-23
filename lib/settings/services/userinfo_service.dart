@@ -54,10 +54,8 @@ class UserInfoService {
       print(userInfo);
 
       return userInfo;
-    } on DioException catch (error) {
-      return null;
     } catch (e) {
-      return null;
+      rethrow;
     }
   }
 }

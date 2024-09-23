@@ -183,11 +183,14 @@ class _ChatState extends ConsumerState<Chat> {
       backgroundColor: Colors.white,
       appBarActions: [
         InkWell(
-          onTap: reportIssue == true
-              ? () async {
-                  ref.read(reportCreateProvider.notifier).create(uuid: chatId);
-                }
-              : null,
+          onTap: () async {
+            ref.read(reportCreateProvider.notifier).create(uuid: chatId);
+          },
+          // onTap: reportIssue == true
+          //     ? () async {
+          //         ref.read(reportCreateProvider.notifier).create(uuid: chatId);
+          //       }
+          //     : null,
           child: SizedBox(
             child: reportIssue == false
                 ? Image.asset(

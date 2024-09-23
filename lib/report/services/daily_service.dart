@@ -23,7 +23,7 @@ class DailyService {
 
       return cdModel;
     } catch (error) {
-      return null;
+      rethrow;
     }
   }
 }

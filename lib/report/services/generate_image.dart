@@ -17,7 +17,8 @@ class GenerateImage {
         ),
       );
 
-      String result = response.data;
+      String result = response.data["image_url"];
+
       return result;
     } catch (e) {
       return null;
