@@ -40,31 +40,33 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       Navigator.of(context)
           .push(MaterialPageRoute(builder: (_) => OnBoardingScreen()));
     } else {
-      await Future.delayed(const Duration(milliseconds: 1500));
-      Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (_) => SignInScreen()));
-      // try {
-      //   // final tokenResponse = await TokenRefreshService().refresh();
+      try {
+        final tokenResponse = await TokenRefreshService().refresh();
 
-      //   // await storage.write(
-      //   //     key: ACCESS_TOKEN, value: tokenResponse.accessToken);
+        await storage.write(
+            key: ACCESS_TOKEN, value: tokenResponse.accessToken);
 
-      //   final userInfo = await UserInfoService().findUser();
+        final userInfo = await UserInfoService().findUser();
 
-      //   if (userInfo.nickname != null || userInfo.email != null) {
-      //     await prefs.setString("USER_NICKNAME", userInfo.nickname);
-      //     await prefs.setString("USER_EMAIL", userInfo.email);
-      //   }
-      //   ref.watch(userProvider.notifier).state = UserDetailModel()
-      //       .copyWith(userId: userInfo.id, isVerified: userInfo.isVerified);
-      //   ref.read(lemonStateNotifierProvider.notifier).lemonInit();
+        if (userInfo.nickname != null || userInfo.email != null) {
+          await prefs.setString("USER_NICKNAME", userInfo.nickname);
+          await prefs.setString("USER_EMAIL", userInfo.email);
+        }
+        ref.watch(userProvider.notifier).state = UserDetailModel().copyWith(
+            userId: userInfo.id,
+            isVerified: userInfo.isVerified,
+            email: userInfo.email!,
+            name: userInfo.nickname,
+            phoneNumber: userInfo.mobile);
 
-      //   Navigator.of(context)
-      //       .pushReplacement(MaterialPageRoute(builder: (_) => MainScreen()));
-      // } catch (e) {
-      //   Navigator.of(context)
-      //       .pushReplacement(MaterialPageRoute(builder: (_) => SignInScreen()));
-      // }
+        ref.read(lemonStateNotifierProvider.notifier).lemonInit();
+
+        Navigator.of(context)
+            .pushReplacement(MaterialPageRoute(builder: (_) => MainScreen()));
+      } catch (e) {
+        Navigator.of(context)
+            .pushReplacement(MaterialPageRoute(builder: (_) => SignInScreen()));
+      }
     }
   }
 

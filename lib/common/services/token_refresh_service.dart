@@ -6,7 +6,7 @@ import 'package:me_mind/user/model/user_signin_model.dart';
 class TokenRefreshService {
   Future refresh() async {
     final dio = Dio(BaseOptions(baseUrl: "$ip/", headers: {}));
-    String url = 'token/refresh';
+    String url = 'auth/token/refresh';
 
     dio.interceptors.add(CustomInterceptor(storage: storage));
     dio.options.headers.addAll({'refreshToken': true});
