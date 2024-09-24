@@ -70,7 +70,7 @@ class _ChatState extends ConsumerState<Chat> {
     final chatId = ref.watch(chatIdProvider);
     final reportIssue = ref.watch(reportIssueProvider);
     final lemon = ref.watch(lemonStateNotifierProvider);
-    final user = ref.watch(userProvider);
+    final user = ref.watch(userStateNotifierProvider);
 
     CustomTheme theme = CustomThemeHolder.of(context).theme;
 

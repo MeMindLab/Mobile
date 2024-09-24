@@ -250,6 +250,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                                         name,
                                         pwd,
                                         referralController.text);
+
                                     print(response);
 
                                     if (response is String) {

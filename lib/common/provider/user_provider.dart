@@ -1,6 +1,32 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:me_mind/settings/model/user_info_model.dart';
+import 'package:me_mind/settings/services/userinfo_service.dart';
 
-final userProvider = StateProvider<UserDetailModel>((ref) => UserDetailModel());
+// final userProvider = StateProvider<UserDetailModel>((ref) => UserDetailModel());
+final userStateNotifierProvider =
+    StateNotifierProvider<UserStateNotifier, UserDetailModel>((ref) {
+  final notifier = UserStateNotifier();
+  return notifier;
+});
+
+class UserStateNotifier extends StateNotifier<UserDetailModel> {
+  UserStateNotifier() : super(UserDetailModel()) {
+    userInit();
+  }
+
+  userInit() async {
+    final userInfo = await UserInfoService().findUser();
+
+    if (userInfo is! UserInfoModel) return;
+
+    state = UserDetailModel().copyWith(
+        userId: userInfo.id,
+        isVerified: userInfo.isVerified,
+        email: userInfo.email!,
+        name: userInfo.nickname,
+        phoneNumber: userInfo.mobile);
+  }
+}
 
 class UserDetailModel {
   final String? userId;

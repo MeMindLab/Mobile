@@ -47,7 +47,8 @@ class _SettingState extends ConsumerState<Settings> {
     CustomTheme theme = CustomThemeHolder.of(context).theme;
     // 메뉴 모음
     final settingmenus = ['FAQ', '이용 약관', '개인정보 처리방침'];
-    final user = ref.watch(userProvider);
+    final user = ref.watch(userStateNotifierProvider);
+
     return DefaultLayout(
       title: "설정",
       backgroundColor: AppColors.blue1,
@@ -56,257 +57,275 @@ class _SettingState extends ConsumerState<Settings> {
       appBarLeading: const BackArrowLeading(),
       // 설정 화면 Body
       child: SingleChildScrollView(
-        physics: const ClampingScrollPhysics(),
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            children: [
-              Stack(children: [
-                SettingMenu(
-                  subscribe: true,
-                  height: 93,
-                  content: ListTile(
-                    title: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "구독플랜",
-                          style: FontSizes.getHeadline1Style()
-                              .copyWith(color: theme.appColors.seedColor),
-                        ),
-                        Text(
-                          "무료 멤버십",
-                          style: FontSizes.getHeadline2Style()
-                              .copyWith(color: theme.appColors.seedColor),
-                        ),
-                      ],
-                    ),
-                    trailing: Container(
-                      width: 102,
-                      height: 41,
-                      decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(13))),
-                      child: TextButton(
-                        child: Center(
-                            child: Text(
-                          "pro 구독",
-                          style: FontSizes.getContentStyle()
-                              .copyWith(color: AppColors.gray9),
-                        )),
-                        style: TextButton.styleFrom(
-                          padding: EdgeInsets.zero,
-                          backgroundColor: lightTheme.primaryColor,
-                          shape: const RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(13))),
-                        ),
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const SubscribePage()));
-                        },
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  child: Container(
-                    width: double.infinity,
-                    height: 93,
-                    decoration: BoxDecoration(
-                        color: const Color.fromRGBO(0, 0, 0, 0.8),
-                        borderRadius: BorderRadius.circular(13)),
-                    child: Center(
-                        child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset(
-                          'assets/svg/icon/market.svg',
-                          width: 24,
-                          height: 24,
-                        ),
-                      ],
-                    )),
-                  ),
-                )
-              ]),
-              const SizedBox(
-                height: 10,
-              ),
-              SettingMenu(
-                subscribe: false,
-                height: 65,
-                content: ListTile(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => SettingUserInfo(
-                                  userEmail: user.email,
-                                  userNickname: user.name,
-                                  phoneNumber: user.phoneNumber,
-                                  isVerified: user.isVerified!,
-                                )));
-                  },
-                  title: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
+          physics: const ClampingScrollPhysics(),
+          child: user.isVerified != null
+              ? Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
                     children: [
-                      Text(
-                        "계정정보",
-                        style: FontSizes.getHeadline2Style()
-                            .copyWith(color: theme.appColors.iconButton),
-                      ),
-                      CertifiedBox(isCertified: user.isVerified!),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              SettingMenu(
-                subscribe: false,
-                height: 65,
-                content: ListTile(
-                  onTap: () {
-                    Navigator.pushReplacement(
-                        context,
-                        PageRouteBuilder(
-                          pageBuilder: ((BuildContext context,
-                                  Animation<double> animation1,
-                                  Animation<double> animation2) =>
-                              const SettingTheme()),
-                          transitionDuration: Duration.zero,
-                          reverseTransitionDuration: Duration.zero,
-                        ));
-                  },
-                  title: Text(
-                    "테마 설정",
-                    style: FontSizes.getHeadline2Style()
-                        .copyWith(color: theme.appColors.iconButton),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              SettingMenu(
-                subscribe: false,
-                height: 65,
-                content: ListTile(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        PageRouteBuilder(
-                          pageBuilder: ((BuildContext context,
-                                  Animation<double> animation1,
-                                  Animation<double> animation2) =>
-                              const SettingNotification()),
-                          transitionDuration: Duration.zero,
-                          reverseTransitionDuration: Duration.zero,
-                        ));
-                  },
-                  title: Text(
-                    "알림 설정",
-                    style: FontSizes.getHeadline2Style()
-                        .copyWith(color: theme.appColors.iconButton),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              SettingMenu(
-                subscribe: false,
-                height: 65,
-                content: ListTile(
-                  onTap: () {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const SettingOpinion()));
-                  },
-                  title: Text(
-                    "의견 보내기",
-                    style: FontSizes.getHeadline2Style()
-                        .copyWith(color: theme.appColors.iconButton),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              SettingMenu(
-                  subscribe: false,
-                  height: 198,
-                  content: ListView.separated(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemBuilder: (BuildContext contexnt, int idx) {
-                        List pages = [
-                          const FaqWebviewScreen(),
-                          const ServiceUseScreen(),
-                          const PersonalPolicyScreen()
-                        ];
-                        return InkWell(
-                          onTap: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return pages[idx];
-                            }));
-                          },
-                          child: ListTile(
-                            visualDensity: const VisualDensity(vertical: -1),
-                            title: Text(
-                              settingmenus[idx],
-                              style: FontSizes.getHeadline2Style()
-                                  .copyWith(color: theme.appColors.iconButton),
+                      Stack(children: [
+                        SettingMenu(
+                          subscribe: true,
+                          height: 93,
+                          content: ListTile(
+                            title: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "구독플랜",
+                                  style: FontSizes.getHeadline1Style().copyWith(
+                                      color: theme.appColors.seedColor),
+                                ),
+                                Text(
+                                  "무료 멤버십",
+                                  style: FontSizes.getHeadline2Style().copyWith(
+                                      color: theme.appColors.seedColor),
+                                ),
+                              ],
+                            ),
+                            trailing: Container(
+                              width: 102,
+                              height: 41,
+                              decoration: const BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(13))),
+                              child: TextButton(
+                                child: Center(
+                                    child: Text(
+                                  "pro 구독",
+                                  style: FontSizes.getContentStyle()
+                                      .copyWith(color: AppColors.gray9),
+                                )),
+                                style: TextButton.styleFrom(
+                                  padding: EdgeInsets.zero,
+                                  backgroundColor: lightTheme.primaryColor,
+                                  shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(13))),
+                                ),
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const SubscribePage()));
+                                },
+                              ),
                             ),
                           ),
-                        );
-                      },
-                      separatorBuilder: (context, int idx) => const Divider(
-                            color: Color.fromRGBO(241, 243, 248, 1),
-                            thickness: 3,
+                        ),
+                        Positioned(
+                          child: Container(
+                            width: double.infinity,
+                            height: 93,
+                            decoration: BoxDecoration(
+                                color: const Color.fromRGBO(0, 0, 0, 0.8),
+                                borderRadius: BorderRadius.circular(13)),
+                            child: Center(
+                                child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SvgPicture.asset(
+                                  'assets/svg/icon/market.svg',
+                                  width: 24,
+                                  height: 24,
+                                ),
+                              ],
+                            )),
                           ),
-                      itemCount: 3)),
-              const SizedBox(
-                height: 10,
-              ),
-              SettingMenu(
-                  subscribe: false,
-                  height: 65,
-                  content: ListTile(
-                      title: Text(
-                        "로그아웃",
-                        style: FontSizes.getHeadline2Style()
-                            .copyWith(color: theme.appColors.iconButton),
+                        )
+                      ]),
+                      const SizedBox(
+                        height: 10,
                       ),
-                      onTap: () {
-                        DialogManager(
-                                context: context, type: DialogType.twoButton)
-                            .show(
-                                titleText: "로그아웃 하시겠어요?",
-                                firstButtonText: "네",
-                                firstSubmit: () async {
-                                  await Navigator.of(context).pushReplacement(
-                                      MaterialPageRoute(
-                                          builder: (_) =>
-                                              const SplashScreen()));
-                                  await storage.deleteAll();
-                                },
-                                secondButtonText: "아니오",
-                                secondSubmit: () {
-                                  Navigator.pop(context);
-                                });
-                      }))
-            ],
-          ),
-        ),
-      ),
+                      SettingMenu(
+                        subscribe: false,
+                        height: 65,
+                        content: ListTile(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => SettingUserInfo(
+                                          userEmail: user.email,
+                                          userNickname: user.name,
+                                          phoneNumber: user.phoneNumber,
+                                          isVerified: user.isVerified!,
+                                        )));
+                          },
+                          title: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                "계정정보",
+                                style: FontSizes.getHeadline2Style().copyWith(
+                                    color: theme.appColors.iconButton),
+                              ),
+                              CertifiedBox(isCertified: user.isVerified!),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      SettingMenu(
+                        subscribe: false,
+                        height: 65,
+                        content: ListTile(
+                          onTap: () {
+                            Navigator.pushReplacement(
+                                context,
+                                PageRouteBuilder(
+                                  pageBuilder: ((BuildContext context,
+                                          Animation<double> animation1,
+                                          Animation<double> animation2) =>
+                                      const SettingTheme()),
+                                  transitionDuration: Duration.zero,
+                                  reverseTransitionDuration: Duration.zero,
+                                ));
+                          },
+                          title: Text(
+                            "테마 설정",
+                            style: FontSizes.getHeadline2Style()
+                                .copyWith(color: theme.appColors.iconButton),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      SettingMenu(
+                        subscribe: false,
+                        height: 65,
+                        content: ListTile(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                PageRouteBuilder(
+                                  pageBuilder: ((BuildContext context,
+                                          Animation<double> animation1,
+                                          Animation<double> animation2) =>
+                                      const SettingNotification()),
+                                  transitionDuration: Duration.zero,
+                                  reverseTransitionDuration: Duration.zero,
+                                ));
+                          },
+                          title: Text(
+                            "알림 설정",
+                            style: FontSizes.getHeadline2Style()
+                                .copyWith(color: theme.appColors.iconButton),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      SettingMenu(
+                        subscribe: false,
+                        height: 65,
+                        content: ListTile(
+                          onTap: () {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const SettingOpinion()));
+                          },
+                          title: Text(
+                            "의견 보내기",
+                            style: FontSizes.getHeadline2Style()
+                                .copyWith(color: theme.appColors.iconButton),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      SettingMenu(
+                          subscribe: false,
+                          height: 198,
+                          content: ListView.separated(
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemBuilder: (BuildContext contexnt, int idx) {
+                                List pages = [
+                                  const FaqWebviewScreen(),
+                                  const ServiceUseScreen(),
+                                  const PersonalPolicyScreen()
+                                ];
+                                return InkWell(
+                                  onTap: () {
+                                    Navigator.push(context,
+                                        MaterialPageRoute(builder: (context) {
+                                      return pages[idx];
+                                    }));
+                                  },
+                                  child: ListTile(
+                                    visualDensity:
+                                        const VisualDensity(vertical: -1),
+                                    title: Text(
+                                      settingmenus[idx],
+                                      style: FontSizes.getHeadline2Style()
+                                          .copyWith(
+                                              color:
+                                                  theme.appColors.iconButton),
+                                    ),
+                                  ),
+                                );
+                              },
+                              separatorBuilder: (context, int idx) =>
+                                  const Divider(
+                                    color: Color.fromRGBO(241, 243, 248, 1),
+                                    thickness: 3,
+                                  ),
+                              itemCount: 3)),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      SettingMenu(
+                          subscribe: false,
+                          height: 65,
+                          content: ListTile(
+                              title: Text(
+                                "로그아웃",
+                                style: FontSizes.getHeadline2Style().copyWith(
+                                    color: theme.appColors.iconButton),
+                              ),
+                              onTap: () {
+                                DialogManager(
+                                        context: context,
+                                        type: DialogType.twoButton)
+                                    .show(
+                                        titleText: "로그아웃 하시겠어요?",
+                                        firstButtonText: "네",
+                                        firstSubmit: () async {
+                                          await storage.deleteAll();
+                                          await Navigator.of(context)
+                                              .pushReplacement(MaterialPageRoute(
+                                                  builder: (_) =>
+                                                      const SplashScreen()));
+                                        },
+                                        secondButtonText: "아니오",
+                                        secondSubmit: () {
+                                          Navigator.pop(context);
+                                        });
+                              }))
+                    ],
+                  ),
+                )
+              : Column(
+                  children: [
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.38,
+                    ),
+                    const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  ],
+                )),
     );
   }
 }

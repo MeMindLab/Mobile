@@ -572,14 +572,17 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                               nickname: nameController.text);
 
                           if (user is! UserInfoModel) return;
+                          ref
+                              .read(userStateNotifierProvider.notifier)
+                              .userInit();
 
-                          ref.watch(userProvider.notifier).state =
-                              UserDetailModel().copyWith(
-                                  userId: user.id,
-                                  isVerified: user.isVerified,
-                                  email: user.email!,
-                                  name: user.nickname,
-                                  phoneNumber: user.mobile);
+                          // ref.watch(userStateNotifierProvider.notifier).state =
+                          //     UserDetailModel().copyWith(
+                          //         userId: user.id,
+                          //         isVerified: user.isVerified,
+                          //         email: user.email!,
+                          //         name: user.nickname,
+                          //         phoneNumber: user.mobile);
 
                           setState(() {
                             isphoneAuthenticated = false;

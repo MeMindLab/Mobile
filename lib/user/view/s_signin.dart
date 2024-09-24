@@ -173,16 +173,16 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                                                 return;
                                               }
 
-                                              ref
-                                                      .watch(userProvider.notifier)
-                                                      .state =
-                                                  UserDetailModel().copyWith(
-                                                      userId: user.id,
-                                                      isVerified:
-                                                          user.isVerified,
-                                                      email: user.email!,
-                                                      name: user.nickname,
-                                                      phoneNumber: user.mobile);
+                                              // ref
+                                              //         .watch(userProvider.notifier)
+                                              //         .state =
+                                              //     UserDetailModel().copyWith(
+                                              //         userId: user.id,
+                                              //         isVerified:
+                                              //             user.isVerified,
+                                              //         email: user.email!,
+                                              //         name: user.nickname,
+                                              //         phoneNumber: user.mobile);
 
                                               Navigator.of(context)
                                                   .pushReplacement(

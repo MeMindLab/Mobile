@@ -45,17 +45,19 @@ class CustomInterceptor extends Interceptor {
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
     final refreshToken = await storage.read(key: REFRESH_TOKEN);
+    print(err.requestOptions.path);
 
     if (refreshToken == null) {
       return handler.reject(err);
     }
-    final isRefereshTokenPath = err.requestOptions.path == 'token/refersh';
+    final isRefereshTokenPath =
+        err.requestOptions.path == '$ip/auth/token/refresh';
 
     if (err.response?.statusCode == 401 && !isRefereshTokenPath) {
       final dio = Dio();
 
       try {
-        final res = await dio.get("http://10.0.2.2:8000/token/refresh",
+        final res = await dio.get("$ip/auth/token/refresh",
             options: Options(headers: {
               "authorization": "Bearer $refreshToken",
             }));

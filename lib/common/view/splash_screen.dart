@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:me_mind/common/constant/constant.dart';
@@ -9,6 +10,7 @@ import 'package:me_mind/common/services/token_refresh_service.dart';
 import 'package:me_mind/common/view/on_boarding.dart';
 import 'package:me_mind/screen/main/s_main.dart';
 import 'package:me_mind/settings/services/userinfo_service.dart';
+import 'package:me_mind/user/model/user_signin_model.dart';
 import 'package:me_mind/user/view/s_signin.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -23,7 +25,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    userMe();
     appLoading();
   }
 
@@ -35,51 +36,41 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   void appLoading() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final bool? isTutorial = prefs.getBool("isTutorial");
+    String? refreshToken;
+
+    try {
+      refreshToken = await storage.read(key: REFRESH_TOKEN);
+    } catch (e) {}
+
+    refreshToken ??= "";
 
     if (isTutorial == false || isTutorial == null) {
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (_) => OnBoardingScreen()));
-    } else {
+      final dio = Dio();
+
       try {
-        final tokenResponse = await TokenRefreshService().refresh();
+        final resp = await dio.get("$ip/auth/token/refresh",
+            options: Options(
+              headers: {
+                'authorization': 'Bearer $refreshToken',
+              },
+            ));
 
         await storage.write(
-            key: ACCESS_TOKEN, value: tokenResponse.accessToken);
-
-        final userInfo = await UserInfoService().findUser();
-
-        if (userInfo.nickname != null || userInfo.email != null) {
-          await prefs.setString("USER_NICKNAME", userInfo.nickname);
-          await prefs.setString("USER_EMAIL", userInfo.email);
-        }
-        ref.watch(userProvider.notifier).state = UserDetailModel().copyWith(
-            userId: userInfo.id,
-            isVerified: userInfo.isVerified,
-            email: userInfo.email!,
-            name: userInfo.nickname,
-            phoneNumber: userInfo.mobile);
-
-        ref.read(lemonStateNotifierProvider.notifier).lemonInit();
+            key: ACCESS_TOKEN, value: resp.data["refresh_token"]);
 
         Navigator.of(context)
             .pushReplacement(MaterialPageRoute(builder: (_) => MainScreen()));
+        return;
       } catch (e) {
         Navigator.of(context)
             .pushReplacement(MaterialPageRoute(builder: (_) => SignInScreen()));
+        return;
       }
+    } else {
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (_) => OnBoardingScreen()));
+      return;
     }
-  }
-
-  void userMe() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    await prefs.remove('is_auth');
-    await prefs.remove('email');
-    await prefs.remove('nickname');
-
-    await prefs.setBool('is_auth', false);
-    await prefs.setString('email', 'test@test.test');
-    await prefs.setString('nickname', 'nickname');
   }
 
   @override

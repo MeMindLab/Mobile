@@ -25,10 +25,10 @@ class SignupService {
       print(data);
       response = await dio.post(url, data: jsonEncode(data));
       print(response);
-      var body = response.data;
-      return UserSignUpModel.fromJson(body);
+
+      return UserSignUpModel.fromJson(response.data);
     } on DioException catch (e) {
-      return e.response!.data['message'];
+      return e.response!.data['detail'];
     }
   }
 }
