@@ -67,6 +67,12 @@ class _ReportDetailState extends ConsumerState<ReportDetail> {
           ));
     } else {
       final result = detail as ReportDetailModel;
+      Map<String, dynamic> newEmotions = result.emotions!.toJson();
+      List sortedEmotions = newEmotions.entries.toList()
+        ..sort((a, b) => b.value.compareTo(a.value));
+
+      print(sortedEmotions);
+
       return DefaultLayout(
           title: "${dateTime.month}월 ${dateTime.day}일",
           appBarLeading: const BackArrowLeading(),
@@ -109,63 +115,47 @@ class _ReportDetailState extends ConsumerState<ReportDetail> {
                       SizedBox(
                         height: 100,
                         child: ListView(
-                            scrollDirection: Axis.horizontal,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    right: 7, top: 5, bottom: 5),
-                                child: EmotionCard(
-                                  emotionPercentage:
-                                      result.emotions!.comfortablePercentage!,
-                                  emotionType: EmotionType.comfortable,
-                                ),
+                          scrollDirection: Axis.horizontal,
+                          children: sortedEmotions.map((entry) {
+                            EmotionType? emotionType;
+
+                            switch (entry.key) {
+                              case 'comfortable_percentage':
+                                emotionType = EmotionType.comfortable;
+                                break;
+                              case 'happy_percentage':
+                                emotionType = EmotionType.happiness;
+                                break;
+                              case 'sad_percentage':
+                                emotionType = EmotionType.sadness;
+                                break;
+                              case 'joyful_percentage':
+                                emotionType = EmotionType.excitement;
+                                break;
+                              case 'annoyed_percentage':
+                                emotionType = EmotionType.pain;
+                                break;
+                              case 'lethargic_percentage':
+                                emotionType = EmotionType.noFun;
+                                break;
+                              default:
+                                emotionType = null;
+                            }
+
+                            if (emotionType == null) {
+                              return const SizedBox.shrink();
+                            }
+
+                            return Padding(
+                              padding: const EdgeInsets.only(
+                                  right: 7, top: 5, bottom: 5),
+                              child: EmotionCard(
+                                emotionPercentage: entry.value,
+                                emotionType: emotionType,
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    right: 7, top: 5, bottom: 5),
-                                child: EmotionCard(
-                                  emotionPercentage:
-                                      result.emotions!.happyPercentage!,
-                                  emotionType: EmotionType.happiness,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    right: 7, top: 5, bottom: 5),
-                                child: EmotionCard(
-                                  emotionPercentage:
-                                      result.emotions!.sadPercentage!,
-                                  emotionType: EmotionType.sadness,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    right: 7, top: 5, bottom: 5),
-                                child: EmotionCard(
-                                  emotionPercentage:
-                                      result.emotions!.joyfulPercentage!,
-                                  emotionType: EmotionType.excitement,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    right: 7, top: 5, bottom: 5),
-                                child: EmotionCard(
-                                  emotionPercentage:
-                                      result.emotions!.annoyedPercentage!,
-                                  emotionType: EmotionType.pain,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    right: 7, top: 5, bottom: 5),
-                                child: EmotionCard(
-                                  emotionPercentage:
-                                      result.emotions!.lethargicPercentage!,
-                                  emotionType: EmotionType.noFun,
-                                ),
-                              )
-                            ]),
+                            );
+                          }).toList(),
+                        ),
                       )
                     ],
                   ),
