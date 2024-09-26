@@ -153,6 +153,7 @@ class _SettingState extends ConsumerState<Settings> {
                                           userNickname: user.name,
                                           phoneNumber: user.phoneNumber,
                                           isVerified: user.isVerified!,
+                                          referralCode: user.referralCode,
                                         )));
                           },
                           title: Row(

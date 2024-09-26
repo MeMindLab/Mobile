@@ -10,13 +10,15 @@ class SettingUserInfo extends StatefulWidget {
   final String? userNickname;
   final String? phoneNumber;
   final bool isVerified;
+  final String? referralCode;
 
   const SettingUserInfo(
       {super.key,
       this.userEmail,
       this.userNickname,
       this.phoneNumber,
-      required this.isVerified});
+      required this.isVerified,
+      this.referralCode});
 
   @override
   State<SettingUserInfo> createState() => _SettingUserInfoState();
@@ -60,6 +62,7 @@ class _SettingUserInfoState extends State<SettingUserInfo> {
                     userEmail: widget.userEmail!,
                     userNickname: widget.userNickname!,
                     userPhoneNumber: widget.phoneNumber,
+                    referralCode: widget.referralCode,
                   ),
                 ),
               ),

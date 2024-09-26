@@ -39,6 +39,7 @@ class UserInfoForm extends ConsumerStatefulWidget {
   final String userNickname;
   final String? userPhoneNumber;
   final bool isVerified;
+  final String? referralCode;
   const UserInfoForm(
       {super.key,
       required this.isUpdate,
@@ -46,7 +47,8 @@ class UserInfoForm extends ConsumerStatefulWidget {
       required this.userEmail,
       required this.userNickname,
       this.userPhoneNumber,
-      required this.isVerified});
+      required this.isVerified,
+      this.referralCode});
 
   @override
   ConsumerState<UserInfoForm> createState() => _UserInfoFormState();
@@ -161,13 +163,13 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                     style: FontSizes.getCapsuleStyle().copyWith(
                         fontWeight: FontWeight.w400, color: AppColors.gray7),
                   ),
-                  Text("DKEJDU32 ",
+                  Text("${widget.referralCode ?? ""} ",
                       style: FontSizes.getCapsuleStyle().copyWith(
                           fontWeight: FontWeight.w400, color: AppColors.gray9)),
                   InkWell(
                       onTap: () {
                         Clipboard.setData(
-                            const ClipboardData(text: "DKEJDU32"));
+                            ClipboardData(text: widget.referralCode ?? ""));
                         // ShowSnackBar()
                         //     .showBottomSnackBar(context, "추천인 코드가 복사되었습니다.");
                       },

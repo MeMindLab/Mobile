@@ -10,7 +10,9 @@ class ReportDetailService {
     Response response;
 
     try {
+      print(url);
       response = await dio.get(url);
+      print(response.data);
 
       ReportDetailModel result = ReportDetailModel.fromJson(response.data);
 

@@ -43,6 +43,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   bool pwdShow = true;
   String? errorEmailText;
   String? errorNameText;
+  String? errorReferralText;
   TextEditingController referralController = TextEditingController(text: "");
 
   @override
@@ -200,6 +201,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                         isLogin: false,
                         labelText: "추천인 (선택)",
                         controller: referralController,
+                        errorText: errorReferralText,
                         hintText: "추천인 코드를 입력해주세요",
                         bgColor: AppColors.gray1,
                         onChanged: (String value) {},
@@ -270,6 +272,11 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                                         setState(() {
                                           errorEmailText = "이미 가입된 이메일 주소입니다";
                                           errorNameText = "이미 존재하는 닉네임입니다";
+                                        });
+                                      } else if (response ==
+                                          "Referrer not found") {
+                                        setState(() {
+                                          errorReferralText = "잘못된 추천인 코드입니다";
                                         });
                                       }
                                     }

@@ -17,6 +17,7 @@ UserInfoModel _$UserInfoModelFromJson(Map<String, dynamic> json) =>
       createdAt: json['created_at'] as String?,
       updatedAt: json['updatedAt'] as String?,
       mobile: json['mobile'] as String?,
+      referralCode: json['referral_code'] as String?,
     );
 
 Map<String, dynamic> _$UserInfoModelToJson(UserInfoModel instance) =>
@@ -30,4 +31,5 @@ Map<String, dynamic> _$UserInfoModelToJson(UserInfoModel instance) =>
       'created_at': instance.createdAt,
       'updatedAt': instance.updatedAt,
       'mobile': instance.mobile,
+      'referral_code': instance.referralCode,
     };

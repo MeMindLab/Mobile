@@ -67,8 +67,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
         return;
       }
     } else {
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (_) => OnBoardingScreen()));
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (_) => OnBoardingScreen()));
       return;
     }
   }

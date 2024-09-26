@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:me_mind/settings/model/user_info_model.dart';
 import 'package:me_mind/settings/services/userinfo_service.dart';
 
@@ -24,7 +25,8 @@ class UserStateNotifier extends StateNotifier<UserDetailModel> {
         isVerified: userInfo.isVerified,
         email: userInfo.email!,
         name: userInfo.nickname,
-        phoneNumber: userInfo.mobile);
+        phoneNumber: userInfo.mobile,
+        referralCode: userInfo.referralCode);
   }
 }
 
@@ -34,14 +36,15 @@ class UserDetailModel {
   final String? phoneNumber;
   final bool? isVerified;
   final String? name;
+  final String? referralCode;
 
-  UserDetailModel({
-    this.userId,
-    this.email,
-    this.phoneNumber,
-    this.isVerified,
-    this.name,
-  });
+  UserDetailModel(
+      {this.userId,
+      this.email,
+      this.phoneNumber,
+      this.isVerified,
+      this.name,
+      this.referralCode});
 
   UserDetailModel copyWith({
     String? userId,
@@ -49,6 +52,7 @@ class UserDetailModel {
     String? phoneNumber,
     bool? isVerified,
     String? name,
+    String? referralCode,
   }) {
     return UserDetailModel(
       userId: userId ?? this.userId,
@@ -56,6 +60,7 @@ class UserDetailModel {
       phoneNumber: phoneNumber ?? this.phoneNumber,
       isVerified: isVerified ?? this.isVerified,
       name: name ?? this.name,
+      referralCode: referralCode ?? this.referralCode,
     );
   }
 }

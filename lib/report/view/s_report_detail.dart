@@ -39,7 +39,6 @@ class _ReportDetailState extends ConsumerState<ReportDetail> {
   void initState() {
     super.initState();
     dateTime = DateTime.parse(widget.createdAt);
-    setBottomIdx(1);
   }
 
   @override

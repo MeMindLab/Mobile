@@ -29,6 +29,7 @@ class ReportDetailNotifier extends StateNotifier<ReportDetailState> {
   ) async {
     try {
       final response = await ReportDetailService().show(conversationId: id);
+      print(response);
       print("report detail부르기");
 
       if (response is! ReportDetailModel) return;
