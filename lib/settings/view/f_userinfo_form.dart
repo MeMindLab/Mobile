@@ -558,8 +558,8 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                   child: SizedBox(
                     child: RoundedButton(
                       backgroundColor: isAuthenticComplete == true ||
-                              isEmailCheck ||
-                              isNameCheck
+                              isEmailCheck == true ||
+                              isNameCheck == true
                           ? theme.appColors.blueButtonBackground
                           : theme.appColors.grayButtonBackground,
                       text: "저장",

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:me_mind/chat/utils/show_snackbar.dart';
 import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
@@ -65,7 +66,8 @@ class _SettingUserInfoState extends State<SettingNotification> {
                       SettingMenu(
                         height: 65,
                         content: ListTile(
-                          contentPadding: EdgeInsets.only(left: 20, right: 20),
+                          contentPadding:
+                              const EdgeInsets.only(left: 20, right: 20),
                           leading: Text(
                             "서비스 알림 수신 설정",
                             style: FontSizes.getHeadline2Style()
@@ -74,6 +76,12 @@ class _SettingUserInfoState extends State<SettingNotification> {
                           trailing: CustomSwitch(
                               value: isService,
                               onChanged: (bool value) {
+                                ShowSnackBar().showBottomSnackBar(
+                                    context,
+                                    !isService == false
+                                        ? "서비스 알림 수신이 거부되었습니다."
+                                        : "서비스 알림 수신이 승인되었습니다.");
+
                                 setState(() {
                                   isService = !isService;
                                 });
@@ -87,7 +95,8 @@ class _SettingUserInfoState extends State<SettingNotification> {
                       SettingMenu(
                         height: 65,
                         content: ListTile(
-                          contentPadding: EdgeInsets.only(left: 20, right: 20),
+                          contentPadding:
+                              const EdgeInsets.only(left: 20, right: 20),
                           leading: Text(
                             "광고성 정보 수신 설정",
                             style: FontSizes.getHeadline2Style()
@@ -96,6 +105,11 @@ class _SettingUserInfoState extends State<SettingNotification> {
                           trailing: CustomSwitch(
                               value: isAdvertise,
                               onChanged: (bool value) {
+                                ShowSnackBar().showBottomSnackBar(
+                                    context,
+                                    !isAdvertise == false
+                                        ? "광고성 정보 수신이 거부되었습니다."
+                                        : "광고성 정보 수신이 승인되었습니다.");
                                 setState(() {
                                   isAdvertise = !isAdvertise;
                                 });
