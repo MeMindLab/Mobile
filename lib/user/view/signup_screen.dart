@@ -45,6 +45,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   String? errorNameText;
   String? errorReferralText;
   TextEditingController referralController = TextEditingController(text: "");
+  bool isStop = false;
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +54,13 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
 
     return DefaultLayout(
       title: "회원가입",
-      appBarLeading: widget.isOnBoarding ? null : const BackArrowLeading(),
+      appBarLeading: widget.isOnBoarding
+          ? null
+          : BackArrowLeading(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
       backgroundColor: Colors.white,
       child: CustomScrollView(
         slivers: [
@@ -247,6 +254,48 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                                   final SharedPreferences prefs =
                                       await SharedPreferences.getInstance();
                                   if (formKey.currentState!.validate()) {
+                                    if (agree.isAdvertising == true) {
+                                      String today = DateFormat("yyyy년 MM월 dd일")
+                                          .format(DateTime.now());
+                                      await BottomSheets(
+                                          context: context,
+                                          func: (value) {
+                                            setState(() {
+                                              isStop = value;
+                                            });
+                                          },
+                                          bodies: BottomSheetContent(
+                                              title: "광고성 정보 수신동의 처리 결과",
+                                              body:
+                                                  "전송자 : $brandName\n일시 : ${today}\n내용 : 수신동의 처리 완료",
+                                              action: RoundedButton(
+                                                text: "확인",
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                              ))).show();
+                                    }
+                                    print(isStop);
+                                    if (isStop) return;
+                                    if (agree.isAppPush == true &&
+                                        isStop == false) {
+                                      await prefs.setBool('adverTisingAccept',
+                                          agree.isAdvertising);
+                                      await prefs.setBool(
+                                          'appPushAccept', agree.isAppPush);
+                                      var permissonStatus =
+                                          await DevicePermission()
+                                              .accessNotification();
+                                      if (isStop) return;
+                                      // if (permissonStatus != null) {
+                                      //   Navigator.push(
+                                      //       context,
+                                      //       MaterialPageRoute(
+                                      //           builder: (_) =>
+                                      //               SignUpWelcome()));
+                                      //   return;
+                                      // }
+                                    }
                                     var response = await SignupService().signup(
                                         email,
                                         name,
@@ -280,41 +329,9 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                                         });
                                       }
                                     }
+
                                     if (response is UserSignUpModel) {
-                                      if (agree.isAdvertising == true) {
-                                        String today =
-                                            DateFormat("yyyy년 MM월 dd일")
-                                                .format(DateTime.now());
-                                        await BottomSheets(
-                                            context: context,
-                                            bodies: BottomSheetContent(
-                                                title: "광고성 정보 수신동의 처리 결과",
-                                                body:
-                                                    "전송자 : $brandName\n일시 : ${today}\n내용 : 수신동의 처리 완료",
-                                                action: RoundedButton(
-                                                  text: "확인",
-                                                  onPressed: () {
-                                                    Navigator.pop(context);
-                                                  },
-                                                ))).show();
-                                      }
-                                      if (agree.isAppPush == true) {
-                                        await prefs.setBool('adverTisingAccept',
-                                            agree.isAdvertising);
-                                        await prefs.setBool(
-                                            'appPushAccept', agree.isAppPush);
-                                        var permissonStatus =
-                                            await DevicePermission()
-                                                .accessNotification();
-                                        if (permissonStatus != null) {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (_) =>
-                                                      SignUpWelcome()));
-                                          return;
-                                        }
-                                      }
+                                      if (isStop) return;
                                       await prefs.setBool('adverTisingAccept',
                                           agree.isAdvertising);
                                       await prefs.setBool(

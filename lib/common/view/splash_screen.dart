@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:me_mind/common/constant/constant.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
@@ -35,11 +36,12 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
   void appLoading() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
+    const FlutterSecureStorage secureStorage = FlutterSecureStorage();
     final bool? isTutorial = prefs.getBool("isTutorial");
     String? refreshToken;
 
     try {
-      refreshToken = await storage.read(key: REFRESH_TOKEN);
+      refreshToken = await secureStorage.read(key: REFRESH_TOKEN);
     } catch (e) {}
 
     refreshToken ??= "";

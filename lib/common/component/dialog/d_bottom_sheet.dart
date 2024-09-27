@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:me_mind/user/view/signup_screen.dart';
 
 class BottomSheets {
   final BuildContext context;
@@ -6,12 +7,14 @@ class BottomSheets {
   final Widget bodies;
   final double? height;
   final bool? isBarrier;
+  final Function? func;
 
   BottomSheets(
       {required this.context,
       this.textAlign = TextAlign.center,
       required this.bodies,
       this.isBarrier = false,
+      this.func,
       this.height});
 
   show() async {
@@ -25,6 +28,15 @@ class BottomSheets {
         useSafeArea: true,
         builder: (BuildContext context) {
           var deviceWidth = MediaQuery.of(context).size.width;
+
+          ModalRoute.of(context)?.addScopedWillPopCallback(() async {
+            print("뒤로가기를 눌렀습니다.");
+            func!(true);
+            Navigator.of(context).pop(); // 바텀시트를 닫음
+            Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (context) => SignUpScreen(isOnBoarding: false)));
+            return true;
+          });
           return Container(
               width: deviceWidth,
               height: height ?? 280,

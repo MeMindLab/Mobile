@@ -33,6 +33,20 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
   String? emailErrorText;
   String? passwordErrorText;
   bool isLogin = false;
+  bool isTap = false;
+
+  void handleTap() {
+    if (!isTap) {
+      isTap = true;
+      FocusScope.of(context).unfocus();
+      Navigator.of(context)
+          .push(MaterialPageRoute(
+              builder: (_) => const SignUpScreen(
+                    isOnBoarding: false,
+                  )))
+          .then((_) => isTap = false);
+    }
+  }
 
   @override
   void initState() {
@@ -79,6 +93,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                             CustomTextFormField(
                               labelText: "이메일",
                               focusNode: emailFocus,
+                              hintText: "이메일을 입력해주세요.",
                               errorText: emailErrorText,
                               onChanged: (String value) {
                                 setState(() {
@@ -99,6 +114,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                               focusNode: pwdFocus,
                               labelText: "비밀번호",
                               obscureText: !pwdShow,
+                              hintText: "비밀번호를 입력해주세요.",
                               borderColor: Colors.transparent,
                               errorText: passwordErrorText,
                               suffixIcon: InkWell(
@@ -213,14 +229,8 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                             ),
                             Padding(
                               padding: const EdgeInsets.only(top: 19),
-                              child: GestureDetector(
-                                onTap: () {
-                                  FocusScope.of(context).unfocus();
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (_) => const SignUpScreen(
-                                            isOnBoarding: false,
-                                          )));
-                                },
+                              child: InkWell(
+                                onTap: handleTap,
                                 child: Text(
                                   "회원가입",
                                   style: FontSizes.getCapsuleStyle().copyWith(
