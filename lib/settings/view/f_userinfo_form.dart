@@ -452,8 +452,7 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                                                   code: code);
 
                                           if (result is! AuthSmsVerifyModel ||
-                                              result.data.result.valid ==
-                                                  false) {
+                                              result.data.valid == false) {
                                             setState(() {
                                               isAuthNumberState =
                                                   result.data.result.valid;

@@ -33,6 +33,7 @@ class AuthSmsService {
 
     try {
       response = await dio.post("$url?phone_number=$newPhone&code=$code");
+      print(response);
 
       var result = response.data;
 

@@ -32,6 +32,7 @@ class _SettingOpinionState extends State<SettingOpinion> {
   List opinionList = [];
   String subject = "";
   String body = "";
+  bool isAfter = false;
   List<String> attachments = [];
 
   setOpinionList(value) async {
@@ -61,266 +62,281 @@ class _SettingOpinionState extends State<SettingOpinion> {
   @override
   Widget build(BuildContext context) {
     CustomTheme theme = CustomThemeHolder.of(context).theme;
-    return DefaultLayout(
-      title: "의견보내기",
-      backgroundColor: theme.appColors.seedColor,
-      appBarLeading: const BackArrowLeading(),
-      child: CustomScrollView(
-        slivers: [
-          SliverFillRemaining(
-              hasScrollBody: false,
-              child: Container(
-                padding: const EdgeInsets.all(20),
-                child: Column(children: [
-                  Container(
-                    padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: lightTheme.primaryColorDark,
-                      borderRadius: BorderRadius.circular(13),
-                    ),
-                    child: Row(
-                      children: [
-                        SvgPicture.asset('assets/svg/icon/volume-up.svg'),
-                        SizedBox(
-                          width: 9,
-                        ),
-                        Flexible(
-                          child: Text(
-                            "memind를 이용하며 생긴 궁금한 점이나, \n관련하여 전달하고픈 피드백을 넘겨주세요.",
-                            style: FontSizes.getContentStyle()
-                                .copyWith(color: theme.appColors.seedColor),
+    return PopScope(
+      canPop: false,
+      child: DefaultLayout(
+        title: "의견보내기",
+        backgroundColor: theme.appColors.seedColor,
+        appBarLeading: BackArrowLeading(
+          onPressed: () {
+            Navigator.of(context)
+                .pushReplacement(MaterialPageRoute(builder: (context) {
+              return const Settings();
+            }));
+          },
+        ),
+        child: CustomScrollView(
+          slivers: [
+            SliverFillRemaining(
+                hasScrollBody: false,
+                child: Container(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(children: [
+                    Container(
+                      padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: lightTheme.primaryColorDark,
+                        borderRadius: BorderRadius.circular(13),
+                      ),
+                      child: Row(
+                        children: [
+                          SvgPicture.asset('assets/svg/icon/volume-up.svg'),
+                          SizedBox(
+                            width: 9,
                           ),
-                        ),
-                      ],
+                          Flexible(
+                            child: Text(
+                              "memind를 이용하며 생긴 궁금한 점이나, \n관련하여 전달하고픈 피드백을 넘겨주세요.",
+                              style: FontSizes.getContentStyle()
+                                  .copyWith(color: theme.appColors.seedColor),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 24.5,
-                  ),
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "제목",
-                      style: FontSizes.getHeadline1Style()
-                          .copyWith(color: theme.appColors.iconButton),
+                    const SizedBox(
+                      height: 24.5,
                     ),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  buildTextField(
-                      onChanged: (String value) {
-                        setState(() {
-                          subject = value;
-                        });
-                      },
-                      hintText: "제목을 입력해주세요",
-                      bgColor: AppColors.blue1),
-                  const SizedBox(
-                    height: 14.5,
-                  ),
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "내용",
-                      style: FontSizes.getHeadline1Style()
-                          .copyWith(color: theme.appColors.iconButton),
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "제목",
+                        style: FontSizes.getHeadline1Style()
+                            .copyWith(color: theme.appColors.iconButton),
+                      ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  buildTextField(
-                      onChanged: (String value) {
-                        setState(() {
-                          body = value;
-                        });
-                      },
-                      maxLines: 8,
-                      hintText: "내용을 입력해주세요",
-                      bgColor: AppColors.blue1),
-                  const SizedBox(
-                    height: 14.5,
-                  ),
-                  Container(
-                    alignment: Alignment.topLeft,
-                    width: double.infinity,
-                    height: 100,
-                    padding: const EdgeInsets.all(0),
-                    child: GridView.builder(
-                        itemCount: opinionList.length + 1,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 4,
-                          mainAxisSpacing: 10,
-                          crossAxisSpacing: 10,
-                        ),
-                        itemBuilder: (_, int idx) {
-                          if (idx == 0) {
-                            return InkWell(
-                              onTap: () async {
-                                var result = await ImagePickerService(
-                                        imagePicker: ImagePicker())
-                                    .getImage(ImageSource.gallery);
-                                if (result != null) {
-                                  await setOpinionList(result);
-                                }
-                              },
-                              child: Container(
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    buildTextField(
+                        onChanged: (String value) {
+                          setState(() {
+                            subject = value;
+                          });
+                        },
+                        hintText: "제목을 입력해주세요",
+                        bgColor: AppColors.blue1),
+                    const SizedBox(
+                      height: 14.5,
+                    ),
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "내용",
+                        style: FontSizes.getHeadline1Style()
+                            .copyWith(color: theme.appColors.iconButton),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    buildTextField(
+                        onChanged: (String value) {
+                          setState(() {
+                            body = value;
+                          });
+                        },
+                        maxLines: 8,
+                        hintText: "내용을 입력해주세요",
+                        bgColor: AppColors.blue1),
+                    const SizedBox(
+                      height: 14.5,
+                    ),
+                    Container(
+                      alignment: Alignment.topLeft,
+                      width: double.infinity,
+                      height: 100,
+                      padding: const EdgeInsets.all(0),
+                      child: GridView.builder(
+                          itemCount: opinionList.length + 1,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 4,
+                            mainAxisSpacing: 10,
+                            crossAxisSpacing: 10,
+                          ),
+                          itemBuilder: (_, int idx) {
+                            if (idx == 0) {
+                              return InkWell(
+                                onTap: () async {
+                                  var result = await ImagePickerService(
+                                          imagePicker: ImagePicker())
+                                      .getImage(ImageSource.gallery);
+                                  if (result != null) {
+                                    await setOpinionList(result);
+                                  }
+                                },
+                                child: Container(
+                                  width: 85,
+                                  height: 85,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: AppColors.blue1),
+                                  child: const Center(
+                                      child: Icon(
+                                    Icons.add,
+                                    color: AppColors.gray5,
+                                    size: 35,
+                                  )),
+                                ),
+                              );
+                            } else {
+                              return Container(
                                 width: 85,
                                 height: 85,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    color: AppColors.blue1),
-                                child: const Center(
-                                    child: Icon(
-                                  Icons.add,
-                                  color: AppColors.gray5,
-                                  size: 35,
-                                )),
-                              ),
-                            );
-                          } else {
-                            return Container(
-                              width: 85,
-                              height: 85,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  image: DecorationImage(
-                                      image: FileImage(
-                                          File(opinionList[idx - 1].path)),
-                                      fit: BoxFit.cover)),
-                              child: Stack(children: [
-                                Positioned(
-                                  child: InkWell(
-                                    onTap: () {
-                                      setState(() {
-                                        opinionList = [];
-                                        attachments = [];
-                                      });
-                                    },
-                                    child: Icon(
-                                      Icons.close,
-                                      color: theme.appColors.seedColor,
-                                      size: 30,
+                                    image: DecorationImage(
+                                        image: FileImage(
+                                            File(opinionList[idx - 1].path)),
+                                        fit: BoxFit.cover)),
+                                child: Stack(children: [
+                                  Positioned(
+                                    child: InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          opinionList = [];
+                                          attachments = [];
+                                        });
+                                      },
+                                      child: Icon(
+                                        Icons.close,
+                                        color: theme.appColors.seedColor,
+                                        size: 30,
+                                      ),
                                     ),
+                                    top: 1,
+                                    right: 1,
                                   ),
-                                  top: 1,
-                                  right: 1,
-                                ),
-                              ]),
-                            );
-                          }
-                        }),
-                  ),
-                  const Spacer(),
-                  // 수집 안내문
-                  SizedBox(
-                    width: double.infinity,
-                    child: InkWell(
-                      onTap: () {
-                        setState(() {
-                          infoCheck = !infoCheck;
-                        });
-                      },
-                      child: Row(children: [
-                        Transform.translate(
-                          offset: const Offset(0, -5),
-                          child: Container(
-                              padding: const EdgeInsets.only(left: 5),
-                              width: 24,
-                              height: 24,
-                              child: SvgPicture.asset(
-                                'assets/svg/icon/check_all.svg',
+                                ]),
+                              );
+                            }
+                          }),
+                    ),
+                    const Spacer(),
+                    // 수집 안내문
+                    SizedBox(
+                      width: double.infinity,
+                      child: InkWell(
+                        onTap: () {
+                          setState(() {
+                            infoCheck = !infoCheck;
+                          });
+                        },
+                        child: Row(children: [
+                          Transform.translate(
+                            offset: const Offset(0, -5),
+                            child: Container(
+                                padding: const EdgeInsets.only(left: 5),
                                 width: 24,
                                 height: 24,
-                                fit: BoxFit.scaleDown,
-                                colorFilter: infoCheck
-                                    ? ColorFilter.mode(
-                                        theme.appColors.confirmText,
-                                        BlendMode.srcIn)
-                                    : null,
-                              )),
-                        ),
-                        Flexible(
-                            child: Container(
-                          padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                          child: RichText(
-                            text: TextSpan(
-                              text: "수집된 정보는 의견에 대한 답변 목적으로 활용되며,\n의견을 보내시면 ",
-                              style: FontSizes.getCapsuleStyle().copyWith(
-                                color: theme.appColors.hintText,
-                                fontWeight: FontWeight.w400,
-                              ),
-                              children: [
-                                TextSpan(
-                                  text: "개인정보 수집 및 이용",
-                                  style: FontSizes.getCapsuleHighlightStyle()
-                                      .copyWith(
-                                    color: theme.appColors.hintText,
-                                    fontWeight: FontWeight.w400,
-                                    decoration: TextDecoration.underline,
-                                  ),
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () {
-                                      Navigator.push(context,
-                                          MaterialPageRoute(builder: (context) {
-                                        return const CollectUseScreen();
-                                      }));
-                                    },
-                                ),
-                                const TextSpan(text: "에 동의하게 됩니다"),
-                              ],
-                            ),
+                                child: SvgPicture.asset(
+                                  'assets/svg/icon/check_all.svg',
+                                  width: 24,
+                                  height: 24,
+                                  fit: BoxFit.scaleDown,
+                                  colorFilter: infoCheck
+                                      ? ColorFilter.mode(
+                                          theme.appColors.confirmText,
+                                          BlendMode.srcIn)
+                                      : null,
+                                )),
                           ),
-                        ))
-                      ]),
+                          Flexible(
+                              child: Container(
+                            padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                            child: RichText(
+                              text: TextSpan(
+                                text: "수집된 정보는 의견에 대한 답변 목적으로 활용되며,\n의견을 보내시면 ",
+                                style: FontSizes.getCapsuleStyle().copyWith(
+                                  color: theme.appColors.hintText,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                                children: [
+                                  TextSpan(
+                                    text: "개인정보 수집 및 이용",
+                                    style: FontSizes.getCapsuleHighlightStyle()
+                                        .copyWith(
+                                      color: theme.appColors.hintText,
+                                      fontWeight: FontWeight.w400,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        Navigator.push(context,
+                                            MaterialPageRoute(
+                                                builder: (context) {
+                                          return const CollectUseScreen();
+                                        }));
+                                      },
+                                  ),
+                                  const TextSpan(text: "에 동의하게 됩니다"),
+                                ],
+                              ),
+                            ),
+                          ))
+                        ]),
+                      ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  RoundedButton(
-                    onPressed: infoCheck == true && subject != "" && body != ""
-                        ? () async {
-                            await EmailSend.send(
-                              subject: subject,
-                              body: body,
-                              attachments: attachments,
-                            ).then((value) {
-                              DialogManager(
-                                      context: context,
-                                      type: DialogType.oneButton)
-                                  .show(
-                                titleText: "의견을 성공적으로 보냈어요!",
-                                contentText: "답변은 추후 등록한 이메일로 전송됩니다.",
-                                firstButtonText: "닫기",
-                                firstSubmit: () {
-                                  int count = 0;
-                                  Navigator.pushAndRemoveUntil(
-                                      context,
-                                      PageRouteBuilder(
-                                        pageBuilder: ((BuildContext context,
-                                                Animation<double> animation1,
-                                                Animation<double> animation2) =>
-                                            const Settings()),
-                                        transitionDuration: Duration.zero,
-                                        reverseTransitionDuration:
-                                            Duration.zero,
-                                      ), (Route<dynamic> route) {
-                                    return count++ == 2;
-                                  });
-                                },
-                              );
-                            });
-                          }
-                        : null,
-                    text: "의견 보내기",
-                  )
-                ]),
-              ))
-        ],
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    RoundedButton(
+                      onPressed: infoCheck == true &&
+                              subject != "" &&
+                              body != ""
+                          ? () async {
+                              await EmailSend.send(
+                                subject: subject,
+                                body: body,
+                                attachments: attachments,
+                              ).then((value) {
+                                DialogManager(
+                                        context: context,
+                                        type: DialogType.oneButton)
+                                    .show(
+                                  titleText: "의견을 성공적으로 보냈어요!",
+                                  contentText: "답변은 추후 등록한 이메일로 전송됩니다.",
+                                  firstButtonText: "닫기",
+                                  firstSubmit: () {
+                                    int count = 0;
+                                    isAfter = true;
+                                    Navigator.pushAndRemoveUntil(
+                                        context,
+                                        PageRouteBuilder(
+                                          pageBuilder: ((BuildContext context,
+                                                  Animation<double> animation1,
+                                                  Animation<double>
+                                                      animation2) =>
+                                              const Settings()),
+                                          transitionDuration: Duration.zero,
+                                          reverseTransitionDuration:
+                                              Duration.zero,
+                                        ), (Route<dynamic> route) {
+                                      return count++ == 2;
+                                    });
+                                  },
+                                );
+                              });
+                            }
+                          : null,
+                      text: "의견 보내기",
+                    )
+                  ]),
+                ))
+          ],
+        ),
       ),
     );
   }
