@@ -5,7 +5,7 @@ import 'package:me_mind/user/model/user_signin_model.dart';
 
 class TokenRefreshService {
   Future refresh() async {
-    final dio = Dio(BaseOptions(baseUrl: "http://10.0.2.2:8000/", headers: {}));
+    final dio = Dio(BaseOptions(baseUrl: "$ip/", headers: {}));
 
     String url = 'token/refresh';
 

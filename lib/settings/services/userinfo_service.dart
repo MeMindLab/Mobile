@@ -15,7 +15,7 @@ class UserInfoService {
     dio.interceptors.add(CustomInterceptor(storage: storage));
     dio.options.headers.clear();
     dio.options.headers.addAll({'accessToken': true});
-    String url = "http://$ip/users/me";
+    String url = "$ip/users/me";
 
     try {
       final response = await dio.put(url, data: data);
@@ -34,7 +34,7 @@ class UserInfoService {
     dio.interceptors.add(CustomInterceptor(storage: storage));
     dio.options.headers.clear();
     dio.options.headers.addAll({'accessToken': true});
-    String url = "http://$ip/users/me";
+    String url = "$ip/users/me";
 
     try {
       final response = await dio.get(url);
