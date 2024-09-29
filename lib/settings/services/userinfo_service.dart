@@ -23,8 +23,13 @@ class UserInfoService {
     dio.interceptors.add(CustomInterceptor(storage: storage));
     dio.options.headers.clear();
     dio.options.headers.addAll({'accessToken': true});
+<<<<<<< HEAD
     // String url = "https://backend-wandering-glitter-8053.fly.dev/users/me";
     String url = "$ip/users/me";
+=======
+    String url = "$ip/users/me";
+
+>>>>>>> dev
     try {
       final response = await dio.put(url, data: jsonEncode(data));
 
@@ -43,7 +48,6 @@ class UserInfoService {
     dio.options.headers.clear();
     dio.options.headers.addAll({'accessToken': true});
     String url = "$ip/users/me";
-    // String url = "$ip/users/me";
 
     try {
       final response = await dio.get(url);
