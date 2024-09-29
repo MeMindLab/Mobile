@@ -170,13 +170,26 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                       onTap: () {
                         Clipboard.setData(
                             ClipboardData(text: widget.referralCode ?? ""));
-                        // ShowSnackBar()
-                        //     .showBottomSnackBar(context, "추천인 코드가 복사되었습니다.");
+                        DialogManager(
+                                context: context, type: DialogType.oneButton)
+                            .show(
+                                titleText: "추천인 코드 복사완료!",
+                                contentText:
+                                    "복사한 코드를 친구에게 공유해주세요!\n친구가 나의 추천인 코드로 가입하면\n무료로 레몬을 서로 받을 수 있어요!",
+                                firstButtonText: "확인",
+                                firstSubmit: () {
+                                  Navigator.of(context).pop();
+                                });
                       },
-                      child: Image.asset("assets/image/icon/copy.png")),
-                  Text(" 복사하기",
-                      style: FontSizes.getCapsuleStyle().copyWith(
-                          fontWeight: FontWeight.w400, color: AppColors.blue9)),
+                      child: Row(
+                        children: [
+                          Image.asset("assets/image/icon/copy.png"),
+                          Text(" 복사하기",
+                              style: FontSizes.getCapsuleStyle().copyWith(
+                                  fontWeight: FontWeight.w400,
+                                  color: AppColors.blue9)),
+                        ],
+                      )),
                 ],
               ),
               Stack(children: [
@@ -576,14 +589,6 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                           ref
                               .read(userStateNotifierProvider.notifier)
                               .userInit();
-
-                          // ref.watch(userStateNotifierProvider.notifier).state =
-                          //     UserDetailModel().copyWith(
-                          //         userId: user.id,
-                          //         isVerified: user.isVerified,
-                          //         email: user.email!,
-                          //         name: user.nickname,
-                          //         phoneNumber: user.mobile);
 
                           setState(() {
                             isphoneAuthenticated = false;

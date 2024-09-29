@@ -51,6 +51,8 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   Widget build(BuildContext context) {
     CustomTheme theme = CustomThemeHolder.of(context).theme;
     final agree = ref.watch(agreeStateNotifierProvider);
+    final bottomInset = MediaQuery.of(context).viewInsets.bottom;
+    final availableHeight = MediaQuery.of(context).size.height - bottomInset;
 
     return DefaultLayout(
       title: "회원가입",
@@ -62,6 +64,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
               },
             ),
       backgroundColor: Colors.white,
+      isResizeToAvoid: true,
       child: CustomScrollView(
         slivers: [
           SliverFillRemaining(
