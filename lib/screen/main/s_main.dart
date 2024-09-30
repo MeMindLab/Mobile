@@ -28,6 +28,7 @@ class _MainScreenState extends State<MainScreen> {
 
   Future<void> _loadToken() async {
     token = await storage.read(key: ACCESS_TOKEN);
+    print(token);
     setState(() {});
   }
 

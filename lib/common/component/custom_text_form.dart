@@ -103,7 +103,7 @@ class CustomTextFormField extends StatelessWidget {
             errorStyle: FontSizes.getSmallStyle().copyWith(
                 height: 0, color: Colors.red, fontWeight: FontWeight.w500),
             hintStyle: FontSizes.getContentStyle()
-                .copyWith(fontWeight: FontWeight.w400),
+                .copyWith(fontWeight: FontWeight.w400, color: hintTextColor),
             fillColor: bgColor ?? inputBackground,
             filled: true, // false 배경색 없음 true 있음
             border: baseBorder,

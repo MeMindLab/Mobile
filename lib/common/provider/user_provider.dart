@@ -28,6 +28,10 @@ class UserStateNotifier extends StateNotifier<UserDetailModel> {
         phoneNumber: userInfo.mobile,
         referralCode: userInfo.referralCode);
   }
+
+  userLogout() {
+    state = UserDetailModel();
+  }
 }
 
 class UserDetailModel {

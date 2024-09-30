@@ -47,6 +47,7 @@ class UserInfoService {
 
     try {
       final response = await dio.get(url);
+      // print(response.headers);
 
       var result = response.data;
 

@@ -6,6 +6,7 @@ import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/constant.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
+import 'package:me_mind/common/provider/lemon_provider.dart';
 import 'package:me_mind/common/provider/user_provider.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
@@ -188,17 +189,16 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                                                 setState(() => isLogin = false);
                                                 return;
                                               }
-
-                                              // ref
-                                              //         .watch(userProvider.notifier)
-                                              //         .state =
-                                              //     UserDetailModel().copyWith(
-                                              //         userId: user.id,
-                                              //         isVerified:
-                                              //             user.isVerified,
-                                              //         email: user.email!,
-                                              //         name: user.nickname,
-                                              //         phoneNumber: user.mobile);
+                                              // await ref
+                                              //     .read(
+                                              //         userStateNotifierProvider
+                                              //             .notifier)
+                                              //     .userInit();
+                                              // await ref
+                                              //     .read(
+                                              //         lemonStateNotifierProvider
+                                              //             .notifier)
+                                              //     .lemonInit();
 
                                               Navigator.of(context)
                                                   .pushReplacement(

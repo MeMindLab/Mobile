@@ -448,16 +448,10 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                                   Positioned(
                                     top: 10,
                                     right: 0,
-                                    child: Container(
+                                    child: SizedBox(
                                       width: 75,
                                       height: 35,
                                       child: ElevatedButton(
-                                        child: Text(
-                                          "확인",
-                                          style: FontSizes.getContentStyle()
-                                              .copyWith(
-                                                  fontWeight: FontWeight.w500),
-                                        ),
                                         onPressed: () async {
                                           var result = await AuthSmsService()
                                               .sendVerify(
@@ -496,6 +490,12 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                                             borderRadius:
                                                 BorderRadius.circular(13),
                                           ),
+                                        ),
+                                        child: Text(
+                                          "확인",
+                                          style: FontSizes.getContentStyle()
+                                              .copyWith(
+                                                  fontWeight: FontWeight.w500),
                                         ),
                                       ),
                                     ),
@@ -643,9 +643,7 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
     return ElevatedButton.styleFrom(
       minimumSize: Size.zero,
       padding: EdgeInsets.zero,
-      backgroundColor: isAuthCheck == false
-          ? theme.appColors.grayButtonBackground
-          : Color(0xFFA9D0FF),
+      backgroundColor: theme.appColors.grayButtonBackground,
       elevation: 0,
       foregroundColor: theme.appColors.iconButton ?? Colors.black,
       shape: RoundedRectangleBorder(

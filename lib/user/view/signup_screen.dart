@@ -83,7 +83,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                       CustomTextFormField(
                         isLogin: true,
                         labelText: "이메일",
-                        hintText: "example@gamil.com",
+                        hintText: "example@gmail.com",
                         errorText: errorEmailText,
                         onChanged: (String value) {
                           email = value;

@@ -8,6 +8,7 @@ import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/layout/topbar/widget/back_arrow.dart';
 import 'package:me_mind/common/layout/topbar/widget/lemon_number.dart';
+import 'package:me_mind/common/provider/lemon_provider.dart';
 import 'package:me_mind/common/provider/user_provider.dart';
 import 'package:me_mind/common/store.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
@@ -40,6 +41,7 @@ class _SettingState extends ConsumerState<Settings> {
     super.initState();
     setBottomIdx(3);
     // getUserInfo();
+    ref.read(userStateNotifierProvider.notifier).userInit();
   }
 
   @override
@@ -304,6 +306,12 @@ class _SettingState extends ConsumerState<Settings> {
                                         firstButtonText: "네",
                                         firstSubmit: () async {
                                           await storage.deleteAll();
+                                          ref.invalidate(
+                                              userStateNotifierProvider);
+
+                                          ref.invalidate(
+                                              lemonStateNotifierProvider);
+
                                           await Navigator.of(context)
                                               .pushReplacement(MaterialPageRoute(
                                                   builder: (_) =>

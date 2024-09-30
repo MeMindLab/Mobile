@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:me_mind/common/constant/constant.dart';
+import 'package:me_mind/common/dio/dio.dart';
 import 'package:me_mind/settings/model/auth_sms_model.dart';
 import 'package:me_mind/settings/model/auth_sms_verify_model.dart';
 
@@ -25,22 +26,23 @@ class AuthSmsService {
   }
 
   Future sendVerify({required String phone, required String code}) async {
-    final url = "$ip/auth/sms-verify";
     String newPhone = phone.replaceAll('-', '');
-
+    final url = "$ip/auth/sms-verify";
     final dio = Dio();
     final Response response;
+    dio.interceptors.add(CustomInterceptor(storage: storage));
+    dio.options.headers.clear();
+    dio.options.headers.addAll({'accessToken': true});
 
     try {
-      response = await dio.post("$url?phone_number=$newPhone&code=$code");
-      print(response);
+      response = await dio
+          .post(url, queryParameters: {'phone_number': newPhone, "code": code});
 
-      var result = response.data;
-
-      AuthSmsVerifyModel authSmsModel = AuthSmsVerifyModel.fromJson(result);
+      AuthSmsVerifyModel authSmsModel =
+          AuthSmsVerifyModel.fromJson(response.data);
 
       return authSmsModel;
-    } catch (e) {
+    } catch (error) {
       return null;
     }
   }
