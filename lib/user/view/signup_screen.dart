@@ -241,6 +241,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                               BottomSheets(
                                       context: context,
                                       height: 368,
+                                      isAgree: true,
                                       isBarrier: true,
                                       bodies: const AgreeCheckSetComponent())
                                   .show();

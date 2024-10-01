@@ -7,13 +7,15 @@ class BottomSheets {
   final Widget bodies;
   final double? height;
   final bool? isBarrier;
+  final bool? isAgree;
 
   BottomSheets(
       {required this.context,
       this.textAlign = TextAlign.center,
       required this.bodies,
       this.isBarrier = false,
-      this.height});
+      this.height,
+      this.isAgree = false});
 
   show() async {
     await showModalBottomSheet(
@@ -22,19 +24,26 @@ class BottomSheets {
             ? Colors.black.withOpacity(0.6)
             : Colors.transparent,
         backgroundColor: Colors.transparent,
-        isDismissible: true,
+        isDismissible: false,
         useSafeArea: true,
         builder: (BuildContext context) {
           var deviceWidth = MediaQuery.of(context).size.width;
 
           return WillPopScope(
-            onWillPop: () async {
-              print("뒤로가기");
-              Navigator.of(context).pop();
-              await Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => SignUpScreen(isOnBoarding: false)));
-              return true;
-            },
+            onWillPop: isAgree == true
+                ? () async {
+                    Navigator.of(context).pop();
+                    return true;
+                  }
+                : () async {
+                    print("뒤로가기");
+                    Navigator.of(context).pop();
+                    await Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                SignUpScreen(isOnBoarding: false)));
+                    return true;
+                  },
             child: Container(
                 width: deviceWidth,
                 height: height ?? 280,

@@ -21,6 +21,7 @@ class SignUpViewModel {
       required bool isAdvertise,
       required bool isAppPush}) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
+    print("$isAdvertise    $isAppPush");
     if (isAppPush) {
       String today = DateFormat("yyyy년 MM월 dd일").format(DateTime.now());
       await BottomSheets(
@@ -36,7 +37,7 @@ class SignUpViewModel {
                 },
               ))).show();
     }
-    if (isTrue != true) return;
+    if (isTrue != true && isAppPush) return;
     if (isAppPush) {
       var permissionStatus = await DevicePermission().accessNotification();
 
