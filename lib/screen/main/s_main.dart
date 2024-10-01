@@ -7,8 +7,11 @@ import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/constant.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/layout/topbar/widget/lemon_number.dart';
+import 'package:me_mind/common/services/token_refresh_service.dart';
 import 'package:me_mind/common/store.dart';
 import 'package:me_mind/common/component/root_tab.dart';
+import 'package:me_mind/user/model/user_signin_model.dart';
+import 'package:me_mind/user/view/s_signin.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -24,12 +27,39 @@ class _MainScreenState extends State<MainScreen> {
   late final InAppWebViewController webViewController;
   late final PullToRefreshController pullToRefreshController;
   String? token;
+  String? refreshToken;
   double progress = 0;
 
   Future<void> _loadToken() async {
     token = await storage.read(key: ACCESS_TOKEN);
     print(token);
     setState(() {});
+  }
+
+  Future<void> refreshTokenOrRedirectToLogin(
+      {required InAppWebViewController controller}) async {
+    try {
+      final response = await TokenRefreshService().refresh();
+      if (response is SignInResult) {
+        await storage.write(key: ACCESS_TOKEN, value: response.accessToken);
+        await storage.write(key: REFRESH_TOKEN, value: response.refreshToken);
+
+        await controller.evaluateJavascript(source: """
+                      window.flutter_inappwebview.callHandler('authError').then(function(token) {
+                        window.receivedToken = token;
+                        console.log("Token received from Flutter: " + token);
+                        // 받은 토큰으로 필요한 작업 수행
+                      });
+                    """);
+      } else {
+        throw Error();
+      }
+    } catch (e) {
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (context) {
+        return const SignInScreen();
+      }));
+    }
   }
 
   @override
@@ -106,6 +136,13 @@ class _MainScreenState extends State<MainScreen> {
                     });
                   },
                   onLoadStop: (InAppWebViewController controller, uri) async {
+                    controller.addJavaScriptHandler(
+                        handlerName: "authError",
+                        callback: (args) async {
+                          await refreshTokenOrRedirectToLogin(
+                              controller: controller);
+                        });
+
                     controller.addJavaScriptHandler(
                         handlerName: "requestToken",
                         callback: (args) async {
