@@ -18,6 +18,7 @@ import 'package:me_mind/user/model/user_signup_model.dart';
 import 'package:me_mind/user/provider/agree_provider.dart';
 import 'package:me_mind/user/services/signup_service.dart';
 import 'package:me_mind/user/view/s_signup_welcome.dart';
+import 'package:me_mind/user/viewmodel/signup_viewmodel.dart';
 import 'package:me_mind/utils/permission.dart';
 import 'package:me_mind/utils/validate.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -37,6 +38,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   String name = "";
   String pwd = "";
   String brandName = "memind";
+  final SignUpViewModel signUpViewModel = SignUpViewModel();
 
   bool emailCheck = false;
   bool nicknameCheck = false;
@@ -85,6 +87,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                         labelText: "이메일",
                         hintText: "example@gmail.com",
                         errorText: errorEmailText,
+                        // errorText: errorEmailText,
                         onChanged: (String value) {
                           email = value;
                         },
@@ -263,92 +266,32 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                                     final SharedPreferences prefs =
                                         await SharedPreferences.getInstance();
                                     if (formKey.currentState!.validate()) {
-                                      if (agree.isAdvertising == true) {
-                                        String today =
-                                            DateFormat("yyyy년 MM월 dd일")
-                                                .format(DateTime.now());
-                                        await BottomSheets(
-                                            context: context,
-                                            func: (value) {
-                                              setState(() {
-                                                isStop = value;
-                                              });
-                                            },
-                                            bodies: BottomSheetContent(
-                                                title: "광고성 정보 수신동의 처리 결과",
-                                                body:
-                                                    "전송자 : $brandName\n일시 : ${today}\n내용 : 수신동의 처리 완료",
-                                                action: RoundedButton(
-                                                  text: "확인",
-                                                  onPressed: () {
-                                                    Navigator.pop(context);
-                                                  },
-                                                ))).show();
-                                      }
-                                      print(isStop);
-                                      if (isStop) return;
-                                      if (agree.isAppPush == true &&
-                                          isStop == false) {
-                                        await prefs.setBool('adverTisingAccept',
-                                            agree.isAdvertising);
-                                        await prefs.setBool(
-                                            'appPushAccept', agree.isAppPush);
-                                        var permissonStatus =
-                                            await DevicePermission()
-                                                .accessNotification();
-                                        if (isStop) return;
-                                        // if (permissonStatus != null) {
-                                        //   Navigator.push(
-                                        //       context,
-                                        //       MaterialPageRoute(
-                                        //           builder: (_) =>
-                                        //               SignUpWelcome()));
-                                        //   return;
-                                        // }
-                                      }
-                                      var response = await SignupService()
-                                          .signup(email, name, pwd,
-                                              referralController.text);
+                                      final signUpResult =
+                                          await signUpViewModel.signUpUser(
+                                        email,
+                                        name,
+                                        pwd,
+                                        referralController.text,
+                                        context: context,
+                                        isAdvertise: agree.isAdvertising,
+                                        isAppPush: agree.isAppPush,
+                                      );
 
-                                      print(response);
-
-                                      if (response is String) {
-                                        if (response == "Invalid Email") {
-                                          setState(() {
-                                            errorEmailText = "이미 가입된 이메일 주소입니다";
-                                            emailCheck = false;
-                                          });
-                                        } else if (response ==
-                                            "Invalid Nikname") {
-                                          setState(() {
-                                            errorNameText = "이미 존재하는 닉네임입니다";
-                                            nicknameCheck = false;
-                                          });
-                                        } else if (response ==
-                                            "Invalid nickname and email") {
-                                          setState(() {
-                                            errorEmailText = "이미 가입된 이메일 주소입니다";
-                                            errorNameText = "이미 존재하는 닉네임입니다";
-                                          });
-                                        } else if (response ==
-                                            "Referrer not found") {
-                                          setState(() {
-                                            errorReferralText = "잘못된 추천인 코드입니다";
-                                          });
-                                        }
-                                      }
-
-                                      if (response is UserSignUpModel) {
-                                        if (isStop) return;
-                                        await prefs.setBool('adverTisingAccept',
-                                            agree.isAdvertising);
-                                        await prefs.setBool(
-                                            'appPushAccept', agree.isAppPush);
+                                      if (signUpResult["success"]) {
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
                                                 builder: (_) =>
                                                     SignUpWelcome()));
+                                      } else {
+                                        setState(() {
+                                          errorEmailText =
+                                              signUpResult["email"];
+                                          errorNameText = signUpResult["name"];
+                                          errorReferralText =
+                                              signUpResult["referral"];
+                                        });
+                                        return;
                                       }
                                     }
                                   },

@@ -26,9 +26,13 @@ class SignupService {
       response = await dio.post(url, data: jsonEncode(data));
       print(response);
 
-      return UserSignUpModel.fromJson(response.data);
+      // return UserSignUpModel.fromJson(response.data);
+      //{'success': true, ''}
+      return {"success": true};
     } on DioException catch (e) {
-      return e.response!.data['detail'];
+      // print({"success": false, "message": e.response!.data["detail"]});
+      // return e.response!.data['detail'];
+      return {"success": false, "message": e.response!.data["detail"]};
     }
   }
 }

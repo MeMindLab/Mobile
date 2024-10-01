@@ -61,14 +61,17 @@ class CustomCheckBox extends StatelessWidget {
             ),
             const SizedBox(width: 6.0),
             Expanded(
-              child: Text(
-                title,
-                style: FontSizes.getContentStyle().copyWith(
-                    fontWeight:
-                        isBold == false ? FontWeight.w400 : FontWeight.w500,
-                    color: isChecked
-                        ? theme.appColors.iconButton
-                        : theme.appColors.hintText),
+              child: InkWell(
+                onTap: onChanged,
+                child: Text(
+                  title,
+                  style: FontSizes.getContentStyle().copyWith(
+                      fontWeight:
+                          isBold == false ? FontWeight.w400 : FontWeight.w500,
+                      color: isChecked
+                          ? theme.appColors.iconButton
+                          : theme.appColors.hintText),
+                ),
               ),
             ),
             trailing ?? const SizedBox.shrink(),
