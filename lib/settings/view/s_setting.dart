@@ -51,6 +51,24 @@ class _SettingState extends ConsumerState<Settings> {
     final settingmenus = ['FAQ', '이용 약관', '개인정보 처리방침'];
     final user = ref.watch(userStateNotifierProvider);
 
+    if (user is UserDetailModelFailed) {
+      return DefaultLayout(
+          title: "설정",
+          backgroundColor: AppColors.blue1,
+          appBarBgColor: AppColors.blue1,
+          appBarActions: [LemonNumberWidget()],
+          appBarLeading: const BackArrowLeading(),
+          child: Column(
+            children: [
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.38,
+              ),
+              const Center(
+                child: Text("계정정보를 불러오지 못했습니다."),
+              ),
+            ],
+          ));
+    }
     return DefaultLayout(
       title: "설정",
       backgroundColor: AppColors.blue1,

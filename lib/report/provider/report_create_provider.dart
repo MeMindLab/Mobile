@@ -27,8 +27,8 @@ class ReportCreateStateNotifier extends StateNotifier<ReportCreateBase> {
       final report = await DailyService().create(id: uuid);
       if (report is! CreateDailyModel) return;
 
-      // state = ReportCreateLoading(stateMsg: "레몬을 1 감소합니다.");
-      // await ref.read(lemonStateNotifierProvider.notifier).lemonDecrease();
+      state = ReportCreateLoading(stateMsg: "레몬을 1 감소합니다.");
+      await ref.read(lemonStateNotifierProvider.notifier).lemonInit();
 
       // ref.read(provider.notifier).state = report.reportId;
 

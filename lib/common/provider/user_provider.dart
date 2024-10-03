@@ -18,7 +18,10 @@ class UserStateNotifier extends StateNotifier<UserDetailModel> {
   userInit() async {
     final userInfo = await UserInfoService().findUser();
 
-    if (userInfo is! UserInfoModel) return;
+    if (userInfo is! UserInfoModel) {
+      state = UserDetailModelFailed();
+      return;
+    }
 
     state = UserDetailModel().copyWith(
         userId: userInfo.id,
@@ -68,3 +71,5 @@ class UserDetailModel {
     );
   }
 }
+
+class UserDetailModelFailed extends UserDetailModel {}

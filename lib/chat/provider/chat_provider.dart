@@ -43,7 +43,8 @@ class ChatStateNotifier extends StateNotifier<List> {
           0,
           ChatMessageModel(
               message: message,
-              index: newState[0].index + 1,
+              index: newState.length,
+              // index: newState[0].index + 1,
               isAi: false,
               isImage: isImage,
               createdAt: msgTime));
@@ -72,7 +73,8 @@ class ChatStateNotifier extends StateNotifier<List> {
           } else {
             displayAnswer += String.fromCharCode(answerBox[answerCnt]);
             newState[0] = ChatMessageModel(
-                index: newState[1].index + 1,
+                index: newState.length,
+                // index: newState[1].index + 1,
                 message: displayAnswer,
                 isAi: true,
                 isImage: false,
@@ -87,7 +89,8 @@ class ChatStateNotifier extends StateNotifier<List> {
             0,
             ChatMessageModel(
                 message: message,
-                index: newState[0].index + 1,
+                index: newState.length,
+                // index: newState[0].index + 1,
                 isAi: false,
                 isImage: isImage,
                 createdAt: msgTime));
@@ -95,6 +98,9 @@ class ChatStateNotifier extends StateNotifier<List> {
       }
     } catch (e) {
       newState[0] = ChatMessageError();
+
+      state = [...newState];
+      return;
     }
     state = [...newState];
   }

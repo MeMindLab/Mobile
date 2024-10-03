@@ -25,9 +25,7 @@ class ChatSendService {
 
       return answer;
     } on DioException catch (error) {
-      return error;
-    } catch (e) {
-      return null;
+      rethrow;
     }
   }
 }
