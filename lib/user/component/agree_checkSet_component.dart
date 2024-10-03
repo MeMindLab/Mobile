@@ -31,7 +31,7 @@ class _MyWidgetState extends ConsumerState<AgreeCheckSetComponent> {
           child: Image.asset("assets/image/icon/arrow_down.png"),
         ),
         const SizedBox(
-          height: 25,
+          height: 20,
         ),
         Row(
           children: [
@@ -57,7 +57,7 @@ class _MyWidgetState extends ConsumerState<AgreeCheckSetComponent> {
           ],
         ),
         const SizedBox(
-          height: 10,
+          height: 20,
         ),
         CustomCheckBox(
           title: "전체 동의",
@@ -72,7 +72,7 @@ class _MyWidgetState extends ConsumerState<AgreeCheckSetComponent> {
           },
         ),
         const Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8),
+          padding: EdgeInsets.only(bottom: 5, top: 6),
           child: Divider(),
         ),
         CustomCheckBox(
@@ -87,16 +87,15 @@ class _MyWidgetState extends ConsumerState<AgreeCheckSetComponent> {
                 }));
               },
               child: Text("보기",
-                  style: FontSizes.getCapsuleStyle().copyWith(
-                      decoration: TextDecoration.underline,
-                      color: theme.appColors.hintText)),
+                  style: FontSizes.getCapsuleStyle()
+                      .copyWith(color: theme.appColors.hintText)),
             ),
             onChanged: () {
               ref
                   .read(agreeStateNotifierProvider.notifier)
                   .updateService(isTrue: !agree.isService);
             }),
-        const SizedBox(height: 5),
+        const SizedBox(height: 6),
         CustomCheckBox(
             title: "[필수] 개인정보 수집 및 이용 동의",
             svg: "check.svg",
@@ -109,16 +108,15 @@ class _MyWidgetState extends ConsumerState<AgreeCheckSetComponent> {
                 }));
               },
               child: Text("보기",
-                  style: FontSizes.getCapsuleStyle().copyWith(
-                      decoration: TextDecoration.underline,
-                      color: theme.appColors.hintText)),
+                  style: FontSizes.getCapsuleStyle()
+                      .copyWith(color: theme.appColors.hintText)),
             ),
             onChanged: () {
               ref
                   .read(agreeStateNotifierProvider.notifier)
                   .updatePersonal(isTrue: !agree.isPersonalInfo);
             }),
-        const SizedBox(height: 5),
+        const SizedBox(height: 6),
         CustomCheckBox(
             title: "[선택] 앱 Push 수신 동의",
             svg: "check.svg",
@@ -131,16 +129,15 @@ class _MyWidgetState extends ConsumerState<AgreeCheckSetComponent> {
                 }));
               },
               child: Text("보기",
-                  style: FontSizes.getCapsuleStyle().copyWith(
-                      decoration: TextDecoration.underline,
-                      color: theme.appColors.hintText)),
+                  style: FontSizes.getCapsuleStyle()
+                      .copyWith(color: theme.appColors.hintText)),
             ),
             onChanged: () {
               ref
                   .read(agreeStateNotifierProvider.notifier)
                   .updateAppPush(isTrue: !agree.isAppPush);
             }),
-        const SizedBox(height: 5),
+        const SizedBox(height: 6),
         CustomCheckBox(
             title: "[선택] 광고성 정보 수신 동의",
             svg: "check.svg",
@@ -153,9 +150,8 @@ class _MyWidgetState extends ConsumerState<AgreeCheckSetComponent> {
                 }));
               },
               child: Text("보기",
-                  style: FontSizes.getCapsuleStyle().copyWith(
-                      decoration: TextDecoration.underline,
-                      color: theme.appColors.hintText)),
+                  style: FontSizes.getCapsuleStyle()
+                      .copyWith(color: theme.appColors.hintText)),
             ),
             onChanged: () {
               ref

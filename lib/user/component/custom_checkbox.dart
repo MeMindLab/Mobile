@@ -59,7 +59,7 @@ class CustomCheckBox extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(width: 6.0),
+            const SizedBox(width: 5.0),
             Expanded(
               child: InkWell(
                 onTap: onChanged,
