@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:me_mind/chat/view/s_chat.dart';
 import 'package:me_mind/chat/view/s_trash.dart';
 import 'package:me_mind/common/constant/app_colors.dart';
@@ -10,30 +11,68 @@ import 'package:me_mind/common/layout/topbar/widget/lemon_number.dart';
 import 'package:me_mind/common/services/token_refresh_service.dart';
 import 'package:me_mind/common/store.dart';
 import 'package:me_mind/common/component/root_tab.dart';
+import 'package:me_mind/settings/provider/theme_provider.dart';
+import 'package:me_mind/settings/view/s_setting_theme.dart';
 import 'package:me_mind/user/model/user_signin_model.dart';
 import 'package:me_mind/user/view/s_signin.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class MainScreen extends StatefulWidget {
+class MainScreen extends ConsumerStatefulWidget {
   const MainScreen({super.key});
 
   @override
-  State<MainScreen> createState() => _MainScreenState();
+  ConsumerState<MainScreen> createState() => _MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class _MainScreenState extends ConsumerState<MainScreen> {
   final GlobalKey webViewKey = GlobalKey();
   // Uri myUrl = Uri.parse("https://d2ygt4x04f8e42.cloudfront.net");
   Uri myUrl = Uri.parse("https://main--memind.netlify.app/");
-  late final InAppWebViewController webViewController;
+  InAppWebViewController? webViewController;
+
   late final PullToRefreshController pullToRefreshController;
   String? token;
   String? refreshToken;
+  String? themeMode;
   double progress = 0;
 
   Future<void> _loadToken() async {
     token = await storage.read(key: ACCESS_TOKEN);
     print(token);
     setState(() {});
+  }
+
+  void loadTheme() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    themeMode = prefs.getString("themeMode");
+    if (themeMode == null) {
+      await prefs.setString('themeMode', 'general mode');
+      themeMode = "general mode";
+      ref.read(themeProvider.notifier).setTheme(AppTheme.basic);
+    } else {
+      themeMode == 'general mode'
+          ? ref.read(themeProvider.notifier).setTheme(AppTheme.basic)
+          : ref.read(themeProvider.notifier).setTheme(AppTheme.emotion);
+    }
+
+    print(themeMode);
+    setState(() {});
+  }
+
+  void sendThemeWebview(
+      InAppWebViewController controller, AppTheme theme) async {
+    print("웹뷰에 토큰 보내는 중");
+    String themeString = theme == AppTheme.basic
+        ? """
+         window.postMessage('emotion mode', '*');
+         window.theme = 'emotion mode';
+         """
+        : """
+         window.postMessage('general mode', '*');
+         window.theme = 'general mode';
+         """;
+
+    await controller.evaluateJavascript(source: themeString);
   }
 
   Future<void> refreshTokenOrRedirectToLogin(
@@ -68,15 +107,16 @@ class _MainScreenState extends State<MainScreen> {
 
     setBottomIdx(0);
     _loadToken();
+    loadTheme();
 
     pullToRefreshController = PullToRefreshController(
       onRefresh: () async {
         if (defaultTargetPlatform == TargetPlatform.android) {
-          webViewController.reload();
+          webViewController!.reload();
         } else if (defaultTargetPlatform == TargetPlatform.iOS ||
             defaultTargetPlatform == TargetPlatform.macOS) {
-          webViewController.loadUrl(
-              urlRequest: URLRequest(url: await webViewController.getUrl()));
+          webViewController!.loadUrl(
+              urlRequest: URLRequest(url: await webViewController!.getUrl()));
         }
       },
     );
@@ -84,6 +124,15 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final themeState = ref.watch(themeProvider);
+
+    ref.listen(themeProvider, (pref, next) {
+      print("지금 모드는 $next");
+
+      if (webViewController != null) {
+        sendThemeWebview(webViewController!, next);
+      }
+    });
     return DefaultLayout(
       backgroundColor: AppColors.blue1,
       bottomNavigationBar: const RootTab(),
@@ -98,7 +147,7 @@ class _MainScreenState extends State<MainScreen> {
             : Container(),
         Expanded(
             child: Stack(children: [
-          token == null
+          token == null && themeMode == null
               ? const Center(child: CircularProgressIndicator())
               : InAppWebView(
                   key: webViewKey,
@@ -176,8 +225,9 @@ class _MainScreenState extends State<MainScreen> {
                   },
                   onWebViewCreated: (InAppWebViewController controller) async {
                     webViewController = controller;
+                    sendThemeWebview(controller, themeState);
 
-                    webViewController.addJavaScriptHandler(
+                    webViewController!.addJavaScriptHandler(
                         handlerName: 'clickDiary',
                         callback: (args) {
                           debugPrint("자바스크립트 채널2");
@@ -192,7 +242,7 @@ class _MainScreenState extends State<MainScreen> {
                           }
                         });
 
-                    webViewController.addJavaScriptHandler(
+                    webViewController!.addJavaScriptHandler(
                         handlerName: 'clickTrash',
                         callback: (args) {
                           debugPrint("자바스크립트 채널1");
@@ -256,8 +306,8 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   Future<bool> _goBack(BuildContext context) async {
-    if (await webViewController.canGoBack()) {
-      webViewController.goBack();
+    if (await webViewController!.canGoBack()) {
+      webViewController!.goBack();
       return Future.value(false);
     } else {
       return Future.value(true);
