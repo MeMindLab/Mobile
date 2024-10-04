@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:me_mind/chat/provider/chat_provider.dart';
 import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/constant.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
@@ -329,6 +330,8 @@ class _SettingState extends ConsumerState<Settings> {
 
                                           ref.invalidate(
                                               lemonStateNotifierProvider);
+                                          ref.invalidate(
+                                              chatStateNotifierProvider);
 
                                           await Navigator.of(context)
                                               .pushReplacement(MaterialPageRoute(

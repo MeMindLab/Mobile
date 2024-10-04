@@ -1,8 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:me_mind/common/provider/lemon_provider.dart';
-import 'package:me_mind/common/services/lemon_service.dart';
+
 import 'package:me_mind/report/model/create_daily/create_daily_model.dart';
+import 'package:me_mind/report/provider/report_id_provider.dart';
 import 'package:me_mind/report/services/daily_service.dart';
 
 final reportCreateProvider =
@@ -35,8 +36,7 @@ class ReportCreateStateNotifier extends StateNotifier<ReportCreateBase> {
       await ref.read(lemonStateNotifierProvider.notifier).lemonInit();
 
       // ref.read(provider.notifier).state = report.reportId;
-
-      // print(ref.watch(reportIdProvider));
+      ref.read(reportIdProvider.notifier).state = report.reportId;
 
       Future.delayed(const Duration(seconds: 2), () {
         state = ReportCreateSuccess(stateMsg: "레포트 발급에 성공했습니다.");

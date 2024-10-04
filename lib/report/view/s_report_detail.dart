@@ -22,9 +22,13 @@ import 'package:me_mind/report/w_emotion_card.dart';
 
 class ReportDetail extends ConsumerStatefulWidget {
   final String conversationId;
+  final String reportId;
   final String createdAt;
   const ReportDetail(
-      {super.key, required this.conversationId, required this.createdAt});
+      {super.key,
+      required this.conversationId,
+      required this.reportId,
+      required this.createdAt});
 
   @override
   ConsumerState<ReportDetail> createState() => _ReportDetailState();
@@ -45,9 +49,11 @@ class _ReportDetailState extends ConsumerState<ReportDetail> {
   Widget build(BuildContext context) {
     CustomTheme theme = CustomThemeHolder.of(context).theme;
     Color keywordColor = Theme.of(context).cardColor;
+    print(widget.reportId);
     print(widget.conversationId);
     // final id = ref.watch(chatIdProvider);
-    final detail = ref.watch(reportDetailProvider(widget.conversationId));
+    final detail = ref.watch(reportDetailProvider(ReportDetailParameter(
+        reportId: widget.reportId, conversationId: widget.conversationId)));
     if (detail is ReportDetailLoading) {
       return DefaultLayout(
           title: "${dateTime.month}월 ${dateTime.day}일",

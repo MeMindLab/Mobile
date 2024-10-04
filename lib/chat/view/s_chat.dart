@@ -26,6 +26,7 @@ import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 import 'package:me_mind/common/utils/dialog_manager.dart';
 import 'package:me_mind/report/provider/report_create_provider.dart';
+import 'package:me_mind/report/provider/report_id_provider.dart';
 import 'package:me_mind/report/view/s_report_detail.dart';
 import 'package:me_mind/screen/main/s_main.dart';
 import 'package:me_mind/settings/view/s_setting.dart';
@@ -71,43 +72,49 @@ class _ChatState extends ConsumerState<Chat> {
     final reportIssue = ref.watch(reportIssueProvider);
     final lemon = ref.watch(lemonStateNotifierProvider);
     final user = ref.watch(userStateNotifierProvider);
+    final reportId = ref.watch(reportIdProvider);
 
     CustomTheme theme = CustomThemeHolder.of(context).theme;
+    ref.listen(reportIdProvider, (pref, next) {
+      print(next);
+    });
 
     ref.listen(reportIssueProvider, (previous, next) {
       if (next && lemon == 1) {
-        if (user.isVerified! && dialog3 == false) {
-          dialog3 = true;
-          DialogManager(context: context, type: DialogType.twoButton).show(
-              titleText: "데모버전 이용이 끝났어요.",
-              contentText: "정식출시일을 기다려주세요!\n일기는 계속 작성 가능하며\n데이터는 보존할게요.",
-              firstButtonText: "닫기",
-              firstSubmit: () {
-                Navigator.pop(context);
-              },
-              secondButtonText: "이메일알림 받기",
-              secondSubmit: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) {
-                  return const SettingNotification();
-                }));
-              });
-        } else if (user.isVerified == false && dialog4 == false) {
-          dialog4 = true;
-          DialogManager(context: context, type: DialogType.twoButton).show(
-              titleText: "앗, 비타민이 없으시군요!",
-              contentText: "리포트 발행은 비타민이 필요해요.\n번호인증 후 무료 5개를 받으시겠어요?",
-              firstButtonText: "아니오",
-              firstSubmit: () {
-                Navigator.pop(context);
-              },
-              secondButtonText: "네",
-              secondSubmit: () {
-                Navigator.of(context)
-                    .pushReplacement(MaterialPageRoute(builder: (context) {
-                  return const Settings();
-                }));
-              });
+        if (user.isVerified != null) {
+          if (user.isVerified! && dialog3 == false) {
+            dialog3 = true;
+            DialogManager(context: context, type: DialogType.twoButton).show(
+                titleText: "데모버전 이용이 끝났어요.",
+                contentText: "정식출시일을 기다려주세요!\n일기는 계속 작성 가능하며\n데이터는 보존할게요.",
+                firstButtonText: "닫기",
+                firstSubmit: () {
+                  Navigator.pop(context);
+                },
+                secondButtonText: "이메일알림 받기",
+                secondSubmit: () {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) {
+                    return const SettingNotification();
+                  }));
+                });
+          } else if (user.isVerified == false && dialog4 == false) {
+            dialog4 = true;
+            DialogManager(context: context, type: DialogType.twoButton).show(
+                titleText: "앗, 비타민이 없으시군요!",
+                contentText: "리포트 발행은 비타민이 필요해요.\n번호인증 후 무료 5개를 받으시겠어요?",
+                firstButtonText: "아니오",
+                firstSubmit: () {
+                  Navigator.pop(context);
+                },
+                secondButtonText: "네",
+                secondSubmit: () {
+                  Navigator.of(context)
+                      .pushReplacement(MaterialPageRoute(builder: (context) {
+                    return const Settings();
+                  }));
+                });
+          }
         }
       }
     });
@@ -173,6 +180,7 @@ class _ChatState extends ConsumerState<Chat> {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
             return ReportDetail(
               conversationId: chatId,
+              reportId: reportId,
               createdAt: DateTime.now().toLocal().toIso8601String(),
             );
           }));

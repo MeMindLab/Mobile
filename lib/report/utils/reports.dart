@@ -25,6 +25,7 @@ SliverList renderReports({required List<Report> reports, Color? color}) {
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (_) => ReportDetail(
                         conversationId: reports[index].conversationId!,
+                        reportId: reports[index].reportId!,
                         createdAt: reports[index].createdAt!,
                       )));
             },
