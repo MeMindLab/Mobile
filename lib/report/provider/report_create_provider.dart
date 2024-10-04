@@ -18,10 +18,14 @@ class ReportCreateStateNotifier extends StateNotifier<ReportCreateBase> {
 
   ReportCreateStateNotifier(this.ref) : super(ReportCreateAwaiting());
 
-  Future create({required String uuid}) async {
+  Future create({required String uuid, required int lemon}) async {
     // 발급 과정
 
     try {
+      if (lemon == 0) {
+        state = ReportCreateFailed(stateMsg: "레포트 발급에 실패했습니다.");
+        return;
+      }
       state = ReportCreateLoading(stateMsg: "레포트를 생성중입니다.");
 
       final report = await DailyService().create(id: uuid);

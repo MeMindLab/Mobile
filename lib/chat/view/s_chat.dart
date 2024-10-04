@@ -185,7 +185,9 @@ class _ChatState extends ConsumerState<Chat> {
         InkWell(
           onTap: reportIssue == true
               ? () async {
-                  ref.read(reportCreateProvider.notifier).create(uuid: chatId);
+                  ref
+                      .read(reportCreateProvider.notifier)
+                      .create(uuid: chatId, lemon: lemon);
                 }
               : null,
           child: SizedBox(
