@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/report/view/s_report_month.dart';
 
 class CustomDatePicker extends StatefulWidget {
@@ -31,7 +32,7 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
       width: 300,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(13),
-        color: const Color(0xFFBBD7FF),
+        color: AppColors.blueMain,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,7 +44,7 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
               "Pick a date",
               style: TextStyle(
                 fontSize: 20,
-                color: Color(0xFF313131),
+                color: AppColors.gray9,
                 fontWeight: FontWeight.w500,
               ),
             ),

@@ -137,7 +137,7 @@ class OnBoardingScreen extends StatelessWidget {
         ),
       ),
       showSkipButton: true,
-      globalBackgroundColor: Color(0xffF1F3F8),
+      globalBackgroundColor: AppColors.blue1,
       skipOrBackFlex: 0,
       skip: Text(
         'SKIP',
@@ -146,8 +146,8 @@ class OnBoardingScreen extends StatelessWidget {
         ),
       ),
       dotsDecorator: const DotsDecorator(
-        color: Color(0xFFCCCCCC),
-        activeColor: Color(0xFFA9D0FF),
+        color: AppColors.gray3,
+        activeColor: AppColors.blueMain,
       ),
       curve: Curves.bounceOut,
     );

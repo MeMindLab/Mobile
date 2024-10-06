@@ -53,8 +53,6 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   Widget build(BuildContext context) {
     CustomTheme theme = CustomThemeHolder.of(context).theme;
     final agree = ref.watch(agreeStateNotifierProvider);
-    final bottomInset = MediaQuery.of(context).viewInsets.bottom;
-    final availableHeight = MediaQuery.of(context).size.height - bottomInset;
 
     return DefaultLayout(
       title: "회원가입",
@@ -87,7 +85,6 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                         labelText: "이메일",
                         hintText: "example@gmail.com",
                         errorText: errorEmailText,
-                        // errorText: errorEmailText,
                         onChanged: (String value) {
                           email = value;
                         },
@@ -113,8 +110,8 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                                   width: 24,
                                   height: 24,
                                   fit: BoxFit.scaleDown,
-                                  colorFilter: ColorFilter.mode(
-                                      Colors.blue, BlendMode.srcIn),
+                                  colorFilter: const ColorFilter.mode(
+                                      AppColors.blue6, BlendMode.srcIn),
                                 ),
                               )
                             : null,
@@ -153,8 +150,8 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                                   width: 25,
                                   height: 25,
                                   fit: BoxFit.scaleDown,
-                                  colorFilter: ColorFilter.mode(
-                                      Colors.blue, BlendMode.srcIn),
+                                  colorFilter: const ColorFilter.mode(
+                                      AppColors.blue6, BlendMode.srcIn),
                                 ),
                               )
                             : null,
@@ -264,8 +261,6 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                               ? RoundedButton(
                                   text: "가입하기",
                                   onPressed: () async {
-                                    final SharedPreferences prefs =
-                                        await SharedPreferences.getInstance();
                                     if (formKey.currentState!.validate()) {
                                       final signUpResult =
                                           await signUpViewModel.signUpUser(

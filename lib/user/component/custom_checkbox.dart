@@ -46,7 +46,7 @@ class CustomCheckBox extends StatelessWidget {
               child: Container(
                 width: 24.0,
                 height: 24.0,
-                color: Colors.transparent,
+                color: AppColors.invisibleColor,
                 child: Center(
                   child: SvgPicture.asset(
                     '$baseImageSvgPath/icon/$svg',

@@ -100,7 +100,7 @@ class _Report extends ConsumerState<Report> {
                         '최근 감정 흐름',
                         style: FontSizes.getHeadline1Style().copyWith(
                           fontWeight: FontWeight.w500,
-                          color: const Color(0xFF191919),
+                          color: AppColors.blackColor.withOpacity(0.9),
                         ),
                       ),
                       const SizedBox(height: 36),
@@ -200,8 +200,8 @@ class _Report extends ConsumerState<Report> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       InkWell(
-                        highlightColor: Colors.transparent,
-                        splashColor: Colors.transparent,
+                        highlightColor: AppColors.invisibleColor,
+                        splashColor: AppColors.invisibleColor,
                         onTap: () {
                           DialogManager(
                                   context: context, type: DialogType.custom)
@@ -223,7 +223,7 @@ class _Report extends ConsumerState<Report> {
                             const Icon(
                               Icons.arrow_forward_ios_outlined,
                               size: 18.0,
-                              color: Colors.black,
+                              color: AppColors.blackColor,
                             ),
                           ],
                         ),

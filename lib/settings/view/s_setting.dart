@@ -16,6 +16,9 @@ import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 import 'package:me_mind/common/utils/dialog_manager.dart';
 import 'package:me_mind/common/view/splash_screen.dart';
+import 'package:me_mind/report/provider/cursor_pagination_provider.dart';
+import 'package:me_mind/report/provider/report_id_provider.dart';
+import 'package:me_mind/report/provider/report_search_provider.dart';
 import 'package:me_mind/settings/component/certified_box.dart';
 import 'package:me_mind/settings/component/settings_menu.dart';
 import 'package:me_mind/settings/view/s_faqwebview_screen.dart';
@@ -40,8 +43,7 @@ class _SettingState extends ConsumerState<Settings> {
   @override
   void initState() {
     super.initState();
-    setBottomIdx(3);
-    // getUserInfo();
+    // setBottomIdx(3);
     ref.read(userStateNotifierProvider.notifier).userInit();
   }
 
@@ -113,12 +115,6 @@ class _SettingState extends ConsumerState<Settings> {
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(13))),
                               child: TextButton(
-                                child: Center(
-                                    child: Text(
-                                  "pro 구독",
-                                  style: FontSizes.getContentStyle()
-                                      .copyWith(color: AppColors.gray9),
-                                )),
                                 style: TextButton.styleFrom(
                                   padding: EdgeInsets.zero,
                                   backgroundColor: lightTheme.primaryColor,
@@ -133,6 +129,12 @@ class _SettingState extends ConsumerState<Settings> {
                                           builder: (context) =>
                                               const SubscribePage()));
                                 },
+                                child: Center(
+                                    child: Text(
+                                  "pro 구독",
+                                  style: FontSizes.getContentStyle()
+                                      .copyWith(color: AppColors.gray9),
+                                )),
                               ),
                             ),
                           ),
@@ -142,7 +144,7 @@ class _SettingState extends ConsumerState<Settings> {
                             width: double.infinity,
                             height: 93,
                             decoration: BoxDecoration(
-                                color: const Color.fromRGBO(0, 0, 0, 0.8),
+                                color: AppColors.blackColor.withOpacity(0.8),
                                 borderRadius: BorderRadius.circular(13)),
                             child: Center(
                                 child: Column(
@@ -300,7 +302,7 @@ class _SettingState extends ConsumerState<Settings> {
                               },
                               separatorBuilder: (context, int idx) =>
                                   const Divider(
-                                    color: Color.fromRGBO(241, 243, 248, 1),
+                                    color: AppColors.blue1,
                                     thickness: 3,
                                   ),
                               itemCount: 3)),
@@ -332,6 +334,9 @@ class _SettingState extends ConsumerState<Settings> {
                                               lemonStateNotifierProvider);
                                           ref.invalidate(
                                               chatStateNotifierProvider);
+                                          ref.invalidate(reportIdProvider);
+                                          ref.invalidate(reportProvider);
+                                          ref.invalidate(reportSearchProvider);
 
                                           await Navigator.of(context)
                                               .pushReplacement(MaterialPageRoute(

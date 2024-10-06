@@ -116,7 +116,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                               labelText: "비밀번호",
                               obscureText: !pwdShow,
                               hintText: "비밀번호를 입력해주세요.",
-                              borderColor: Colors.transparent,
+                              borderColor: AppColors.invisibleColor,
                               errorText: passwordErrorText,
                               suffixIcon: InkWell(
                                 onTap: () {
@@ -189,16 +189,6 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                                                 setState(() => isLogin = false);
                                                 return;
                                               }
-                                              // await ref
-                                              //     .read(
-                                              //         userStateNotifierProvider
-                                              //             .notifier)
-                                              //     .userInit();
-                                              // await ref
-                                              //     .read(
-                                              //         lemonStateNotifierProvider
-                                              //             .notifier)
-                                              //     .lemonInit();
 
                                               Navigator.of(context)
                                                   .pushReplacement(

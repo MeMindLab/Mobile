@@ -115,10 +115,10 @@ class _CustomTextFormFieldState extends State<SeetingCustomTextFormField> {
             counterText: '',
             hintText: widget.hintText,
             errorText: widget.errorText,
-            errorStyle: FontSizes.getCapsuleStyle()
-                .copyWith(color: Colors.red, fontWeight: FontWeight.w500),
+            errorStyle: FontSizes.getCapsuleStyle().copyWith(
+                color: AppColors.timerColor, fontWeight: FontWeight.w500),
             hintStyle: FontSizes.getContentStyle()
-                .copyWith(color: Colors.grey, fontWeight: FontWeight.w400),
+                .copyWith(color: AppColors.gray5, fontWeight: FontWeight.w400),
             fillColor: inputBackground,
             filled: true, // false 배경색 없음 true 있음
             enabledBorder: OutlineInputBorder(
@@ -132,10 +132,10 @@ class _CustomTextFormFieldState extends State<SeetingCustomTextFormField> {
                 borderRadius: BorderRadius.circular(13)),
             errorBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(13),
-                borderSide: const BorderSide(color: Colors.red)),
+                borderSide: const BorderSide(color: AppColors.timerColor)),
             focusedErrorBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(13),
-                borderSide: const BorderSide(color: Colors.red)),
+                borderSide: const BorderSide(color: AppColors.timerColor)),
 
             suffixIcon: widget.obscureText
                 ? GestureDetector(

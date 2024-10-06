@@ -481,11 +481,11 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                                           backgroundColor: isAuthCheck == false
                                               ? theme.appColors
                                                   .grayButtonBackground
-                                              : Color(0xFFA9D0FF),
+                                              : AppColors.blueMain,
                                           elevation: 0,
                                           foregroundColor:
                                               theme.appColors.iconButton ??
-                                                  Colors.black,
+                                                  AppColors.blackColor,
                                           shape: RoundedRectangleBorder(
                                             borderRadius:
                                                 BorderRadius.circular(13),
@@ -515,7 +515,7 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                                         height: 25,
                                         fit: BoxFit.scaleDown,
                                         colorFilter: const ColorFilter.mode(
-                                            Colors.blue, BlendMode.srcIn),
+                                            AppColors.blue9, BlendMode.srcIn),
                                       ),
                                     ),
                                   ),
@@ -645,7 +645,7 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
       padding: EdgeInsets.zero,
       backgroundColor: theme.appColors.grayButtonBackground,
       elevation: 0,
-      foregroundColor: theme.appColors.iconButton ?? Colors.black,
+      foregroundColor: theme.appColors.iconButton ?? AppColors.blackColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(13),
       ),

@@ -188,7 +188,7 @@ class _ChatState extends ConsumerState<Chat> {
       }
     });
     return DefaultLayout(
-      backgroundColor: Colors.white,
+      backgroundColor: theme.appColors.seedColor,
       appBarActions: [
         InkWell(
           onTap: reportIssue == true
@@ -262,7 +262,7 @@ class _ChatState extends ConsumerState<Chat> {
                       ? ChatNotification(
                           theme: theme,
                           isFolded: isFolded,
-                          bgColor: Colors.white,
+                          bgColor: theme.appColors.seedColor,
                           content:
                               '구르미는 미아인드가 개발한 일기쓰기 전문 인공지능입니다. 텍스트나 음성으로 대화하듯이 하루를 정리해보세요!',
                           onPressed: () {
@@ -358,7 +358,7 @@ class _ChatState extends ConsumerState<Chat> {
                               minLines: 1,
                               maxLines: 4,
                               cursorWidth: 1,
-                              cursorColor: Colors.black,
+                              cursorColor: AppColors.blackColor,
                               style: FontSizes.getCapsuleStyle().copyWith(
                                   color: theme.appColors.iconButton,
                                   fontSize: 14),
@@ -402,18 +402,6 @@ class _ChatState extends ConsumerState<Chat> {
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
-                                    // InkWell(
-                                    //   onTap: () {},
-                                    //   child: Container(
-                                    //     margin: const EdgeInsets.fromLTRB(
-                                    //         0, 5, 10, 10),
-                                    //     child: SvgPicture.asset(
-                                    //         'assets/svg/icon/mic.svg',
-                                    //         colorFilter: const ColorFilter.mode(
-                                    //             AppColors.blue7,
-                                    //             BlendMode.srcIn)),
-                                    //   ),
-                                    // ),
                                     Padding(
                                       padding: const EdgeInsets.only(
                                           right: 8, bottom: 10),

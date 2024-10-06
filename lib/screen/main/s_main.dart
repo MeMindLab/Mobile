@@ -83,7 +83,9 @@ class _MainScreenState extends ConsumerState<MainScreen> {
         await storage.write(key: ACCESS_TOKEN, value: response.accessToken);
         await storage.write(key: REFRESH_TOKEN, value: response.refreshToken);
 
-        await controller.evaluateJavascript(source: """
+        await controller.evaluateJavascript(
+            source:
+                """
                       window.flutter_inappwebview.callHandler('authError').then(function(token) {
                         window.receivedToken = token;
                         console.log("Token received from Flutter: " + token);
@@ -198,7 +200,9 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                           debugPrint("토큰 전송");
                           return token;
                         });
-                    await controller.evaluateJavascript(source: """
+                    await controller.evaluateJavascript(
+                        source:
+                            """
                       window.flutter_inappwebview.callHandler('requestToken').then(function(token) {
                         window.receivedToken = token;
                         console.log("Token received from Flutter: " + token);

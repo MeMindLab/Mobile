@@ -85,7 +85,7 @@ class _CustomSwitchState extends State<CustomSwitch>
                     decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: widget.value
-                            ? Colors.white
+                            ? theme.appColors.seedColor
                             : theme.appColors.iconBook,
                         border: Border.all(
                             width: 1,

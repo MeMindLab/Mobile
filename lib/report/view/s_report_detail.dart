@@ -89,12 +89,12 @@ class _ReportDetailState extends ConsumerState<ReportDetail> {
               children: [
                 Container(
                   padding: const EdgeInsets.fromLTRB(20, 26, 0, 26),
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.only(
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.only(
                       bottomLeft: Radius.circular(19),
                       bottomRight: Radius.circular(19),
                     ),
-                    color: Colors.white,
+                    color: theme.appColors.seedColor,
                   ),
                   width: double.infinity,
                   child: Column(
@@ -168,8 +168,8 @@ class _ReportDetailState extends ConsumerState<ReportDetail> {
                 ),
                 const Padding(padding: EdgeInsets.only(top: 10)),
                 Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
+                  decoration: BoxDecoration(
+                    color: theme.appColors.seedColor,
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(20.0),
@@ -204,8 +204,8 @@ class _ReportDetailState extends ConsumerState<ReportDetail> {
                 ),
                 const Padding(padding: EdgeInsets.only(top: 10)),
                 Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
+                  decoration: BoxDecoration(
+                    color: theme.appColors.seedColor,
                   ),
                   width: double.infinity,
                   height: 274,
@@ -272,7 +272,7 @@ class _ReportDetailState extends ConsumerState<ReportDetail> {
                                             decoration: BoxDecoration(
                                                 borderRadius:
                                                     BorderRadius.circular(8),
-                                                color: const Color(0xFF191919)
+                                                color: AppColors.blackgray
                                                     .withOpacity(0.87)),
                                           ),
                                           const SizedBox(
@@ -295,8 +295,8 @@ class _ReportDetailState extends ConsumerState<ReportDetail> {
                 ),
                 const Padding(padding: EdgeInsets.only(top: 10)),
                 Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
+                  decoration: BoxDecoration(
+                    color: theme.appColors.seedColor,
                   ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -384,8 +384,8 @@ class _ReportDetailState extends ConsumerState<ReportDetail> {
                 ),
                 const Padding(padding: EdgeInsets.only(top: 10)),
                 Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
+                  decoration: BoxDecoration(
+                    color: theme.appColors.seedColor,
                   ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,

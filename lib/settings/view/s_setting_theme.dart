@@ -150,7 +150,7 @@ class _SettingThemaState extends ConsumerState<SettingTheme> {
                                         width: 2,
                                         color: _appTheme == AppTheme.emotion
                                             ? theme.appColors.checkColor
-                                            : Colors.transparent),
+                                            : AppColors.invisibleColor),
                                     borderRadius: BorderRadius.circular(10)),
                                 child: Image.asset(
                                   "assets/image/theme/emotion.png",
@@ -208,7 +208,7 @@ class _SettingThemaState extends ConsumerState<SettingTheme> {
                                         width: 2,
                                         color: _appTheme == AppTheme.basic
                                             ? theme.appColors.checkColor
-                                            : Colors.transparent),
+                                            : AppColors.invisibleColor),
                                     borderRadius: BorderRadius.circular(10)),
                                 child: Image.asset(
                                   "assets/image/theme/basic.png",

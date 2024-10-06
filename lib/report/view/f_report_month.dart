@@ -37,8 +37,8 @@ class ReportMonthFragment extends StatelessWidget {
               children: [
                 Expanded(
                   child: InkWell(
-                    highlightColor: Colors.transparent,
-                    splashColor: Colors.transparent,
+                    highlightColor: AppColors.invisibleColor,
+                    splashColor: AppColors.invisibleColor,
                     onTap: () {
                       DialogManager(context: context, type: DialogType.custom)
                           .show(
@@ -57,7 +57,7 @@ class ReportMonthFragment extends StatelessWidget {
                         const Icon(
                           Icons.arrow_forward_ios_outlined,
                           size: 18.0,
-                          color: Colors.black,
+                          color: AppColors.blackColor,
                         ),
                       ],
                     ),
@@ -76,7 +76,7 @@ class ReportMonthFragment extends StatelessWidget {
                     width: 20,
                     height: 20,
                     colorFilter: const ColorFilter.mode(
-                      Colors.black,
+                      AppColors.blackColor,
                       BlendMode.srcIn,
                     ),
                   ),

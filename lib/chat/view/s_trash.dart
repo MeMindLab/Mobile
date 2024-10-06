@@ -54,7 +54,7 @@ class _TrashState extends State<Trash> {
 
     return DefaultLayout(
       title: "감정 쓰레기통",
-      foregroundColor: Colors.white,
+      foregroundColor: theme.appColors.seedColor,
       appBarBgColor: theme.appColors.trashColor,
       appBarLeading: BackArrowLeading(
         iconColor: theme.appColors.seedColor,
