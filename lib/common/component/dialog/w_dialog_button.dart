@@ -55,7 +55,7 @@ List<Widget> customDialogActions(
                   Flexible(
                     flex: 2,
                     child: AlertDialogButton(
-                      bgColor: firstColor ?? AppColors.gray4,
+                      bgColor: firstColor ?? AppColors.gray3,
                       content: firstText,
                       onSubmit: firstSubmit,
                     ),

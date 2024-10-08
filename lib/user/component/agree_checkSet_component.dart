@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 import 'package:me_mind/settings/view/s_collect_use_screen.dart';
@@ -50,8 +51,8 @@ class _MyWidgetState extends ConsumerState<AgreeCheckSetComponent> {
           children: [
             Text(
               "여러분의 개인정보와 서비스 이용 권리를\n잘 지켜드릴게요.",
-              style: FontSizes.getContentStyle()
-                  .copyWith(fontWeight: FontWeight.w400),
+              style: FontSizes.getContentStyle().copyWith(
+                  fontWeight: FontWeight.w400, color: AppColors.gray6),
             ),
             const Spacer(),
           ],

@@ -335,12 +335,15 @@ class _ChatState extends ConsumerState<Chat> {
                                         message: imageUpload.imageUrl,
                                         isImage: true);
                               },
-                              child: SvgPicture.asset(
-                                  'assets/svg/icon/imageUpload.svg',
-                                  width: 30,
-                                  height: 30,
-                                  colorFilter: const ColorFilter.mode(
-                                      AppColors.blue7, BlendMode.srcIn)),
+                              child: Transform.translate(
+                                offset: Offset(2, -1),
+                                child: SvgPicture.asset(
+                                    'assets/svg/icon/imageUpload.svg',
+                                    width: 26,
+                                    height: 26,
+                                    colorFilter: const ColorFilter.mode(
+                                        AppColors.trashColor, BlendMode.srcIn)),
+                              ),
                             ),
                           ),
                         ],
@@ -348,6 +351,7 @@ class _ChatState extends ConsumerState<Chat> {
                       Expanded(
                         child: Container(
                           margin: const EdgeInsets.only(right: 20),
+                          // height: 40,
                           child: Stack(children: [
                             TextField(
                               controller: controller,
@@ -363,35 +367,39 @@ class _ChatState extends ConsumerState<Chat> {
                                   color: theme.appColors.iconButton,
                                   fontSize: 14),
                               decoration: InputDecoration(
-                                isDense: false,
-                                contentPadding:
-                                    const EdgeInsets.only(left: 20, right: 80),
-                                filled: true,
-                                fillColor: theme.appColors.seedColor,
-                                labelStyle:
-                                    TextStyle(color: theme.appColors.activate),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(23)),
-                                  borderSide: BorderSide(
-                                      width: 1,
-                                      color: theme.appColors.seedColor),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(23)),
-                                  borderSide: BorderSide(
-                                      width: 1,
-                                      color: theme.appColors.seedColor),
-                                ),
-                                border: OutlineInputBorder(
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(23)),
-                                  borderSide: BorderSide(
-                                      width: 1,
-                                      color: theme.appColors.seedColor),
-                                ),
-                              ),
+                                  isDense: false,
+                                  contentPadding: const EdgeInsets.only(
+                                      left: 20, right: 80, top: 5, bottom: 5),
+                                  filled: true,
+                                  fillColor: theme.appColors.seedColor,
+                                  labelStyle: TextStyle(
+                                      color: theme.appColors.activate),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(23)),
+                                      borderSide: BorderSide.none
+                                      // borderSide: BorderSide(
+                                      //     width: 1,
+                                      //     color: theme.appColors.seedColor),
+                                      ),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(23)),
+                                      borderSide: BorderSide.none
+                                      // borderSide: BorderSide(
+                                      //     width: 1,
+                                      //     color: theme.appColors.seedColor),
+                                      ),
+                                  border: InputBorder.none
+                                  // border: OutlineInputBorder(
+
+                                  //   borderRadius: const BorderRadius.all(
+                                  //       Radius.circular(23)),
+                                  //   borderSide: BorderSide(
+                                  //       width: 1,
+                                  //       color: theme.appColors.seedColor),
+                                  // ),
+                                  ),
                               keyboardType: TextInputType.multiline,
                             ),
                             Positioned(
@@ -404,10 +412,10 @@ class _ChatState extends ConsumerState<Chat> {
                                   children: [
                                     Padding(
                                       padding: const EdgeInsets.only(
-                                          right: 8, bottom: 10),
+                                          right: 6, bottom: 6),
                                       child: Container(
-                                        width: 30,
-                                        height: 30,
+                                        width: 35,
+                                        height: 35,
                                         decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(50),
@@ -428,11 +436,20 @@ class _ChatState extends ConsumerState<Chat> {
                                               controller.clear();
                                             }
                                           },
-                                          child: Icon(
-                                            Icons.keyboard_arrow_up,
-                                            color: theme.appColors.seedColor,
-                                            size: 30,
+                                          child: Transform.translate(
+                                            offset: Offset(0.5, -1),
+                                            child: Image.asset(
+                                              'assets/image/icon/chat_send_icon.png',
+                                              width: 30,
+                                              height: 30,
+                                              color: theme.appColors.seedColor,
+                                            ),
                                           ),
+                                          // child: Icon(
+                                          //   Icons.keyboard_arrow_up,
+                                          //   color: theme.appColors.seedColor,
+                                          //   size: 30,
+                                          // ),
                                         ),
                                       ),
                                     ),

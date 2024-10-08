@@ -177,6 +177,7 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                                 contentText:
                                     "복사한 코드를 친구에게 공유해주세요!\n친구가 나의 추천인 코드로 가입하면\n무료로 레몬을 서로 받을 수 있어요!",
                                 firstButtonText: "확인",
+                                oneContentTextColor: AppColors.blackColor,
                                 firstSubmit: () {
                                   Navigator.of(context).pop();
                                 });

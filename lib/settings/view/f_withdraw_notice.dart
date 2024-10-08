@@ -75,12 +75,12 @@ Widget checkTile({required bool isSelect, required String content}) {
         ),
       ),
       const SizedBox(
-        width: 8,
+        width: 5,
       ),
       Expanded(
           child: Text(
         content,
-        style: FontSizes.getContentStyle().copyWith(
+        style: FontSizes.getCapsuleStyle().copyWith(
             fontWeight: FontWeight.w500,
             color: isSelect ? AppColors.blue9 : AppColors.gray7),
       )),
@@ -136,7 +136,7 @@ Widget noticeContent() {
           Text(
             "1.",
             style: FontSizes.getContentStyle()
-                .copyWith(fontWeight: FontWeight.w400),
+                .copyWith(fontWeight: FontWeight.w400, color: AppColors.gray9),
           ),
           const SizedBox(
             width: 5,
@@ -144,7 +144,7 @@ Widget noticeContent() {
           Text(
             "탈퇴 후 계정 복구가 불가합니다.\n(동일 이메일로 가입 불가)",
             style: FontSizes.getContentStyle()
-                .copyWith(fontWeight: FontWeight.w400),
+                .copyWith(fontWeight: FontWeight.w400, color: AppColors.gray9),
           ),
         ],
       ),
@@ -157,7 +157,7 @@ Widget noticeContent() {
           Text(
             "2.",
             style: FontSizes.getContentStyle()
-                .copyWith(fontWeight: FontWeight.w400),
+                .copyWith(fontWeight: FontWeight.w400, color: AppColors.gray9),
           ),
           const SizedBox(
             width: 5,
@@ -165,8 +165,8 @@ Widget noticeContent() {
           Expanded(
             child: Text(
               "탈퇴 후, 일기 작성내역과 리포트 데이터 등은 복구 불가합니다.",
-              style: FontSizes.getContentStyle()
-                  .copyWith(fontWeight: FontWeight.w400),
+              style: FontSizes.getContentStyle().copyWith(
+                  fontWeight: FontWeight.w400, color: AppColors.gray9),
             ),
           ),
         ],
@@ -180,7 +180,7 @@ Widget noticeContent() {
           Text(
             "3.",
             style: FontSizes.getContentStyle()
-                .copyWith(fontWeight: FontWeight.w400),
+                .copyWith(fontWeight: FontWeight.w400, color: AppColors.gray9),
           ),
           const SizedBox(
             width: 5,
@@ -188,8 +188,8 @@ Widget noticeContent() {
           Expanded(
             child: Text(
               "탈퇴 시, 보유하고 계신 레몬은 전부 소멸됩니다. 재가입을 하더라도 현재의 레몬은 살릴 수가 없습니다.",
-              style: FontSizes.getContentStyle()
-                  .copyWith(fontWeight: FontWeight.w400),
+              style: FontSizes.getContentStyle().copyWith(
+                  fontWeight: FontWeight.w400, color: AppColors.gray9),
             ),
           ),
         ],

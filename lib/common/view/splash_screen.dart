@@ -47,6 +47,10 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     refreshToken ??= "";
 
     if (isTutorial == false || isTutorial == null) {
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (_) => OnBoardingScreen()));
+      return;
+    } else {
       final dio = Dio();
       final String? themeMode = prefs.getString('themeMode');
       if (themeMode == null) {
@@ -62,6 +66,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
         await storage.write(
             key: ACCESS_TOKEN, value: resp.data["refresh_token"]);
+        ref.read(userStateNotifierProvider.notifier).userInit();
 
         Navigator.of(context)
             .pushReplacement(MaterialPageRoute(builder: (_) => MainScreen()));
@@ -71,10 +76,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
             .pushReplacement(MaterialPageRoute(builder: (_) => SignInScreen()));
         return;
       }
-    } else {
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => OnBoardingScreen()));
-      return;
     }
   }
 

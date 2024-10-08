@@ -29,6 +29,7 @@ class DialogManager {
     String? secondButtonText,
     VoidCallback? secondSubmit,
     Widget? customWidget,
+    Color? oneContentTextColor,
   }) {
     switch (type) {
       case DialogType.oneButton:
@@ -59,7 +60,7 @@ class DialogManager {
                           textAlign: TextAlign.center,
                           style: FontSizes.getContentStyle().copyWith(
                               fontWeight: FontWeight.w400,
-                              color: AppColors.gray9),
+                              color: oneContentTextColor ?? AppColors.gray9),
                         ),
                       ],
                     )

@@ -134,11 +134,11 @@ class _Report extends ConsumerState<Report> {
                                             ? []
                                             : result.results!;
                                     // print(newData);
-
-                                    int totalLength = newData.length;
-                                    print(totalLength);
+                                    int totalLength =
+                                        newData.length > 7 ? 7 : newData.length;
                                     List<TodayScore> newBox =
-                                        newData.length == 0 ? [] : newData;
+                                        newData.take(7).toList();
+
                                     print(newBox);
 
                                     List<String> dates = newBox

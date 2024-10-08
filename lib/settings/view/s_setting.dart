@@ -155,6 +155,12 @@ class _SettingState extends ConsumerState<Settings> {
                                   width: 24,
                                   height: 24,
                                 ),
+                                Text(
+                                  "오픈 예정",
+                                  style: FontSizes.getContentStyle().copyWith(
+                                      fontWeight: FontWeight.w500,
+                                      color: theme.appColors.seedColor),
+                                )
                               ],
                             )),
                           ),
@@ -326,17 +332,17 @@ class _SettingState extends ConsumerState<Settings> {
                                         titleText: "로그아웃 하시겠어요?",
                                         firstButtonText: "네",
                                         firstSubmit: () async {
-                                          await storage.deleteAll();
                                           ref.invalidate(
                                               userStateNotifierProvider);
 
-                                          ref.invalidate(
-                                              lemonStateNotifierProvider);
                                           ref.invalidate(
                                               chatStateNotifierProvider);
                                           ref.invalidate(reportIdProvider);
                                           ref.invalidate(reportProvider);
                                           ref.invalidate(reportSearchProvider);
+                                          ref.invalidate(
+                                              lemonStateNotifierProvider);
+                                          await storage.deleteAll();
 
                                           await Navigator.of(context)
                                               .pushReplacement(MaterialPageRoute(

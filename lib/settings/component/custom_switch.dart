@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 
@@ -68,7 +69,7 @@ class _CustomSwitchState extends State<CustomSwitch>
               borderRadius: BorderRadius.circular(24.0),
               color: widget.value
                   ? theme.appColors.grayButtonBackground
-                  : theme.appColors.text,
+                  : AppColors.gray7,
             ),
             child: Padding(
               padding: const EdgeInsets.only(
@@ -86,7 +87,7 @@ class _CustomSwitchState extends State<CustomSwitch>
                         shape: BoxShape.circle,
                         color: widget.value
                             ? theme.appColors.seedColor
-                            : theme.appColors.iconBook,
+                            : AppColors.gray5,
                         border: Border.all(
                             width: 1,
                             color: theme.appColors.grayButtonBackground)),

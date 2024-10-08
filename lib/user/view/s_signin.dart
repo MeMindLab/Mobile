@@ -95,6 +95,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                               labelText: "이메일",
                               focusNode: emailFocus,
                               hintText: "이메일을 입력해주세요.",
+                              bgColor: AppColors.blue1,
                               errorText: emailErrorText,
                               onChanged: (String value) {
                                 setState(() {
@@ -114,6 +115,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                             CustomTextFormField(
                               focusNode: pwdFocus,
                               labelText: "비밀번호",
+                              bgColor: AppColors.blue1,
                               obscureText: !pwdShow,
                               hintText: "비밀번호를 입력해주세요.",
                               borderColor: AppColors.invisibleColor,
@@ -180,15 +182,20 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                                               await storage.write(
                                                   key: REFRESH_TOKEN,
                                                   value: refreshToken);
+                                              ref
+                                                  .read(
+                                                      userStateNotifierProvider
+                                                          .notifier)
+                                                  .userInit();
 
-                                              final user =
-                                                  await UserInfoService()
-                                                      .findUser();
+                                              // final user =
+                                              //     await UserInfoService()
+                                              //         .findUser();
 
-                                              if (user is! UserInfoModel) {
-                                                setState(() => isLogin = false);
-                                                return;
-                                              }
+                                              // if (user is! UserInfoModel) {
+                                              //   setState(() => isLogin = false);
+                                              //   return;
+                                              // }
 
                                               Navigator.of(context)
                                                   .pushReplacement(
