@@ -4,20 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:me_mind/chat/utils/show_snackbar.dart';
-import 'package:me_mind/common/component/dialog/custom_dialog.dart';
-import 'package:me_mind/common/component/dialog/w_dialog_button.dart';
 import 'package:me_mind/common/component/rounded_button.dart';
 import 'package:me_mind/common/constant/app_colors.dart';
-import 'package:me_mind/common/constant/constant.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
-import 'package:me_mind/common/provider/lemon_provider.dart';
 import 'package:me_mind/common/provider/user_provider.dart';
-import 'package:me_mind/common/store.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 import 'package:me_mind/common/utils/dialog_manager.dart';
-import 'package:me_mind/common/view/splash_screen.dart';
 import 'package:me_mind/screen/main/s_main.dart';
 import 'package:me_mind/settings/component/settings_custom_text_form.dart';
 import 'package:me_mind/settings/model/auth_sms_model.dart';
@@ -30,7 +23,6 @@ import 'package:me_mind/settings/utils/phone_number_formatter.dart';
 import 'package:me_mind/settings/view/s_withdraw_screen.dart';
 import 'package:me_mind/settings/view/w_certify_timer.dart';
 import 'package:me_mind/utils/validate.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class UserInfoForm extends ConsumerStatefulWidget {
   final bool isUpdate;
@@ -570,11 +562,15 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                 Expanded(
                   child: SizedBox(
                     child: RoundedButton(
-                      backgroundColor: isAuthenticComplete == true ||
-                              isEmailCheck == true ||
-                              isNameCheck == true
-                          ? theme.appColors.blueButtonBackground
-                          : theme.appColors.grayButtonBackground,
+                      backgroundColor: widget.userPhoneNumber == ""
+                          ? (isAuthenticComplete == true ||
+                                  isEmailCheck == true ||
+                                  isNameCheck == true)
+                              ? theme.appColors.blueButtonBackground
+                              : theme.appColors.grayButtonBackground
+                          : (isEmailCheck || isNameCheck)
+                              ? theme.appColors.blueButtonBackground
+                              : theme.appColors.grayButtonBackground,
                       text: "저장",
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
@@ -596,7 +592,8 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                           });
                           widget.onUpdate(false);
 
-                          if (isAuthenticComplete == true) {
+                          if (isAuthenticComplete == true &&
+                              widget.userPhoneNumber == "") {
                             resetTimer();
 
                             DialogManager(

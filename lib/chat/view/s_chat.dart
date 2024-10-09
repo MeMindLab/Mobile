@@ -367,39 +367,46 @@ class _ChatState extends ConsumerState<Chat> {
                                   color: theme.appColors.iconButton,
                                   fontSize: 14),
                               decoration: InputDecoration(
-                                  isDense: false,
-                                  contentPadding: const EdgeInsets.only(
-                                      left: 20, right: 80, top: 5, bottom: 5),
-                                  filled: true,
-                                  fillColor: theme.appColors.seedColor,
-                                  labelStyle: TextStyle(
-                                      color: theme.appColors.activate),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(23)),
-                                      borderSide: BorderSide.none
-                                      // borderSide: BorderSide(
-                                      //     width: 1,
-                                      //     color: theme.appColors.seedColor),
-                                      ),
-                                  enabledBorder: OutlineInputBorder(
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(23)),
-                                      borderSide: BorderSide.none
-                                      // borderSide: BorderSide(
-                                      //     width: 1,
-                                      //     color: theme.appColors.seedColor),
-                                      ),
-                                  border: InputBorder.none
-                                  // border: OutlineInputBorder(
-
-                                  //   borderRadius: const BorderRadius.all(
-                                  //       Radius.circular(23)),
-                                  //   borderSide: BorderSide(
-                                  //       width: 1,
-                                  //       color: theme.appColors.seedColor),
-                                  // ),
-                                  ),
+                                isDense: false,
+                                contentPadding: const EdgeInsets.only(
+                                    left: 20, right: 80, top: 5, bottom: 5),
+                                filled: true,
+                                fillColor: theme.appColors.seedColor,
+                                labelStyle:
+                                    TextStyle(color: theme.appColors.activate),
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(23)),
+                                    borderSide: BorderSide.none
+                                    // borderSide: BorderSide(
+                                    //     width: 1,
+                                    //     color: theme.appColors.seedColor),
+                                    ),
+                                enabledBorder: OutlineInputBorder(
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(23)),
+                                    borderSide: BorderSide.none
+                                    // borderSide: BorderSide(
+                                    //     width: 1,
+                                    //     color: theme.appColors.seedColor),
+                                    ),
+                                disabledBorder: const OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(23)),
+                                    borderSide: BorderSide.none),
+                                errorBorder: const OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(23)),
+                                    borderSide: BorderSide.none),
+                                focusedErrorBorder: const OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(23)),
+                                    borderSide: BorderSide.none),
+                                border: const OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(23)),
+                                    borderSide: BorderSide.none),
+                              ),
                               keyboardType: TextInputType.multiline,
                             ),
                             Positioned(
