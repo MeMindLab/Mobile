@@ -7,7 +7,7 @@ class CheckValidate {
     } else {
       String pattern = r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$';
       RegExp regExp = RegExp(pattern);
-      print(!regExp.hasMatch(value));
+
       if (!regExp.hasMatch(value)) {
         return '이메일 형식을 확인해주세요.';
       } else {

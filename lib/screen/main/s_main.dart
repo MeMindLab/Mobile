@@ -26,7 +26,7 @@ class MainScreen extends ConsumerStatefulWidget {
 
 class _MainScreenState extends ConsumerState<MainScreen> {
   final GlobalKey webViewKey = GlobalKey();
-  // Uri myUrl = Uri.parse("https://d2ygt4x04f8e42.cloudfront.net");
+
   Uri myUrl = Uri.parse("https://main--memind.netlify.app/");
   InAppWebViewController? webViewController;
 
@@ -38,7 +38,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
 
   Future<void> _loadToken() async {
     token = await storage.read(key: ACCESS_TOKEN);
-    print(token);
+
     setState(() {});
   }
 
@@ -55,13 +55,11 @@ class _MainScreenState extends ConsumerState<MainScreen> {
           : ref.read(themeProvider.notifier).setTheme(AppTheme.emotion);
     }
 
-    print(themeMode);
     setState(() {});
   }
 
   void sendThemeWebview(
       InAppWebViewController controller, AppTheme theme) async {
-    print("웹뷰에 토큰 보내는 중");
     String themeString = theme == AppTheme.basic
         ? """
          window.postMessage('emotion mode', '*');
@@ -129,8 +127,6 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     final themeState = ref.watch(themeProvider);
 
     ref.listen(themeProvider, (pref, next) {
-      print("지금 모드는 $next");
-
       if (webViewController != null) {
         sendThemeWebview(webViewController!, next);
       }

@@ -21,7 +21,7 @@ class SignUpViewModel {
       required bool isAdvertise,
       required bool isAppPush}) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    print("$isAdvertise    $isAppPush");
+
     if (isAppPush) {
       String today = DateFormat("yyyy년 MM월 dd일").format(DateTime.now());
       await BottomSheets(
@@ -47,7 +47,6 @@ class SignUpViewModel {
 
     final result =
         await SignupService().signup(email, nickname, password, referral);
-    print(result);
 
     if (result["success"]) {
       errorEmailText = null;

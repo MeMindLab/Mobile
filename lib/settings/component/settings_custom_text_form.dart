@@ -66,7 +66,7 @@ class _CustomTextFormFieldState extends State<SeetingCustomTextFormField> {
 
     Color hintTextColor =
         CustomThemeHolder.of(context).theme.appColors.hintText;
-    // CustomThemeHolder.of(context).theme.appColors.hintText;
+
     Color labelTextColor =
         CustomThemeHolder.of(context).theme.appColors.iconButton;
     Color inputBackground = widget.bgColor ?? Colors.white;
@@ -151,7 +151,7 @@ class _CustomTextFormFieldState extends State<SeetingCustomTextFormField> {
                   )
                 : widget.suffixWidget != null
                     ? widget.suffixWidget
-                    : null, // 변경된 부분
+                    : null,
           ),
         )
       ],

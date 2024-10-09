@@ -38,17 +38,15 @@ class ReportDetailParameter {
     );
   }
 
-  // == 연산자 오버라이드
   @override
   bool operator ==(Object other) {
-    if (identical(this, other)) return true; // 동일한 객체일 경우 true
-    if (other.runtimeType != runtimeType) return false; // 타입이 다르면 false
+    if (identical(this, other)) return true;
+    if (other.runtimeType != runtimeType) return false;
     return other is ReportDetailParameter &&
         other.reportId == reportId &&
-        other.conversationId == conversationId; // 각 필드의 값이 같은지 비교
+        other.conversationId == conversationId;
   }
 
-  // hashCode 오버라이드
   @override
   int get hashCode => reportId.hashCode ^ conversationId.hashCode;
 }
@@ -65,8 +63,6 @@ class ReportDetailNotifier extends StateNotifier<ReportDetailState> {
       {required String conversationId, required String reportId}) async {
     try {
       final response = await ReportDetailService().show(reportId: reportId);
-      print(response);
-      print("report detail부르기");
 
       if (response is! ReportDetailModel) return;
 
@@ -74,26 +70,19 @@ class ReportDetailNotifier extends StateNotifier<ReportDetailState> {
 
       if (newResponse.drawingDiary != null) {
         state = newResponse;
-        print("굿");
-        print(state);
 
         return;
       } else {
-        // 리포트 발급 할때
-        // 우선 페이지를 띄워야 하니깐 로딩
         state = newResponse;
 
-        // /generate-image API로 1의 tags를 기준으로 이미지 반환
         final pictureDiary = await GenerateImage()
             .create(tags: newResponse.reportSummary!.tags!);
-        print("이미지 생성성");
-        print(pictureDiary);
+        print("이미지 생성");
+
         if (pictureDiary is! String) return;
-        // final newDiary = pictureDiary as String;
-        // print(pictureDiary);
+
         final directory = await getTemporaryDirectory();
-        // // generate-image로 생성한 이미지 다운
-        // // 반환받은 이미지 임시 저장소에 저장
+
         Dio dio = Dio();
 
         final fileName = pictureDiary.substring(87, 148);
@@ -104,21 +93,17 @@ class ReportDetailNotifier extends StateNotifier<ReportDetailState> {
 
         final XFile file = XFile(filePath);
 
-        // // 임시 저장소에 저장된 이미지 /upload API로 업로드
         var imageUrl = await ImageUploadService()
             .upload(File(file.path), conversationId, true);
-        print("이미지 업로드");
 
         if (imageUrl is! ImageUploadModel) return;
 
         var updateResult = await ImageUpdateService()
             .update(conversationId, imageUrl.imageUrl);
-        print("이미지 업데이트");
 
         if (updateResult is! ImageUpdateModel) return;
 
         final result = await ReportDetailService().show(reportId: reportId);
-        print("다시 불러오기");
 
         if (result is! ReportDetailModel) return;
 

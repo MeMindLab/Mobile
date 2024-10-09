@@ -47,12 +47,10 @@ class UserInfoService {
 
     try {
       final response = await dio.get(url);
-      // print(response.headers);
 
       var result = response.data;
 
       UserInfoModel userInfo = UserInfoModel.fromJson(result);
-      print(userInfo);
 
       return userInfo;
     } catch (e) {

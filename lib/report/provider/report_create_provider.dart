@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:me_mind/common/provider/lemon_provider.dart';
@@ -20,8 +21,6 @@ class ReportCreateStateNotifier extends StateNotifier<ReportCreateBase> {
   ReportCreateStateNotifier(this.ref) : super(ReportCreateAwaiting());
 
   Future create({required String uuid, required int lemon}) async {
-    // 발급 과정
-
     try {
       if (lemon == 0) {
         state = ReportCreateFailed(stateMsg: "레포트 발급에 실패했습니다.");
@@ -35,15 +34,20 @@ class ReportCreateStateNotifier extends StateNotifier<ReportCreateBase> {
       state = ReportCreateLoading(stateMsg: "레몬을 1 감소합니다.");
       await ref.read(lemonStateNotifierProvider.notifier).lemonInit();
 
-      // ref.read(provider.notifier).state = report.reportId;
       ref.read(reportIdProvider.notifier).state = report.reportId;
 
       Future.delayed(const Duration(seconds: 2), () {
         state = ReportCreateSuccess(stateMsg: "레포트 발급에 성공했습니다.");
       });
     } catch (e) {
+      if (e is DioException) {
+        if (e.response!.statusCode == 400) {
+          state = ReportCreateFailed(stateMsg: "이미 레포트를 발급했습니다.");
+          return;
+        }
+      }
       state = ReportCreateFailed(stateMsg: "레포트 발급에 실패했습니다.");
-      print(e);
+      return;
     }
   }
 }

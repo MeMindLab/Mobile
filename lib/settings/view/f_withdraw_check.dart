@@ -137,14 +137,13 @@ class _WidthdrawCheckFragmentState extends State<WidthdrawCheckFragment> {
             : RoundedButton(
                 text: "다음",
                 onPressed: () {
-                  // String text = "";
                   List reasons = [];
                   if (withdrawReason.custom != true) {
                     reasons = withdrawReason.getReason();
                   } else {
                     reasons = withdrawReason.getReason(text: customReason);
                   }
-                  print(reasons);
+                  
                   widget.reasonUpdate(reasons);
                   widget.screenUpdate(ScreenState.notice);
                 },

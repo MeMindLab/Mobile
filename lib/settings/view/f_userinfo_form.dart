@@ -296,7 +296,7 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                                 }
                                 final result = await UserValidationService()
                                     .checkEmail(email: emailController.text);
-                                print(result);
+
                                 if (result != null) {
                                   setState(() {
                                     isEmailCheck = true;
@@ -381,7 +381,7 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                               ),
                             ),
                           )
-                        : SizedBox(),
+                        : const SizedBox(),
                   ),
                 ],
               ),

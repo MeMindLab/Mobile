@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:me_mind/common/component/custom_date_picker.dart';
-import 'package:me_mind/common/component/dialog/custom_dialog.dart';
 import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/report/model/report_model/report_model.dart';
 import 'package:me_mind/report/model/report_param/report_param_model.dart';
@@ -11,7 +10,6 @@ import 'package:me_mind/report/model/report_weekly/report_weekly_model.dart';
 import 'package:me_mind/report/provider/cursor_pagination_provider.dart';
 import 'package:me_mind/report/services/report_weekly_service.dart';
 import 'package:me_mind/report/utils/weekly_flchart_data.dart';
-import 'package:me_mind/report/view/f_date_picker_dialog.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/layout/topbar/widget/back_arrow.dart';
@@ -128,18 +126,16 @@ class _Report extends ConsumerState<Report> {
                                   } else if (snapshot.hasData) {
                                     final result =
                                         snapshot.data as ReportWeeklyModel;
-                                    print(result);
+
                                     List<TodayScore> newData =
                                         result.results!.length == 0
                                             ? []
                                             : result.results!;
-                                    // print(newData);
+
                                     int totalLength =
                                         newData.length > 7 ? 7 : newData.length;
                                     List<TodayScore> newBox =
                                         newData.take(7).toList();
-
-                                    print(newBox);
 
                                     List<String> dates = newBox
                                         .map((item) => item.date)
@@ -150,9 +146,6 @@ class _Report extends ConsumerState<Report> {
                                           newBox[i].score / 20));
                                     }
 
-                                    // while (dates.length < 7) {
-                                    //   dates.add("");
-                                    // }
                                     DateFormat dateFormat = DateFormat('MM/dd');
                                     WeeklyFlChartData().getDates(dates: dates);
                                     if (dates.isEmpty) {

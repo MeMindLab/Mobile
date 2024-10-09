@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:me_mind/common/constant/constant.dart';
 import 'package:me_mind/user/interface/auth_interface.dart';

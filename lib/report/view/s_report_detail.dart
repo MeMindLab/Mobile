@@ -1,4 +1,3 @@
-import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,7 +8,6 @@ import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/layout/topbar/widget/back_arrow.dart';
-import 'package:me_mind/common/store.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 import 'package:me_mind/report/component/report_circular_chart.dart';
@@ -49,9 +47,7 @@ class _ReportDetailState extends ConsumerState<ReportDetail> {
   Widget build(BuildContext context) {
     CustomTheme theme = CustomThemeHolder.of(context).theme;
     Color keywordColor = Theme.of(context).cardColor;
-    print(widget.reportId);
-    print(widget.conversationId);
-    // final id = ref.watch(chatIdProvider);
+
     final detail = ref.watch(reportDetailProvider(ReportDetailParameter(
         reportId: widget.reportId, conversationId: widget.conversationId)));
     if (detail is ReportDetailLoading) {
@@ -76,8 +72,6 @@ class _ReportDetailState extends ConsumerState<ReportDetail> {
       Map<String, dynamic> newEmotions = result.emotions!.toJson();
       List sortedEmotions = newEmotions.entries.toList()
         ..sort((a, b) => b.value.compareTo(a.value));
-
-      print(sortedEmotions);
 
       return DefaultLayout(
           title: "${dateTime.month}월 ${dateTime.day}일",
@@ -226,7 +220,6 @@ class _ReportDetailState extends ConsumerState<ReportDetail> {
                                 const SizedBox(width: 7),
                                 InkWell(
                                   onTap: () async {
-                                    print("저장");
                                     final data = await ImageDownloadService()
                                         .downloadAndSaveImage(
                                             result.drawingDiary!.imageUrl!);

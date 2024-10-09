@@ -4,8 +4,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:me_mind/common/component/dialog/custom_dialog.dart';
-import 'package:me_mind/common/component/dialog/w_dialog_button.dart';
 import 'package:me_mind/common/component/rounded_button.dart';
 import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
@@ -92,7 +90,7 @@ class _SettingOpinionState extends State<SettingOpinion> {
                       child: Row(
                         children: [
                           SvgPicture.asset('assets/svg/icon/volume-up.svg'),
-                          SizedBox(
+                          const SizedBox(
                             width: 9,
                           ),
                           Flexible(
@@ -225,7 +223,6 @@ class _SettingOpinionState extends State<SettingOpinion> {
                           }),
                     ),
                     const Spacer(),
-                    // 수집 안내문
                     SizedBox(
                       width: double.infinity,
                       child: InkWell(

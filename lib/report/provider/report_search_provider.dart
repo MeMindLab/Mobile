@@ -27,14 +27,13 @@ class ReportStateNotifier extends StateNotifier<ReportCursorPaginationBase> {
       var parameters =
           ParamsSearchModel(keywords: keywords!, limit: fetchCount);
 
-      // 새로고침하는 경우
       if (fetchMore && (isLoading || isFetchMore)) {
         return;
       }
       if (fetchMore) {
         final pState = state as ReportModel;
         if (pState.nextCursor == null) return;
-        // 무한 스크롤
+
         state = ReportCursorPaginationFetchingMore(
             nextCursor: pState.nextCursor, reports: pState.reports);
         parameters = parameters.copyWith(cursor: pState.nextCursor);

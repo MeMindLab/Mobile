@@ -1,18 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:me_mind/common/component/custom_search_bar.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
-import 'package:me_mind/report/component/report_card.dart';
 import 'package:me_mind/report/model/report_model/report_model.dart';
-import 'package:me_mind/report/model/report_param/report_param_model.dart';
-import 'package:me_mind/report/model/report_search/report_search_model.dart';
-import 'package:me_mind/report/provider/cursor_pagination_provider.dart';
 import 'package:me_mind/report/provider/report_search_provider.dart';
-import 'package:me_mind/report/services/search_service.dart';
+
 import 'package:me_mind/report/utils/reports.dart';
 
 class SearchFragment extends ConsumerStatefulWidget {

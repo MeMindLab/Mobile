@@ -13,7 +13,6 @@ class WeeklyFlChartData {
       DateTime newDate = lastDate.add(Duration(days: i));
       dates.add(dateFormat.format(newDate));
     }
-    print(dates);
 
     return dates;
   }

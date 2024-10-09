@@ -43,7 +43,7 @@ class _SettingState extends ConsumerState<Settings> {
   @override
   void initState() {
     super.initState();
-    // setBottomIdx(3);
+
     ref.read(userStateNotifierProvider.notifier).userInit();
   }
 
@@ -78,7 +78,6 @@ class _SettingState extends ConsumerState<Settings> {
       appBarBgColor: AppColors.blue1,
       appBarActions: [LemonNumberWidget()],
       appBarLeading: const BackArrowLeading(),
-      // 설정 화면 Body
       child: SingleChildScrollView(
           physics: const ClampingScrollPhysics(),
           child: user.isVerified != null

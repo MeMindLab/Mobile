@@ -29,8 +29,8 @@ class MyClipper extends CustomClipper<Path> {
 }
 
 class EmotionCard extends StatelessWidget {
-  final EmotionType emotionType; // 감정 타입
-  final double emotionPercentage; // 감정 수치 (e.g., 36.8%)
+  final EmotionType emotionType;
+  final double emotionPercentage;
 
   const EmotionCard(
       {required this.emotionType, required this.emotionPercentage, Key? key})

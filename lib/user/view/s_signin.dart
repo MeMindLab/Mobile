@@ -6,13 +6,10 @@ import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/constant.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
-import 'package:me_mind/common/provider/lemon_provider.dart';
 import 'package:me_mind/common/provider/user_provider.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 import 'package:me_mind/screen/main/s_main.dart';
-import 'package:me_mind/settings/model/user_info_model.dart';
-import 'package:me_mind/settings/services/userinfo_service.dart';
 import 'package:me_mind/user/services/login_service.dart';
 import 'package:me_mind/user/view/signup_screen.dart';
 
@@ -187,15 +184,6 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                                                       userStateNotifierProvider
                                                           .notifier)
                                                   .userInit();
-
-                                              // final user =
-                                              //     await UserInfoService()
-                                              //         .findUser();
-
-                                              // if (user is! UserInfoModel) {
-                                              //   setState(() => isLogin = false);
-                                              //   return;
-                                              // }
 
                                               Navigator.of(context)
                                                   .pushReplacement(

@@ -1,11 +1,9 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:me_mind/common/component/custom_text_form.dart';
 import 'package:me_mind/common/component/dialog/d_bottom_sheet.dart';
-import 'package:me_mind/common/component/dialog/w_bottom_sheet_content.dart';
 import 'package:me_mind/common/component/rounded_button.dart';
 import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
@@ -14,14 +12,10 @@ import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 import 'package:me_mind/user/component/agree_checkSet_component.dart';
 import 'package:me_mind/user/component/custom_checkbox.dart';
-import 'package:me_mind/user/model/user_signup_model.dart';
 import 'package:me_mind/user/provider/agree_provider.dart';
-import 'package:me_mind/user/services/signup_service.dart';
 import 'package:me_mind/user/view/s_signup_welcome.dart';
 import 'package:me_mind/user/viewmodel/signup_viewmodel.dart';
-import 'package:me_mind/utils/permission.dart';
 import 'package:me_mind/utils/validate.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class SignUpScreen extends ConsumerStatefulWidget {
   final bool isOnBoarding;
