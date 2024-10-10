@@ -19,7 +19,6 @@ class ImageDownloadService {
 
       final result = await ImageGallerySaver.saveImage(imageData,
           quality: 80, name: extractedPart);
-      print('이미지가 갤러리에 저장되었습니다: $result');
     } catch (e) {
       return null;
     }

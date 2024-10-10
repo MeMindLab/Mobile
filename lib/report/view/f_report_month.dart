@@ -94,7 +94,7 @@ class ReportMonthFragment extends StatelessWidget {
                         height: MediaQuery.of(context).size.height * 0.33,
                       ),
                       Center(
-                        child: Text("리포트가 없습니다.",
+                        child: Text("리포트가 존재하지 않습니다.",
                             style: FontSizes.getContentStyle().copyWith(
                                 fontWeight: FontWeight.w500,
                                 color: AppColors.gray5)),

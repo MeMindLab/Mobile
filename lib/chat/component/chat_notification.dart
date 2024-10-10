@@ -8,6 +8,7 @@ class ChatNotification extends StatelessWidget {
   final CustomTheme theme;
   final bool isFolded;
   final VoidCallback onPressed;
+  final bool? isArrow;
   final String content;
   final Color? bgColor;
   final Color? foldedButtonColor;
@@ -18,6 +19,7 @@ class ChatNotification extends StatelessWidget {
       required this.isFolded,
       required this.content,
       this.bgColor,
+      this.isArrow = false,
       this.foldedButtonColor,
       required this.onPressed});
 
@@ -52,12 +54,15 @@ class ChatNotification extends StatelessWidget {
                   ),
                   InkWell(
                       onTap: onPressed,
-                      child: Text(
-                        "닫기",
-                        style: FontSizes.getCapsuleHighlightStyle().copyWith(
-                            color: AppColors.gray7,
-                            fontWeight: FontWeight.w400),
-                      )),
+                      child: isArrow == true
+                          ? Image.asset("assets/image/icon/arrow_up.png")
+                          : Text(
+                              "닫기",
+                              style: FontSizes.getCapsuleHighlightStyle()
+                                  .copyWith(
+                                      color: AppColors.gray7,
+                                      fontWeight: FontWeight.w400),
+                            )),
                   const SizedBox(
                     height: 6,
                   ),

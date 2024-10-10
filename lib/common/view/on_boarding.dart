@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
@@ -35,6 +36,9 @@ class OnBoardingScreen extends StatelessWidget {
                   'assets/image/onboarding/page1.png',
                   height: MediaQuery.of(context).size.height * 0.32,
                 ),
+                Align(
+                    alignment: const Alignment(0.295, -0.82),
+                    child: Image.asset("assets/image/onboarding/hi.png")),
               ]),
             ),
             const SizedBox(
@@ -78,6 +82,11 @@ class OnBoardingScreen extends StatelessWidget {
                     height: MediaQuery.of(context).size.height * 0.3,
                   ),
                 ),
+                // SvgPicture.asset(
+                //   "assets/svg/onboarding/onboarding4.svg",
+                //   height: MediaQuery.of(context).size.height * 0.32,
+                //   fit: BoxFit.contain,
+                // ),
                 Image.asset(
                   'assets/image/onboarding/page2.png',
                   height: MediaQuery.of(context).size.height * 0.32,
@@ -165,6 +174,6 @@ PageDecoration getPageDecoration(ThemeData theme) {
       color: AppColors.gray9,
     ),
     imageFlex: 2,
-    pageColor: Color(0xffF1F3F8),
+    pageColor: AppColors.blue1,
   );
 }

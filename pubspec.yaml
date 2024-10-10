@@ -102,6 +102,7 @@ flutter:
     - assets/svg/icon/lemon.svg
     - assets/image/report/
     - assets/image/
+    - assets/svg/onboarding/
     - assets/svg/icon/
     - assets/image/flag/
     - assets/translations/

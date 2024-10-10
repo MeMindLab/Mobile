@@ -51,20 +51,43 @@ class _SearchFragmentState extends ConsumerState<SearchFragment> {
               ? const SizedBox()
               : Expanded(
                   child: reports is ReportModel
-                      ? CustomScrollView(
-                          slivers: [renderReports(reports: reports.reports!)])
+                      ? reports.reports!.length == 0
+                          ? Center(
+                              child: Column(
+                              children: [
+                                SizedBox(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.27),
+                                Text(
+                                  "검색결과가 존재하지 않습니다.",
+                                  style: FontSizes.getContentStyle().copyWith(
+                                      color: theme.appColors.hintText),
+                                ),
+                              ],
+                            ))
+                          : CustomScrollView(slivers: [
+                              renderReports(reports: reports.reports!)
+                            ])
                       : reports is ReportCursorPaginationLoading
                           ? const Center(
                               child: CircularProgressIndicator(),
                             )
                           : reports is ReportCursorPaginationError
                               ? Center(
-                                  child: Text(
-                                    "검색결과가 존재하지 않습니다.",
-                                    style: FontSizes.getContentStyle().copyWith(
-                                        color: theme.appColors.hintText),
-                                  ),
-                                )
+                                  child: Column(
+                                  children: [
+                                    SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.27),
+                                    Text(
+                                      "검색결과가 존재하지 않습니다.",
+                                      style: FontSizes.getContentStyle()
+                                          .copyWith(
+                                              color: theme.appColors.hintText),
+                                    ),
+                                  ],
+                                ))
                               : const SizedBox()),
         ],
       ),

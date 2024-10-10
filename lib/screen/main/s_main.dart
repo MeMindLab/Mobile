@@ -37,14 +37,16 @@ class _MainScreenState extends ConsumerState<MainScreen> {
   double progress = 0;
 
   Future<void> _loadToken() async {
-    token = await storage.read(key: ACCESS_TOKEN);
+    String? newToken = await storage.read(key: ACCESS_TOKEN);
 
-    setState(() {});
+    setState(() {
+      token = newToken;
+    });
   }
 
   void loadTheme() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    themeMode = prefs.getString("themeMode");
+    String? newThemeMode = prefs.getString("themeMode");
     if (themeMode == null) {
       await prefs.setString('themeMode', 'general mode');
       themeMode = "general mode";
@@ -55,7 +57,9 @@ class _MainScreenState extends ConsumerState<MainScreen> {
           : ref.read(themeProvider.notifier).setTheme(AppTheme.emotion);
     }
 
-    setState(() {});
+    setState(() {
+      themeMode = newThemeMode;
+    });
   }
 
   void sendThemeWebview(

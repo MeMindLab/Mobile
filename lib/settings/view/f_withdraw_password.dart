@@ -84,7 +84,7 @@ class _WithdrawPasswordFragmentState extends State<WithdrawPasswordFragment> {
                       MaterialPageRoute(builder: (_) => const SplashScreen()));
                 },
               )
-            : const RoundedButton(text: "다음"),
+            : const RoundedButton(text: "탈퇴하기"),
         const SizedBox(
           height: 30,
         )

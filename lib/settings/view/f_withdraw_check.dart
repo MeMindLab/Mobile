@@ -143,7 +143,7 @@ class _WidthdrawCheckFragmentState extends State<WidthdrawCheckFragment> {
                   } else {
                     reasons = withdrawReason.getReason(text: customReason);
                   }
-                  
+
                   widget.reasonUpdate(reasons);
                   widget.screenUpdate(ScreenState.notice);
                 },

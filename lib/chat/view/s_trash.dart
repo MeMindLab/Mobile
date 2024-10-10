@@ -65,6 +65,7 @@ class _TrashState extends State<Trash> {
           Column(children: [
             ChatNotification(
               theme: theme,
+              isArrow: true,
               content:
                   "누구에게도 말하지 못하는 내용이나 당장 털어버리고 싶은 이야기들을 음성으로 마음껏 내뱉어보세요! 데이터는 저장되지 않아요.",
               isFolded: isFolded,
@@ -88,7 +89,7 @@ class _TrashState extends State<Trash> {
             ),
           Align(
             alignment: Alignment(0, -0.15),
-            child: SvgPicture.asset('assets/svg/icon/mic.svg', width: 40),
+            child: SvgPicture.asset('assets/svg/icon/empty_mic.svg', width: 40),
           )
         ],
       ),

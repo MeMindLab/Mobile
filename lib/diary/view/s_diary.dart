@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:me_mind/common/component/notification_message.dart';
+import 'package:me_mind/common/component/root_tab.dart';
 import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/layout/topbar/widget/back_arrow.dart';
@@ -45,30 +46,8 @@ class _DiaryState extends State<Diary> {
     return const DefaultLayout(
       title: "그림일기",
       appBarLeading: BackArrowLeading(),
-      // floatingActionButton: DiaryFloatingButton(scrollToTop: _scrollToTop),
+      bottomNavigationBar: RootTab(),
       child: DiaryFragment(),
-      // child: CustomScrollView(
-      //   controller: scrollController,
-      //   slivers: [
-      //     SliverToBoxAdapter(
-      //       child: close == false
-      //           ? NotificationMessage(closeCallback: onMessageClose)
-      //           : null,
-      //     ),
-      //     const SliverToBoxAdapter(
-      //       child: MySharePictureFragment(),
-      //     ),
-      //     SliverToBoxAdapter(
-      //       child: Container(
-      //         height: 10,
-      //         color: AppColors.blue1,
-      //       ),
-      //     ),
-      //     const SliverToBoxAdapter(
-      //       child: DiaryCommunityFragment(),
-      //     )
-      //   ],
-      // ),
     );
   }
 }

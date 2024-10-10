@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 
@@ -101,7 +102,9 @@ class CustomTextFormField extends StatelessWidget {
             hintText: hintText,
             errorText: errorText,
             errorStyle: FontSizes.getSmallStyle().copyWith(
-                height: 0, color: Colors.red, fontWeight: FontWeight.w500),
+                height: 0,
+                color: AppColors.timerColor,
+                fontWeight: FontWeight.w500),
             hintStyle: FontSizes.getContentStyle()
                 .copyWith(fontWeight: FontWeight.w400, color: hintTextColor),
             fillColor: bgColor ?? inputBackground,
@@ -114,7 +117,7 @@ class CustomTextFormField extends StatelessWidget {
             ),
             focusedBorder: baseBorder.copyWith(
               borderSide: baseBorder.borderSide.copyWith(
-                color: focusedBorderColor,
+                color: AppColors.gray6,
               ),
             ),
 

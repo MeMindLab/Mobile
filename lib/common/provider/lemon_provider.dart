@@ -23,9 +23,9 @@ class LemonStateNotifier extends StateNotifier<int> {
 
   Future<void> lemonInit() async {
     try {
-      // final user = await UserInfoService().findUser();
+      final user = await UserInfoService().findUser();
       // print("userID:${user.id}");
-      final response = await LemonService().getLemon(userId: userInfo.userId!);
+      final response = await LemonService().getLemon(userId: user.id);
       if (response is! UserLemonModel) return;
 
       state = response.lemonCount;

@@ -30,7 +30,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
   bool pwdShow = false;
   String? emailErrorText;
   String? passwordErrorText;
-  bool isLogin = false;
+
   bool isTap = false;
 
   void handleTap() {
@@ -148,11 +148,11 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                             Stack(
                               children: [
                                 RoundedButton(
-                                  text: isLogin == false ? "로그인" : "",
+                                  text: "로그인",
                                   onPressed: email != "" && password != ""
                                       ? () async {
                                           FocusScope.of(context).unfocus();
-                                          setState(() => isLogin = true);
+
                                           if (_formKey.currentState!
                                               .validate()) {
                                             final response = await authService
@@ -166,7 +166,6 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                                                 passwordErrorText =
                                                     "아이디 혹은 비밀번호가 다릅니다.";
                                               });
-                                              setState(() => isLogin = false);
                                             } else {
                                               final refreshToken =
                                                   response.refreshToken;
@@ -179,11 +178,11 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                                               await storage.write(
                                                   key: REFRESH_TOKEN,
                                                   value: refreshToken);
-                                              ref
-                                                  .read(
-                                                      userStateNotifierProvider
-                                                          .notifier)
-                                                  .userInit();
+                                              // ref
+                                              //     .read(
+                                              //         userStateNotifierProvider
+                                              //             .notifier)
+                                              //     .userInit();
 
                                               Navigator.of(context)
                                                   .pushReplacement(
@@ -197,19 +196,6 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                                         }
                                       : null,
                                 ),
-                                if (isLogin)
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 15.0),
-                                    child: Center(
-                                        child: SizedBox(
-                                      width: 24,
-                                      height: 24,
-                                      child: CircularProgressIndicator(
-                                        color: theme.appColors.seedColor,
-                                        strokeWidth: 3,
-                                      ),
-                                    )),
-                                  ),
                               ],
                             ),
                             Padding(
