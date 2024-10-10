@@ -56,7 +56,9 @@ class _ReportDetailState extends ConsumerState<ReportDetail> {
           appBarLeading: const BackArrowLeading(),
           backgroundColor: AppColors.blue1,
           child: const Center(
-            child: CircularProgressIndicator(),
+            child: CircularProgressIndicator(
+              color: AppColors.blueMain,
+            ),
           ));
     }
     if (detail is ReportDetailFailed) {

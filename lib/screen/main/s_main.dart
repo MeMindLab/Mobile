@@ -158,7 +158,10 @@ class _MainScreenState extends ConsumerState<MainScreen> {
         Expanded(
             child: Stack(children: [
           token == null && themeMode == null
-              ? const Center(child: CircularProgressIndicator())
+              ? const Center(
+                  child: CircularProgressIndicator(
+                  color: AppColors.blueMain,
+                ))
               : InAppWebView(
                   key: webViewKey,
                   initialUrlRequest: URLRequest(

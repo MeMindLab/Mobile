@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:me_mind/common/component/custom_search_bar.dart';
+import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
@@ -70,7 +71,9 @@ class _SearchFragmentState extends ConsumerState<SearchFragment> {
                             ])
                       : reports is ReportCursorPaginationLoading
                           ? const Center(
-                              child: CircularProgressIndicator(),
+                              child: CircularProgressIndicator(
+                                color: AppColors.blueMain,
+                              ),
                             )
                           : reports is ReportCursorPaginationError
                               ? Center(

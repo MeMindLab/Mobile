@@ -115,8 +115,13 @@ class _Report extends ConsumerState<Report> {
                               builder: (context, snapshot) {
                                 if (snapshot.connectionState ==
                                     ConnectionState.waiting) {
-                                  return const Center(
-                                      child: CircularProgressIndicator());
+                                  return Center(
+                                      child: Transform.translate(
+                                    offset: const Offset(15, -1),
+                                    child: const CircularProgressIndicator(
+                                      color: AppColors.blueMain,
+                                    ),
+                                  ));
                                 } else if (snapshot.connectionState ==
                                     ConnectionState.done) {
                                   if (snapshot.hasError) {
@@ -245,7 +250,9 @@ class _Report extends ConsumerState<Report> {
                   height: 100,
                 ),
                 Center(
-                  child: CircularProgressIndicator(),
+                  child: CircularProgressIndicator(
+                    color: AppColors.blueMain,
+                  ),
                 )
               ]),
             ),

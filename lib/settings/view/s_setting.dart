@@ -367,7 +367,9 @@ class _SettingState extends ConsumerState<Settings> {
                       height: MediaQuery.of(context).size.height * 0.38,
                     ),
                     const Center(
-                      child: CircularProgressIndicator(),
+                      child: CircularProgressIndicator(
+                        color: AppColors.blueMain,
+                      ),
                     ),
                   ],
                 )),

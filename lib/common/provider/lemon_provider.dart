@@ -28,13 +28,18 @@ class LemonStateNotifier extends StateNotifier<int> {
         print("userID:${user.id}");
         final response = await LemonService().getLemon(userId: user.id);
 
-        state = response.lemonCount;
+        if (mounted) {
+          state = response.lemonCount;
+        }
+
         return;
       }
       final response = await LemonService().getLemon(userId: userInfo.userId!);
       if (response is! UserLemonModel) return;
 
-      state = response.lemonCount;
+      if (mounted) {
+        state = response.lemonCount;
+      }
     } catch (e) {
       state = 0;
     }
