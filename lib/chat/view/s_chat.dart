@@ -53,6 +53,7 @@ class _ChatState extends ConsumerState<Chat> {
   bool dialog2 = false;
   bool dialog3 = false;
   bool dialog4 = false;
+  int chatImageCount = 0;
 
   void chatContentChange(String msg) {
     setState(() {
@@ -77,6 +78,13 @@ class _ChatState extends ConsumerState<Chat> {
     CustomTheme theme = CustomThemeHolder.of(context).theme;
     ref.listen(reportIdProvider, (pref, next) {
       print(next);
+    });
+
+    ref.listen(chatStateNotifierProvider, (prev, next) {
+      int imageCount = next.where((message) => message.isImage).length;
+      setState(() {
+        chatImageCount = imageCount;
+      });
     });
 
     ref.listen(reportIssueProvider, (previous, next) {
@@ -273,7 +281,7 @@ class _ChatState extends ConsumerState<Chat> {
                               isFolded: isFolded,
                               bgColor: theme.appColors.seedColor,
                               content:
-                                  '구르미는 미아인드가 개발한 일기쓰기 전문 인공지능입니다. 텍스트나 음성으로 대화하듯이 하루를 정리해보세요!',
+                                  '구르미는 미마인드가 개발한 일기쓰기 전문 인공지능입니다. 텍스트나 음성으로 대화하듯이 하루를 정리해보세요!',
                               onPressed: () {
                                 setState(() {
                                   isFolded = !isFolded;
@@ -328,24 +336,30 @@ class _ChatState extends ConsumerState<Chat> {
                           Container(
                             margin: const EdgeInsets.fromLTRB(20, 0, 10, 10),
                             child: InkWell(
-                              onTap: () async {
-                                var result = await ImagePickerService(
-                                        imagePicker: ImagePicker())
-                                    .getImage(ImageSource.gallery);
+                              onTap: chatImageCount >= 2
+                                  ? null
+                                  : () async {
+                                      var result = await ImagePickerService(
+                                              imagePicker: ImagePicker())
+                                          .getImage(ImageSource.gallery);
 
-                                if (result is! File) return;
+                                      if (result is! File) return;
 
-                                var imageUpload = await ImageUploadService()
-                                    .upload(result, ref.watch(chatIdProvider),
-                                        false);
+                                      var imageUpload =
+                                          await ImageUploadService().upload(
+                                              result,
+                                              ref.watch(chatIdProvider),
+                                              false);
 
-                                if (imageUpload is! ImageUploadModel) return;
-                                ref
-                                    .read(chatStateNotifierProvider.notifier)
-                                    .addChating(
-                                        message: imageUpload.imageUrl,
-                                        isImage: true);
-                              },
+                                      if (imageUpload is! ImageUploadModel)
+                                        return;
+                                      ref
+                                          .read(chatStateNotifierProvider
+                                              .notifier)
+                                          .addChating(
+                                              message: imageUpload.imageUrl,
+                                              isImage: true);
+                                    },
                               child: Transform.translate(
                                 offset: Offset(2, -1),
                                 child: SvgPicture.asset(

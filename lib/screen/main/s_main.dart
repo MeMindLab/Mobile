@@ -172,6 +172,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                         javaScriptEnabled: true,
                         useOnDownloadStart: true,
                         useOnLoadResource: true,
+                        supportZoom: false,
                         useShouldOverrideUrlLoading: true,
                         mediaPlaybackRequiresUserGesture: true,
                         allowFileAccessFromFileURLs: true,
@@ -182,7 +183,8 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                     android: AndroidInAppWebViewOptions(
                         useHybridComposition: true,
                         allowContentAccess: true,
-                        builtInZoomControls: true,
+                        builtInZoomControls: false,
+                        loadWithOverviewMode: true,
                         thirdPartyCookiesEnabled: true,
                         allowFileAccess: true,
                         supportMultipleWindows: true),

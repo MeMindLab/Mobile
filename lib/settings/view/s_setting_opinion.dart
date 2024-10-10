@@ -60,8 +60,13 @@ class _SettingOpinionState extends State<SettingOpinion> {
   @override
   Widget build(BuildContext context) {
     CustomTheme theme = CustomThemeHolder.of(context).theme;
-    return PopScope(
-      canPop: false,
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const Settings()),
+        );
+        return false;
+      },
       child: DefaultLayout(
         title: "의견보내기",
         backgroundColor: theme.appColors.seedColor,
@@ -95,7 +100,7 @@ class _SettingOpinionState extends State<SettingOpinion> {
                           ),
                           Flexible(
                             child: Text(
-                              "memind를 이용하며 생긴 궁금한 점이나, \n관련하여 전달하고픈 피드백을 넘겨주세요.",
+                              "memind를 이용하며 생긴 궁금한 점이나, 관련하여 전달하고픈 피드백을 넘겨주세요.",
                               style: FontSizes.getContentStyle()
                                   .copyWith(color: theme.appColors.seedColor),
                             ),
