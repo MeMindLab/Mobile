@@ -17,29 +17,32 @@ class LemonStateNotifier extends StateNotifier<int> {
   final UserDetailModel userInfo;
   final StateNotifierProviderRef<LemonStateNotifier, int> ref;
 
-  LemonStateNotifier(this.userInfo, this.ref) : super(0) {
-    lemonInit();
-  }
+  LemonStateNotifier(this.userInfo, this.ref) : super(0) {}
 
   Future<void> lemonInit() async {
     try {
+      print(userInfo.userId);
       if (userInfo.userId == null || userInfo.userId == "") {
         final user = await UserInfoService().findUser();
+        ref.read(userStateNotifierProvider.notifier).state = UserDetailModel()
+            .copyWith(
+                userId: user.id,
+                isVerified: user.isVerified,
+                email: user.email!,
+                name: user.nickname,
+                phoneNumber: user.mobile,
+                referralCode: user.referralCode);
         print("userID:${user.id}");
         final response = await LemonService().getLemon(userId: user.id);
 
-        if (mounted) {
-          state = response.lemonCount;
-        }
+        state = response.lemonCount;
 
         return;
       }
       final response = await LemonService().getLemon(userId: userInfo.userId!);
       if (response is! UserLemonModel) return;
 
-      if (mounted) {
-        state = response.lemonCount;
-      }
+      state = response.lemonCount;
     } catch (e) {
       state = 0;
     }

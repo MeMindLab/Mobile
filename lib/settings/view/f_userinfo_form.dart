@@ -219,7 +219,7 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                                 style: FontSizes.getContentStyle()
                                     .copyWith(fontWeight: FontWeight.w500),
                               ),
-                        style: checkButtonStyle(theme),
+                        style: checkButtonStyle(theme, isNameCheck),
                         onPressed: widget.isUpdate
                             ? () async {
                                 if (widget.userNickname ==
@@ -285,7 +285,7 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                                 style: FontSizes.getContentStyle()
                                     .copyWith(fontWeight: FontWeight.w500),
                               ),
-                        style: checkButtonStyle(theme),
+                        style: checkButtonStyle(theme, isEmailCheck),
                         onPressed: widget.isUpdate
                             ? () async {
                                 if (widget.userEmail == emailController.text) {
@@ -637,11 +637,12 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
     );
   }
 
-  ButtonStyle checkButtonStyle(theme) {
+  ButtonStyle checkButtonStyle(theme, bool isTrue) {
     return ElevatedButton.styleFrom(
       minimumSize: Size.zero,
       padding: EdgeInsets.zero,
-      backgroundColor: theme.appColors.grayButtonBackground,
+      backgroundColor:
+          isTrue ? AppColors.blueMain : theme.appColors.grayButtonBackground,
       elevation: 0,
       foregroundColor: theme.appColors.iconButton ?? AppColors.blackColor,
       shape: RoundedRectangleBorder(

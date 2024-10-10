@@ -6,6 +6,7 @@ import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/constant.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
+import 'package:me_mind/common/provider/lemon_provider.dart';
 import 'package:me_mind/common/provider/user_provider.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
@@ -179,19 +180,17 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                                               await storage.write(
                                                   key: REFRESH_TOKEN,
                                                   value: refreshToken);
-                                              // final user =
-                                              //     await UserInfoService()
-                                              //         .findUser();
-                                              ref
+
+                                              await ref
                                                   .read(
                                                       userStateNotifierProvider
                                                           .notifier)
                                                   .userInit();
-                                              // ref
-                                              //     .read(
-                                              //         userStateNotifierProvider
-                                              //             .notifier)
-                                              //     .userInit();
+                                              await ref
+                                                  .read(
+                                                      lemonStateNotifierProvider
+                                                          .notifier)
+                                                  .lemonInit();
 
                                               Navigator.of(context)
                                                   .pushReplacement(
