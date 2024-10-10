@@ -10,6 +10,7 @@ import 'package:me_mind/common/provider/user_provider.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 import 'package:me_mind/screen/main/s_main.dart';
+import 'package:me_mind/settings/services/userinfo_service.dart';
 import 'package:me_mind/user/services/login_service.dart';
 import 'package:me_mind/user/view/signup_screen.dart';
 
@@ -178,6 +179,14 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                                               await storage.write(
                                                   key: REFRESH_TOKEN,
                                                   value: refreshToken);
+                                              // final user =
+                                              //     await UserInfoService()
+                                              //         .findUser();
+                                              ref
+                                                  .read(
+                                                      userStateNotifierProvider
+                                                          .notifier)
+                                                  .userInit();
                                               // ref
                                               //     .read(
                                               //         userStateNotifierProvider

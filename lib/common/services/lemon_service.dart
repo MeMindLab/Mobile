@@ -41,6 +41,8 @@ class LemonService {
 
       return lemonResult;
     } on DioException catch (error) {
+      print("레몬 조회 에러 ${error.response!.statusCode}");
+      print("레몬 보낸 주소 : ${error.response!.realUri}");
       return null;
     } catch (e) {
       return null;

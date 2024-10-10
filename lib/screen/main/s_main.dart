@@ -8,6 +8,7 @@ import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/constant.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/layout/topbar/widget/lemon_number.dart';
+import 'package:me_mind/common/provider/lemon_provider.dart';
 import 'package:me_mind/common/services/token_refresh_service.dart';
 import 'package:me_mind/common/store.dart';
 import 'package:me_mind/common/component/root_tab.dart';
@@ -39,15 +40,17 @@ class _MainScreenState extends ConsumerState<MainScreen> {
   Future<void> _loadToken() async {
     String? newToken = await storage.read(key: ACCESS_TOKEN);
 
-    setState(() {
-      token = newToken;
-    });
+    if (mounted) {
+      setState(() {
+        token = newToken;
+      });
+    }
   }
 
   void loadTheme() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String? newThemeMode = prefs.getString("themeMode");
-    if (themeMode == null) {
+    if (newThemeMode == null) {
       await prefs.setString('themeMode', 'general mode');
       themeMode = "general mode";
       ref.read(themeProvider.notifier).setTheme(AppTheme.basic);
@@ -56,10 +59,11 @@ class _MainScreenState extends ConsumerState<MainScreen> {
           ? ref.read(themeProvider.notifier).setTheme(AppTheme.basic)
           : ref.read(themeProvider.notifier).setTheme(AppTheme.emotion);
     }
-
-    setState(() {
-      themeMode = newThemeMode;
-    });
+    if (mounted) {
+      setState(() {
+        themeMode = newThemeMode;
+      });
+    }
   }
 
   void sendThemeWebview(
@@ -85,9 +89,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
         await storage.write(key: ACCESS_TOKEN, value: response.accessToken);
         await storage.write(key: REFRESH_TOKEN, value: response.refreshToken);
 
-        await controller.evaluateJavascript(
-            source:
-                """
+        await controller.evaluateJavascript(source: """
                       window.flutter_inappwebview.callHandler('authError').then(function(token) {
                         window.receivedToken = token;
                         console.log("Token received from Flutter: " + token);
@@ -124,6 +126,12 @@ class _MainScreenState extends ConsumerState<MainScreen> {
         }
       },
     );
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
   }
 
   @override
@@ -200,9 +208,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                           debugPrint("토큰 전송");
                           return token;
                         });
-                    await controller.evaluateJavascript(
-                        source:
-                            """
+                    await controller.evaluateJavascript(source: """
                       window.flutter_inappwebview.callHandler('requestToken').then(function(token) {
                         window.receivedToken = token;
                         console.log("Token received from Flutter: " + token);

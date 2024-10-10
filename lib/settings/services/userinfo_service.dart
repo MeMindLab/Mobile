@@ -53,7 +53,10 @@ class UserInfoService {
       UserInfoModel userInfo = UserInfoModel.fromJson(result);
 
       return userInfo;
-    } catch (e) {
+    } on DioException catch (e) {
+      if (e.response!.statusCode == 500) {
+        print(e.response);
+      }
       rethrow;
     }
   }

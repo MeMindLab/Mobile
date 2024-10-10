@@ -11,7 +11,6 @@ import 'package:me_mind/common/layout/topbar/widget/back_arrow.dart';
 import 'package:me_mind/common/layout/topbar/widget/lemon_number.dart';
 import 'package:me_mind/common/provider/lemon_provider.dart';
 import 'package:me_mind/common/provider/user_provider.dart';
-import 'package:me_mind/common/store.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 import 'package:me_mind/common/utils/dialog_manager.dart';
@@ -43,8 +42,12 @@ class _SettingState extends ConsumerState<Settings> {
   @override
   void initState() {
     super.initState();
+  }
 
-    ref.read(userStateNotifierProvider.notifier).userInit();
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
   }
 
   @override
@@ -332,15 +335,17 @@ class _SettingState extends ConsumerState<Settings> {
                                         firstButtonText: "네",
                                         firstSubmit: () async {
                                           ref.invalidate(
-                                              userStateNotifierProvider);
-
-                                          ref.invalidate(
                                               chatStateNotifierProvider);
                                           ref.invalidate(reportIdProvider);
                                           ref.invalidate(reportProvider);
                                           ref.invalidate(reportSearchProvider);
                                           ref.invalidate(
                                               lemonStateNotifierProvider);
+
+                                          ref
+                                              .read(userStateNotifierProvider
+                                                  .notifier)
+                                              .userLogout();
                                           await storage.deleteAll();
 
                                           await Navigator.of(context)

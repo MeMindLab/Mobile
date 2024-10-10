@@ -219,60 +219,71 @@ class _ChatState extends ConsumerState<Chat> {
         child: Column(
           children: [
             Expanded(
-              child: Stack(children: [
-                ListView.builder(
-                  reverse: true,
-                  itemBuilder: (context, index) {
-                    if (state[index] is ChatMessageLoading) {
-                      return const ChatMessageTile(
-                        message: "",
-                        isAi: true,
-                        isImage: false,
-                        isAirequest: true,
-                        createdAt: "",
-                      );
-                    } else if (state[index] is ChatMessageError) {
-                      return const ChatMessageTile(
-                        message: "다시 한번 입력해주세요",
-                        isAi: true,
-                        isImage: false,
-                        createdAt: "",
-                      );
-                    } else {
-                      return Padding(
-                        padding: index == 0
-                            ? EdgeInsets.zero
-                            : index == state.length - 1
-                                ? const EdgeInsets.only(bottom: 10)
-                                : const EdgeInsets.only(bottom: 30.0),
-                        child: ChatMessageTile.fromModel(
-                            state[index], state[index] == 1 ? true : null),
-                      );
-                    }
-                  },
-                  itemCount: state.length,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                ),
-                Positioned(
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  child: isFolded == false
-                      ? ChatNotification(
-                          theme: theme,
-                          isFolded: isFolded,
-                          bgColor: theme.appColors.seedColor,
-                          content:
-                              '구르미는 미아인드가 개발한 일기쓰기 전문 인공지능입니다. 텍스트나 음성으로 대화하듯이 하루를 정리해보세요!',
-                          onPressed: () {
-                            setState(() {
-                              isFolded = !isFolded;
-                            });
-                          })
-                      : const SizedBox(),
-                ),
-              ]),
+              child: Stack(
+                children: [
+                  ListView.builder(
+                    reverse: true,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      if (state[index] is ChatMessageLoading) {
+                        return const ChatMessageTile(
+                          message: "",
+                          isAi: true,
+                          isImage: false,
+                          isAirequest: true,
+                          createdAt: "",
+                        );
+                      } else if (state[index] is ChatMessageError) {
+                        return const ChatMessageTile(
+                          message: "다시 한번 입력해주세요",
+                          isAi: true,
+                          isImage: false,
+                          createdAt: "",
+                        );
+                      } else {
+                        return Padding(
+                          padding: index == 0
+                              ? EdgeInsets.zero
+                              : index == state.length - 1
+                                  ? const EdgeInsets.only(bottom: 10)
+                                  : const EdgeInsets.only(bottom: 30.0),
+                          child: ChatMessageTile.fromModel(
+                              state[index], state[index] == 1 ? true : null),
+                        );
+                      }
+                    },
+                    itemCount: state.length,
+                    padding: EdgeInsets.only(
+                        top: isFolded ? 16 : 130,
+                        bottom: 16,
+                        left: 16,
+                        right: 16),
+                  ),
+                  Positioned(
+                    top:
+                        isFolded ? -100 : 0, // isFolded가 true일 때 알림창을 화면 밖으로 이동
+                    left: 0,
+                    right: 0,
+                    child: AnimatedOpacity(
+                      opacity: isFolded ? 0.0 : 1.0, // 접히면 알림창을 숨김
+                      duration: const Duration(milliseconds: 300),
+                      child: isFolded == false
+                          ? ChatNotification(
+                              theme: theme,
+                              isFolded: isFolded,
+                              bgColor: theme.appColors.seedColor,
+                              content:
+                                  '구르미는 미아인드가 개발한 일기쓰기 전문 인공지능입니다. 텍스트나 음성으로 대화하듯이 하루를 정리해보세요!',
+                              onPressed: () {
+                                setState(() {
+                                  isFolded = !isFolded;
+                                });
+                              })
+                          : const SizedBox(),
+                    ),
+                  ),
+                ],
+              ),
             ),
             bottomInputField(controller, theme, chatContentChange),
           ],

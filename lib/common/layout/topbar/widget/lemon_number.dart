@@ -16,9 +16,7 @@ class LemonNumberWidget extends ConsumerStatefulWidget {
 class _LemonNumberWidgetState extends ConsumerState<LemonNumberWidget> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    ref.read(lemonStateNotifierProvider.notifier).lemonInit();
   }
 
   @override
