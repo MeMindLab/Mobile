@@ -22,6 +22,7 @@ class SeetingCustomTextFormField extends StatefulWidget {
   final List<TextInputFormatter>? textInputFormatter;
   final bool? enabled;
   final TextEditingController? textEditingController;
+  final bool? isError;
 
   const SeetingCustomTextFormField({
     super.key,
@@ -42,6 +43,7 @@ class SeetingCustomTextFormField extends StatefulWidget {
     this.textInputFormatter,
     this.enabled = true,
     this.textEditingController,
+    this.isError = false,
   });
   @override
   State<SeetingCustomTextFormField> createState() =>
@@ -97,6 +99,7 @@ class _CustomTextFormFieldState extends State<SeetingCustomTextFormField> {
           maxLength: widget.maxLength,
           maxLines: widget.maxLines,
           obscureText: widget.obscureText,
+          cursorHeight: 18,
           autofocus: widget.autoFocus,
           enabled: widget.enabled,
           cursorColor: theme.focusColor,
@@ -130,6 +133,7 @@ class _CustomTextFormFieldState extends State<SeetingCustomTextFormField> {
             focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide.none,
                 borderRadius: BorderRadius.circular(13)),
+
             errorBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(13),
                 borderSide: const BorderSide(color: AppColors.timerColor)),

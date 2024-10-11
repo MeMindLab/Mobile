@@ -79,61 +79,72 @@ class CustomTextFormField extends StatelessWidget {
               style: FontSizes.getHighLightContentStyle(),
             ),
           ),
-        TextFormField(
-          controller: controller,
-          validator: validator,
-          focusNode: focusNode,
-          onFieldSubmitted: onFieldSubmitted,
-          textInputAction: TextInputAction.next,
-          maxLength: maxLength,
-          obscureText: obscureText,
-          autofocus: autoFocus,
-          cursorColor: theme.focusColor,
-          cursorWidth: 1.5,
-          cursorHeight: 23,
-          onChanged: onChanged,
-          style: textStyle ?? FontSizes.getContentStyle(),
-          decoration: InputDecoration(
-            contentPadding: const EdgeInsets.fromLTRB(5, 15, 15, 15),
-            prefix: const Padding(
-              padding: EdgeInsets.only(left: 10),
-            ),
-            counterText: '',
-            hintText: hintText,
-            errorText: errorText,
-            errorStyle: FontSizes.getSmallStyle().copyWith(
-                height: 0,
-                color: AppColors.timerColor,
-                fontWeight: FontWeight.w500),
-            hintStyle: FontSizes.getContentStyle()
-                .copyWith(fontWeight: FontWeight.w400, color: hintTextColor),
-            fillColor: bgColor ?? inputBackground,
-            filled: true, // false 배경색 없음 true 있음
-            border: baseBorder,
-            enabledBorder: baseBorder.copyWith(
-              borderSide: baseBorder.borderSide.copyWith(
-                color: borderColor,
-              ),
-            ),
-            focusedBorder: baseBorder.copyWith(
-              borderSide: baseBorder.borderSide.copyWith(
-                color: AppColors.gray6,
-              ),
-            ),
-
-            suffixIcon: isToggle
-                ? GestureDetector(
-                    onTap: () {
-                      if (onToggleObscureText != null) {
-                        onToggleObscureText!();
-                      }
-                    },
-                    child: Icon(
-                      obscureText ? Icons.visibility : Icons.visibility_off,
-                      color: hintTextColor,
+        Container(
+          height: 53,
+          child: Row(
+            children: [
+              Expanded(
+                child: TextFormField(
+                  controller: controller,
+                  validator: validator,
+                  focusNode: focusNode,
+                  onFieldSubmitted: onFieldSubmitted,
+                  textAlignVertical: const TextAlignVertical(y: 0.15),
+                  textInputAction: TextInputAction.next,
+                  maxLength: maxLength,
+                  obscureText: obscureText,
+                  autofocus: autoFocus,
+                  cursorColor: theme.focusColor,
+                  cursorHeight: 16,
+                  onChanged: onChanged,
+                  style: textStyle ?? FontSizes.getContentStyle(),
+                  decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.fromLTRB(5, 15, 15, 15),
+                    prefix: const Padding(
+                      padding: EdgeInsets.only(left: 10),
                     ),
-                  )
-                : suffixIcon,
+                    counterText: '',
+                    hintText: hintText,
+                    errorText: errorText,
+                    errorStyle: FontSizes.getSmallStyle().copyWith(
+                        height: 0,
+                        color: AppColors.timerColor,
+                        fontWeight: FontWeight.w500),
+                    hintStyle: FontSizes.getContentStyle().copyWith(
+                        fontWeight: FontWeight.w400, color: hintTextColor),
+                    fillColor: bgColor ?? inputBackground,
+                    filled: true, // false 배경색 없음 true 있음
+                    border: baseBorder,
+                    enabledBorder: baseBorder.copyWith(
+                      borderSide: baseBorder.borderSide.copyWith(
+                        color: borderColor,
+                      ),
+                    ),
+                    focusedBorder: baseBorder.copyWith(
+                      borderSide: baseBorder.borderSide.copyWith(
+                        color: AppColors.gray6,
+                      ),
+                    ),
+
+                    suffixIcon: isToggle
+                        ? GestureDetector(
+                            onTap: () {
+                              if (onToggleObscureText != null) {
+                                onToggleObscureText!();
+                              }
+                            },
+                            child: Icon(
+                              obscureText
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                              color: hintTextColor,
+                            ),
+                          )
+                        : suffixIcon,
+                  ),
+                ),
+              ),
+            ],
           ),
         )
       ],

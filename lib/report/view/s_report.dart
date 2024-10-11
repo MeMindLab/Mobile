@@ -147,8 +147,11 @@ class _Report extends ConsumerState<Report> {
                                         .toList();
                                     List<FlSpot> flSpots = [];
                                     for (int i = 0; i < newBox.length; i++) {
-                                      flSpots.add(FlSpot((i * 2).toDouble(),
-                                          newBox[i].score / 20));
+                                      flSpots.add(FlSpot(
+                                          (i * 2).toDouble(),
+                                          newBox[i].score < 0
+                                              ? 0
+                                              : newBox[i].score / 20));
                                     }
 
                                     DateFormat dateFormat = DateFormat('MM/dd');

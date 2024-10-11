@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:me_mind/chat/utils/show_snackbar.dart';
 import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
@@ -27,7 +28,8 @@ class _SettingThemaState extends ConsumerState<SettingTheme> {
 
   void loadTheme() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    themeMode = prefs.getString("themeMode");
+    // themeMode = prefs.getString("themeMode");
+    themeMode = "general mode";
     if (themeMode == null) {
       await prefs.setString('themeMode', 'general mode');
       themeMode = "general mode";
@@ -134,12 +136,8 @@ class _SettingThemaState extends ConsumerState<SettingTheme> {
                             value: AppTheme.emotion,
                             groupValue: themeValue,
                             onChanged: (value) {
-                              ref
-                                  .read(themeProvider.notifier)
-                                  .setTheme(AppTheme.emotion);
-                              setState(() {
-                                _appTheme = value!;
-                              });
+                              ShowSnackBar()
+                                  .showBottomSnackBar(context, "추후 오픈예정입니다.");
                             },
                           ),
                         ),

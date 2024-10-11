@@ -387,6 +387,7 @@ class _ChatState extends ConsumerState<Chat> {
                               minLines: 1,
                               maxLines: 4,
                               cursorWidth: 1,
+                              cursorHeight: 17,
                               cursorColor: AppColors.blackColor,
                               style: FontSizes.getCapsuleStyle().copyWith(
                                   color: theme.appColors.iconButton,

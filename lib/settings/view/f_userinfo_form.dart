@@ -200,54 +200,56 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                   readOnly: widget.isUpdate == false ? true : false,
                   onChanged: (String value) {},
                 ),
-                Positioned(
-                  right: 0,
-                  top: 40,
-                  child: Container(
-                    width: 70,
-                    height: 35,
-                    margin: const EdgeInsets.fromLTRB(0, 5, 7, 5),
-                    child: ElevatedButton(
-                        child: isNameCheck == true
-                            ? SvgPicture.asset(
-                                'assets/svg/icon/check.svg',
-                                colorFilter: ColorFilter.mode(
-                                    theme.appColors.seedColor, BlendMode.srcIn),
-                              )
-                            : Text(
-                                "확인",
-                                style: FontSizes.getContentStyle()
-                                    .copyWith(fontWeight: FontWeight.w500),
-                              ),
-                        style: checkButtonStyle(theme, isNameCheck),
-                        onPressed: widget.isUpdate
-                            ? () async {
-                                if (widget.userNickname ==
-                                    nameController.text) {
-                                  setState(() {
-                                    errorNameText = "기존 닉네임입니다.";
-                                    isNameCheck = false;
-                                  });
-                                  return;
-                                }
-                                final result = await UserValidationService()
-                                    .checkName(name: nameController.text);
+                if (widget.isUpdate)
+                  Positioned(
+                    right: 0,
+                    top: 40,
+                    child: Container(
+                      width: 70,
+                      height: 35,
+                      margin: const EdgeInsets.fromLTRB(0, 5, 7, 5),
+                      child: ElevatedButton(
+                          child: isNameCheck == true
+                              ? SvgPicture.asset(
+                                  'assets/svg/icon/check.svg',
+                                  colorFilter: ColorFilter.mode(
+                                      theme.appColors.seedColor,
+                                      BlendMode.srcIn),
+                                )
+                              : Text(
+                                  "확인",
+                                  style: FontSizes.getContentStyle()
+                                      .copyWith(fontWeight: FontWeight.w500),
+                                ),
+                          style: checkButtonStyle(theme, isNameCheck),
+                          onPressed: widget.isUpdate
+                              ? () async {
+                                  if (widget.userNickname ==
+                                      nameController.text) {
+                                    setState(() {
+                                      errorNameText = "기존 닉네임입니다.";
+                                      isNameCheck = false;
+                                    });
+                                    return;
+                                  }
+                                  final result = await UserValidationService()
+                                      .checkName(name: nameController.text);
 
-                                if (result != null) {
-                                  setState(() {
-                                    isNameCheck = true;
-                                    errorNameText = null;
-                                  });
-                                } else {
-                                  setState(() {
-                                    errorNameText = "이미 사용중인 닉네임입니다.";
-                                    isNameCheck = false;
-                                  });
+                                  if (result != null) {
+                                    setState(() {
+                                      isNameCheck = true;
+                                      errorNameText = null;
+                                    });
+                                  } else {
+                                    setState(() {
+                                      errorNameText = "이미 사용중인 닉네임입니다.";
+                                      isNameCheck = false;
+                                    });
+                                  }
                                 }
-                              }
-                            : null),
+                              : null),
+                    ),
                   ),
-                ),
               ]),
               const SizedBox(
                 height: 12.0,
@@ -257,6 +259,8 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                   textEditingController: emailController,
                   bgColor: theme.appColors.seedColor,
                   errorText: errorEmailText,
+                  maxLines: 1,
+                  suffixWidget: const SizedBox(width: 85),
                   labelText: "이메일",
                   readOnly: widget.isUpdate == false ? true : false,
                   validator: (value) {
@@ -266,52 +270,55 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                   },
                   onChanged: (String value) {},
                 ),
-                Positioned(
-                  right: 0,
-                  top: 40,
-                  child: Container(
-                    width: 70,
-                    height: 35,
-                    margin: const EdgeInsets.fromLTRB(0, 5, 7, 5),
-                    child: ElevatedButton(
-                        child: isEmailCheck == true
-                            ? SvgPicture.asset(
-                                'assets/svg/icon/check.svg',
-                                colorFilter: ColorFilter.mode(
-                                    theme.appColors.seedColor, BlendMode.srcIn),
-                              )
-                            : Text(
-                                "확인",
-                                style: FontSizes.getContentStyle()
-                                    .copyWith(fontWeight: FontWeight.w500),
-                              ),
-                        style: checkButtonStyle(theme, isEmailCheck),
-                        onPressed: widget.isUpdate
-                            ? () async {
-                                if (widget.userEmail == emailController.text) {
-                                  setState(() {
-                                    errorEmailText = "기존 이메일입니다.";
-                                    isEmailCheck = false;
-                                  });
-                                }
-                                final result = await UserValidationService()
-                                    .checkEmail(email: emailController.text);
+                if (widget.isUpdate)
+                  Positioned(
+                    right: 0,
+                    top: 40,
+                    child: Container(
+                      width: 70,
+                      height: 35,
+                      margin: const EdgeInsets.fromLTRB(0, 5, 7, 5),
+                      child: ElevatedButton(
+                          child: isEmailCheck == true
+                              ? SvgPicture.asset(
+                                  'assets/svg/icon/check.svg',
+                                  colorFilter: ColorFilter.mode(
+                                      theme.appColors.seedColor,
+                                      BlendMode.srcIn),
+                                )
+                              : Text(
+                                  "확인",
+                                  style: FontSizes.getContentStyle()
+                                      .copyWith(fontWeight: FontWeight.w500),
+                                ),
+                          style: checkButtonStyle(theme, isEmailCheck),
+                          onPressed: widget.isUpdate
+                              ? () async {
+                                  if (widget.userEmail ==
+                                      emailController.text) {
+                                    setState(() {
+                                      errorEmailText = "기존 이메일입니다.";
+                                      isEmailCheck = false;
+                                    });
+                                  }
+                                  final result = await UserValidationService()
+                                      .checkEmail(email: emailController.text);
 
-                                if (result != null) {
-                                  setState(() {
-                                    isEmailCheck = true;
-                                    errorEmailText = null;
-                                  });
-                                } else {
-                                  setState(() {
-                                    errorEmailText = "이미 사용중인 이메일입니다.";
-                                    isEmailCheck = false;
-                                  });
+                                  if (result != null) {
+                                    setState(() {
+                                      isEmailCheck = true;
+                                      errorEmailText = null;
+                                    });
+                                  } else {
+                                    setState(() {
+                                      errorEmailText = "이미 사용중인 이메일입니다.";
+                                      isEmailCheck = false;
+                                    });
+                                  }
                                 }
-                              }
-                            : null),
+                              : null),
+                    ),
                   ),
-                ),
               ]),
               const SizedBox(
                 height: 12.0,
@@ -530,6 +537,10 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                 child: RoundedButton(
                   text: "수정",
                   onPressed: () {
+                    setState(() {
+                      isNameCheck = false;
+                      isEmailCheck = false;
+                    });
                     widget.onUpdate(true);
                   },
                 ),
@@ -589,6 +600,8 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
 
                           setState(() {
                             isphoneAuthenticated = false;
+                            isNameCheck = false;
+                            isEmailCheck = false;
                           });
                           widget.onUpdate(false);
 

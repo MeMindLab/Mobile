@@ -47,6 +47,8 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
                 fontSize: 14,
               ),
               cursorColor: Theme.of(context).focusColor,
+              textAlignVertical: const TextAlignVertical(y: 0.13),
+              cursorHeight: 16,
               onEditingComplete: widget.onSubmitted,
               controller: widget.controller,
               decoration: InputDecoration(
@@ -69,7 +71,7 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
                   borderSide: BorderSide.none,
                 ),
                 contentPadding:
-                    const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
+                    EdgeInsets.only(top: 0, bottom: 0, left: 12, right: 12),
                 enabledBorder: baseBorder,
               ),
               onSubmitted: (value) => widget.onSubmitted,
