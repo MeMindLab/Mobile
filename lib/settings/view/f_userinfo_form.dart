@@ -20,7 +20,8 @@ import 'package:me_mind/settings/services/auth_sms_service.dart';
 import 'package:me_mind/settings/services/user_validation_service.dart';
 import 'package:me_mind/settings/services/userinfo_service.dart';
 import 'package:me_mind/settings/utils/phone_number_formatter.dart';
-import 'package:me_mind/settings/view/s_withdraw_screen.dart';
+import 'package:me_mind/settings/view/s_withdraw_check.dart';
+import 'package:me_mind/settings/view/s_withdraw_notice.dart';
 import 'package:me_mind/settings/view/w_certify_timer.dart';
 import 'package:me_mind/utils/validate.dart';
 
@@ -636,8 +637,8 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
         widget.isUpdate == false
             ? InkWell(
                 onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (_) => const WithDrawScreen()));
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (_) => WithdrawCheckScreen()));
                 },
                 child: Text(
                   "계정 탈퇴하기",

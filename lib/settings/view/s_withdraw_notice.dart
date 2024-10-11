@@ -3,59 +3,78 @@ import 'package:flutter_svg/svg.dart';
 import 'package:me_mind/common/component/rounded_button.dart';
 import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
+import 'package:me_mind/common/layout/default_layout.dart';
+import 'package:me_mind/common/layout/topbar/widget/back_arrow.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
-import 'package:me_mind/settings/view/s_withdraw_screen.dart';
+import 'package:me_mind/settings/component/settings_custom_text_form.dart';
+import 'package:me_mind/settings/model/withdraw_reason.dart';
+import 'package:me_mind/settings/view/s_withdraw_password.dart';
 
-class WithdrawNoticeFragment extends StatefulWidget {
-  final Function(ScreenState) screenUpdate;
-  const WithdrawNoticeFragment({super.key, required this.screenUpdate});
+class WithdrawNoticeScreen extends StatefulWidget {
+  final List reasons;
+
+  const WithdrawNoticeScreen({super.key, required this.reasons});
 
   @override
-  State<WithdrawNoticeFragment> createState() => _WithdrawNoticeFragmentState();
+  State<WithdrawNoticeScreen> createState() => _WithdrawNoticeFragmentState();
 }
 
-class _WithdrawNoticeFragmentState extends State<WithdrawNoticeFragment> {
+class _WithdrawNoticeFragmentState extends State<WithdrawNoticeScreen> {
   bool isCheck = false;
 
   @override
   Widget build(BuildContext context) {
     CustomTheme theme = CustomThemeHolder.of(context).theme;
-    return Column(
-      children: [
-        const SizedBox(
-          height: 20,
-        ),
-        noticeElement(theme),
-        const SizedBox(
-          height: 20,
-        ),
-        noticeContent(),
-        const Spacer(),
-        InkWell(
-            onTap: () {
-              setState(() {
-                isCheck = !isCheck;
-              });
-            },
-            child: checkTile(
-                isSelect: isCheck, content: "위 사항을 확인했으며, 이에 동의합니다.")),
-        const SizedBox(
-          height: 25,
-        ),
-        isCheck == true
-            ? RoundedButton(
-                text: "다음",
-                onPressed: () {
-                  widget.screenUpdate(ScreenState.password);
-                },
-              )
-            : const RoundedButton(text: "다음"),
-        const SizedBox(
-          height: 30,
-        )
-      ],
-    );
+    return DefaultLayout(
+        title: "계정 탈퇴",
+        appBarLeading: const BackArrowLeading(),
+        child: SafeArea(
+          child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  noticeElement(theme),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  noticeContent(),
+                  const Spacer(),
+                  InkWell(
+                      onTap: () {
+                        setState(() {
+                          isCheck = !isCheck;
+                        });
+                      },
+                      child: checkTile(
+                          isSelect: isCheck,
+                          content: "위 사항을 확인했으며, 이에 동의합니다.")),
+                  const SizedBox(
+                    height: 25,
+                  ),
+                  isCheck == true
+                      ? RoundedButton(
+                          text: "다음",
+                          onPressed: () {
+                            // widget.screenUpdate(ScreenState.password);
+                            Navigator.of(context)
+                                .push(MaterialPageRoute(builder: (context) {
+                              return WithdrawPasswordScreen(
+                                reasons: widget.reasons,
+                              );
+                            }));
+                          },
+                        )
+                      : const RoundedButton(text: "다음"),
+                  const SizedBox(
+                    height: 30,
+                  )
+                ],
+              )),
+        ));
   }
 }
 
