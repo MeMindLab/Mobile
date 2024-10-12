@@ -129,7 +129,9 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                                   pwdShow
                                       ? Icons.visibility
                                       : Icons.visibility_off,
-                                  color: theme.appColors.hintText,
+                                  color: pwdShow
+                                      ? AppColors.gray9
+                                      : theme.appColors.hintText,
                                 ),
                               ),
                               onChanged: (String value) {

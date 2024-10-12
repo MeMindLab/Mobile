@@ -32,7 +32,6 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   String name = "";
   String pwd = "";
   String brandName = "memind";
-  final SignUpViewModel signUpViewModel = SignUpViewModel();
 
   bool emailCheck = false;
   bool nicknameCheck = false;
@@ -42,265 +41,282 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   String? errorReferralText;
   TextEditingController referralController = TextEditingController(text: "");
   bool isStop = false;
+  bool isBack = false;
+
+  void onPermissionHandler(bool isTrue) {
+    setState(() {
+      isBack = isTrue;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     CustomTheme theme = CustomThemeHolder.of(context).theme;
     final agree = ref.watch(agreeStateNotifierProvider);
+    final SignUpViewModel signUpViewModel = SignUpViewModel();
 
-    return DefaultLayout(
-      title: "회원가입",
-      appBarLeading: widget.isOnBoarding
-          ? null
-          : BackArrowLeading(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-      backgroundColor: Colors.white,
-      isResizeToAvoid: true,
-      child: CustomScrollView(
-        slivers: [
-          SliverFillRemaining(
-            hasScrollBody: false,
-            child: SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Form(
-                  key: formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      const SizedBox(
-                        height: 23,
-                      ),
-                      CustomTextFormField(
-                        isLogin: true,
-                        labelText: "이메일",
-                        hintText: "example@gmail.com",
-                        errorText: errorEmailText,
-                        onChanged: (String value) {
-                          email = value;
-                        },
-                        validator: (value) {
-                          var emailResult =
-                              CheckValidate().validateEmail(value);
-                          if (emailResult == null) {
-                            setState(() {
-                              emailCheck = true;
-                            });
-                          } else {
-                            setState(() {
-                              emailCheck = false;
-                            });
-                          }
-                          return emailResult;
-                        },
-                        suffixIcon: emailCheck == true
-                            ? Padding(
-                                padding: const EdgeInsets.only(right: 8.0),
-                                child: SvgPicture.asset(
-                                  "assets/svg/icon/check_all.svg",
-                                  width: 24,
-                                  height: 24,
-                                  fit: BoxFit.scaleDown,
-                                  colorFilter: const ColorFilter.mode(
-                                      AppColors.blue6, BlendMode.srcIn),
-                                ),
-                              )
-                            : null,
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      CustomTextFormField(
-                        isLogin: true,
-                        labelText: "닉네임",
-                        hintText: "닉네임을 입력해주세요",
-                        errorText: errorNameText,
-                        maxLength: 10,
-                        validator: (value) {
-                          var nicknameResult =
-                              CheckValidate().validateName(value);
-                          if (nicknameResult == null) {
-                            setState(() {
-                              nicknameCheck = true;
-                            });
-                          } else {
-                            setState(() {
-                              nicknameCheck = false;
-                            });
-                          }
-                          return nicknameResult;
-                        },
-                        onChanged: (String value) {
-                          name = value;
-                        },
-                        suffixIcon: nicknameCheck == true
-                            ? Padding(
-                                padding: const EdgeInsets.only(right: 8.0),
-                                child: SvgPicture.asset(
-                                  "assets/svg/icon/check_all.svg",
-                                  width: 25,
-                                  height: 25,
-                                  fit: BoxFit.scaleDown,
-                                  colorFilter: const ColorFilter.mode(
-                                      AppColors.blue6, BlendMode.srcIn),
-                                ),
-                              )
-                            : null,
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      CustomTextFormField(
-                        isLogin: true,
-                        labelText: "비밀번호",
-                        hintText: "비밀번호를 설정해주세요(최소8자)",
-                        maxLength: 15,
-                        validator: (value) =>
-                            CheckValidate().validatePassword(value),
-                        obscureText: pwdShow,
-                        onChanged: (String value) {
-                          pwd = value;
-                        },
-                        suffixIcon: Padding(
-                          padding: const EdgeInsets.only(right: 8.0),
-                          child: SizedBox(
-                            width: 24,
-                            height: 24,
-                            child: IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    pwdShow = !pwdShow;
-                                  });
-                                },
-                                icon: pwdShow == true
-                                    ? Icon(
-                                        Icons.visibility_off,
-                                        color: theme.appColors.iconBook,
-                                      )
-                                    : Icon(
-                                        Icons.visibility,
-                                        color: theme.appColors.iconBook,
-                                      )),
+    return WillPopScope(
+      onWillPop: () async {
+        print("하이용");
+        onPermissionHandler(true);
+        print("하이용$isBack");
+        return true;
+      },
+      child: DefaultLayout(
+        title: "회원가입",
+        appBarLeading: widget.isOnBoarding
+            ? null
+            : BackArrowLeading(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+        backgroundColor: Colors.white,
+        isResizeToAvoid: true,
+        child: CustomScrollView(
+          slivers: [
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Form(
+                    key: formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const SizedBox(
+                          height: 23,
+                        ),
+                        CustomTextFormField(
+                          isLogin: true,
+                          labelText: "이메일",
+                          hintText: "example@gmail.com",
+                          errorText: errorEmailText,
+                          onChanged: (String value) {
+                            email = value;
+                          },
+                          validator: (value) {
+                            var emailResult =
+                                CheckValidate().validateEmail(value);
+                            if (emailResult == null) {
+                              setState(() {
+                                emailCheck = true;
+                              });
+                            } else {
+                              setState(() {
+                                emailCheck = false;
+                              });
+                            }
+                            return emailResult;
+                          },
+                          suffixIcon: emailCheck == true
+                              ? Padding(
+                                  padding: const EdgeInsets.only(right: 8.0),
+                                  child: SvgPicture.asset(
+                                    "assets/svg/icon/check_all.svg",
+                                    width: 24,
+                                    height: 24,
+                                    fit: BoxFit.scaleDown,
+                                    colorFilter: const ColorFilter.mode(
+                                        AppColors.blue6, BlendMode.srcIn),
+                                  ),
+                                )
+                              : null,
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        CustomTextFormField(
+                          isLogin: true,
+                          labelText: "닉네임",
+                          hintText: "닉네임을 입력해주세요",
+                          errorText: errorNameText,
+                          maxLength: 10,
+                          validator: (value) {
+                            var nicknameResult =
+                                CheckValidate().validateName(value);
+                            if (nicknameResult == null) {
+                              setState(() {
+                                nicknameCheck = true;
+                              });
+                            } else {
+                              setState(() {
+                                nicknameCheck = false;
+                              });
+                            }
+                            return nicknameResult;
+                          },
+                          onChanged: (String value) {
+                            name = value;
+                          },
+                          suffixIcon: nicknameCheck == true
+                              ? Padding(
+                                  padding: const EdgeInsets.only(right: 8.0),
+                                  child: SvgPicture.asset(
+                                    "assets/svg/icon/check_all.svg",
+                                    width: 25,
+                                    height: 25,
+                                    fit: BoxFit.scaleDown,
+                                    colorFilter: const ColorFilter.mode(
+                                        AppColors.blue6, BlendMode.srcIn),
+                                  ),
+                                )
+                              : null,
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        CustomTextFormField(
+                          isLogin: true,
+                          labelText: "비밀번호",
+                          hintText: "비밀번호를 설정해주세요(최소8자)",
+                          maxLength: 15,
+                          validator: (value) =>
+                              CheckValidate().validatePassword(value),
+                          obscureText: pwdShow,
+                          onChanged: (String value) {
+                            pwd = value;
+                          },
+                          suffixIcon: Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: SizedBox(
+                              width: 24,
+                              height: 24,
+                              child: IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      pwdShow = !pwdShow;
+                                    });
+                                  },
+                                  icon: pwdShow == true
+                                      ? Icon(
+                                          Icons.visibility_off,
+                                          color: theme.appColors.iconBook,
+                                        )
+                                      : Icon(
+                                          Icons.visibility,
+                                          color: theme.appColors.iconBook,
+                                        )),
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      CustomTextFormField(
-                        isLogin: true,
-                        hintText: "비밀번호를 한 번 더 입력해주세요",
-                        obscureText: pwdShow,
-                        onChanged: (String value) {},
-                        validator: (value) =>
-                            CheckValidate().validateConfirmPassword(pwd, value),
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      CustomTextFormField(
-                        isLogin: false,
-                        labelText: "추천인 (선택)",
-                        controller: referralController,
-                        errorText: errorReferralText,
-                        hintText: "추천인 코드를 입력해주세요",
-                        bgColor: AppColors.gray1,
-                        onChanged: (String value) {},
-                      ),
-                      const Spacer(),
-                      Stack(children: [
-                        CustomCheckBox(
-                          title: "전체 동의",
-                          isBold: true,
-                          svg: "check_all.svg",
-                          isChecked: agree.isAll,
-                          onChanged: () {
-                            ref
-                                .read(agreeStateNotifierProvider.notifier)
-                                .updateAll(isTrue: !agree.isAll);
-                          },
+                        const SizedBox(
+                          height: 10,
                         ),
-                        Positioned(
-                          right: 5,
-                          child: InkWell(
-                            child:
-                                Image.asset("assets/image/icon/arrow_down.png"),
-                            onTap: () {
-                              BottomSheets(
-                                      context: context,
-                                      height: 368,
-                                      isAgree: true,
-                                      isBarrier: true,
-                                      bodies: const AgreeCheckSetComponent())
-                                  .show();
+                        CustomTextFormField(
+                          isLogin: true,
+                          hintText: "비밀번호를 한 번 더 입력해주세요",
+                          obscureText: pwdShow,
+                          onChanged: (String value) {},
+                          validator: (value) => CheckValidate()
+                              .validateConfirmPassword(pwd, value),
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        CustomTextFormField(
+                          isLogin: false,
+                          labelText: "추천인 (선택)",
+                          controller: referralController,
+                          errorText: errorReferralText,
+                          hintText: "추천인 코드를 입력해주세요",
+                          bgColor: AppColors.gray1,
+                          onChanged: (String value) {},
+                        ),
+                        const Spacer(),
+                        Stack(children: [
+                          CustomCheckBox(
+                            title: "전체 동의",
+                            isBold: true,
+                            svg: "check_all.svg",
+                            isChecked: agree.isAll,
+                            onChanged: () {
+                              ref
+                                  .read(agreeStateNotifierProvider.notifier)
+                                  .updateAll(isTrue: !agree.isAll);
                             },
                           ),
-                        )
-                      ]),
-                      const SizedBox(
-                        height: 28,
-                      ),
-                      PopScope(
-                        onPopInvoked: (isTrue) {
-                          setState(() {
-                            isStop = isTrue;
-                          });
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 32),
-                          child: agree.isSubmitted
-                              ? RoundedButton(
-                                  text: "가입하기",
-                                  onPressed: () async {
-                                    if (formKey.currentState!.validate()) {
-                                      final signUpResult =
-                                          await signUpViewModel.signUpUser(
-                                        email,
-                                        name,
-                                        pwd,
-                                        referralController.text,
+                          Positioned(
+                            right: 5,
+                            child: InkWell(
+                              child: Image.asset(
+                                  "assets/image/icon/arrow_down.png"),
+                              onTap: () {
+                                BottomSheets(
                                         context: context,
-                                        isAdvertise: agree.isAdvertising,
-                                        isAppPush: agree.isAppPush,
-                                      );
-
-                                      if (signUpResult["success"]) {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (_) =>
-                                                    SignUpWelcome()));
-                                      } else {
-                                        setState(() {
-                                          errorEmailText =
-                                              signUpResult["email"];
-                                          errorNameText = signUpResult["name"];
-                                          errorReferralText =
-                                              signUpResult["referral"];
-                                        });
-                                        return;
-                                      }
-                                    }
-                                  },
-                                )
-                              : RoundedButton(
-                                  text: "가입하기",
-                                  onPressed: () {},
-                                  backgroundColor:
-                                      theme.appColors.grayButtonBackground,
-                                ),
+                                        height: 368,
+                                        isAgree: true,
+                                        isBarrier: true,
+                                        bodies: const AgreeCheckSetComponent())
+                                    .show();
+                              },
+                            ),
+                          )
+                        ]),
+                        const SizedBox(
+                          height: 28,
                         ),
-                      ),
-                    ],
+                        PopScope(
+                          onPopInvoked: (isTrue) {
+                            setState(() {
+                              isStop = isTrue;
+                            });
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 32),
+                            child: agree.isSubmitted
+                                ? RoundedButton(
+                                    text: "가입하기",
+                                    onPressed: () async {
+                                      if (formKey.currentState!.validate()) {
+                                        final signUpResult =
+                                            await signUpViewModel.signUpUser(
+                                          email,
+                                          name,
+                                          pwd,
+                                          referralController.text,
+                                          context: context,
+                                          isAdvertise: agree.isAdvertising,
+                                          isAppPush: agree.isAppPush,
+                                        );
+
+                                        if (signUpResult["success"]) {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (_) =>
+                                                      SignUpWelcome()));
+                                        } else {
+                                          setState(() {
+                                            errorEmailText =
+                                                signUpResult["email"];
+                                            errorNameText =
+                                                signUpResult["name"];
+                                            errorReferralText =
+                                                signUpResult["referral"];
+                                          });
+                                          return;
+                                        }
+                                      }
+                                    },
+                                  )
+                                : RoundedButton(
+                                    text: "가입하기",
+                                    onPressed: () {},
+                                    backgroundColor:
+                                        theme.appColors.grayButtonBackground,
+                                  ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }

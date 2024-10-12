@@ -1,12 +1,14 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:me_mind/common/component/dialog/d_bottom_sheet.dart';
 import 'package:me_mind/common/component/dialog/w_bottom_sheet_content.dart';
 import 'package:me_mind/common/component/rounded_button.dart';
 import 'package:me_mind/user/services/signup_service.dart';
 import 'package:me_mind/user/view/signup_screen.dart';
 import 'package:me_mind/utils/permission.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class SignUpViewModel {
   String? signUpViewModelMessage;
@@ -16,10 +18,14 @@ class SignUpViewModel {
   String? errorReferralText;
 
   Future signUpUser(
-      String email, String nickname, String password, String referral,
-      {required BuildContext context,
-      required bool isAdvertise,
-      required bool isAppPush}) async {
+    String email,
+    String nickname,
+    String password,
+    String referral, {
+    required BuildContext context,
+    required bool isAdvertise,
+    required bool isAppPush,
+  }) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     if (isAppPush) {
@@ -39,8 +45,14 @@ class SignUpViewModel {
     }
     if (isTrue != true && isAppPush) return;
     if (isAppPush) {
-      var permissionStatus = await DevicePermission().accessNotification();
+      var permissionStatus =
+          await DevicePermission().accessNotification(context: context);
 
+      if (permissionStatus == PermissionStatus.denied) {
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) => SignUpScreen(isOnBoarding: false)));
+        return;
+      }
       await prefs.setBool('adverTisingAccept', isAdvertise);
       await prefs.setBool('appPushAccept', isAppPush);
     }
