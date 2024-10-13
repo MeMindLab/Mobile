@@ -280,6 +280,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                                           isAdvertise: agree.isAdvertising,
                                           isAppPush: agree.isAppPush,
                                         );
+                                        if (signUpResult == null) return;
 
                                         if (signUpResult["success"]) {
                                           Navigator.push(

@@ -21,7 +21,6 @@ import 'package:me_mind/settings/services/user_validation_service.dart';
 import 'package:me_mind/settings/services/userinfo_service.dart';
 import 'package:me_mind/settings/utils/phone_number_formatter.dart';
 import 'package:me_mind/settings/view/s_withdraw_check.dart';
-import 'package:me_mind/settings/view/s_withdraw_notice.dart';
 import 'package:me_mind/settings/view/w_certify_timer.dart';
 import 'package:me_mind/utils/validate.dart';
 
@@ -66,6 +65,8 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
   bool isAuthNumberState = true;
   String? errorNameText;
   String? errorEmailText;
+  late String saveName;
+  late String saveEmail;
 
   void resetTimer() {
     setState(() {
@@ -120,6 +121,8 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
     phoneController.text = widget.userPhoneNumber ?? "";
     isAuthenticComplete = widget.isVerified;
     _timer = Timer(const Duration(seconds: 0), () {});
+    saveName = widget.userNickname;
+    saveEmail = widget.userEmail;
   }
 
   @override
@@ -190,7 +193,13 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                 SeetingCustomTextFormField(
                   textEditingController: nameController,
                   bgColor: theme.appColors.seedColor,
-                  errorText: errorNameText,
+                  errorText: null,
+                  outlineInputBorder: errorNameText == "error"
+                      ? OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(13),
+                          borderSide:
+                              const BorderSide(color: AppColors.timerColor))
+                      : null,
                   maxLength: 10,
                   labelText: "닉네임",
                   validator: (value) {
@@ -228,11 +237,12 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                                   if (widget.userNickname ==
                                       nameController.text) {
                                     setState(() {
-                                      errorNameText = "기존 닉네임입니다.";
+                                      errorNameText = "error";
                                       isNameCheck = false;
                                     });
                                     return;
                                   }
+                                  print(errorNameText);
                                   final result = await UserValidationService()
                                       .checkName(name: nameController.text);
 
@@ -243,7 +253,7 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                                     });
                                   } else {
                                     setState(() {
-                                      errorNameText = "이미 사용중인 닉네임입니다.";
+                                      errorNameText = "error";
                                       isNameCheck = false;
                                     });
                                   }
@@ -259,7 +269,13 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                 SeetingCustomTextFormField(
                   textEditingController: emailController,
                   bgColor: theme.appColors.seedColor,
-                  errorText: errorEmailText,
+                  // errorText: errorEmailText,
+                  outlineInputBorder: errorEmailText == "error"
+                      ? OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(13),
+                          borderSide:
+                              const BorderSide(color: AppColors.timerColor))
+                      : null,
                   maxLines: 1,
                   suffixWidget: const SizedBox(width: 85),
                   labelText: "이메일",
@@ -298,7 +314,7 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                                   if (widget.userEmail ==
                                       emailController.text) {
                                     setState(() {
-                                      errorEmailText = "기존 이메일입니다.";
+                                      errorEmailText = "error";
                                       isEmailCheck = false;
                                     });
                                   }
@@ -312,7 +328,7 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                                     });
                                   } else {
                                     setState(() {
-                                      errorEmailText = "이미 사용중인 이메일입니다.";
+                                      errorEmailText = "error";
                                       isEmailCheck = false;
                                     });
                                   }
@@ -561,8 +577,8 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                         errorEmailText = null;
                         errorNameText = null;
                       });
-                      nameController.text = widget.userNickname;
-                      emailController.text = widget.userEmail;
+                      nameController.text = saveName;
+                      emailController.text = saveEmail;
                       phoneController.text = widget.userPhoneNumber ?? "";
                       resetTimer();
                     },
@@ -603,6 +619,8 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                             isphoneAuthenticated = false;
                             isNameCheck = false;
                             isEmailCheck = false;
+                            saveName = nameController.text;
+                            saveEmail = emailController.text;
                           });
                           widget.onUpdate(false);
 

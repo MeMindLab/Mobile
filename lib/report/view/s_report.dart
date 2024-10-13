@@ -125,59 +125,28 @@ class _Report extends ConsumerState<Report> {
                                 } else if (snapshot.connectionState ==
                                     ConnectionState.done) {
                                   if (snapshot.hasError) {
-                                    return Center(
-                                        child:
-                                            Text('Error: ${snapshot.error}'));
+                                    return const Center(
+                                        child: Text('최근 감정흐름을 불러오지 못했습니다.'));
                                   } else if (snapshot.hasData) {
                                     final result =
                                         snapshot.data as ReportWeeklyModel;
 
-                                    List<TodayScore> newData =
+                                    List<String> dates =
                                         result.results!.length == 0
                                             ? []
-                                            : result.results!;
+                                            : result.results!
+                                                .map((item) => item.date)
+                                                .toList();
 
-                                    int totalLength =
-                                        newData.length > 7 ? 7 : newData.length;
-                                    List<TodayScore> newBox =
-                                        newData.take(7).toList();
+                                    List<FlSpot> newSpots = WeeklyFlChartData()
+                                        .getScore(weeklymodel: result);
 
-                                    List<String> dates = newBox
-                                        .map((item) => item.date)
-                                        .toList();
-                                    List<FlSpot> flSpots = [];
-                                    for (int i = 0; i < newBox.length; i++) {
-                                      flSpots.add(FlSpot(
-                                          (i * 2).toDouble(),
-                                          newBox[i].score < 0
-                                              ? 0
-                                              : newBox[i].score / 20));
-                                    }
-
-                                    DateFormat dateFormat = DateFormat('MM/dd');
-                                    WeeklyFlChartData().getDates(dates: dates);
-                                    if (dates.isEmpty) {
-                                      dates.add(
-                                          dateFormat.format(DateTime.now()));
-                                    }
-                                    String lastDateString = dates.last;
-                                    DateTime lastDate =
-                                        dateFormat.parse(lastDateString);
-
-                                    for (int i = 1;
-                                        i < 7 - totalLength + 1;
-                                        i++) {
-                                      DateTime newDate =
-                                          lastDate.add(Duration(days: i));
-                                      dates.add(dateFormat.format(newDate));
-                                    }
-
-                                    WeeklyFlChartData().getDates(dates: dates);
+                                    List<String> newDates = WeeklyFlChartData()
+                                        .getDates(dates: dates);
 
                                     return ReportChart(
-                                      dates: dates,
-                                      data: newBox,
-                                      spots: flSpots,
+                                      dates: newDates,
+                                      spots: newSpots,
                                     );
                                   }
                                 }

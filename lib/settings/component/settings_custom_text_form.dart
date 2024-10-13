@@ -23,6 +23,7 @@ class SeetingCustomTextFormField extends StatefulWidget {
   final bool? enabled;
   final TextEditingController? textEditingController;
   final bool? isError;
+  final OutlineInputBorder? outlineInputBorder;
 
   const SeetingCustomTextFormField({
     super.key,
@@ -44,6 +45,7 @@ class SeetingCustomTextFormField extends StatefulWidget {
     this.enabled = true,
     this.textEditingController,
     this.isError = false,
+    this.outlineInputBorder,
   });
   @override
   State<SeetingCustomTextFormField> createState() =>
@@ -124,15 +126,17 @@ class _CustomTextFormFieldState extends State<SeetingCustomTextFormField> {
                 .copyWith(color: AppColors.gray5, fontWeight: FontWeight.w400),
             fillColor: inputBackground,
             filled: true, // false 배경색 없음 true 있음
-            enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide.none,
-                borderRadius: BorderRadius.circular(13)),
+            enabledBorder: widget.outlineInputBorder ??
+                OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.circular(13)),
             disabledBorder: OutlineInputBorder(
                 borderSide: BorderSide.none,
                 borderRadius: BorderRadius.circular(13)),
-            focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide.none,
-                borderRadius: BorderRadius.circular(13)),
+            focusedBorder: widget.outlineInputBorder ??
+                OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.circular(13)),
 
             errorBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(13),
