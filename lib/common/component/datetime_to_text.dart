@@ -1,6 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 
-String datetimeType1() {
+String datetimeType1({String? date}) {
+  if (date != null) {
+    DateTime dateTime = DateFormat("yyyy-MM-dd").parse(date);
+    return DateFormat('M월 d일(EE)').format(dateTime);
+  }
   return DateFormat('M월 d일(EE)').format(DateTime.now());
 }
 

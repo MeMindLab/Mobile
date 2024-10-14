@@ -220,6 +220,23 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                         // 받은 토큰으로 필요한 작업 수행
                       });
                     """);
+                    webViewController!.addJavaScriptHandler(
+                        handlerName: "navigateToChat",
+                        callback: (args) {
+                          // args[0] = conversations['date']
+                          final conversations = args[0];
+
+                          if (conversations != null) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Chat(
+                                  seletedDate: conversations["date"],
+                                ),
+                              ),
+                            );
+                          }
+                        });
                     setState(() {
                       myUrl = uri!;
                     });
@@ -251,7 +268,9 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const Chat(),
+                                builder: (context) => Chat(
+                                  seletedDate: null,
+                                ),
                               ),
                             );
                           }

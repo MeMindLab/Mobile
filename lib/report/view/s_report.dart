@@ -125,8 +125,11 @@ class _Report extends ConsumerState<Report> {
                                 } else if (snapshot.connectionState ==
                                     ConnectionState.done) {
                                   if (snapshot.hasError) {
-                                    return const Center(
-                                        child: Text('최근 감정흐름을 불러오지 못했습니다.'));
+                                    return Center(
+                                        child: Transform.translate(
+                                            offset: const Offset(15, -1),
+                                            child: const Text(
+                                                '최근 감정흐름을 불러오지 못했습니다.')));
                                   } else if (snapshot.hasData) {
                                     final result =
                                         snapshot.data as ReportWeeklyModel;

@@ -8,8 +8,6 @@ import 'package:me_mind/common/constant/constant.dart';
 import 'package:me_mind/common/dio/dio.dart';
 
 final chatStartServiceProvider = Provider<ChatStartService>((ref) {
-  // final dio = ref.watch(dioProvider);
-
   final chatStartService = ChatStartService();
 
   return chatStartService;
@@ -18,8 +16,8 @@ final chatStartServiceProvider = Provider<ChatStartService>((ref) {
 class ChatStartService {
   Future load(String date) async {
     final url = "$ip/chat/start";
-    // Map<String, dynamic> data = {"date": date};
-    Map<String, dynamic> data = {"date": "2024-10-15"};
+    Map<String, dynamic> data = {"date": date};
+
     final dio = Dio();
     Response response;
     dio.interceptors.add(CustomInterceptor(storage: storage));

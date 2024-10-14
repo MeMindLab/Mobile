@@ -34,7 +34,9 @@ import 'package:me_mind/settings/view/s_setting_notification.dart';
 import 'package:me_mind/settings/view/s_setting_userinfo.dart';
 
 class Chat extends ConsumerStatefulWidget {
-  const Chat({super.key});
+  String? seletedDate;
+
+  Chat({super.key, this.seletedDate});
 
   @override
   ConsumerState<Chat> createState() => _ChatState();
@@ -68,7 +70,7 @@ class _ChatState extends ConsumerState<Chat> {
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(chatStateNotifierProvider);
+    final state = ref.watch(chatStateNotifierProvider(widget.seletedDate));
     final chatId = ref.watch(chatIdProvider);
     final reportIssue = ref.watch(reportIssueProvider);
     final lemon = ref.watch(lemonStateNotifierProvider);
@@ -80,7 +82,7 @@ class _ChatState extends ConsumerState<Chat> {
       print(next);
     });
 
-    ref.listen(chatStateNotifierProvider, (prev, next) {
+    ref.listen(chatStateNotifierProvider(widget.seletedDate), (prev, next) {
       int imageCount = next.where((message) => message.isImage).length;
       setState(() {
         chatImageCount = imageCount;
@@ -127,7 +129,7 @@ class _ChatState extends ConsumerState<Chat> {
       }
     });
 
-    ref.listen(chatStateNotifierProvider, (previous, next) {
+    ref.listen(chatStateNotifierProvider(widget.seletedDate), (previous, next) {
       if (lemon == 1 &&
           next.length == 1 &&
           dialog1 == false &&
@@ -221,7 +223,7 @@ class _ChatState extends ConsumerState<Chat> {
           ),
         ),
       ],
-      title: datetimeType1(),
+      title: datetimeType1(date: widget.seletedDate),
       // ignore: sort_child_properties_last
       child: SafeArea(
         child: Column(
@@ -354,7 +356,8 @@ class _ChatState extends ConsumerState<Chat> {
                                       if (imageUpload is! ImageUploadModel)
                                         return;
                                       ref
-                                          .read(chatStateNotifierProvider
+                                          .read(chatStateNotifierProvider(
+                                                  widget.seletedDate)
                                               .notifier)
                                           .addChating(
                                               message: imageUpload.imageUrl,
@@ -458,7 +461,9 @@ class _ChatState extends ConsumerState<Chat> {
                                             if (chatContent != "") {
                                               ref
                                                   .read(
-                                                      chatStateNotifierProvider
+                                                      chatStateNotifierProvider(
+                                                              widget
+                                                                  .seletedDate)
                                                           .notifier)
                                                   .addChating(
                                                       message: chatContent);
