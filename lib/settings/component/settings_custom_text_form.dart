@@ -110,8 +110,8 @@ class _CustomTextFormFieldState extends State<SeetingCustomTextFormField> {
           inputFormatters: widget.textInputFormatter,
           onChanged: widget.onChanged,
           onSaved: widget.onSaved,
-          style: FontSizes.getContentStyle()
-              .copyWith(color: labelTextColor, fontWeight: FontWeight.w400),
+          style: FontSizes.getContentStyle().copyWith(
+              color: labelTextColor, fontWeight: FontWeight.w400, height: 1.02),
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.fromLTRB(10, 15, 15, 15),
             prefix: const Padding(

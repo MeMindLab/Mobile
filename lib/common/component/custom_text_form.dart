@@ -87,7 +87,7 @@ class CustomTextFormField extends StatelessWidget {
                 validator: validator,
                 focusNode: focusNode,
                 onFieldSubmitted: onFieldSubmitted,
-                textAlignVertical: const TextAlignVertical(y: 0.15),
+                textAlignVertical: const TextAlignVertical(y: 0.23),
                 textInputAction: TextInputAction.next,
                 maxLength: maxLength,
                 obscureText: obscureText,
@@ -95,7 +95,8 @@ class CustomTextFormField extends StatelessWidget {
                 cursorColor: theme.focusColor,
                 cursorHeight: 16,
                 onChanged: onChanged,
-                style: textStyle ?? FontSizes.getContentStyle(),
+                style: textStyle ??
+                    FontSizes.getContentStyle().copyWith(height: 1.02),
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.fromLTRB(5, 15, 15, 15),
                   prefix: const Padding(
