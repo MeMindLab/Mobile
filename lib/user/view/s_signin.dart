@@ -195,6 +195,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                                                             .notifier)
                                                     .lemonInit();
                                               } catch (e) {
+                                                print("로그인 에러");
                                                 return;
                                               }
 

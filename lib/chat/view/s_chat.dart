@@ -78,16 +78,18 @@ class _ChatState extends ConsumerState<Chat> {
     final reportId = ref.watch(reportIdProvider);
 
     CustomTheme theme = CustomThemeHolder.of(context).theme;
-    ref.listen(reportIdProvider, (pref, next) {
-      print(next);
-    });
 
-    // ref.listen(chatStateNotifierProvider(widget.seletedDate), (prev, next) {
-    //   int imageCount = next.where((message) => message.isImage).length;
-    //   setState(() {
-    //     chatImageCount = imageCount;
-    //   });
-    // });
+    ref.listen(chatStateNotifierProvider(widget.seletedDate), (prev, next) {
+      int imageCount = next.where((message) {
+        if (message is ChatMessageModel) {
+          return message.isImage;
+        }
+        return false;
+      }).length;
+      setState(() {
+        chatImageCount = imageCount;
+      });
+    });
 
     ref.listen(reportIssueProvider, (previous, next) {
       if (next && lemon == 1) {

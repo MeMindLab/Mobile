@@ -75,7 +75,7 @@ class _WithdrawPasswordFragmentState extends State<WithdrawPasswordScreen> {
                   const Spacer(),
                   password.length > 0
                       ? RoundedButton(
-                          text: "다음",
+                          text: "탈퇴하기",
                           onPressed: () async {
                             var result = await WithDrawService().withDraw(
                                 password: password, reason: widget.reasons);

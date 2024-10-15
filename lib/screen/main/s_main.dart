@@ -47,40 +47,6 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     }
   }
 
-  // void loadTheme() async {
-  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   String? newThemeMode = prefs.getString("themeMode");
-  //   if (newThemeMode == null) {
-  //     await prefs.setString('themeMode', 'general mode');
-  //     themeMode = "general mode";
-  //     ref.read(themeProvider.notifier).setTheme(AppTheme.basic);
-  //   } else {
-  //     themeMode == 'general mode'
-  //         ? ref.read(themeProvider.notifier).setTheme(AppTheme.basic)
-  //         : ref.read(themeProvider.notifier).setTheme(AppTheme.emotion);
-  //   }
-  //   if (mounted) {
-  //     setState(() {
-  //       themeMode = newThemeMode;
-  //     });
-  //   }
-  // }
-
-  // void sendThemeWebview(
-  //     InAppWebViewController controller, AppTheme theme) async {
-  //   String themeString = theme == AppTheme.basic
-  //       ? """
-  //        window.postMessage('emotion mode', '*');
-  //        window.theme = 'emotion mode';
-  //        """
-  //       : """
-  //        window.postMessage('general mode', '*');
-  //        window.theme = 'general mode';
-  //        """;
-
-  //   await controller.evaluateJavascript(source: themeString);
-  // }
-
   Future<void> refreshTokenOrRedirectToLogin(
       {required InAppWebViewController controller}) async {
     try {
@@ -90,10 +56,9 @@ class _MainScreenState extends ConsumerState<MainScreen> {
         await storage.write(key: REFRESH_TOKEN, value: response.refreshToken);
 
         await controller.evaluateJavascript(source: """
-                      window.flutter_inappwebview.callHandler('authError').then(function(token) {
+                      window.flutter_inappwebview.callHandler('tokenExpired').then(function(token) {
                         window.receivedToken = token;
                         console.log("Token received from Flutter: " + token);
-                        // 받은 토큰으로 필요한 작업 수행
                       });
                     """);
       } else {
@@ -138,11 +103,6 @@ class _MainScreenState extends ConsumerState<MainScreen> {
   Widget build(BuildContext context) {
     final themeState = ref.watch(themeProvider);
 
-    // ref.listen(themeProvider, (pref, next) {
-    //   if (webViewController != null) {
-    //     sendThemeWebview(webViewController!, next);
-    //   }
-    // });
     return DefaultLayout(
       backgroundColor: AppColors.blue1,
       bottomNavigationBar: const RootTab(),
@@ -201,25 +161,12 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                   },
                   onLoadStop: (InAppWebViewController controller, uri) async {
                     controller.addJavaScriptHandler(
-                        handlerName: "authError",
+                        handlerName: "tokenExpired",
                         callback: (args) async {
                           await refreshTokenOrRedirectToLogin(
                               controller: controller);
                         });
 
-                    controller.addJavaScriptHandler(
-                        handlerName: "requestToken",
-                        callback: (args) async {
-                          debugPrint("토큰 전송");
-                          return token;
-                        });
-                    await controller.evaluateJavascript(source: """
-                      window.flutter_inappwebview.callHandler('requestToken').then(function(token) {
-                        window.receivedToken = token;
-                        console.log("Token received from Flutter: " + token);
-                        // 받은 토큰으로 필요한 작업 수행
-                      });
-                    """);
                     webViewController!.addJavaScriptHandler(
                         handlerName: "navigateToChat",
                         callback: (args) {
@@ -257,6 +204,19 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                   onWebViewCreated: (InAppWebViewController controller) async {
                     webViewController = controller;
                     // sendThemeWebview(controller, themeState);
+                    controller.addJavaScriptHandler(
+                        handlerName: "requestToken",
+                        callback: (args) async {
+                          debugPrint("토큰 전송");
+                          return token;
+                        });
+                    await controller.evaluateJavascript(source: """
+                      window.flutter_inappwebview.callHandler('requestToken').then(function(token) {
+                        window.receivedToken = token;
+                        console.log("Token received from Flutter: " + token);
+                        // 받은 토큰으로 필요한 작업 수행
+                      });
+                    """);
 
                     webViewController!.addJavaScriptHandler(
                         handlerName: 'clickDiary',
