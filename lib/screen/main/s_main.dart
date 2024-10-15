@@ -47,39 +47,39 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     }
   }
 
-  void loadTheme() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? newThemeMode = prefs.getString("themeMode");
-    if (newThemeMode == null) {
-      await prefs.setString('themeMode', 'general mode');
-      themeMode = "general mode";
-      ref.read(themeProvider.notifier).setTheme(AppTheme.basic);
-    } else {
-      themeMode == 'general mode'
-          ? ref.read(themeProvider.notifier).setTheme(AppTheme.basic)
-          : ref.read(themeProvider.notifier).setTheme(AppTheme.emotion);
-    }
-    if (mounted) {
-      setState(() {
-        themeMode = newThemeMode;
-      });
-    }
-  }
+  // void loadTheme() async {
+  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   String? newThemeMode = prefs.getString("themeMode");
+  //   if (newThemeMode == null) {
+  //     await prefs.setString('themeMode', 'general mode');
+  //     themeMode = "general mode";
+  //     ref.read(themeProvider.notifier).setTheme(AppTheme.basic);
+  //   } else {
+  //     themeMode == 'general mode'
+  //         ? ref.read(themeProvider.notifier).setTheme(AppTheme.basic)
+  //         : ref.read(themeProvider.notifier).setTheme(AppTheme.emotion);
+  //   }
+  //   if (mounted) {
+  //     setState(() {
+  //       themeMode = newThemeMode;
+  //     });
+  //   }
+  // }
 
-  void sendThemeWebview(
-      InAppWebViewController controller, AppTheme theme) async {
-    String themeString = theme == AppTheme.basic
-        ? """
-         window.postMessage('emotion mode', '*');
-         window.theme = 'emotion mode';
-         """
-        : """
-         window.postMessage('general mode', '*');
-         window.theme = 'general mode';
-         """;
+  // void sendThemeWebview(
+  //     InAppWebViewController controller, AppTheme theme) async {
+  //   String themeString = theme == AppTheme.basic
+  //       ? """
+  //        window.postMessage('emotion mode', '*');
+  //        window.theme = 'emotion mode';
+  //        """
+  //       : """
+  //        window.postMessage('general mode', '*');
+  //        window.theme = 'general mode';
+  //        """;
 
-    await controller.evaluateJavascript(source: themeString);
-  }
+  //   await controller.evaluateJavascript(source: themeString);
+  // }
 
   Future<void> refreshTokenOrRedirectToLogin(
       {required InAppWebViewController controller}) async {
@@ -113,7 +113,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
 
     setBottomIdx(0);
     _loadToken();
-    loadTheme();
+    // loadTheme();
 
     pullToRefreshController = PullToRefreshController(
       onRefresh: () async {
@@ -138,11 +138,11 @@ class _MainScreenState extends ConsumerState<MainScreen> {
   Widget build(BuildContext context) {
     final themeState = ref.watch(themeProvider);
 
-    ref.listen(themeProvider, (pref, next) {
-      if (webViewController != null) {
-        sendThemeWebview(webViewController!, next);
-      }
-    });
+    // ref.listen(themeProvider, (pref, next) {
+    //   if (webViewController != null) {
+    //     sendThemeWebview(webViewController!, next);
+    //   }
+    // });
     return DefaultLayout(
       backgroundColor: AppColors.blue1,
       bottomNavigationBar: const RootTab(),
@@ -223,7 +223,6 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                     webViewController!.addJavaScriptHandler(
                         handlerName: "navigateToChat",
                         callback: (args) {
-                          // args[0] = conversations['date']
                           final conversations = args[0];
 
                           if (conversations != null) {
@@ -257,7 +256,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                   },
                   onWebViewCreated: (InAppWebViewController controller) async {
                     webViewController = controller;
-                    sendThemeWebview(controller, themeState);
+                    // sendThemeWebview(controller, themeState);
 
                     webViewController!.addJavaScriptHandler(
                         handlerName: 'clickDiary',

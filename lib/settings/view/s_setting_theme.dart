@@ -41,12 +41,12 @@ class _SettingThemaState extends ConsumerState<SettingTheme> {
     setState(() {});
   }
 
-  void setTheme() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    String tmpTheme =
-        _appTheme == AppTheme.basic ? "general mode" : "emotion mode";
-    await prefs.setString("themeMode", tmpTheme);
-  }
+  // void setTheme() async {
+  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   String tmpTheme =
+  //       _appTheme == AppTheme.basic ? "general mode" : "emotion mode";
+  //   await prefs.setString("themeMode", tmpTheme);
+  // }
 
   @override
   void initState() {
@@ -58,7 +58,7 @@ class _SettingThemaState extends ConsumerState<SettingTheme> {
   @override
   void dispose() {
     // TODO: implement dispose
-    setTheme();
+    // setTheme();
     super.dispose();
   }
 

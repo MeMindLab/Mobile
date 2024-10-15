@@ -183,16 +183,20 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                                                   key: REFRESH_TOKEN,
                                                   value: refreshToken);
 
-                                              await ref
-                                                  .read(
-                                                      userStateNotifierProvider
-                                                          .notifier)
-                                                  .userInit();
-                                              await ref
-                                                  .read(
-                                                      lemonStateNotifierProvider
-                                                          .notifier)
-                                                  .lemonInit();
+                                              try {
+                                                await ref
+                                                    .read(
+                                                        userStateNotifierProvider
+                                                            .notifier)
+                                                    .userInit();
+                                                await ref
+                                                    .read(
+                                                        lemonStateNotifierProvider
+                                                            .notifier)
+                                                    .lemonInit();
+                                              } catch (e) {
+                                                return;
+                                              }
 
                                               Navigator.of(context)
                                                   .pushReplacement(

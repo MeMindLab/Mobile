@@ -82,12 +82,12 @@ class _ChatState extends ConsumerState<Chat> {
       print(next);
     });
 
-    ref.listen(chatStateNotifierProvider(widget.seletedDate), (prev, next) {
-      int imageCount = next.where((message) => message.isImage).length;
-      setState(() {
-        chatImageCount = imageCount;
-      });
-    });
+    // ref.listen(chatStateNotifierProvider(widget.seletedDate), (prev, next) {
+    //   int imageCount = next.where((message) => message.isImage).length;
+    //   setState(() {
+    //     chatImageCount = imageCount;
+    //   });
+    // });
 
     ref.listen(reportIssueProvider, (previous, next) {
       if (next && lemon == 1) {
