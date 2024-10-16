@@ -203,7 +203,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                   },
                   onWebViewCreated: (InAppWebViewController controller) async {
                     webViewController = controller;
-                    // sendThemeWebview(controller, themeState);
+
                     controller.addJavaScriptHandler(
                         handlerName: "requestToken",
                         callback: (args) async {

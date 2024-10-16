@@ -39,6 +39,10 @@ class AudioRecord {
 
   Future<String?> recordStop() async {
     final path = await _audioRecorder.stop();
+    await _audioRecorder.pause();
+    await _audioRecorder.dispose();
+
+    print(path);
     if (path != null) {
       return path;
     } else {

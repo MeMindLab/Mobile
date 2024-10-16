@@ -19,32 +19,25 @@ class _TrashState extends State<Trash> {
   String recordPath = "";
   bool isRecord = false;
   bool isFolded = false;
-  void getRecordPath() async {
-    String? path = await audioRecord.recordStop();
-    if (path != null) {
-      setState(() {
-        recordPath = path;
-      });
-    }
-    print(path);
-  }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     audioRecord = AudioRecord();
-    audioRecord.recordStart(context, () {
-      setState(() {
-        isRecord = true;
+    if (mounted) {
+      audioRecord.recordStart(context, () {
+        setState(() {
+          isRecord = true;
+        });
       });
-    });
+    }
   }
 
   @override
   void dispose() {
     // TODO: implement dispose
-    getRecordPath();
+    audioRecord.recordStop();
     super.dispose();
   }
 
@@ -60,38 +53,46 @@ class _TrashState extends State<Trash> {
         iconColor: theme.appColors.seedColor,
       ),
       backgroundColor: theme.appColors.trashColor,
-      child: Stack(
-        children: [
-          Column(children: [
-            ChatNotification(
-              theme: theme,
-              isArrow: true,
-              content:
-                  "누구에게도 말하지 못하는 내용이나 당장 털어버리고 싶은 이야기들을 음성으로 마음껏 내뱉어보세요! 데이터는 저장되지 않아요.",
-              isFolded: isFolded,
-              bgColor: theme.appColors.chatBubble,
-              foldedButtonColor: theme.appColors.seedColor,
-              onPressed: () {
-                setState(() {
-                  isFolded = !isFolded;
-                });
-              },
-            ),
-          ]),
-          if (isRecord)
-            Align(
-              alignment: Alignment(0, -0.24),
-              child: Image.asset(
-                'assets/image/chat/micBg2.gif',
-                width: MediaQuery.of(context).size.width * 0.8,
-                fit: BoxFit.cover,
+      child: WillPopScope(
+        onWillPop: () async {
+          print("뒤로가기");
+          await audioRecord.recordStop();
+          return true;
+        },
+        child: Stack(
+          children: [
+            Column(children: [
+              ChatNotification(
+                theme: theme,
+                isArrow: true,
+                content:
+                    "누구에게도 말하지 못하는 내용이나 당장 털어버리고 싶은 이야기들을 음성으로 마음껏 내뱉어보세요! 데이터는 저장되지 않아요.",
+                isFolded: isFolded,
+                bgColor: theme.appColors.chatBubble,
+                foldedButtonColor: theme.appColors.seedColor,
+                onPressed: () {
+                  setState(() {
+                    isFolded = !isFolded;
+                  });
+                },
               ),
-            ),
-          Align(
-            alignment: Alignment(0, -0.15),
-            child: SvgPicture.asset('assets/svg/icon/empty_mic.svg', width: 40),
-          )
-        ],
+            ]),
+            if (isRecord)
+              Align(
+                alignment: Alignment(0, -0.24),
+                child: Image.asset(
+                  'assets/image/chat/micBg2.gif',
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            Align(
+              alignment: Alignment(0, -0.15),
+              child:
+                  SvgPicture.asset('assets/svg/icon/empty_mic.svg', width: 40),
+            )
+          ],
+        ),
       ),
     );
   }

@@ -52,10 +52,10 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       return;
     } else {
       final dio = Dio();
-      final String? themeMode = prefs.getString('themeMode');
-      if (themeMode == null) {
-        await prefs.setString('themeMode', 'general mode');
-      }
+      // final String? themeMode = prefs.getString('themeMode');
+      // if (themeMode == null) {
+      //   await prefs.setString('themeMode', 'general mode');
+      // }
       try {
         final resp = await dio.get("$ip/auth/token/refresh",
             options: Options(
