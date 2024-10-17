@@ -92,7 +92,7 @@ class _ChatState extends ConsumerState<Chat> {
     });
 
     ref.listen(reportIssueProvider, (previous, next) {
-      if (next && lemon == 1) {
+      if (next && lemon == 0) {
         if (user.isVerified != null) {
           if (user.isVerified! && dialog3 == false) {
             dialog3 = true;
