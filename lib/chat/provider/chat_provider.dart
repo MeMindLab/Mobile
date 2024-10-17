@@ -45,7 +45,6 @@ class ChatStateNotifier extends StateNotifier<List> {
           ChatMessageModel(
               message: message,
               index: newState.length,
-              // index: newState[0].index + 1,
               isAi: false,
               isImage: isImage,
               createdAt: msgTime));
@@ -75,7 +74,6 @@ class ChatStateNotifier extends StateNotifier<List> {
             displayAnswer += String.fromCharCode(answerBox[answerCnt]);
             newState[0] = ChatMessageModel(
                 index: newState.length,
-                // index: newState[1].index + 1,
                 message: displayAnswer,
                 isAi: true,
                 isImage: false,

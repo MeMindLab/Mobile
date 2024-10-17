@@ -78,7 +78,6 @@ class _MainScreenState extends ConsumerState<MainScreen> {
 
     setBottomIdx(0);
     _loadToken();
-    // loadTheme();
 
     pullToRefreshController = PullToRefreshController(
       onRefresh: () async {
@@ -101,8 +100,6 @@ class _MainScreenState extends ConsumerState<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final themeState = ref.watch(themeProvider);
-
     return DefaultLayout(
       backgroundColor: AppColors.blue1,
       bottomNavigationBar: const RootTab(),
@@ -170,6 +167,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                     webViewController!.addJavaScriptHandler(
                         handlerName: "navigateToChat",
                         callback: (args) {
+                          print(args);
                           final conversations = args[0];
 
                           if (conversations != null) {
