@@ -68,6 +68,8 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
   String? errorEmailText;
   late String saveName;
   late String saveEmail;
+  bool isPhoneButton = false;
+  String? errorPhoneAuthText;
 
   void resetTimer() {
     setState(() {
@@ -354,7 +356,17 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                         ? widget.userPhoneNumber
                         : "번호를 입력해주세요",
                     readOnly: widget.isUpdate == false ? true : false,
-                    onChanged: (String value) {},
+                    onChanged: (String value) {
+                      if (phoneController.text.length == 13) {
+                        setState(() {
+                          isPhoneButton = true;
+                        });
+                      } else {
+                        setState(() {
+                          isPhoneButton = false;
+                        });
+                      }
+                    },
                   ),
                   Positioned(
                     bottom: 5,
@@ -370,7 +382,7 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                                 style: FontSizes.getContentStyle()
                                     .copyWith(fontWeight: FontWeight.w500),
                               ),
-                              onPressed: phoneController.text.length == 13
+                              onPressed: isPhoneButton
                                   ? () async {
                                       if (isphoneAuthenticated == false) {
                                         setState(() {
@@ -428,6 +440,7 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                                         child: SeetingCustomTextFormField(
                                           bgColor: theme.appColors.seedColor,
                                           maxLength: 6,
+                                          errorText: errorPhoneAuthText,
                                           onChanged: (String value) {
                                             value.length == 6
                                                 ? setState(() {
@@ -475,8 +488,16 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                                               .sendVerify(
                                                   phone: phoneController.text,
                                                   code: code);
-
-                                          if (result is! AuthSmsVerifyModel ||
+                                          print(result);
+                                          if (result == null) {
+                                            setState(() {
+                                              isAuthNumberState = false;
+                                              errorPhoneAuthText =
+                                                  "인증번호를 확인해주세요";
+                                            });
+                                            return;
+                                          } else if (result
+                                                  is! AuthSmsVerifyModel ||
                                               result.data.valid == false) {
                                             setState(() {
                                               isAuthNumberState =

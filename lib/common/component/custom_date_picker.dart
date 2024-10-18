@@ -96,7 +96,10 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
                     child: CupertinoButton(
                       padding: EdgeInsets.zero,
                       onPressed: () {
-                        Navigator.pop(context, null); // Cancel
+                        // Handle clear logic here if necessary.
+                        setState(() {
+                          initialDate = DateTime.now();
+                        });
                       },
                       child: const Text(
                         '취소',
@@ -122,10 +125,7 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
                     child: CupertinoButton(
                       padding: EdgeInsets.zero,
                       onPressed: () {
-                        // Handle clear logic here if necessary.
-                        setState(() {
-                          initialDate = DateTime.now();
-                        });
+                        Navigator.pop(context, null); // Cancel
                       },
                       child: const Center(
                         child: Text(

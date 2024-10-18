@@ -22,6 +22,7 @@ class DailyService {
 
     try {
       response = await dio.post(url, data: jsonEncode(data));
+      print(response);
 
       CreateDailyModel cdModel = CreateDailyModel.fromJson(response.data);
 

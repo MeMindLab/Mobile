@@ -196,7 +196,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                                         )
                                       : Icon(
                                           Icons.visibility,
-                                          color: theme.appColors.iconBook,
+                                          color: AppColors.gray9,
                                         )),
                             ),
                           ),

@@ -220,23 +220,6 @@ class _ReportDetailState extends ConsumerState<ReportDetail> {
                             Row(
                               children: [
                                 const SizedBox(width: 7),
-                                InkWell(
-                                  onTap: () async {
-                                    final data = await ImageDownloadService()
-                                        .downloadAndSaveImage(
-                                            result.drawingDiary!.imageUrl!);
-                                    if (data != null) {
-                                      ShowSnackBar().showBottomSnackBar(
-                                          context, "갤러리에 저장되었습니다.");
-                                    }
-                                  },
-                                  child: SvgPicture.asset(
-                                    'assets/svg/icon/upload.svg',
-                                    colorFilter: ColorFilter.mode(
-                                        theme.appColors.iconBook,
-                                        BlendMode.srcIn),
-                                  ),
-                                ),
                                 const SizedBox(width: 5),
                               ],
                             ),
@@ -249,10 +232,7 @@ class _ReportDetailState extends ConsumerState<ReportDetail> {
                               Container(
                                 width: MediaQuery.of(context).size.width * 0.9,
                                 height: 199,
-                                decoration: result.drawingDiary != null &&
-                                        result.drawingDiary!.imageTitle !=
-                                            "asdf" &&
-                                        result.drawingDiary!.imageUrl != "asdf"
+                                decoration: result.drawingDiary != null
                                     ? BoxDecoration(
                                         image: DecorationImage(
                                             image: NetworkImage(

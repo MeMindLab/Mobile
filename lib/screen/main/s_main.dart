@@ -74,10 +74,6 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     }
   }
 
-  void pageStart() async {
-    await ref.read(lemonStateNotifierProvider.notifier).lemonInit();
-  }
-
   @override
   void initState() {
     super.initState();
@@ -95,9 +91,6 @@ class _MainScreenState extends ConsumerState<MainScreen> {
         }
       },
     );
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      pageStart();
-    });
   }
 
   @override

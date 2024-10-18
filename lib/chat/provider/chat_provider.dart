@@ -67,7 +67,7 @@ class ChatStateNotifier extends StateNotifier<List> {
         answer.result.message.runes;
         String displayAnswer = "";
 
-        Timer.periodic(const Duration(milliseconds: 80), (timer) {
+        Timer.periodic(const Duration(milliseconds: 50), (timer) {
           if (answerCnt >= answerBox.length - 1) {
             timer.cancel();
           } else {
@@ -115,7 +115,7 @@ class ChatStateNotifier extends StateNotifier<List> {
 
           state = response.chatHistory.reversed.map((e) {
             String msgTime = chatAddDateTimeType(e.messageTimestamp);
-
+            print(msgTime);
             return ChatMessageModel.fromJson({
               "message": e.message == "" ? e.imageUrl : e.message,
               "index": e.order,

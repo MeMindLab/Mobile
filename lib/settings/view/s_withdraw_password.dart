@@ -67,7 +67,7 @@ class _WithdrawPasswordFragmentState extends State<WithdrawPasswordScreen> {
                                   )
                                 : const Icon(
                                     Icons.visibility,
-                                    color: AppColors.gray6,
+                                    color: AppColors.gray9,
                                   )),
                       ),
                     ),
