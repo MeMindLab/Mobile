@@ -22,7 +22,11 @@ class UserInfoService {
 
     dio.interceptors.add(CustomInterceptor(storage: storage));
     dio.options.headers.clear();
-    dio.options.headers.addAll({'accessToken': true});
+    dio.options.headers.addAll({
+      'accessToken': true,
+      "accept": "application/json",
+      "Content-Type": "application/json"
+    });
 
     String url = "$ip/users/me";
 
@@ -32,9 +36,11 @@ class UserInfoService {
       var result = response.data;
 
       UserInfoModel userInfo = UserInfoModel.fromJson(result);
-
+      print(userInfo);
       return userInfo;
-    } catch (e) {}
+    } catch (e) {
+      print("수정 실패");
+    }
   }
 
   Future findUser() async {
@@ -42,7 +48,8 @@ class UserInfoService {
 
     dio.interceptors.add(CustomInterceptor(storage: storage));
     dio.options.headers.clear();
-    dio.options.headers.addAll({'accessToken': true});
+    dio.options.headers
+        .addAll({'accessToken': true, 'accept': 'application/json'});
     String url = "$ip/users/me";
 
     try {

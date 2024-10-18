@@ -189,11 +189,6 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                                                         userStateNotifierProvider
                                                             .notifier)
                                                     .userInit();
-                                                await ref
-                                                    .read(
-                                                        lemonStateNotifierProvider
-                                                            .notifier)
-                                                    .lemonInit();
                                               } catch (e) {
                                                 print("로그인 에러");
                                                 return;

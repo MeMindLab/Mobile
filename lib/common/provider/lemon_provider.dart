@@ -2,7 +2,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:me_mind/common/model/user_lemon_model.dart';
 import 'package:me_mind/common/provider/user_provider.dart';
 import 'package:me_mind/common/services/lemon_service.dart';
-import 'package:me_mind/settings/model/user_info_model.dart';
 import 'package:me_mind/settings/services/userinfo_service.dart';
 
 final lemonStateNotifierProvider =
@@ -21,7 +20,6 @@ class LemonStateNotifier extends StateNotifier<int> {
 
   Future<void> lemonInit() async {
     try {
-      print(userInfo.userId);
       if (userInfo.userId == null || userInfo.userId == "") {
         final user = await UserInfoService().findUser();
         ref.read(userStateNotifierProvider.notifier).state = UserDetailModel()
@@ -34,15 +32,17 @@ class LemonStateNotifier extends StateNotifier<int> {
                 referralCode: user.referralCode);
         print("userID:${user.id}");
         final response = await LemonService().getLemon(userId: user.id);
+        print(response);
+        if (response is! UserLemonModel) return;
+        state = response.lemonCount;
+      } else {
+        final response =
+            await LemonService().getLemon(userId: userInfo.userId!);
+        print(response);
+        if (response is! UserLemonModel) return;
 
         state = response.lemonCount;
-
-        return;
       }
-      final response = await LemonService().getLemon(userId: userInfo.userId!);
-      if (response is! UserLemonModel) return;
-
-      state = response.lemonCount;
     } catch (e) {
       state = 0;
     }

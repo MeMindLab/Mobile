@@ -10,6 +10,8 @@ class SearchService {
     String url = 'report/search/$uriKeyword';
 
     dio.options.baseUrl = "$ip/";
+    dio.options.headers.clear();
+    dio.options.headers.addAll({'accept': "application/json"});
     Response response;
 
     try {

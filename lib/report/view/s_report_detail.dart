@@ -249,15 +249,19 @@ class _ReportDetailState extends ConsumerState<ReportDetail> {
                               Container(
                                 width: MediaQuery.of(context).size.width * 0.9,
                                 height: 199,
-                                decoration: result.drawingDiary != null
+                                decoration: result.drawingDiary != null &&
+                                        result.drawingDiary!.imageTitle !=
+                                            "asdf" &&
+                                        result.drawingDiary!.imageUrl != "asdf"
                                     ? BoxDecoration(
                                         image: DecorationImage(
                                             image: NetworkImage(
-                                                result.drawingDiary!.imageUrl!),
+                                              result.drawingDiary!.imageUrl!,
+                                            ),
                                             fit: BoxFit.cover),
                                         borderRadius: BorderRadius.circular(8),
                                       )
-                                    : null,
+                                    : BoxDecoration(),
                                 child: detail.drawingDiary == null
                                     ? Stack(
                                         children: [
@@ -405,8 +409,8 @@ class _ReportDetailState extends ConsumerState<ReportDetail> {
                               physics: const NeverScrollableScrollPhysics(),
                               crossAxisCount: 2,
                               shrinkWrap: true,
-                              children:
-                                  List.generate(result.images!.length, (index) {
+                              children: List.generate(
+                                  result.images!.take(4).length, (index) {
                                 return Container(
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(13),

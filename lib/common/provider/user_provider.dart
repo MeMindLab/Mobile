@@ -32,6 +32,16 @@ class UserStateNotifier extends StateNotifier<UserDetailModel> {
         referralCode: userInfo.referralCode);
   }
 
+  userUpdate({required UserInfoModel user}) {
+    state = UserDetailModel().copyWith(
+        userId: user.id,
+        isVerified: user.isVerified,
+        email: user.email!,
+        name: user.nickname,
+        phoneNumber: user.mobile,
+        referralCode: user.referralCode);
+  }
+
   userLogout() {
     state = UserDetailModel();
   }

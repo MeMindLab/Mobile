@@ -15,6 +15,9 @@ class ChatSendService {
 
     final dio = Dio();
     Response response;
+    dio.options.headers.clear();
+    dio.options.headers.addAll(
+        {'Content-Type': 'application/json', 'accept': 'application/json'});
 
     try {
       response = await dio.post(url, data: data);

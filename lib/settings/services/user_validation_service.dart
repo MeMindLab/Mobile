@@ -9,7 +9,8 @@ class UserValidationService {
 
     dio.interceptors.add(CustomInterceptor(storage: storage));
     dio.options.headers.clear();
-    dio.options.headers.addAll({'accessToken': true});
+    dio.options.headers
+        .addAll({'accessToken': true, "accept": "application/json"});
     String url = "$ip/users/emails/validation?email=$email";
 
     try {
@@ -30,7 +31,8 @@ class UserValidationService {
 
     dio.interceptors.add(CustomInterceptor(storage: storage));
     dio.options.headers.clear();
-    dio.options.headers.addAll({'accessToken': true});
+    dio.options.headers
+        .addAll({'accessToken': true, "accept": "application/json"});
     String url = "$ip/users/nickname/validation?nickname=$name";
 
     try {

@@ -10,7 +10,8 @@ class TokenRefreshService {
 
     dio.options.headers.clear();
     dio.interceptors.add(CustomInterceptor(storage: storage));
-    dio.options.headers.addAll({'refreshToken': true});
+    dio.options.headers
+        .addAll({'refreshToken': true, 'accept': 'application/json'});
 
     try {
       print("Hi");

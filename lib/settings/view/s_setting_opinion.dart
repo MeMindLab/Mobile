@@ -79,6 +79,7 @@ class _SettingOpinionState extends State<SettingOpinion> {
           },
         ),
         child: CustomScrollView(
+          physics: NeverScrollableScrollPhysics(),
           slivers: [
             SliverFillRemaining(
                 hasScrollBody: false,

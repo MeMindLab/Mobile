@@ -10,6 +10,8 @@ class ReportMonthlyService implements ReportService {
 
     final dio = Dio();
     Response response;
+    dio.options.headers.clear();
+    dio.options.headers.addAll({'accept': "application/json"});
 
     try {
       response = await dio.get(url, queryParameters: parameters);

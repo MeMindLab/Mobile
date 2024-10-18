@@ -10,7 +10,8 @@ class WithDrawService {
     final data = {"password": password, "delete_reasons": reason};
     dio.interceptors.add(CustomInterceptor(storage: storage));
     dio.options.headers.clear();
-    dio.options.headers.addAll({'accessToken': true});
+    dio.options.headers
+        .addAll({'accessToken': true, "accept": "application/json"});
 
     String url = "$ip/users/withdraw";
 

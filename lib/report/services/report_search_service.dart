@@ -9,6 +9,8 @@ class ReportSearchService implements ReportService {
     final url = "$ip/report/search";
     final dio = Dio();
     Response response;
+    dio.options.headers.clear();
+    dio.options.headers.addAll({'accept': "application/json"});
 
     try {
       response = await dio.post(url, queryParameters: parameters);

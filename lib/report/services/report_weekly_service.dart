@@ -7,6 +7,8 @@ class ReportWeeklyService {
     final url = "$ip/report/weekly-scores?target_date=$date";
     final dio = Dio();
     Response response;
+    dio.options.headers.clear();
+    dio.options.headers.addAll({'accept': "application/json"});
 
     try {
       response = await dio.get(url);

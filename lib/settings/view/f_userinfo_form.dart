@@ -7,6 +7,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:me_mind/common/component/rounded_button.dart';
 import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
+import 'package:me_mind/common/provider/lemon_provider.dart';
 import 'package:me_mind/common/provider/user_provider.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
@@ -213,7 +214,7 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                 if (widget.isUpdate)
                   Positioned(
                     right: 0,
-                    top: 40,
+                    top: 36,
                     child: Container(
                       width: 70,
                       height: 35,
@@ -290,7 +291,7 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                 if (widget.isUpdate)
                   Positioned(
                     right: 0,
-                    top: 40,
+                    top: 36,
                     child: Container(
                       width: 70,
                       height: 35,
@@ -603,6 +604,7 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
+                          print(ref.watch(lemonStateNotifierProvider));
 
                           final user = await UserInfoService().putUser(
                               mobile: phoneController.text,
@@ -611,9 +613,13 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                               nickname: nameController.text);
 
                           if (user is! UserInfoModel) return;
-                          ref
+                          await ref
                               .read(userStateNotifierProvider.notifier)
-                              .userInit();
+                              .userUpdate(user: user);
+                          await ref
+                              .read(lemonStateNotifierProvider.notifier)
+                              .lemonInit();
+                          print(ref.watch(lemonStateNotifierProvider));
 
                           setState(() {
                             isphoneAuthenticated = false;

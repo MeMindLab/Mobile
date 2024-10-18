@@ -74,13 +74,16 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     }
   }
 
+  void pageStart() async {
+    await ref.read(lemonStateNotifierProvider.notifier).lemonInit();
+  }
+
   @override
   void initState() {
     super.initState();
 
     setBottomIdx(0);
     _loadToken();
-
     pullToRefreshController = PullToRefreshController(
       onRefresh: () async {
         if (defaultTargetPlatform == TargetPlatform.android) {
@@ -92,6 +95,9 @@ class _MainScreenState extends ConsumerState<MainScreen> {
         }
       },
     );
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      pageStart();
+    });
   }
 
   @override

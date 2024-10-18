@@ -22,8 +22,11 @@ class ChatStartService {
     Response response;
     dio.interceptors.add(CustomInterceptor(storage: storage));
     dio.options.headers.clear();
-    dio.options.headers
-        .addAll({'accessToken': true, 'Content-Type': 'application/json'});
+    dio.options.headers.addAll({
+      'accessToken': true,
+      'Content-Type': 'application/json',
+      'accept': 'application/json'
+    });
 
     try {
       response = await dio.post(

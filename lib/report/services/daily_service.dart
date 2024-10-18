@@ -13,7 +13,11 @@ class DailyService {
     final dio = Dio();
     dio.interceptors.add(CustomInterceptor(storage: storage));
     dio.options.headers.clear();
-    dio.options.headers.addAll({'accessToken': true});
+    dio.options.headers.addAll({
+      'accessToken': true,
+      'accept': 'application/json',
+      'Content-Type': 'application/json'
+    });
     Response response;
 
     try {

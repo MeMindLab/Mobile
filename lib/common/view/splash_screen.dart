@@ -52,26 +52,23 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       return;
     } else {
       final dio = Dio();
-      final String? themeMode = prefs.getString('themeMode');
-      if (themeMode == null) {
-        await prefs.setString('themeMode', 'general mode');
-      }
+
       try {
         final resp = await dio.get("$ip/auth/token/refresh",
             options: Options(
               headers: {
                 'authorization': 'Bearer $refreshToken',
+                "accept": "application/json"
               },
             ));
+        await storage.write(
+            key: REFRESH_TOKEN, value: resp.data["refresh_token"]);
 
         await storage.write(
-            key: ACCESS_TOKEN, value: resp.data["refresh_token"]);
-        // ref.read(userStateNotifierProvider.notifier).userInit();
-        // final user = await UserInfoService().findUser();
+            key: ACCESS_TOKEN, value: resp.data["access_token"]);
+
         await ref.read(userStateNotifierProvider.notifier).userInit();
-        await ref.read(lemonStateNotifierProvider.notifier).lemonInit();
-        // ref.read(lemonStateNotifierProvider.notifier).lemonInit();
-        // print("안농하세요 ${user}");
+        // await ref.read(lemonStateNotifierProvider.notifier).lemonInit();
 
         Navigator.of(context)
             .pushReplacement(MaterialPageRoute(builder: (_) => MainScreen()));
