@@ -133,7 +133,7 @@ class _ChatState extends ConsumerState<Chat> {
 
     ref.listen(chatStateNotifierProvider(widget.seletedDate), (previous, next) {
       if (lemon == 1 &&
-          next.length == 1 &&
+          next.length == 3 &&
           dialog1 == false &&
           user.isVerified! == false) {
         dialog1 = true;
