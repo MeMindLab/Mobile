@@ -17,8 +17,10 @@ String datetimeType3() {
 }
 
 String chatAddDateTimeType(String? time) {
-  DateTime dateTime = time == null ? DateTime.now() : DateTime.parse(time);
+  DateTime dateTime =
+      time == null ? DateTime.now().toUtc() : DateTime.parse(time);
+  DateTime koreaTime = dateTime.add(Duration(hours: 9));
 
-  String msgTime = DateFormat('hh:mm a').format(dateTime.toLocal());
+  String msgTime = DateFormat('hh:mm a').format(koreaTime);
   return msgTime;
 }

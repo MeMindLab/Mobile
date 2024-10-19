@@ -129,6 +129,16 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    nameController.dispose();
+    emailController.dispose();
+    phoneController.dispose();
+    _timer.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     CustomTheme theme = CustomThemeHolder.of(context).theme;
     final deviceWidth = MediaQuery.of(context).size.width;
@@ -349,8 +359,7 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                     textEditingController: phoneController,
                     bgColor: theme.appColors.seedColor,
                     labelText: "연락처",
-                    enabled:
-                        !isphoneAuthenticated && isAuthenticComplete == false,
+                    enabled: isAuthenticComplete == false,
                     textInputFormatter: [PhoneNumberFormatter()],
                     hintText: isAuthenticComplete
                         ? widget.userPhoneNumber
@@ -369,7 +378,7 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                     },
                   ),
                   Positioned(
-                    bottom: 5,
+                    bottom: 1,
                     right: 0,
                     child: widget.isUpdate && isAuthenticComplete == false
                         ? Container(
@@ -522,6 +531,7 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                                                   .grayButtonBackground
                                               : AppColors.blueMain,
                                           elevation: 0,
+                                          shadowColor: AppColors.invisibleColor,
                                           foregroundColor:
                                               theme.appColors.iconButton ??
                                                   AppColors.blackColor,

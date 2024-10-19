@@ -18,9 +18,18 @@ class SettingNotification extends StatefulWidget {
 class _SettingUserInfoState extends State<SettingNotification> {
   bool isService = false;
   bool isAdvertise = false;
+  late ScaffoldMessengerState scaffoldMessenger;
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    scaffoldMessenger = ScaffoldMessenger.of(context);
+  }
+
   @override
   void dispose() {
     setInfoState();
+    scaffoldMessenger.clearSnackBars();
     super.dispose();
   }
 

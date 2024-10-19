@@ -35,6 +35,7 @@ class ChatStartService {
       );
 
       var result = response.data;
+      print(result);
 
       ChatStartModel answer = ChatStartModel.fromJson(result);
 

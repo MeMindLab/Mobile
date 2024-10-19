@@ -241,7 +241,7 @@ class _ReportDetailState extends ConsumerState<ReportDetail> {
                                             fit: BoxFit.cover),
                                         borderRadius: BorderRadius.circular(8),
                                       )
-                                    : BoxDecoration(),
+                                    : null,
                                 child: detail.drawingDiary == null
                                     ? Stack(
                                         children: [

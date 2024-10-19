@@ -34,12 +34,13 @@ class ShowSnackBar {
   }
 
   showBottomSnackBar(context, String msg) {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
     SnackBar snackBar = SnackBar(
       content: BottomSnackbar(text: msg),
       backgroundColor: Colors.transparent,
       elevation: 0,
       dismissDirection: DismissDirection.up,
-      duration: const Duration(seconds: 2),
+      duration: const Duration(milliseconds: 1500),
       behavior: SnackBarBehavior.floating,
       margin: const EdgeInsets.only(bottom: 25, left: 30, right: 30),
     );

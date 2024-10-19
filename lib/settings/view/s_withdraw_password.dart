@@ -6,6 +6,7 @@ import 'package:me_mind/common/constant/constant.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/layout/topbar/widget/back_arrow.dart';
+import 'package:me_mind/common/view/on_boarding.dart';
 import 'package:me_mind/common/view/splash_screen.dart';
 import 'package:me_mind/settings/services/withdraw_service.dart';
 
@@ -88,8 +89,11 @@ class _WithdrawPasswordFragmentState extends State<WithdrawPasswordScreen> {
                             }
 
                             await storage.deleteAll();
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (_) => const SplashScreen()));
+                            Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(
+                                  builder: (_) => const OnBoardingScreen()),
+                              (Route<dynamic> route) => false,
+                            );
                           },
                         )
                       : const RoundedButton(text: "탈퇴하기"),

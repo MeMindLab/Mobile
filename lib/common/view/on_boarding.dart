@@ -116,49 +116,54 @@ class OnBoardingScreen extends StatelessWidget {
       ),
     ];
 
-    return IntroductionScreen(
-      pages: pages,
-      done: Text(
-        "NEXT",
-        style: FontSizes.getContentStyle().copyWith(
-          color: AppColors.gray9,
-        ),
-      ),
-      onDone: () {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) => const OnBoardingLastScreen(),
-          ),
-        );
+    return WillPopScope(
+      onWillPop: () async {
+        return false;
       },
-      onSkip: () {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) => const OnBoardingLastScreen(),
+      child: IntroductionScreen(
+        pages: pages,
+        done: Text(
+          "NEXT",
+          style: FontSizes.getContentStyle().copyWith(
+            color: AppColors.gray9,
           ),
-        );
-      },
-      nextFlex: 0,
-      next: Text(
-        'NEXT',
-        style: FontSizes.getContentStyle().copyWith(
-          color: AppColors.gray9,
         ),
-      ),
-      showSkipButton: true,
-      globalBackgroundColor: AppColors.blue1,
-      skipOrBackFlex: 0,
-      skip: Text(
-        'SKIP',
-        style: FontSizes.getContentStyle().copyWith(
-          color: AppColors.gray9,
+        onDone: () {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) => const OnBoardingLastScreen(),
+            ),
+          );
+        },
+        onSkip: () {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) => const OnBoardingLastScreen(),
+            ),
+          );
+        },
+        nextFlex: 0,
+        next: Text(
+          'NEXT',
+          style: FontSizes.getContentStyle().copyWith(
+            color: AppColors.gray9,
+          ),
         ),
+        showSkipButton: true,
+        globalBackgroundColor: AppColors.blue1,
+        skipOrBackFlex: 0,
+        skip: Text(
+          'SKIP',
+          style: FontSizes.getContentStyle().copyWith(
+            color: AppColors.gray9,
+          ),
+        ),
+        dotsDecorator: const DotsDecorator(
+          color: AppColors.gray3,
+          activeColor: AppColors.blueMain,
+        ),
+        curve: Curves.bounceOut,
       ),
-      dotsDecorator: const DotsDecorator(
-        color: AppColors.gray3,
-        activeColor: AppColors.blueMain,
-      ),
-      curve: Curves.bounceOut,
     );
   }
 }

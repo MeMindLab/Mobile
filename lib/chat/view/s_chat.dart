@@ -228,6 +228,7 @@ class _ChatState extends ConsumerState<Chat> {
       title: datetimeType1(date: widget.seletedDate),
       // ignore: sort_child_properties_last
       child: SafeArea(
+        bottom: false,
         child: Column(
           children: [
             Expanded(
