@@ -13,9 +13,9 @@ class EmailSend {
     final Email email = Email(
       body: body,
       subject: subject,
-      recipients: ["tpgus19@gmail.com"],
+      recipients: ["memindlab@gmail.com"],
       attachmentPaths: attachments,
-      cc: ["tpgus19@gmail.com"],
+      cc: ["memindlab@gmail.com"],
       isHTML: false,
     );
 
