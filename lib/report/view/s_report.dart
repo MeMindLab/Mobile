@@ -133,6 +133,13 @@ class _Report extends ConsumerState<Report> {
                                   } else if (snapshot.hasData) {
                                     final result =
                                         snapshot.data as ReportWeeklyModel;
+                                    if (result.results!.length == 0) {
+                                      return Center(
+                                          child: Transform.translate(
+                                              offset: const Offset(15, -1),
+                                              child: const Text(
+                                                  '일주일 감정 흐름이 없습니다.')));
+                                    }
 
                                     List<String> dates =
                                         result.results!.length == 0

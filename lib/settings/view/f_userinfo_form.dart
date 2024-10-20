@@ -394,15 +394,15 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                               onPressed: isPhoneButton
                                   ? () async {
                                       if (isphoneAuthenticated == false) {
-                                        setState(() {
-                                          isphoneAuthenticated = true;
-                                        });
-                                        _startTimer(context, theme);
                                         var result = await AuthSmsService()
                                             .sendSms(
                                                 phone: phoneController.text);
 
                                         if (result is! AuthSmsModel) return;
+                                        setState(() {
+                                          isphoneAuthenticated = true;
+                                        });
+                                        _startTimer(context, theme);
                                       } else {
                                         setState(() {
                                           isTimerStart = false;

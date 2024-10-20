@@ -20,7 +20,7 @@ class AuthSmsService {
       response = await dio.post("$url?phone=$newPhone");
 
       var result = response.data;
-
+      print(result);
       AuthSmsModel authSmsModel = AuthSmsModel.fromJson(result);
 
       return authSmsModel;
