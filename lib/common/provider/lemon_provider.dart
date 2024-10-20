@@ -6,7 +6,7 @@ import 'package:me_mind/settings/services/userinfo_service.dart';
 
 final lemonStateNotifierProvider =
     StateNotifierProvider<LemonStateNotifier, int>((ref) {
-  final userInfo = ref.watch(userStateNotifierProvider);
+  final userInfo = ref.read(userStateNotifierProvider);
   final notifier = LemonStateNotifier(userInfo, ref);
 
   return notifier;
@@ -19,6 +19,7 @@ class LemonStateNotifier extends StateNotifier<int> {
   LemonStateNotifier(this.userInfo, this.ref) : super(0) {}
 
   Future<void> lemonInit() async {
+    if (!mounted) return;
     try {
       if (userInfo.userId == null || userInfo.userId == "") {
         final user = await UserInfoService().findUser();
@@ -34,6 +35,7 @@ class LemonStateNotifier extends StateNotifier<int> {
         final response = await LemonService().getLemon(userId: user.id);
         print(response);
         if (response is! UserLemonModel) return;
+
         state = response.lemonCount;
       } else {
         final response =
@@ -46,5 +48,10 @@ class LemonStateNotifier extends StateNotifier<int> {
     } catch (e) {
       state = 0;
     }
+  }
+
+  Future<void> lemonLogout() async {
+    state = 0;
+    return;
   }
 }

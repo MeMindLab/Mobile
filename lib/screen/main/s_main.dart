@@ -10,15 +10,11 @@ import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/constant.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/layout/topbar/widget/lemon_number.dart';
-import 'package:me_mind/common/provider/lemon_provider.dart';
 import 'package:me_mind/common/services/token_refresh_service.dart';
 import 'package:me_mind/common/store.dart';
 import 'package:me_mind/common/component/root_tab.dart';
-import 'package:me_mind/settings/provider/theme_provider.dart';
-import 'package:me_mind/settings/view/s_setting_theme.dart';
 import 'package:me_mind/user/model/user_signin_model.dart';
 import 'package:me_mind/user/view/s_signin.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class MainScreen extends ConsumerStatefulWidget {
   const MainScreen({super.key});

@@ -17,6 +17,9 @@ class _LemonNumberWidgetState extends ConsumerState<LemonNumberWidget> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      await ref.read(lemonStateNotifierProvider.notifier).lemonInit();
+    });
   }
 
   @override

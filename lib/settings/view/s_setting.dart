@@ -339,8 +339,11 @@ class _SettingState extends ConsumerState<Settings> {
                                           ref.invalidate(reportIdProvider);
                                           ref.invalidate(reportProvider);
                                           ref.invalidate(reportSearchProvider);
-                                          ref.invalidate(
-                                              lemonStateNotifierProvider);
+
+                                          await ref
+                                              .read(lemonStateNotifierProvider
+                                                  .notifier)
+                                              .lemonLogout();
 
                                           ref
                                               .read(userStateNotifierProvider
