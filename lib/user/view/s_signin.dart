@@ -183,6 +183,12 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                                                   key: REFRESH_TOKEN,
                                                   value: refreshToken);
 
+                                              await ref
+                                                  .read(
+                                                      userStateNotifierProvider
+                                                          .notifier)
+                                                  .userInit();
+
                                               Navigator.of(context)
                                                   .pushReplacement(
                                                 MaterialPageRoute(

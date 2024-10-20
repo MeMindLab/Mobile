@@ -10,6 +10,7 @@ import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/constant.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/layout/topbar/widget/lemon_number.dart';
+import 'package:me_mind/common/provider/lemon_provider.dart';
 import 'package:me_mind/common/services/token_refresh_service.dart';
 import 'package:me_mind/common/store.dart';
 import 'package:me_mind/common/component/root_tab.dart';
@@ -73,7 +74,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
   @override
   void initState() {
     super.initState();
-
+    ref.read(lemonStateNotifierProvider.notifier).lemonInit();
     setBottomIdx(0);
     _loadToken();
     pullToRefreshController = PullToRefreshController(

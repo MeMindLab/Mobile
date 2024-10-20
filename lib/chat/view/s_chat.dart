@@ -228,7 +228,7 @@ class _ChatState extends ConsumerState<Chat> {
       title: datetimeType1(date: widget.seletedDate),
       // ignore: sort_child_properties_last
       child: SafeArea(
-        bottom: false,
+        bottom: true,
         child: Column(
           children: [
             Expanded(
@@ -318,6 +318,7 @@ class _ChatState extends ConsumerState<Chat> {
   Widget bottomInputField(
       TextEditingController controller, CustomTheme theme, Function onChange) {
     return SafeArea(
+      bottom: false,
       child: Padding(
         padding:
             EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
