@@ -68,7 +68,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
             key: ACCESS_TOKEN, value: resp.data["access_token"]);
 
         await ref.read(userStateNotifierProvider.notifier).userInit();
-        await ref.read(lemonStateNotifierProvider.notifier).lemonInit();
+        await ref
+            .read(lemonStateNotifierProvider.notifier)
+            .lemonInit(userId: ref.read(userStateNotifierProvider).userId!);
 
         Navigator.of(context)
             .pushReplacement(MaterialPageRoute(builder: (_) => MainScreen()));

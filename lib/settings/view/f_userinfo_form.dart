@@ -649,7 +649,10 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                               .userUpdate(user: user);
                           await ref
                               .read(lemonStateNotifierProvider.notifier)
-                              .lemonInit();
+                              .lemonInit(
+                                  userId: ref
+                                      .read(userStateNotifierProvider)
+                                      .userId!);
                           print(ref.watch(lemonStateNotifierProvider));
 
                           setState(() {

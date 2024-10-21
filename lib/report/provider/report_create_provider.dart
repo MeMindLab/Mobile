@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:me_mind/common/provider/lemon_provider.dart';
+import 'package:me_mind/common/provider/user_provider.dart';
 
 import 'package:me_mind/report/model/create_daily/create_daily_model.dart';
 import 'package:me_mind/report/provider/report_id_provider.dart';
@@ -32,7 +33,9 @@ class ReportCreateStateNotifier extends StateNotifier<ReportCreateBase> {
       if (report is! CreateDailyModel) return;
 
       state = ReportCreateLoading(stateMsg: "레몬을 1 감소합니다.");
-      await ref.read(lemonStateNotifierProvider.notifier).lemonInit();
+      await ref
+          .read(lemonStateNotifierProvider.notifier)
+          .lemonInit(userId: ref.read(userStateNotifierProvider).userId!);
 
       ref.read(reportIdProvider.notifier).state = report.reportId;
 

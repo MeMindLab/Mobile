@@ -11,6 +11,7 @@ import 'package:me_mind/common/constant/constant.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/layout/topbar/widget/lemon_number.dart';
 import 'package:me_mind/common/provider/lemon_provider.dart';
+import 'package:me_mind/common/provider/user_provider.dart';
 import 'package:me_mind/common/services/token_refresh_service.dart';
 import 'package:me_mind/common/store.dart';
 import 'package:me_mind/common/component/root_tab.dart';
@@ -54,7 +55,9 @@ class _MainScreenState extends ConsumerState<MainScreen> {
         await storage.write(key: ACCESS_TOKEN, value: response.accessToken);
         await storage.write(key: REFRESH_TOKEN, value: response.refreshToken);
 
-        await controller.evaluateJavascript(source: """
+        await controller.evaluateJavascript(
+            source:
+                """
                       window.flutter_inappwebview.callHandler('tokenExpired').then(function(token) {
                         window.receivedToken = token;
                         console.log("Token received from Flutter: " + token);
@@ -75,7 +78,9 @@ class _MainScreenState extends ConsumerState<MainScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      await ref.read(lemonStateNotifierProvider.notifier).lemonInit();
+      await ref
+          .read(lemonStateNotifierProvider.notifier)
+          .lemonInit(userId: ref.read(userStateNotifierProvider).userId!);
     });
     setBottomIdx(0);
     _loadToken();
@@ -211,7 +216,9 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                               debugPrint("토큰 전송");
                               return token;
                             });
-                        await controller.evaluateJavascript(source: """
+                        await controller.evaluateJavascript(
+                            source:
+                                """
                           window.flutter_inappwebview.callHandler('requestToken').then(function(token) {
                             window.receivedToken = token;
                             console.log("Token received from Flutter: " + token);

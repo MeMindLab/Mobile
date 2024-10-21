@@ -192,7 +192,11 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                                                   .read(
                                                       lemonStateNotifierProvider
                                                           .notifier)
-                                                  .lemonInit();
+                                                  .lemonInit(
+                                                      userId: ref
+                                                          .read(
+                                                              userStateNotifierProvider)
+                                                          .userId!);
 
                                               Navigator.of(context)
                                                   .pushReplacement(
