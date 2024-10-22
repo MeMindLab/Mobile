@@ -29,7 +29,7 @@ enum EmotionType {
       iconAssetPath: "assets/image/emotion/sadness.png"),
   noFun(
       emotion: 'noFun',
-      displayName: '노잼',
+      displayName: '무기력',
       iconAssetPath: "assets/image/emotion/noFun.png"),
   undefined(emotion: 'undefined', displayName: '', iconAssetPath: ''); // 기본값
 

@@ -5,29 +5,24 @@ import 'package:me_mind/user/model/user_signin_model.dart';
 
 class TokenRefreshService {
   Future refresh() async {
-    final dio = Dio(BaseOptions(baseUrl: "$ip/", headers: {}));
+    final dio = Dio();
+    String url = '$ip/auth/token/refresh';
 
-    String url = 'token/refresh';
-
+    dio.options.headers.clear();
     dio.interceptors.add(CustomInterceptor(storage: storage));
-    dio.options.headers.addAll({'refreshToken': true});
+    dio.options.headers
+        .addAll({'refreshToken': true, 'accept': 'application/json'});
 
     try {
+      print("Hi");
       final response = await dio.get(url);
+      print(response);
 
-      if (response.statusCode == 200) {
-        var result = response.data;
+      SignInResult tokenResult = SignInResult.fromJson(response.data);
 
-        SignInResult tokenResult = SignInResult.fromJson(result);
-
-        return tokenResult;
-      } else {
-        return null;
-      }
-    } on DioException catch (error) {
-      return null;
+      return tokenResult;
     } catch (e) {
-      return null;
+      rethrow;
     }
   }
 }

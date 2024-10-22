@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 
@@ -12,6 +13,7 @@ class CustomTextFormField extends StatelessWidget {
   final ValueChanged<String> onChanged;
   final Widget? suffixIcon;
   final Color? borderColor;
+  final Color? bgColor;
   final FormFieldValidator? validator;
   final TextEditingController? controller;
   final ValueChanged<String>? onFieldSubmitted;
@@ -20,27 +22,29 @@ class CustomTextFormField extends StatelessWidget {
   final VoidCallback? onToggleObscureText;
   final bool isToggle;
   final bool? isLogin;
+  final TextStyle? textStyle;
 
-  const CustomTextFormField({
-    super.key,
-    this.hintText,
-    this.errorText,
-    this.maxLength,
-    this.labelText,
-    this.obscureText = false,
-    this.autoFocus = false,
-    this.suffixIcon,
-    this.borderColor,
-    this.validator,
-    this.controller,
-    this.onFieldSubmitted,
-    this.focusNode,
-    required this.onChanged,
-    this.readOnly = false,
-    this.onToggleObscureText,
-    this.isToggle = false,
-    this.isLogin = false,
-  });
+  const CustomTextFormField(
+      {super.key,
+      this.hintText,
+      this.errorText,
+      this.maxLength,
+      this.labelText,
+      this.obscureText = false,
+      this.autoFocus = false,
+      this.suffixIcon,
+      this.bgColor,
+      this.borderColor,
+      this.validator,
+      this.controller,
+      this.onFieldSubmitted,
+      this.focusNode,
+      required this.onChanged,
+      this.readOnly = false,
+      this.onToggleObscureText,
+      this.isToggle = false,
+      this.isLogin = false,
+      this.textStyle});
 
   @override
   Widget build(BuildContext context) {
@@ -75,60 +79,71 @@ class CustomTextFormField extends StatelessWidget {
               style: FontSizes.getHighLightContentStyle(),
             ),
           ),
-        TextFormField(
-          controller: controller,
-          validator: validator,
-          focusNode: focusNode,
-          onFieldSubmitted: onFieldSubmitted,
-          textInputAction: TextInputAction.next,
-          maxLength: maxLength,
-          obscureText: obscureText,
-          autofocus: autoFocus,
-          cursorColor: theme.focusColor,
-          cursorWidth: 1.5,
-          cursorHeight: 19,
-          onChanged: onChanged,
-          style: FontSizes.getContentStyle(),
-          decoration: InputDecoration(
-            contentPadding: const EdgeInsets.fromLTRB(5, 15, 15, 15),
-            prefix: const Padding(
-              padding: EdgeInsets.only(left: 10),
-            ),
-            counterText: '',
-            hintText: hintText,
-            errorText: errorText,
-            errorStyle: FontSizes.getSmallStyle().copyWith(
-                height: 0, color: Colors.red, fontWeight: FontWeight.w500),
-            hintStyle: FontSizes.getContentStyle()
-                .copyWith(fontWeight: FontWeight.w400),
-            fillColor: inputBackground,
-            filled: true, // false 배경색 없음 true 있음
-            border: baseBorder,
-            enabledBorder: baseBorder.copyWith(
-              borderSide: baseBorder.borderSide.copyWith(
-                color: borderColor,
-              ),
-            ),
-            focusedBorder: baseBorder.copyWith(
-              borderSide: baseBorder.borderSide.copyWith(
-                color: focusedBorderColor,
-              ),
-            ),
-
-            suffixIcon: isToggle
-                ? GestureDetector(
-                    onTap: () {
-                      if (onToggleObscureText != null) {
-                        onToggleObscureText!();
-                      }
-                    },
-                    child: Icon(
-                      obscureText ? Icons.visibility : Icons.visibility_off,
-                      color: hintTextColor,
+        Row(
+          children: [
+            Expanded(
+              child: TextFormField(
+                controller: controller,
+                validator: validator,
+                focusNode: focusNode,
+                onFieldSubmitted: onFieldSubmitted,
+                textAlignVertical: const TextAlignVertical(y: 0.23),
+                textInputAction: TextInputAction.next,
+                maxLength: maxLength,
+                obscureText: obscureText,
+                autofocus: autoFocus,
+                cursorColor: theme.focusColor,
+                cursorHeight: 16,
+                onChanged: onChanged,
+                style: textStyle ??
+                    FontSizes.getContentStyle().copyWith(height: 1.02),
+                decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.fromLTRB(5, 15, 15, 15),
+                  prefix: const Padding(
+                    padding: EdgeInsets.only(left: 10),
+                  ),
+                  counterText: '',
+                  hintText: hintText,
+                  errorText: errorText,
+                  errorStyle: FontSizes.getSmallStyle().copyWith(
+                      height: 0,
+                      color: AppColors.timerColor,
+                      fontWeight: FontWeight.w500),
+                  hintStyle: FontSizes.getContentStyle().copyWith(
+                      fontWeight: FontWeight.w400, color: hintTextColor),
+                  fillColor: bgColor ?? inputBackground,
+                  filled: true, // false 배경색 없음 true 있음
+                  border: baseBorder,
+                  enabledBorder: baseBorder.copyWith(
+                    borderSide: baseBorder.borderSide.copyWith(
+                      color: borderColor,
                     ),
-                  )
-                : suffixIcon,
-          ),
+                  ),
+                  focusedBorder: baseBorder.copyWith(
+                    borderSide: baseBorder.borderSide.copyWith(
+                      color: AppColors.gray6,
+                    ),
+                  ),
+
+                  suffixIcon: isToggle
+                      ? GestureDetector(
+                          onTap: () {
+                            if (onToggleObscureText != null) {
+                              onToggleObscureText!();
+                            }
+                          },
+                          child: Icon(
+                            obscureText
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            color: hintTextColor,
+                          ),
+                        )
+                      : suffixIcon,
+                ),
+              ),
+            ),
+          ],
         )
       ],
     );

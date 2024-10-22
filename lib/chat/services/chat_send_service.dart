@@ -1,10 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:me_mind/chat/model/ai_answer_model.dart';
+import 'package:me_mind/common/constant/constant.dart';
 
 class ChatSendService {
   Future send(String answer, String conversationId,
       {String imageUrl = "", bool isImage = false}) async {
-    const url = "http://10.0.2.2:8000/chat/answer";
+    final url = "$ip/chat/answer";
     final data = {
       "conversation_id": conversationId,
       "message": answer,
@@ -14,6 +15,9 @@ class ChatSendService {
 
     final dio = Dio();
     Response response;
+    dio.options.headers.clear();
+    dio.options.headers.addAll(
+        {'Content-Type': 'application/json', 'accept': 'application/json'});
 
     try {
       response = await dio.post(url, data: data);
@@ -24,9 +28,7 @@ class ChatSendService {
 
       return answer;
     } on DioException catch (error) {
-      return error;
-    } catch (e) {
-      return null;
+      rethrow;
     }
   }
 }

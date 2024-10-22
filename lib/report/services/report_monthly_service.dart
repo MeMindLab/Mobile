@@ -6,12 +6,12 @@ import 'package:me_mind/report/model/report_model/report_model.dart';
 class ReportMonthlyService implements ReportService {
   @override
   Future fetchData({required Map<String, dynamic> parameters}) async {
-    final url = "http://$ip/report/monthly-reports";
-
-    // Map<String, dynamic> parameters = {"year": 2024, "month": 8, "limit": 5};
+    final url = "$ip/report/monthly-reports";
 
     final dio = Dio();
     Response response;
+    dio.options.headers.clear();
+    dio.options.headers.addAll({'accept': "application/json"});
 
     try {
       response = await dio.get(url, queryParameters: parameters);

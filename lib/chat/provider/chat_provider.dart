@@ -10,19 +10,20 @@ import 'package:me_mind/chat/services/chat_start_service.dart';
 import 'package:me_mind/common/component/datetime_to_text.dart';
 
 final chatStateNotifierProvider =
-    StateNotifierProvider<ChatStateNotifier, List>((ref) {
+    StateNotifierProvider.family<ChatStateNotifier, List, String?>((ref, date) {
   final idProvider = ref.watch(chatIdProvider.notifier);
   final reportIssue = ref.watch(reportIssueProvider.notifier);
   final chatStart = ref.watch(chatStartServiceProvider);
   return ChatStateNotifier(idProvider, reportIssue,
-      chatStartService: chatStart);
+      chatStartService: chatStart, selectedDate: date);
 });
 
 class ChatStateNotifier extends StateNotifier<List> {
+  String? selectedDate;
   ChatStateNotifier(this.idProvider, this.reportIssue,
-      {required this.chatStartService})
+      {required this.chatStartService, this.selectedDate})
       : super([]) {
-    loading();
+    loading(date: selectedDate);
   }
 
   final ChatStartService chatStartService;
@@ -43,7 +44,7 @@ class ChatStateNotifier extends StateNotifier<List> {
           0,
           ChatMessageModel(
               message: message,
-              index: newState[0].index + 1,
+              index: newState.length,
               isAi: false,
               isImage: isImage,
               createdAt: msgTime));
@@ -66,13 +67,13 @@ class ChatStateNotifier extends StateNotifier<List> {
         answer.result.message.runes;
         String displayAnswer = "";
 
-        Timer.periodic(const Duration(milliseconds: 80), (timer) {
+        Timer.periodic(const Duration(milliseconds: 50), (timer) {
           if (answerCnt >= answerBox.length - 1) {
             timer.cancel();
           } else {
             displayAnswer += String.fromCharCode(answerBox[answerCnt]);
             newState[0] = ChatMessageModel(
-                index: newState[1].index + 1,
+                index: newState.length,
                 message: displayAnswer,
                 isAi: true,
                 isImage: false,
@@ -87,7 +88,8 @@ class ChatStateNotifier extends StateNotifier<List> {
             0,
             ChatMessageModel(
                 message: message,
-                index: newState[0].index + 1,
+                index: newState.length,
+                // index: newState[0].index + 1,
                 isAi: false,
                 isImage: isImage,
                 createdAt: msgTime));
@@ -95,14 +97,17 @@ class ChatStateNotifier extends StateNotifier<List> {
       }
     } catch (e) {
       newState[0] = ChatMessageError();
+
+      state = [...newState];
+      return;
     }
     state = [...newState];
   }
 
-  Future<void> loading() async {
+  Future<void> loading({String? date}) async {
     try {
       if (state.isEmpty) {
-        var response = await chatStartService.load(datetimeType3());
+        var response = await chatStartService.load(date ?? datetimeType3());
 
         if (response is ChatStartModel) {
           idProvider.state = response.conversationId;
@@ -110,7 +115,7 @@ class ChatStateNotifier extends StateNotifier<List> {
 
           state = response.chatHistory.reversed.map((e) {
             String msgTime = chatAddDateTimeType(e.messageTimestamp);
-
+            print(msgTime);
             return ChatMessageModel.fromJson({
               "message": e.message == "" ? e.imageUrl : e.message,
               "index": e.order,

@@ -3,6 +3,7 @@ import 'package:me_mind/common/component/dialog/custom_dialog.dart';
 import 'package:me_mind/common/component/dialog/w_dialog_button.dart';
 import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
+import 'package:me_mind/common/theme/custom_theme.dart';
 
 enum DialogType {
   lemon,
@@ -28,6 +29,7 @@ class DialogManager {
     String? secondButtonText,
     VoidCallback? secondSubmit,
     Widget? customWidget,
+    Color? oneContentTextColor,
   }) {
     switch (type) {
       case DialogType.oneButton:
@@ -58,7 +60,7 @@ class DialogManager {
                           textAlign: TextAlign.center,
                           style: FontSizes.getContentStyle().copyWith(
                               fontWeight: FontWeight.w400,
-                              color: AppColors.gray9),
+                              color: oneContentTextColor ?? AppColors.gray9),
                         ),
                       ],
                     )
@@ -161,6 +163,7 @@ class DialogManager {
                 firstText: firstButtonText!,
                 firstSubmit: firstSubmit!,
                 secondText: secondButtonText,
+                secondColor: lightTheme.primaryColor,
                 secondSubmit: secondSubmit,
               ),
             ));

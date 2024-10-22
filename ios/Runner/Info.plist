@@ -51,6 +51,10 @@
 		<string>YES</string>
 		<key>NSMicrophoneUsageDescription</key>
 		<string>Some message to describe why you need this permission</string>
+		<key>NSPhotoLibraryUsageDescription</key>
+   		 <string>photos</string>
+		<key>NSCameraUsageDescription</key>
+    	<string>camera</string>
 		<key>UIStatusBarHidden</key>
 		<false/>
 	</dict>

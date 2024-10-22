@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 
 class CertifyTimer extends StatelessWidget {
@@ -12,7 +13,7 @@ class CertifyTimer extends StatelessWidget {
           ":" +
           "${timerCount % 60}".padLeft(2, "0") +
           "   ",
-      style: FontSizes.getContentStyle().copyWith(color: Colors.red),
+      style: FontSizes.getContentStyle().copyWith(color: AppColors.timerColor),
     );
   }
 }

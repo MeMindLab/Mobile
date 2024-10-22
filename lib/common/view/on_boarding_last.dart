@@ -69,7 +69,9 @@ class OnBoardingLastScreen extends StatelessWidget {
                   await prefs.setBool('isTutorial', true);
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
-                      builder: (context) => const SignUpScreen(),
+                      builder: (context) => const SignUpScreen(
+                        isOnBoarding: true,
+                      ),
                     ),
                   );
                 },

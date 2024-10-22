@@ -37,7 +37,6 @@ class ReportParameter {
 
 class ReportServiceFactory {
   static ReportService createService(ReportParameter params) {
-    print(params.keywords);
     if (params.keywords != null) {
       return ReportSearchService();
     } else if (params.year != null && params.month != null) {

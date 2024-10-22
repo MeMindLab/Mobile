@@ -9,8 +9,10 @@ class AppColors {
   static const Color gray6 = Color(0xFF7B7B7B);
   static const Color gray7 = Color(0xFF626262);
   static const Color gray9 = Color(0xFF313131);
+  static const Color blackgray = Color(0xFF191919);
 
   static const Color whiteColor = Colors.white;
+  static const Color blackColor = Colors.black;
   static const Color blueMain = Color(0xFFB1D8FF);
   static const Color blue1 = Color(0xFFEEF6FF);
   static const Color blue2 = Color(0xFFE0EFFF);
@@ -26,4 +28,6 @@ class AppColors {
   static const Color yellow3 = Color(0xFFFFF8BE);
   static const Color midnightBlue = Color(0xFF0064DA);
   static const Color trashColor = Color(0xFF596271);
+  static const Color invisibleColor = Colors.transparent;
+  static const Color timerColor = Color(0xFFF44336);
 }

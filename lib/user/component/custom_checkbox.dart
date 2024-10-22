@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/constant.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 
-class CustomCheckBox extends StatefulWidget {
-  final ValueChanged<bool> onChanged;
+class CustomCheckBox extends StatelessWidget {
+  final VoidCallback onChanged;
   final String svg;
   final String title;
   final Widget? leading;
@@ -14,6 +15,7 @@ class CustomCheckBox extends StatefulWidget {
   final EdgeInsetsGeometry? padding;
   final bool isChecked;
   final bool? isBold;
+  final bool? isAll;
 
   const CustomCheckBox({
     Key? key,
@@ -25,21 +27,8 @@ class CustomCheckBox extends StatefulWidget {
     this.padding,
     required this.isChecked,
     this.isBold = false,
+    this.isAll = false,
   }) : super(key: key);
-
-  @override
-  State<CustomCheckBox> createState() => _CustomCheckBoxState();
-}
-
-class _CustomCheckBoxState extends State<CustomCheckBox> {
-  bool _isChecked = false;
-
-  void _toggleCheckbox() {
-    setState(() {
-      _isChecked = !widget.isChecked;
-    });
-    widget.onChanged(_isChecked);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,44 +36,46 @@ class _CustomCheckBoxState extends State<CustomCheckBox> {
 
     return Padding(
       padding: const EdgeInsets.only(top: 1),
-      child: InkWell(
-        onTap: _toggleCheckbox,
-        child: Container(
-          padding: widget.padding ?? const EdgeInsets.symmetric(horizontal: 10),
-          height: 24.0,
-          child: Row(
-            children: [
-              widget.leading ??
-                  Container(
-                    width: 24.0,
-                    height: 24.0,
-                    color: Colors.transparent,
-                    child: Center(
-                      child: SvgPicture.asset(
-                        '$baseImageSvgPath/icon/${widget.svg}',
-                        colorFilter: widget.isChecked
-                            ? ColorFilter.mode(
-                                theme.appColors.checkColor, BlendMode.srcIn)
-                            : null,
-                      ),
-                    ),
+      child: Container(
+        padding: padding ?? const EdgeInsets.symmetric(horizontal: 10),
+        height: 24.0,
+        child: Row(
+          children: [
+            InkWell(
+              onTap: onChanged,
+              child: Container(
+                width: 24.0,
+                height: 24.0,
+                color: AppColors.invisibleColor,
+                child: Center(
+                  child: SvgPicture.asset(
+                    '$baseImageSvgPath/icon/$svg',
+                    colorFilter: ColorFilter.mode(
+                        isChecked
+                            ? theme.appColors.checkColor
+                            : AppColors.gray6,
+                        BlendMode.srcIn),
                   ),
-              const SizedBox(width: 6.0),
-              Expanded(
+                ),
+              ),
+            ),
+            const SizedBox(width: 5.0),
+            Expanded(
+              child: InkWell(
+                onTap: onChanged,
                 child: Text(
-                  widget.title,
+                  title,
                   style: FontSizes.getContentStyle().copyWith(
-                      fontWeight: widget.isBold == false
-                          ? FontWeight.w400
-                          : FontWeight.w500,
-                      color: widget.isChecked
+                      fontWeight:
+                          isBold == false ? FontWeight.w400 : FontWeight.w500,
+                      color: isChecked
                           ? theme.appColors.iconButton
                           : theme.appColors.hintText),
                 ),
               ),
-              widget.trailing ?? const SizedBox.shrink(),
-            ],
-          ),
+            ),
+            trailing ?? const SizedBox.shrink(),
+          ],
         ),
       ),
     );

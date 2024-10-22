@@ -1,13 +1,17 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:me_mind/common/provider/lemon_provider.dart';
-import 'package:me_mind/common/services/lemon_service.dart';
+import 'package:me_mind/common/provider/user_provider.dart';
+
 import 'package:me_mind/report/model/create_daily/create_daily_model.dart';
+import 'package:me_mind/report/provider/report_id_provider.dart';
 import 'package:me_mind/report/services/daily_service.dart';
 
 final reportCreateProvider =
     StateNotifierProvider<ReportCreateStateNotifier, ReportCreateBase>((ref) {
   final notifier = ReportCreateStateNotifier(ref);
+
   return notifier;
 });
 
@@ -17,24 +21,36 @@ class ReportCreateStateNotifier extends StateNotifier<ReportCreateBase> {
 
   ReportCreateStateNotifier(this.ref) : super(ReportCreateAwaiting());
 
-  Future create({required String uuid}) async {
-    // 발급 과정
-
+  Future create({required String uuid, required int lemon}) async {
     try {
+      if (lemon == 0) {
+        state = ReportCreateFailed(stateMsg: "레포트 발급에 실패했습니다.");
+        return;
+      }
       state = ReportCreateLoading(stateMsg: "레포트를 생성중입니다.");
 
       final report = await DailyService().create(id: uuid);
       if (report is! CreateDailyModel) return;
 
       state = ReportCreateLoading(stateMsg: "레몬을 1 감소합니다.");
-      await ref.read(lemonStateNotifierProvider.notifier).lemonDecrease();
+      await ref
+          .read(lemonStateNotifierProvider.notifier)
+          .lemonInit(userId: ref.read(userStateNotifierProvider).userId!);
+
+      ref.read(reportIdProvider.notifier).state = report.reportId;
 
       Future.delayed(const Duration(seconds: 2), () {
         state = ReportCreateSuccess(stateMsg: "레포트 발급에 성공했습니다.");
       });
     } catch (e) {
+      if (e is DioException) {
+        if (e.response!.statusCode == 400) {
+          state = ReportCreateFailed(stateMsg: "이미 레포트를 발급했습니다.");
+          return;
+        }
+      }
       state = ReportCreateFailed(stateMsg: "레포트 발급에 실패했습니다.");
-      print(e);
+      return;
     }
   }
 }

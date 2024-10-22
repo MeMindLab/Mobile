@@ -20,25 +20,13 @@ Map<String, dynamic> _$AuthSmsVerifyModelToJson(AuthSmsVerifyModel instance) =>
 
 SmsVerifyData _$SmsVerifyDataFromJson(Map<String, dynamic> json) =>
     SmsVerifyData(
-      result:
-          SmsVerifyDataResult.fromJson(json['result'] as Map<String, dynamic>),
-    );
-
-Map<String, dynamic> _$SmsVerifyDataToJson(SmsVerifyData instance) =>
-    <String, dynamic>{
-      'result': instance.result,
-    };
-
-SmsVerifyDataResult _$SmsVerifyDataResultFromJson(Map<String, dynamic> json) =>
-    SmsVerifyDataResult(
       to: json['to'] as String,
       channel: json['channel'] as String,
       status: json['status'] as String,
       valid: json['valid'] as bool,
     );
 
-Map<String, dynamic> _$SmsVerifyDataResultToJson(
-        SmsVerifyDataResult instance) =>
+Map<String, dynamic> _$SmsVerifyDataToJson(SmsVerifyData instance) =>
     <String, dynamic>{
       'to': instance.to,
       'channel': instance.channel,

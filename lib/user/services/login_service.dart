@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:me_mind/common/constant/constant.dart';
 import 'package:me_mind/user/interface/auth_interface.dart';
@@ -13,6 +12,9 @@ class LoginService implements ILogin {
 
     final dio = Dio();
     Response response;
+    dio.options.headers.clear();
+    dio.options.headers.addAll(
+        {'accept': 'application/json', "Content-Type": 'application/json'});
 
     try {
       response = await dio.post(url, data: data);
