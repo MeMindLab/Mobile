@@ -46,7 +46,7 @@ android {
 
     defaultConfig {
         compileSdkVersion 34 
-        applicationId "com.me_mind_lab.me_mind"
+        applicationId "com.me_mind_me_lab.me_mind"
         minSdkVersion 23
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
