@@ -269,6 +269,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                                 ? RoundedButton(
                                     text: "가입하기",
                                     onPressed: () async {
+                                      FocusScope.of(context).unfocus();
                                       if (formKey.currentState!.validate()) {
                                         final signUpResult =
                                             await signUpViewModel.signUpUser(

@@ -26,36 +26,36 @@ class SignUpViewModel {
     required bool isAdvertise,
     required bool isAppPush,
   }) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    // final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    if (isAppPush) {
-      String today = DateFormat("yyyy년 MM월 dd일").format(DateTime.now());
-      await BottomSheets(
-          context: context,
-          bodies: BottomSheetContent(
-              title: "광고성 정보 수신동의 처리 결과",
-              body: "전송자 : memind\n일시 : $today\n내용 : 수신동의 처리 완료",
-              action: RoundedButton(
-                text: "확인",
-                onPressed: () {
-                  isTrue = true;
-                  Navigator.pop(context);
-                },
-              ))).show();
-    }
-    if (isTrue != true && isAppPush) return;
-    if (isAppPush) {
-      var permissionStatus =
-          await DevicePermission().accessNotification(context: context);
+    // if (isAppPush) {
+    //   String today = DateFormat("yyyy년 MM월 dd일").format(DateTime.now());
+    //   await BottomSheets(
+    //       context: context,
+    //       bodies: BottomSheetContent(
+    //           title: "광고성 정보 수신동의 처리 결과",
+    //           body: "전송자 : memind\n일시 : $today\n내용 : 수신동의 처리 완료",
+    //           action: RoundedButton(
+    //             text: "확인",
+    //             onPressed: () {
+    //               isTrue = true;
+    //               Navigator.pop(context);
+    //             },
+    //           ))).show();
+    // }
+    // if (isTrue != true && isAppPush) return;
+    // if (isAppPush) {
+    //   var permissionStatus =
+    //       await DevicePermission().accessNotification(context: context);
 
-      if (permissionStatus == PermissionStatus.denied) {
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (context) => SignUpScreen(isOnBoarding: false)));
-        return;
-      }
-      await prefs.setBool('adverTisingAccept', isAdvertise);
-      await prefs.setBool('appPushAccept', isAppPush);
-    }
+    //   if (permissionStatus == PermissionStatus.denied) {
+    //     Navigator.of(context).pushReplacement(MaterialPageRoute(
+    //         builder: (context) => SignUpScreen(isOnBoarding: false)));
+    //     return;
+    //   }
+    //   await prefs.setBool('adverTisingAccept', isAdvertise);
+    //   await prefs.setBool('appPushAccept', isAppPush);
+    // }
 
     final result =
         await SignupService().signup(email, nickname, password, referral);
