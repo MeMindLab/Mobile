@@ -232,6 +232,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                             svg: "check_all.svg",
                             isChecked: agree.isAll,
                             onChanged: () {
+                              FocusScope.of(context).unfocus();
                               ref
                                   .read(agreeStateNotifierProvider.notifier)
                                   .updateAll(isTrue: !agree.isAll);
@@ -243,6 +244,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                               child: Image.asset(
                                   "assets/image/icon/arrow_down.png"),
                               onTap: () {
+                                FocusScope.of(context).unfocus();
                                 BottomSheets(
                                         context: context,
                                         height: 368,
