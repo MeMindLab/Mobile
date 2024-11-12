@@ -8,7 +8,8 @@ import 'package:me_mind/common/dio/dio.dart';
 
 class ImageUploadService {
   Future upload(File file, String uuid, bool isDrawing) async {
-    const url = "http://10.0.2.2:8000/upload";
+    final url = "$ip/upload";
+
     Map<String, dynamic> queryParams = {
       'conversation_id': uuid,
       "is_drawing": isDrawing,
@@ -21,7 +22,8 @@ class ImageUploadService {
     Response response;
     dio.interceptors.add(CustomInterceptor(storage: storage));
     dio.options.headers.clear();
-    dio.options.headers.addAll({'accessToken': true});
+    dio.options.headers
+        .addAll({'accessToken': true, 'accept': 'application/json'});
 
     try {
       response = await dio.post(url,

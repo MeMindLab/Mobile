@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:me_mind/common/component/custom_date_picker.dart';
+import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 import 'package:me_mind/report/model/report_model/report_model.dart';
 import 'package:me_mind/report/utils/reports.dart';
-import 'package:me_mind/report/view/f_date_picker_dialog.dart';
 import 'package:me_mind/report/view/s_report_search.dart';
 import 'package:me_mind/common/utils/dialog_manager.dart';
 
@@ -36,8 +36,8 @@ class ReportMonthFragment extends StatelessWidget {
               children: [
                 Expanded(
                   child: InkWell(
-                    highlightColor: Colors.transparent,
-                    splashColor: Colors.transparent,
+                    highlightColor: AppColors.invisibleColor,
+                    splashColor: AppColors.invisibleColor,
                     onTap: () {
                       DialogManager(context: context, type: DialogType.custom)
                           .show(
@@ -56,7 +56,7 @@ class ReportMonthFragment extends StatelessWidget {
                         const Icon(
                           Icons.arrow_forward_ios_outlined,
                           size: 18.0,
-                          color: Colors.black,
+                          color: AppColors.blackColor,
                         ),
                       ],
                     ),
@@ -65,7 +65,6 @@ class ReportMonthFragment extends StatelessWidget {
                 IconButton(
                   visualDensity: VisualDensity.compact,
                   onPressed: () {
-                    // 아이콘 버튼의 동작을 정의합니다.
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -76,7 +75,7 @@ class ReportMonthFragment extends StatelessWidget {
                     width: 20,
                     height: 20,
                     colorFilter: const ColorFilter.mode(
-                      Colors.black,
+                      AppColors.blackColor,
                       BlendMode.srcIn,
                     ),
                   ),
@@ -87,7 +86,23 @@ class ReportMonthFragment extends StatelessWidget {
         ),
         SliverPadding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
-          sliver: renderReports(reports: reports!),
+          sliver: reports!.isEmpty
+              ? SliverToBoxAdapter(
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.33,
+                      ),
+                      Center(
+                        child: Text("리포트가 존재하지 않습니다.",
+                            style: FontSizes.getContentStyle().copyWith(
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.gray5)),
+                      ),
+                    ],
+                  ),
+                )
+              : renderReports(reports: reports!),
         ),
       ],
     );

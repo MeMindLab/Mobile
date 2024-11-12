@@ -109,6 +109,8 @@ class Emotions {
 
   factory Emotions.fromJson(Map<String, dynamic> json) =>
       _$EmotionsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$EmotionsToJson(this);
 }
 
 @JsonSerializable()

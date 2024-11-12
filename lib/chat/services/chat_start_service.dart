@@ -8,8 +8,6 @@ import 'package:me_mind/common/constant/constant.dart';
 import 'package:me_mind/common/dio/dio.dart';
 
 final chatStartServiceProvider = Provider<ChatStartService>((ref) {
-  // final dio = ref.watch(dioProvider);
-
   final chatStartService = ChatStartService();
 
   return chatStartService;
@@ -17,15 +15,18 @@ final chatStartServiceProvider = Provider<ChatStartService>((ref) {
 
 class ChatStartService {
   Future load(String date) async {
-    final url = "http://$ip/chat/start";
+    final url = "$ip/chat/start";
     Map<String, dynamic> data = {"date": date};
 
     final dio = Dio();
     Response response;
     dio.interceptors.add(CustomInterceptor(storage: storage));
     dio.options.headers.clear();
-    dio.options.headers
-        .addAll({'accessToken': true, 'Content-Type': 'application/json'});
+    dio.options.headers.addAll({
+      'accessToken': true,
+      'Content-Type': 'application/json',
+      'accept': 'application/json'
+    });
 
     try {
       response = await dio.post(
@@ -34,6 +35,7 @@ class ChatStartService {
       );
 
       var result = response.data;
+      print(result);
 
       ChatStartModel answer = ChatStartModel.fromJson(result);
 

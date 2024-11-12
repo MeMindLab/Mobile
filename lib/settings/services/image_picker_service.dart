@@ -8,7 +8,6 @@ class ImagePickerService {
   ImagePickerService({required this.imagePicker});
 
   Future getImage(ImageSource imageSource) async {
-    //pickedFile에 ImagePicker로 가져온 이미지가 담긴다.
     final XFile? pickedFile = await imagePicker.pickImage(source: imageSource);
 
     try {

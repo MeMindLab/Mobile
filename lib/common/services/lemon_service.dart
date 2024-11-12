@@ -26,7 +26,8 @@ class LemonService {
   }
 
   Future getLemon({required String userId}) async {
-    final dio = Dio(BaseOptions(baseUrl: "$ip/", headers: {}));
+    final dio = Dio(
+        BaseOptions(baseUrl: "$ip/", headers: {"accept": "application/json"}));
 
     String url = 'users/$userId/lemons';
 
@@ -34,13 +35,15 @@ class LemonService {
 
     try {
       final response = await dio.get(url);
-
+      print(response);
       var result = response.data;
 
       UserLemonModel lemonResult = UserLemonModel.fromJson(result);
 
       return lemonResult;
     } on DioException catch (error) {
+      print("레몬 조회 에러 ${error.response!.statusCode}");
+      print("레몬 보낸 주소 : ${error.response!.realUri}");
       return null;
     } catch (e) {
       return null;

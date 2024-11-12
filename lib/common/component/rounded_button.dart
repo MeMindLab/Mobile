@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:me_mind/common/constant/app_colors.dart";
 import "package:me_mind/common/theme/custom_theme.dart";
 
 import "../theme/custom_theme_holder.dart";
@@ -34,6 +35,8 @@ class RoundedButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         side: borderSide,
         elevation: elevation,
+        disabledBackgroundColor: AppColors.gray3,
+        disabledForegroundColor: AppColors.gray9,
         backgroundColor:
             backgroundColor ?? theme.appColors.blueButtonBackground,
         foregroundColor: foregroundColor ?? Colors.black,

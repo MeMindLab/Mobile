@@ -3,14 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:me_mind/common/component/custom_date_picker.dart';
-import 'package:me_mind/common/component/dialog/custom_dialog.dart';
 import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/report/model/report_model/report_model.dart';
 import 'package:me_mind/report/model/report_param/report_param_model.dart';
 import 'package:me_mind/report/model/report_weekly/report_weekly_model.dart';
 import 'package:me_mind/report/provider/cursor_pagination_provider.dart';
 import 'package:me_mind/report/services/report_weekly_service.dart';
-import 'package:me_mind/report/view/f_date_picker_dialog.dart';
+import 'package:me_mind/report/utils/weekly_flchart_data.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/layout/topbar/widget/back_arrow.dart';
@@ -34,6 +33,8 @@ class Report extends ConsumerStatefulWidget {
 class _Report extends ConsumerState<Report> {
   String? date;
   String? weeklyDate;
+  Future<ReportWeeklyModel>? _future;
+
   final ScrollController scrollController = ScrollController();
   void scrollListener() {
     if (scrollController.offset >
@@ -50,6 +51,11 @@ class _Report extends ConsumerState<Report> {
     }
   }
 
+  Future<ReportWeeklyModel>? _fetchData() async {
+    final result = await ReportWeeklyService().fetchData(date: weeklyDate!);
+    return result;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -59,6 +65,7 @@ class _Report extends ConsumerState<Report> {
       weeklyDate = DateFormat("yyyy-MM-dd").format(DateTime.now());
     });
     setBottomIdx(1);
+    _future = _fetchData();
   }
 
   @override
@@ -91,7 +98,7 @@ class _Report extends ConsumerState<Report> {
                         '최근 감정 흐름',
                         style: FontSizes.getHeadline1Style().copyWith(
                           fontWeight: FontWeight.w500,
-                          color: const Color(0xFF191919),
+                          color: AppColors.blackColor.withOpacity(0.9),
                         ),
                       ),
                       const SizedBox(height: 36),
@@ -104,53 +111,52 @@ class _Report extends ConsumerState<Report> {
                         child: AspectRatio(
                           aspectRatio: 1.70,
                           child: FutureBuilder(
-                              future: ReportWeeklyService()
-                                  .fetchData(date: weeklyDate!),
+                              future: _future,
                               builder: (context, snapshot) {
                                 if (snapshot.connectionState ==
                                     ConnectionState.waiting) {
-                                  return const Center(
-                                      child: CircularProgressIndicator());
+                                  return Center(
+                                      child: Transform.translate(
+                                    offset: const Offset(15, -1),
+                                    child: const CircularProgressIndicator(
+                                      color: AppColors.blueMain,
+                                    ),
+                                  ));
                                 } else if (snapshot.connectionState ==
                                     ConnectionState.done) {
                                   if (snapshot.hasError) {
                                     return Center(
-                                        child:
-                                            Text('Error: ${snapshot.error}'));
+                                        child: Transform.translate(
+                                            offset: const Offset(15, -1),
+                                            child: const Text(
+                                                '최근 감정흐름을 불러오지 못했습니다.')));
                                   } else if (snapshot.hasData) {
                                     final result =
                                         snapshot.data as ReportWeeklyModel;
-                                    List<TodayScore> newData = result.results!;
-
-                                    int totalLength = newData.length;
-                                    List<TodayScore> newBox = newData.sublist(
-                                      totalLength > 7 ? totalLength - 7 : 1,
-                                      totalLength,
-                                    );
-
-                                    List<String> dates = newBox
-                                        .map((item) => item.date)
-                                        .toList();
-                                    List<FlSpot> flSpots = [];
-                                    for (int i = 0; i < newBox.length; i++) {
-                                      flSpots.add(FlSpot((i * 2).toDouble(),
-                                          newBox[i].score / 20));
+                                    if (result.results!.length == 0) {
+                                      return Center(
+                                          child: Transform.translate(
+                                              offset: const Offset(15, -1),
+                                              child: const Text(
+                                                  '일주일 감정 흐름이 없습니다.')));
                                     }
 
-                                    while (dates.length < 7) {
-                                      dates.add("");
-                                    }
+                                    List<String> dates =
+                                        result.results!.length == 0
+                                            ? []
+                                            : result.results!
+                                                .map((item) => item.date)
+                                                .toList();
 
-                                    while (flSpots.length < 7) {
-                                      flSpots.add(FlSpot(
-                                          (flSpots.length * 2).toDouble(),
-                                          0.07));
-                                    }
+                                    List<FlSpot> newSpots = WeeklyFlChartData()
+                                        .getScore(weeklymodel: result);
+
+                                    List<String> newDates = WeeklyFlChartData()
+                                        .getDates(dates: dates);
 
                                     return ReportChart(
-                                      dates: dates,
-                                      data: newBox,
-                                      spots: flSpots,
+                                      dates: newDates,
+                                      spots: newSpots,
                                     );
                                   }
                                 }
@@ -174,8 +180,8 @@ class _Report extends ConsumerState<Report> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       InkWell(
-                        highlightColor: Colors.transparent,
-                        splashColor: Colors.transparent,
+                        highlightColor: AppColors.invisibleColor,
+                        splashColor: AppColors.invisibleColor,
                         onTap: () {
                           DialogManager(
                                   context: context, type: DialogType.custom)
@@ -197,7 +203,7 @@ class _Report extends ConsumerState<Report> {
                             const Icon(
                               Icons.arrow_forward_ios_outlined,
                               size: 18.0,
-                              color: Colors.black,
+                              color: AppColors.blackColor,
                             ),
                           ],
                         ),
@@ -226,7 +232,9 @@ class _Report extends ConsumerState<Report> {
                   height: 100,
                 ),
                 Center(
-                  child: CircularProgressIndicator(),
+                  child: CircularProgressIndicator(
+                    color: AppColors.blueMain,
+                  ),
                 )
               ]),
             ),

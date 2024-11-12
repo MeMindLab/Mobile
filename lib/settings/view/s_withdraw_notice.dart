@@ -3,59 +3,78 @@ import 'package:flutter_svg/svg.dart';
 import 'package:me_mind/common/component/rounded_button.dart';
 import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
+import 'package:me_mind/common/layout/default_layout.dart';
+import 'package:me_mind/common/layout/topbar/widget/back_arrow.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
-import 'package:me_mind/settings/view/s_withdraw_screen.dart';
+import 'package:me_mind/settings/component/settings_custom_text_form.dart';
+import 'package:me_mind/settings/model/withdraw_reason.dart';
+import 'package:me_mind/settings/view/s_withdraw_password.dart';
 
-class WithdrawNoticeFragment extends StatefulWidget {
-  final Function(ScreenState) screenUpdate;
-  const WithdrawNoticeFragment({super.key, required this.screenUpdate});
+class WithdrawNoticeScreen extends StatefulWidget {
+  final List reasons;
+
+  const WithdrawNoticeScreen({super.key, required this.reasons});
 
   @override
-  State<WithdrawNoticeFragment> createState() => _WithdrawNoticeFragmentState();
+  State<WithdrawNoticeScreen> createState() => _WithdrawNoticeFragmentState();
 }
 
-class _WithdrawNoticeFragmentState extends State<WithdrawNoticeFragment> {
+class _WithdrawNoticeFragmentState extends State<WithdrawNoticeScreen> {
   bool isCheck = false;
 
   @override
   Widget build(BuildContext context) {
     CustomTheme theme = CustomThemeHolder.of(context).theme;
-    return Column(
-      children: [
-        const SizedBox(
-          height: 20,
-        ),
-        noticeElement(theme),
-        const SizedBox(
-          height: 20,
-        ),
-        noticeContent(),
-        const Spacer(),
-        InkWell(
-            onTap: () {
-              setState(() {
-                isCheck = !isCheck;
-              });
-            },
-            child: checkTile(
-                isSelect: isCheck, content: "위 사항을 확인했으며, 이에 동의합니다.")),
-        const SizedBox(
-          height: 25,
-        ),
-        isCheck == true
-            ? RoundedButton(
-                text: "다음",
-                onPressed: () {
-                  widget.screenUpdate(ScreenState.password);
-                },
-              )
-            : const RoundedButton(text: "다음"),
-        const SizedBox(
-          height: 30,
-        )
-      ],
-    );
+    return DefaultLayout(
+        title: "계정 탈퇴",
+        appBarLeading: const BackArrowLeading(),
+        child: SafeArea(
+          child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  noticeElement(theme),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  noticeContent(),
+                  const Spacer(),
+                  InkWell(
+                      onTap: () {
+                        setState(() {
+                          isCheck = !isCheck;
+                        });
+                      },
+                      child: checkTile(
+                          isSelect: isCheck,
+                          content: "위 사항을 확인했으며, 이에 동의합니다.")),
+                  const SizedBox(
+                    height: 25,
+                  ),
+                  isCheck == true
+                      ? RoundedButton(
+                          text: "다음",
+                          onPressed: () {
+                            // widget.screenUpdate(ScreenState.password);
+                            Navigator.of(context)
+                                .push(MaterialPageRoute(builder: (context) {
+                              return WithdrawPasswordScreen(
+                                reasons: widget.reasons,
+                              );
+                            }));
+                          },
+                        )
+                      : const RoundedButton(text: "다음"),
+                  const SizedBox(
+                    height: 30,
+                  )
+                ],
+              )),
+        ));
   }
 }
 
@@ -75,12 +94,12 @@ Widget checkTile({required bool isSelect, required String content}) {
         ),
       ),
       const SizedBox(
-        width: 8,
+        width: 5,
       ),
       Expanded(
           child: Text(
         content,
-        style: FontSizes.getContentStyle().copyWith(
+        style: FontSizes.getCapsuleStyle().copyWith(
             fontWeight: FontWeight.w500,
             color: isSelect ? AppColors.blue9 : AppColors.gray7),
       )),
@@ -136,7 +155,7 @@ Widget noticeContent() {
           Text(
             "1.",
             style: FontSizes.getContentStyle()
-                .copyWith(fontWeight: FontWeight.w400),
+                .copyWith(fontWeight: FontWeight.w400, color: AppColors.gray9),
           ),
           const SizedBox(
             width: 5,
@@ -144,7 +163,7 @@ Widget noticeContent() {
           Text(
             "탈퇴 후 계정 복구가 불가합니다.\n(동일 이메일로 가입 불가)",
             style: FontSizes.getContentStyle()
-                .copyWith(fontWeight: FontWeight.w400),
+                .copyWith(fontWeight: FontWeight.w400, color: AppColors.gray9),
           ),
         ],
       ),
@@ -157,7 +176,7 @@ Widget noticeContent() {
           Text(
             "2.",
             style: FontSizes.getContentStyle()
-                .copyWith(fontWeight: FontWeight.w400),
+                .copyWith(fontWeight: FontWeight.w400, color: AppColors.gray9),
           ),
           const SizedBox(
             width: 5,
@@ -165,8 +184,8 @@ Widget noticeContent() {
           Expanded(
             child: Text(
               "탈퇴 후, 일기 작성내역과 리포트 데이터 등은 복구 불가합니다.",
-              style: FontSizes.getContentStyle()
-                  .copyWith(fontWeight: FontWeight.w400),
+              style: FontSizes.getContentStyle().copyWith(
+                  fontWeight: FontWeight.w400, color: AppColors.gray9),
             ),
           ),
         ],
@@ -180,7 +199,7 @@ Widget noticeContent() {
           Text(
             "3.",
             style: FontSizes.getContentStyle()
-                .copyWith(fontWeight: FontWeight.w400),
+                .copyWith(fontWeight: FontWeight.w400, color: AppColors.gray9),
           ),
           const SizedBox(
             width: 5,
@@ -188,8 +207,8 @@ Widget noticeContent() {
           Expanded(
             child: Text(
               "탈퇴 시, 보유하고 계신 레몬은 전부 소멸됩니다. 재가입을 하더라도 현재의 레몬은 살릴 수가 없습니다.",
-              style: FontSizes.getContentStyle()
-                  .copyWith(fontWeight: FontWeight.w400),
+              style: FontSizes.getContentStyle().copyWith(
+                  fontWeight: FontWeight.w400, color: AppColors.gray9),
             ),
           ),
         ],

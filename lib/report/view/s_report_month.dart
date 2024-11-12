@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:me_mind/common/component/root_tab.dart';
+import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/layout/topbar/widget/back_arrow.dart';
 import 'package:me_mind/report/model/report_model/report_model.dart';
@@ -69,7 +70,10 @@ class _ReportMonthState extends ConsumerState<ReportMonth> {
           title: "리포트",
           appBarLeading: BackArrowLeading(),
           bottomNavigationBar: RootTab(),
-          child: Center(child: CircularProgressIndicator()));
+          child: Center(
+              child: CircularProgressIndicator(
+            color: AppColors.blueMain,
+          )));
     }
     if (state is ReportCursorPaginationError) {
       return const DefaultLayout(

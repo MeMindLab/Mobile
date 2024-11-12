@@ -6,10 +6,11 @@ import 'package:me_mind/report/model/report_model/report_model.dart';
 class ReportSearchService implements ReportService {
   @override
   Future fetchData({required Map<String, dynamic> parameters}) async {
-    final url = "http://$ip/report/search";
-
+    final url = "$ip/report/search";
     final dio = Dio();
     Response response;
+    dio.options.headers.clear();
+    dio.options.headers.addAll({'accept': "application/json"});
 
     try {
       response = await dio.post(url, queryParameters: parameters);

@@ -8,9 +8,9 @@ class ImagePickerService {
   ImagePickerService({required this.imagePicker});
 
   Future getImage(ImageSource imageSource) async {
-    final XFile? pickedFile = await imagePicker.pickImage(source: imageSource);
-
     try {
+      final XFile? pickedFile =
+          await imagePicker.pickImage(source: imageSource);
       if (pickedFile?.path != null) {
         return File(pickedFile!.path);
       }

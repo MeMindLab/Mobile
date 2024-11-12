@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/report/type/emotion.dart';
 
@@ -28,8 +29,8 @@ class MyClipper extends CustomClipper<Path> {
 }
 
 class EmotionCard extends StatelessWidget {
-  final EmotionType emotionType; // 감정 타입
-  final double emotionPercentage; // 감정 수치 (e.g., 36.8%)
+  final EmotionType emotionType;
+  final double emotionPercentage;
 
   const EmotionCard(
       {required this.emotionType, required this.emotionPercentage, Key? key})
@@ -42,16 +43,18 @@ class EmotionCard extends StatelessWidget {
         width: 83,
         height: 130,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10.0),
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.9),
-                spreadRadius: 0.1,
-                blurRadius: 0.1,
-                offset: const Offset(0, 0),
-              ),
-            ]),
+          border: Border.all(width: 0.5, color: AppColors.gray1),
+          borderRadius: BorderRadius.circular(10.0),
+          color: Colors.white,
+          boxShadow: const [
+            BoxShadow(
+              color: Color.fromRGBO(212, 215, 225, 0.25),
+              blurRadius: 4,
+              spreadRadius: 1,
+              offset: Offset(0, 0),
+            ),
+          ],
+        ),
         child: Stack(
           alignment: Alignment.topCenter,
           children: [

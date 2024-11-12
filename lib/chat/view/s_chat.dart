@@ -26,13 +26,17 @@ import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 import 'package:me_mind/common/utils/dialog_manager.dart';
 import 'package:me_mind/report/provider/report_create_provider.dart';
+import 'package:me_mind/report/provider/report_id_provider.dart';
 import 'package:me_mind/report/view/s_report_detail.dart';
 import 'package:me_mind/screen/main/s_main.dart';
+import 'package:me_mind/settings/view/s_setting.dart';
 import 'package:me_mind/settings/view/s_setting_notification.dart';
 import 'package:me_mind/settings/view/s_setting_userinfo.dart';
 
 class Chat extends ConsumerStatefulWidget {
-  const Chat({super.key});
+  String? seletedDate;
+
+  Chat({super.key, this.seletedDate});
 
   @override
   ConsumerState<Chat> createState() => _ChatState();
@@ -51,6 +55,7 @@ class _ChatState extends ConsumerState<Chat> {
   bool dialog2 = false;
   bool dialog3 = false;
   bool dialog4 = false;
+  int chatImageCount = 0;
 
   void chatContentChange(String msg) {
     setState(() {
@@ -65,55 +70,70 @@ class _ChatState extends ConsumerState<Chat> {
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(chatStateNotifierProvider);
+    final state = ref.watch(chatStateNotifierProvider(widget.seletedDate));
     final chatId = ref.watch(chatIdProvider);
     final reportIssue = ref.watch(reportIssueProvider);
     final lemon = ref.watch(lemonStateNotifierProvider);
-    final user = ref.watch(userProvider);
+    final user = ref.watch(userStateNotifierProvider);
+    final reportId = ref.watch(reportIdProvider);
 
     CustomTheme theme = CustomThemeHolder.of(context).theme;
 
+    ref.listen(chatStateNotifierProvider(widget.seletedDate), (prev, next) {
+      int imageCount = next.where((message) {
+        if (message is ChatMessageModel) {
+          return message.isImage;
+        }
+        return false;
+      }).length;
+      setState(() {
+        chatImageCount = imageCount;
+      });
+    });
+
     ref.listen(reportIssueProvider, (previous, next) {
-      if (next && lemon == 1) {
-        if (user.isVerified! && dialog3 == false) {
-          dialog3 = true;
-          DialogManager(context: context, type: DialogType.twoButton).show(
-              titleText: "데모버전 이용이 끝났어요.",
-              contentText: "정식출시일을 기다려주세요!\n일기는 계속 작성 가능하며\n데이터는 보존할게요.",
-              firstButtonText: "닫기",
-              firstSubmit: () {
-                Navigator.pop(context);
-              },
-              secondButtonText: "이메일알림 받기",
-              secondSubmit: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) {
-                  return const SettingNotification();
-                }));
-              });
-        } else if (user.isVerified == false && dialog4 == false) {
-          dialog4 = true;
-          DialogManager(context: context, type: DialogType.twoButton).show(
-              titleText: "앗, 비타민이 없으시군요!",
-              contentText: "리포트 발행은 비타민이 필요해요.\n번호인증 후 무료 5개를 받으시겠어요?",
-              firstButtonText: "아니오",
-              firstSubmit: () {
-                Navigator.pop(context);
-              },
-              secondButtonText: "네",
-              secondSubmit: () {
-                Navigator.of(context)
-                    .pushReplacement(MaterialPageRoute(builder: (context) {
-                  return const SettingUserInfo();
-                }));
-              });
+      if (next && lemon == 0) {
+        if (user.isVerified != null) {
+          if (user.isVerified! && dialog3 == false) {
+            dialog3 = true;
+            DialogManager(context: context, type: DialogType.twoButton).show(
+                titleText: "데모버전 이용이 끝났어요.",
+                contentText: "정식출시일을 기다려주세요!\n일기는 계속 작성 가능하며\n데이터는 보존할게요.",
+                firstButtonText: "닫기",
+                firstSubmit: () {
+                  Navigator.pop(context);
+                },
+                secondButtonText: "이메일알림 받기",
+                secondSubmit: () {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) {
+                    return const SettingNotification();
+                  }));
+                });
+          } else if (user.isVerified == false && dialog4 == false) {
+            dialog4 = true;
+            DialogManager(context: context, type: DialogType.twoButton).show(
+                titleText: "앗, 비타민이 없으시군요!",
+                contentText: "리포트 발행은 비타민이 필요해요.\n번호인증 후 무료 5개를 받으시겠어요?",
+                firstButtonText: "아니오",
+                firstSubmit: () {
+                  Navigator.pop(context);
+                },
+                secondButtonText: "네",
+                secondSubmit: () {
+                  Navigator.of(context)
+                      .pushReplacement(MaterialPageRoute(builder: (context) {
+                    return const Settings();
+                  }));
+                });
+          }
         }
       }
     });
 
-    ref.listen(chatStateNotifierProvider, (previous, next) {
+    ref.listen(chatStateNotifierProvider(widget.seletedDate), (previous, next) {
       if (lemon == 1 &&
-          next.length == 1 &&
+          next.length == 3 &&
           dialog1 == false &&
           user.isVerified! == false) {
         dialog1 = true;
@@ -128,7 +148,7 @@ class _ChatState extends ConsumerState<Chat> {
             secondSubmit: () {
               Navigator.of(context)
                   .pushReplacement(MaterialPageRoute(builder: (context) {
-                return const SettingUserInfo();
+                return const Settings();
               }));
             });
       }
@@ -149,7 +169,7 @@ class _ChatState extends ConsumerState<Chat> {
             secondSubmit: () {
               Navigator.of(context)
                   .pushReplacement(MaterialPageRoute(builder: (context) {
-                return const SettingUserInfo();
+                return const Settings();
               }));
             });
       }
@@ -170,18 +190,24 @@ class _ChatState extends ConsumerState<Chat> {
         ShowSnackBar().showSnackBarDurationFunction(context, next.stateMsg);
         Future.delayed(const Duration(seconds: 2), () {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return const ReportDetail();
+            return ReportDetail(
+              conversationId: chatId,
+              reportId: reportId,
+              createdAt: DateTime.now().toLocal().toIso8601String(),
+            );
           }));
         });
       }
     });
     return DefaultLayout(
-      backgroundColor: Colors.white,
+      backgroundColor: theme.appColors.seedColor,
       appBarActions: [
         InkWell(
           onTap: reportIssue == true
               ? () async {
-                  ref.read(reportCreateProvider.notifier).create(uuid: chatId);
+                  ref
+                      .read(reportCreateProvider.notifier)
+                      .create(uuid: chatId, lemon: lemon);
                 }
               : null,
           child: SizedBox(
@@ -199,66 +225,78 @@ class _ChatState extends ConsumerState<Chat> {
           ),
         ),
       ],
-      title: datetimeType1(),
+      title: datetimeType1(date: widget.seletedDate),
       // ignore: sort_child_properties_last
       child: SafeArea(
+        bottom: true,
         child: Column(
           children: [
             Expanded(
-              child: Stack(children: [
-                ListView.builder(
-                  reverse: true,
-                  itemBuilder: (context, index) {
-                    if (state[index] is ChatMessageLoading) {
-                      return const ChatMessageTile(
-                        message: "",
-                        isAi: true,
-                        isImage: false,
-                        isAirequest: true,
-                        createdAt: "",
-                      );
-                    } else if (state[index] is ChatMessageError) {
-                      return const ChatMessageTile(
-                        message: "다시 한번 입력해주세요",
-                        isAi: true,
-                        isImage: false,
-                        createdAt: "",
-                      );
-                    } else {
-                      return Padding(
-                        padding: index == 0
-                            ? EdgeInsets.zero
-                            : index == state.length - 1
-                                ? const EdgeInsets.only(bottom: 10)
-                                : const EdgeInsets.only(bottom: 30.0),
-                        child: ChatMessageTile.fromModel(
-                            state[index], state[index] == 1 ? true : null),
-                      );
-                    }
-                  },
-                  itemCount: state.length,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                ),
-                Positioned(
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  child: isFolded == false
-                      ? ChatNotification(
-                          theme: theme,
-                          isFolded: isFolded,
-                          bgColor: Colors.white,
-                          content:
-                              '구르미는 미아인드가 개발한 일기쓰기 전문 인공지능입니다. 텍스트나 음성으로 대화하듯이 하루를 정리해보세요!',
-                          onPressed: () {
-                            setState(() {
-                              isFolded = !isFolded;
-                            });
-                          })
-                      : const SizedBox(),
-                ),
-              ]),
+              child: Stack(
+                children: [
+                  ListView.builder(
+                    reverse: true,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      if (state[index] is ChatMessageLoading) {
+                        return const ChatMessageTile(
+                          message: "",
+                          isAi: true,
+                          isImage: false,
+                          isAirequest: true,
+                          createdAt: "",
+                        );
+                      } else if (state[index] is ChatMessageError) {
+                        return const ChatMessageTile(
+                          message: "다시 한번 입력해주세요",
+                          isAi: true,
+                          isImage: false,
+                          createdAt: "",
+                        );
+                      } else {
+                        return Padding(
+                          padding: index == 0
+                              ? EdgeInsets.zero
+                              : index == state.length - 1
+                                  ? const EdgeInsets.only(bottom: 10)
+                                  : const EdgeInsets.only(bottom: 30.0),
+                          child: ChatMessageTile.fromModel(
+                              state[index], state[index] == 1 ? true : null),
+                        );
+                      }
+                    },
+                    itemCount: state.length,
+                    padding: EdgeInsets.only(
+                        top: isFolded ? 16 : 130,
+                        bottom: 16,
+                        left: 16,
+                        right: 16),
+                  ),
+                  Positioned(
+                    top:
+                        isFolded ? -100 : 0, // isFolded가 true일 때 알림창을 화면 밖으로 이동
+                    left: 0,
+                    right: 0,
+                    child: AnimatedOpacity(
+                      opacity: isFolded ? 0.0 : 1.0, // 접히면 알림창을 숨김
+                      duration: const Duration(milliseconds: 300),
+                      child: isFolded == false
+                          ? ChatNotification(
+                              theme: theme,
+                              isFolded: isFolded,
+                              bgColor: theme.appColors.seedColor,
+                              content:
+                                  '구르미는 미마인드가 개발한 일기쓰기 전문 인공지능입니다. 텍스트나 음성으로 대화하듯이 하루를 정리해보세요!',
+                              onPressed: () {
+                                setState(() {
+                                  isFolded = !isFolded;
+                                });
+                              })
+                          : const SizedBox(),
+                    ),
+                  ),
+                ],
+              ),
             ),
             bottomInputField(controller, theme, chatContentChange),
           ],
@@ -280,6 +318,7 @@ class _ChatState extends ConsumerState<Chat> {
   Widget bottomInputField(
       TextEditingController controller, CustomTheme theme, Function onChange) {
     return SafeArea(
+      bottom: false,
       child: Padding(
         padding:
             EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
@@ -303,30 +342,40 @@ class _ChatState extends ConsumerState<Chat> {
                           Container(
                             margin: const EdgeInsets.fromLTRB(20, 0, 10, 10),
                             child: InkWell(
-                              onTap: () async {
-                                var result = await ImagePickerService(
-                                        imagePicker: ImagePicker())
-                                    .getImage(ImageSource.gallery);
+                              onTap: chatImageCount >= 2
+                                  ? null
+                                  : () async {
+                                      var result = await ImagePickerService(
+                                              imagePicker: ImagePicker())
+                                          .getImage(ImageSource.gallery);
 
-                                if (result is! File) return;
+                                      if (result is! File) return;
 
-                                var imageUpload = await ImageUploadService()
-                                    .upload(result, ref.watch(chatIdProvider),
-                                        false);
+                                      var imageUpload =
+                                          await ImageUploadService().upload(
+                                              result,
+                                              ref.watch(chatIdProvider),
+                                              false);
 
-                                if (imageUpload is! ImageUploadModel) return;
-                                ref
-                                    .read(chatStateNotifierProvider.notifier)
-                                    .addChating(
-                                        message: imageUpload.imageUrl,
-                                        isImage: true);
-                              },
-                              child: SvgPicture.asset(
-                                  'assets/svg/icon/imageUpload.svg',
-                                  width: 30,
-                                  height: 30,
-                                  colorFilter: const ColorFilter.mode(
-                                      AppColors.blue7, BlendMode.srcIn)),
+                                      if (imageUpload is! ImageUploadModel)
+                                        return;
+                                      ref
+                                          .read(chatStateNotifierProvider(
+                                                  widget.seletedDate)
+                                              .notifier)
+                                          .addChating(
+                                              message: imageUpload.imageUrl,
+                                              isImage: true);
+                                    },
+                              child: Transform.translate(
+                                offset: Offset(2, -1),
+                                child: SvgPicture.asset(
+                                    'assets/svg/icon/imageUpload.svg',
+                                    width: 26,
+                                    height: 26,
+                                    colorFilter: const ColorFilter.mode(
+                                        AppColors.trashColor, BlendMode.srcIn)),
+                              ),
                             ),
                           ),
                         ],
@@ -334,6 +383,7 @@ class _ChatState extends ConsumerState<Chat> {
                       Expanded(
                         child: Container(
                           margin: const EdgeInsets.only(right: 20),
+                          // height: 40,
                           child: Stack(children: [
                             TextField(
                               controller: controller,
@@ -344,39 +394,51 @@ class _ChatState extends ConsumerState<Chat> {
                               minLines: 1,
                               maxLines: 4,
                               cursorWidth: 1,
-                              cursorColor: Colors.black,
+                              cursorHeight: 17,
+                              cursorColor: AppColors.blackColor,
                               style: FontSizes.getCapsuleStyle().copyWith(
                                   color: theme.appColors.iconButton,
                                   fontSize: 14),
                               decoration: InputDecoration(
                                 isDense: false,
-                                contentPadding:
-                                    const EdgeInsets.only(left: 20, right: 80),
+                                contentPadding: const EdgeInsets.only(
+                                    left: 20, right: 80, top: 5, bottom: 5),
                                 filled: true,
                                 fillColor: theme.appColors.seedColor,
                                 labelStyle:
                                     TextStyle(color: theme.appColors.activate),
                                 focusedBorder: OutlineInputBorder(
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(23)),
-                                  borderSide: BorderSide(
-                                      width: 1,
-                                      color: theme.appColors.seedColor),
-                                ),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(23)),
+                                    borderSide: BorderSide.none
+                                    // borderSide: BorderSide(
+                                    //     width: 1,
+                                    //     color: theme.appColors.seedColor),
+                                    ),
                                 enabledBorder: OutlineInputBorder(
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(23)),
-                                  borderSide: BorderSide(
-                                      width: 1,
-                                      color: theme.appColors.seedColor),
-                                ),
-                                border: OutlineInputBorder(
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(23)),
-                                  borderSide: BorderSide(
-                                      width: 1,
-                                      color: theme.appColors.seedColor),
-                                ),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(23)),
+                                    borderSide: BorderSide.none
+                                    // borderSide: BorderSide(
+                                    //     width: 1,
+                                    //     color: theme.appColors.seedColor),
+                                    ),
+                                disabledBorder: const OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(23)),
+                                    borderSide: BorderSide.none),
+                                errorBorder: const OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(23)),
+                                    borderSide: BorderSide.none),
+                                focusedErrorBorder: const OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(23)),
+                                    borderSide: BorderSide.none),
+                                border: const OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(23)),
+                                    borderSide: BorderSide.none),
                               ),
                               keyboardType: TextInputType.multiline,
                             ),
@@ -388,24 +450,12 @@ class _ChatState extends ConsumerState<Chat> {
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
-                                    // InkWell(
-                                    //   onTap: () {},
-                                    //   child: Container(
-                                    //     margin: const EdgeInsets.fromLTRB(
-                                    //         0, 5, 10, 10),
-                                    //     child: SvgPicture.asset(
-                                    //         'assets/svg/icon/mic.svg',
-                                    //         colorFilter: const ColorFilter.mode(
-                                    //             AppColors.blue7,
-                                    //             BlendMode.srcIn)),
-                                    //   ),
-                                    // ),
                                     Padding(
                                       padding: const EdgeInsets.only(
-                                          right: 8, bottom: 10),
+                                          right: 6, bottom: 6),
                                       child: Container(
-                                        width: 30,
-                                        height: 30,
+                                        width: 35,
+                                        height: 35,
                                         decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(50),
@@ -415,7 +465,9 @@ class _ChatState extends ConsumerState<Chat> {
                                             if (chatContent != "") {
                                               ref
                                                   .read(
-                                                      chatStateNotifierProvider
+                                                      chatStateNotifierProvider(
+                                                              widget
+                                                                  .seletedDate)
                                                           .notifier)
                                                   .addChating(
                                                       message: chatContent);
@@ -426,11 +478,20 @@ class _ChatState extends ConsumerState<Chat> {
                                               controller.clear();
                                             }
                                           },
-                                          child: Icon(
-                                            Icons.keyboard_arrow_up,
-                                            color: theme.appColors.seedColor,
-                                            size: 30,
+                                          child: Transform.translate(
+                                            offset: Offset(0.5, -1),
+                                            child: Image.asset(
+                                              'assets/image/icon/chat_send_icon.png',
+                                              width: 30,
+                                              height: 30,
+                                              color: theme.appColors.seedColor,
+                                            ),
                                           ),
+                                          // child: Icon(
+                                          //   Icons.keyboard_arrow_up,
+                                          //   color: theme.appColors.seedColor,
+                                          //   size: 30,
+                                          // ),
                                         ),
                                       ),
                                     ),

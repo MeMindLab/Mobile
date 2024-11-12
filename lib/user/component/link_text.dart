@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 
 class LinkText extends StatelessWidget {
@@ -28,7 +29,7 @@ class LinkText extends StatelessWidget {
         text,
         style: TextStyle(
           decoration: TextDecoration.underline,
-          decorationColor: linkColor ?? Colors.blue,
+          decorationColor: linkColor ?? AppColors.blue6,
           color: textColor ?? textBasicColor,
         ),
       ),

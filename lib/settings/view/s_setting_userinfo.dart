@@ -3,15 +3,22 @@ import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/layout/topbar/widget/back_arrow.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
-import 'package:me_mind/settings/model/user_info_model.dart';
-import 'package:me_mind/settings/services/userinfo_service.dart';
 import 'package:me_mind/settings/view/f_userinfo_form.dart';
 
 class SettingUserInfo extends StatefulWidget {
   final String? userEmail;
   final String? userNickname;
+  final String? phoneNumber;
+  final bool isVerified;
+  final String? referralCode;
 
-  const SettingUserInfo({super.key, this.userEmail, this.userNickname});
+  const SettingUserInfo(
+      {super.key,
+      this.userEmail,
+      this.userNickname,
+      this.phoneNumber,
+      required this.isVerified,
+      this.referralCode});
 
   @override
   State<SettingUserInfo> createState() => _SettingUserInfoState();
@@ -19,8 +26,7 @@ class SettingUserInfo extends StatefulWidget {
 
 class _SettingUserInfoState extends State<SettingUserInfo> {
   bool isUpdate = false;
-  String email = "";
-  String nickname = "";
+
   void onUpdate(bool isTrue) {
     setState(() {
       isUpdate = isTrue;
@@ -48,27 +54,17 @@ class _SettingUserInfoState extends State<SettingUserInfo> {
               child: SafeArea(
                 bottom: false,
                 child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: FutureBuilder(
-                      future: UserInfoService().findUser(),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const Center(
-                              child: CircularProgressIndicator());
-                        } else if (snapshot.hasData) {
-                          var userInfo = snapshot.data as UserInfoModel;
-                          return UserInfoForm(
-                            isUpdate: isUpdate,
-                            onUpdate: onUpdate,
-                            userEmail: userInfo.email!,
-                            userNickname: userInfo.nickname!,
-                          );
-                        } else {
-                          return const Center(child: Text('계정정보 불러오기 실패'));
-                        }
-                      },
-                    )),
+                  padding: const EdgeInsets.all(20.0),
+                  child: UserInfoForm(
+                    isVerified: widget.isVerified,
+                    isUpdate: isUpdate,
+                    onUpdate: onUpdate,
+                    userEmail: widget.userEmail!,
+                    userNickname: widget.userNickname!,
+                    userPhoneNumber: widget.phoneNumber,
+                    referralCode: widget.referralCode,
+                  ),
+                ),
               ),
             )
           ],

@@ -13,21 +13,22 @@ class DefaultLayout extends StatelessWidget {
   final Color? appBarBgColor;
   final bool? isappBarImage;
   final Widget? floatingActionButton;
+  final bool? isResizeToAvoid;
 
-  const DefaultLayout({
-    super.key,
-    required this.child,
-    this.title,
-    this.bottomNavigationBar,
-    this.bottomSheet,
-    this.backgroundColor,
-    this.foregroundColor,
-    this.appBarActions,
-    this.appBarLeading,
-    this.appBarBgColor,
-    this.isappBarImage = false,
-    this.floatingActionButton,
-  });
+  const DefaultLayout(
+      {super.key,
+      required this.child,
+      this.title,
+      this.bottomNavigationBar,
+      this.bottomSheet,
+      this.backgroundColor,
+      this.foregroundColor,
+      this.appBarActions,
+      this.appBarLeading,
+      this.appBarBgColor,
+      this.isappBarImage = false,
+      this.floatingActionButton,
+      this.isResizeToAvoid});
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +40,7 @@ class DefaultLayout extends StatelessWidget {
       bottomSheet: bottomSheet,
       bottomNavigationBar: bottomNavigationBar,
       floatingActionButton: floatingActionButton,
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: isResizeToAvoid ?? false,
       extendBody: true,
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 
@@ -21,7 +22,7 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
 
     final baseBorder = OutlineInputBorder(
       borderSide: const BorderSide(
-        color: Colors.transparent,
+        color: AppColors.invisibleColor,
       ),
       borderRadius: BorderRadius.circular(13),
     );
@@ -46,6 +47,8 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
                 fontSize: 14,
               ),
               cursorColor: Theme.of(context).focusColor,
+              textAlignVertical: const TextAlignVertical(y: 0.13),
+              cursorHeight: 16,
               onEditingComplete: widget.onSubmitted,
               controller: widget.controller,
               decoration: InputDecoration(
@@ -68,7 +71,7 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
                   borderSide: BorderSide.none,
                 ),
                 contentPadding:
-                    const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
+                    EdgeInsets.only(top: 0, bottom: 0, left: 12, right: 12),
                 enabledBorder: baseBorder,
               ),
               onSubmitted: (value) => widget.onSubmitted,

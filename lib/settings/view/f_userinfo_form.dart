@@ -1,44 +1,47 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:me_mind/common/component/dialog/custom_dialog.dart';
-import 'package:me_mind/common/component/dialog/w_dialog_button.dart';
 import 'package:me_mind/common/component/rounded_button.dart';
 import 'package:me_mind/common/constant/app_colors.dart';
-import 'package:me_mind/common/constant/constant.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/provider/lemon_provider.dart';
-import 'package:me_mind/common/store.dart';
+import 'package:me_mind/common/provider/user_provider.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 import 'package:me_mind/common/utils/dialog_manager.dart';
-import 'package:me_mind/common/view/splash_screen.dart';
 import 'package:me_mind/screen/main/s_main.dart';
 import 'package:me_mind/settings/component/settings_custom_text_form.dart';
 import 'package:me_mind/settings/model/auth_sms_model.dart';
 import 'package:me_mind/settings/model/auth_sms_verify_model.dart';
 import 'package:me_mind/settings/model/user_info_model.dart';
 import 'package:me_mind/settings/services/auth_sms_service.dart';
+import 'package:me_mind/settings/services/user_validation_service.dart';
 import 'package:me_mind/settings/services/userinfo_service.dart';
 import 'package:me_mind/settings/utils/phone_number_formatter.dart';
-import 'package:me_mind/settings/view/s_withdraw_screen.dart';
+import 'package:me_mind/settings/view/s_withdraw_check.dart';
 import 'package:me_mind/settings/view/w_certify_timer.dart';
 import 'package:me_mind/utils/validate.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class UserInfoForm extends ConsumerStatefulWidget {
   final bool isUpdate;
   final Function onUpdate;
   final String userEmail;
   final String userNickname;
+  final String? userPhoneNumber;
+  final bool isVerified;
+  final String? referralCode;
   const UserInfoForm(
       {super.key,
       required this.isUpdate,
       required this.onUpdate,
       required this.userEmail,
-      required this.userNickname});
+      required this.userNickname,
+      this.userPhoneNumber,
+      required this.isVerified,
+      this.referralCode});
 
   @override
   ConsumerState<UserInfoForm> createState() => _UserInfoFormState();
@@ -47,18 +50,26 @@ class UserInfoForm extends ConsumerStatefulWidget {
 class _UserInfoFormState extends ConsumerState<UserInfoForm> {
   final _formKey = GlobalKey<FormState>();
   final _formAuthKey = GlobalKey<FormState>();
-  String phoneNumber = "";
+  final TextEditingController nameController = TextEditingController(text: "");
+  final TextEditingController emailController = TextEditingController(text: "");
+  final TextEditingController phoneController = TextEditingController(text: "");
   String code = "";
-  String nickname = "";
-  String email = "";
   int timerCount = 300;
   bool isAuthCheck = false;
+  bool isEmailCheck = false;
+  bool isNameCheck = false;
   late Timer _timer;
   late CertifyTimer certifyTimer;
   bool isphoneAuthenticated = false;
   bool isTimerStart = false;
-  bool isAuthenticComplete = false;
+  late bool isAuthenticComplete;
   bool isAuthNumberState = true;
+  String? errorNameText;
+  String? errorEmailText;
+  late String saveName;
+  late String saveEmail;
+  bool isPhoneButton = false;
+  String? errorPhoneAuthText;
 
   void resetTimer() {
     setState(() {
@@ -108,9 +119,23 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
     // TODO: implement initState
     super.initState();
     certifyTimer = CertifyTimer(timerCount: timerCount);
-    nickname = widget.userNickname;
-    email = widget.userEmail;
+    nameController.text = widget.userNickname;
+    emailController.text = widget.userEmail;
+    phoneController.text = widget.userPhoneNumber ?? "";
+    isAuthenticComplete = widget.isVerified;
     _timer = Timer(const Duration(seconds: 0), () {});
+    saveName = widget.userNickname;
+    saveEmail = widget.userEmail;
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    nameController.dispose();
+    emailController.dispose();
+    phoneController.dispose();
+    _timer.cancel();
+    super.dispose();
   }
 
   @override
@@ -139,62 +164,221 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
               const SizedBox(
                 height: 20,
               ),
-              SeetingCustomTextFormField(
-                initialText: nickname,
-                bgColor: theme.appColors.seedColor,
-                maxLength: 10,
-                labelText: "닉네임",
-                validator: (value) {
-                  var nicknameResult = CheckValidate().validateName(value);
-
-                  return nicknameResult;
-                },
-                readOnly: widget.isUpdate == false ? true : false,
-                onChanged: (String value) {
-                  setState(() {
-                    nickname = value;
-                  });
-                },
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "추천인 코드 ",
+                    style: FontSizes.getCapsuleStyle().copyWith(
+                        fontWeight: FontWeight.w400, color: AppColors.gray7),
+                  ),
+                  Text("${widget.referralCode ?? ""} ",
+                      style: FontSizes.getCapsuleStyle().copyWith(
+                          fontWeight: FontWeight.w400, color: AppColors.gray9)),
+                  InkWell(
+                      onTap: () {
+                        Clipboard.setData(
+                            ClipboardData(text: widget.referralCode ?? ""));
+                        DialogManager(
+                                context: context, type: DialogType.oneButton)
+                            .show(
+                                titleText: "추천인 코드 복사완료!",
+                                contentText:
+                                    "복사한 코드를 친구에게 공유해주세요!\n친구가 나의 추천인 코드로 가입하면\n무료로 레몬을 서로 받을 수 있어요!",
+                                firstButtonText: "확인",
+                                oneContentTextColor: AppColors.blackColor,
+                                firstSubmit: () {
+                                  Navigator.of(context).pop();
+                                });
+                      },
+                      child: Row(
+                        children: [
+                          Image.asset("assets/image/icon/copy.png"),
+                          Text(" 복사하기",
+                              style: FontSizes.getCapsuleStyle().copyWith(
+                                  fontWeight: FontWeight.w400,
+                                  color: AppColors.blue9)),
+                        ],
+                      )),
+                ],
               ),
+              Stack(children: [
+                SeetingCustomTextFormField(
+                  textEditingController: nameController,
+                  bgColor: theme.appColors.seedColor,
+                  errorText: null,
+                  outlineInputBorder: errorNameText == "error"
+                      ? OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(13),
+                          borderSide:
+                              const BorderSide(color: AppColors.timerColor))
+                      : null,
+                  maxLength: 10,
+                  labelText: "닉네임",
+                  validator: (value) {
+                    var nicknameResult = CheckValidate().validateName(value);
+
+                    return nicknameResult;
+                  },
+                  readOnly: widget.isUpdate == false ? true : false,
+                  onChanged: (String value) {},
+                ),
+                if (widget.isUpdate)
+                  Positioned(
+                    right: 0,
+                    top: 36,
+                    child: Container(
+                      width: 70,
+                      height: 35,
+                      margin: const EdgeInsets.fromLTRB(0, 5, 7, 5),
+                      child: ElevatedButton(
+                          child: isNameCheck == true
+                              ? SvgPicture.asset(
+                                  'assets/svg/icon/check.svg',
+                                  colorFilter: ColorFilter.mode(
+                                      theme.appColors.seedColor,
+                                      BlendMode.srcIn),
+                                )
+                              : Text(
+                                  "확인",
+                                  style: FontSizes.getContentStyle()
+                                      .copyWith(fontWeight: FontWeight.w500),
+                                ),
+                          style: checkButtonStyle(theme, isNameCheck),
+                          onPressed: widget.isUpdate
+                              ? () async {
+                                  if (widget.userNickname ==
+                                      nameController.text) {
+                                    setState(() {
+                                      errorNameText = "error";
+                                      isNameCheck = false;
+                                    });
+                                    return;
+                                  }
+                                  print(errorNameText);
+                                  final result = await UserValidationService()
+                                      .checkName(name: nameController.text);
+
+                                  if (result != null) {
+                                    setState(() {
+                                      isNameCheck = true;
+                                      errorNameText = null;
+                                    });
+                                  } else {
+                                    setState(() {
+                                      errorNameText = "error";
+                                      isNameCheck = false;
+                                    });
+                                  }
+                                }
+                              : null),
+                    ),
+                  ),
+              ]),
               const SizedBox(
                 height: 12.0,
               ),
-              SeetingCustomTextFormField(
-                initialText: email,
-                bgColor: theme.appColors.seedColor,
-                labelText: "이메일",
-                readOnly: widget.isUpdate == false ? true : false,
-                validator: (value) {
-                  var emailResult = CheckValidate().validateEmail(value);
+              Stack(children: [
+                SeetingCustomTextFormField(
+                  textEditingController: emailController,
+                  bgColor: theme.appColors.seedColor,
+                  // errorText: errorEmailText,
+                  outlineInputBorder: errorEmailText == "error"
+                      ? OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(13),
+                          borderSide:
+                              const BorderSide(color: AppColors.timerColor))
+                      : null,
+                  maxLines: 1,
+                  suffixWidget: const SizedBox(width: 85),
+                  labelText: "이메일",
+                  readOnly: widget.isUpdate == false ? true : false,
+                  validator: (value) {
+                    var emailResult = CheckValidate().validateEmail(value);
 
-                  return emailResult;
-                },
-                onChanged: (String value) {
-                  setState(() {
-                    email = value;
-                  });
-                },
-              ),
+                    return emailResult;
+                  },
+                  onChanged: (String value) {},
+                ),
+                if (widget.isUpdate)
+                  Positioned(
+                    right: 0,
+                    top: 36,
+                    child: Container(
+                      width: 70,
+                      height: 35,
+                      margin: const EdgeInsets.fromLTRB(0, 5, 7, 5),
+                      child: ElevatedButton(
+                          child: isEmailCheck == true
+                              ? SvgPicture.asset(
+                                  'assets/svg/icon/check.svg',
+                                  colorFilter: ColorFilter.mode(
+                                      theme.appColors.seedColor,
+                                      BlendMode.srcIn),
+                                )
+                              : Text(
+                                  "확인",
+                                  style: FontSizes.getContentStyle()
+                                      .copyWith(fontWeight: FontWeight.w500),
+                                ),
+                          style: checkButtonStyle(theme, isEmailCheck),
+                          onPressed: widget.isUpdate
+                              ? () async {
+                                  if (widget.userEmail ==
+                                      emailController.text) {
+                                    setState(() {
+                                      errorEmailText = "error";
+                                      isEmailCheck = false;
+                                    });
+                                  }
+                                  final result = await UserValidationService()
+                                      .checkEmail(email: emailController.text);
+
+                                  if (result != null) {
+                                    setState(() {
+                                      isEmailCheck = true;
+                                      errorEmailText = null;
+                                    });
+                                  } else {
+                                    setState(() {
+                                      errorEmailText = "error";
+                                      isEmailCheck = false;
+                                    });
+                                  }
+                                }
+                              : null),
+                    ),
+                  ),
+              ]),
               const SizedBox(
                 height: 12.0,
               ),
               Stack(
                 children: [
                   SeetingCustomTextFormField(
+                    textEditingController: phoneController,
                     bgColor: theme.appColors.seedColor,
                     labelText: "연락처",
-                    enabled: !isphoneAuthenticated,
+                    enabled: isAuthenticComplete == false,
                     textInputFormatter: [PhoneNumberFormatter()],
-                    hintText: isAuthenticComplete ? phoneNumber : "번호를 입력해주세요",
+                    hintText: isAuthenticComplete
+                        ? widget.userPhoneNumber
+                        : "번호를 입력해주세요",
                     readOnly: widget.isUpdate == false ? true : false,
                     onChanged: (String value) {
-                      setState(() {
-                        phoneNumber = value;
-                      });
+                      if (phoneController.text.length == 13) {
+                        setState(() {
+                          isPhoneButton = true;
+                        });
+                      } else {
+                        setState(() {
+                          isPhoneButton = false;
+                        });
+                      }
                     },
                   ),
                   Positioned(
-                    bottom: 5,
+                    bottom: 1,
                     right: 0,
                     child: widget.isUpdate && isAuthenticComplete == false
                         ? Container(
@@ -207,17 +391,18 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                                 style: FontSizes.getContentStyle()
                                     .copyWith(fontWeight: FontWeight.w500),
                               ),
-                              onPressed: phoneNumber.length == 13
+                              onPressed: isPhoneButton
                                   ? () async {
                                       if (isphoneAuthenticated == false) {
+                                        var result = await AuthSmsService()
+                                            .sendSms(
+                                                phone: phoneController.text);
+
+                                        if (result is! AuthSmsModel) return;
                                         setState(() {
                                           isphoneAuthenticated = true;
                                         });
                                         _startTimer(context, theme);
-                                        var result = await AuthSmsService()
-                                            .sendSms(phone: phoneNumber);
-
-                                        if (result is! AuthSmsModel) return;
                                       } else {
                                         setState(() {
                                           isTimerStart = false;
@@ -230,9 +415,10 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                               style: ElevatedButton.styleFrom(
                                 minimumSize: Size.zero,
                                 padding: EdgeInsets.zero,
-                                backgroundColor: phoneNumber.length == 13
-                                    ? lightTheme.primaryColor
-                                    : AppColors.gray2,
+                                backgroundColor:
+                                    phoneController.text.length == 13
+                                        ? lightTheme.primaryColor
+                                        : AppColors.gray2,
                                 elevation: 0,
                                 foregroundColor: theme.appColors.iconButton,
                                 shape: RoundedRectangleBorder(
@@ -241,7 +427,7 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                               ),
                             ),
                           )
-                        : SizedBox(),
+                        : const SizedBox(),
                   ),
                 ],
               ),
@@ -263,6 +449,7 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                                         child: SeetingCustomTextFormField(
                                           bgColor: theme.appColors.seedColor,
                                           maxLength: 6,
+                                          errorText: errorPhoneAuthText,
                                           onChanged: (String value) {
                                             value.length == 6
                                                 ? setState(() {
@@ -301,25 +488,26 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                                   Positioned(
                                     top: 10,
                                     right: 0,
-                                    child: Container(
+                                    child: SizedBox(
                                       width: 75,
                                       height: 35,
                                       child: ElevatedButton(
-                                        child: Text(
-                                          "확인",
-                                          style: FontSizes.getContentStyle()
-                                              .copyWith(
-                                                  fontWeight: FontWeight.w500),
-                                        ),
                                         onPressed: () async {
                                           var result = await AuthSmsService()
                                               .sendVerify(
-                                                  phone: phoneNumber,
+                                                  phone: phoneController.text,
                                                   code: code);
-
-                                          if (result is! AuthSmsVerifyModel ||
-                                              result.data.result.valid ==
-                                                  false) {
+                                          print(result);
+                                          if (result == null) {
+                                            setState(() {
+                                              isAuthNumberState = false;
+                                              errorPhoneAuthText =
+                                                  "인증번호를 확인해주세요";
+                                            });
+                                            return;
+                                          } else if (result
+                                                  is! AuthSmsVerifyModel ||
+                                              result.data.valid == false) {
                                             setState(() {
                                               isAuthNumberState =
                                                   result.data.result.valid;
@@ -329,8 +517,6 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
 
                                             return;
                                           }
-
-                                          // print(result);
 
                                           setState(() {
                                             timerCount = 300;
@@ -343,15 +529,22 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                                           backgroundColor: isAuthCheck == false
                                               ? theme.appColors
                                                   .grayButtonBackground
-                                              : Color(0xFFA9D0FF),
+                                              : AppColors.blueMain,
                                           elevation: 0,
+                                          shadowColor: AppColors.invisibleColor,
                                           foregroundColor:
                                               theme.appColors.iconButton ??
-                                                  Colors.black,
+                                                  AppColors.blackColor,
                                           shape: RoundedRectangleBorder(
                                             borderRadius:
                                                 BorderRadius.circular(13),
                                           ),
+                                        ),
+                                        child: Text(
+                                          "확인",
+                                          style: FontSizes.getContentStyle()
+                                              .copyWith(
+                                                  fontWeight: FontWeight.w500),
                                         ),
                                       ),
                                     ),
@@ -371,7 +564,7 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                                         height: 25,
                                         fit: BoxFit.scaleDown,
                                         colorFilter: const ColorFilter.mode(
-                                            Colors.blue, BlendMode.srcIn),
+                                            AppColors.blue9, BlendMode.srcIn),
                                       ),
                                     ),
                                   ),
@@ -393,6 +586,10 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                 child: RoundedButton(
                   text: "수정",
                   onPressed: () {
+                    setState(() {
+                      isNameCheck = false;
+                      isEmailCheck = false;
+                    });
                     widget.onUpdate(true);
                   },
                 ),
@@ -407,6 +604,14 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                     backgroundColor: theme.appColors.seedColor,
                     onPressed: () {
                       widget.onUpdate(false);
+                      _formKey.currentState?.reset();
+                      setState(() {
+                        errorEmailText = null;
+                        errorNameText = null;
+                      });
+                      nameController.text = saveName;
+                      emailController.text = saveEmail;
+                      phoneController.text = widget.userPhoneNumber ?? "";
                       resetTimer();
                     },
                   ),
@@ -417,35 +622,52 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                 Expanded(
                   child: SizedBox(
                     child: RoundedButton(
-                      backgroundColor: isAuthenticComplete == true
-                          ? theme.appColors.blueButtonBackground
-                          : theme.appColors.grayButtonBackground,
+                      backgroundColor: widget.userPhoneNumber == ""
+                          ? (isAuthenticComplete == true ||
+                                  isEmailCheck == true ||
+                                  isNameCheck == true)
+                              ? theme.appColors.blueButtonBackground
+                              : theme.appColors.grayButtonBackground
+                          : (isEmailCheck || isNameCheck)
+                              ? theme.appColors.blueButtonBackground
+                              : theme.appColors.grayButtonBackground,
                       text: "저장",
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
+                          print(ref.watch(lemonStateNotifierProvider));
 
                           final user = await UserInfoService().putUser(
-                              email: email,
+                              mobile: phoneController.text,
+                              email: emailController.text,
                               isVerified: isAuthenticComplete,
-                              nickname: nickname);
+                              nickname: nameController.text);
 
                           if (user is! UserInfoModel) return;
-                          print(user);
+                          await ref
+                              .read(userStateNotifierProvider.notifier)
+                              .userUpdate(user: user);
+                          await ref
+                              .read(lemonStateNotifierProvider.notifier)
+                              .lemonInit(
+                                  userId: ref
+                                      .read(userStateNotifierProvider)
+                                      .userId!);
+                          print(ref.watch(lemonStateNotifierProvider));
 
                           setState(() {
                             isphoneAuthenticated = false;
+                            isNameCheck = false;
+                            isEmailCheck = false;
+                            saveName = nameController.text;
+                            saveEmail = emailController.text;
                           });
                           widget.onUpdate(false);
 
-                          if (isAuthenticComplete == true) {
+                          if (isAuthenticComplete == true &&
+                              widget.userPhoneNumber == "") {
                             resetTimer();
-                            ref
-                                .read(lemonStateNotifierProvider.notifier)
-                                .lemonIncrease();
 
-                            // await prefs.setBool("is_auth", true);
-                            // widget.handlePhoneAuth();
                             DialogManager(
                                     context: context, type: DialogType.lemon)
                                 .show(
@@ -456,7 +678,12 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
                                       Navigator.pop(context);
                                     },
                                     secondButtonText: "리포트 발행하러 가기",
-                                    secondSubmit: () {});
+                                    secondSubmit: () {
+                                      Navigator.of(context).pushReplacement(
+                                          MaterialPageRoute(builder: (context) {
+                                        return const MainScreen();
+                                      }));
+                                    });
                           }
                         }
                       },
@@ -468,8 +695,8 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
         widget.isUpdate == false
             ? InkWell(
                 onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (_) => const WithDrawScreen()));
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (_) => WithdrawCheckScreen()));
                 },
                 child: Text(
                   "계정 탈퇴하기",
@@ -479,6 +706,20 @@ class _UserInfoFormState extends ConsumerState<UserInfoForm> {
               )
             : const Text(""),
       ]),
+    );
+  }
+
+  ButtonStyle checkButtonStyle(theme, bool isTrue) {
+    return ElevatedButton.styleFrom(
+      minimumSize: Size.zero,
+      padding: EdgeInsets.zero,
+      backgroundColor:
+          isTrue ? AppColors.blueMain : theme.appColors.grayButtonBackground,
+      elevation: 0,
+      foregroundColor: theme.appColors.iconButton ?? AppColors.blackColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(13),
+      ),
     );
   }
 }

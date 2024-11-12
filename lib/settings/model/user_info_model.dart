@@ -17,6 +17,8 @@ class UserInfoModel {
   @JsonKey(name: "updatedAt")
   final String? updatedAt;
   final String? mobile;
+  @JsonKey(name: "referral_code")
+  final String? referralCode;
 
   UserInfoModel({
     this.email,
@@ -28,6 +30,7 @@ class UserInfoModel {
     this.createdAt,
     this.updatedAt,
     this.mobile,
+    this.referralCode,
   });
 
   factory UserInfoModel.fromJson(Map<String, dynamic> json) =>

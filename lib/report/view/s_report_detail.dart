@@ -1,28 +1,32 @@
-import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:me_mind/chat/provider/chat_id_provider.dart';
+import 'package:me_mind/chat/utils/show_snackbar.dart';
 import 'package:me_mind/common/component/dots_indicator.dart';
 import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/layout/topbar/widget/back_arrow.dart';
-import 'package:me_mind/common/store.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 import 'package:me_mind/report/component/report_circular_chart.dart';
 import 'package:me_mind/report/model/report_detail/report_detail_model.dart';
 import 'package:me_mind/report/provider/report_detail_provider.dart';
-import 'package:me_mind/report/services/report_detail_service.dart';
-
+import 'package:me_mind/report/services/image_download_service.dart';
 import 'package:me_mind/report/type/emotion.dart';
 import 'package:me_mind/report/w_capsule.dart';
 import 'package:me_mind/report/w_emotion_card.dart';
 
 class ReportDetail extends ConsumerStatefulWidget {
-  const ReportDetail({super.key});
+  final String conversationId;
+  final String reportId;
+  final String createdAt;
+  const ReportDetail(
+      {super.key,
+      required this.conversationId,
+      required this.reportId,
+      required this.createdAt});
 
   @override
   ConsumerState<ReportDetail> createState() => _ReportDetailState();
@@ -32,40 +36,47 @@ class _ReportDetailState extends ConsumerState<ReportDetail> {
   bool diaryFolded = false;
   bool isLoaded = true;
   int imagesCnt = 1;
+  late DateTime dateTime;
   @override
   void initState() {
     super.initState();
-
-    setBottomIdx(1);
+    dateTime = DateTime.parse(widget.createdAt);
   }
 
   @override
   Widget build(BuildContext context) {
     CustomTheme theme = CustomThemeHolder.of(context).theme;
     Color keywordColor = Theme.of(context).cardColor;
-    final id = ref.watch(chatIdProvider);
-    final detail = ref.watch(reportDetailProvider(id));
+
+    final detail = ref.watch(reportDetailProvider(ReportDetailParameter(
+        reportId: widget.reportId, conversationId: widget.conversationId)));
     if (detail is ReportDetailLoading) {
-      return const DefaultLayout(
-          title: "8월 19일",
-          appBarLeading: BackArrowLeading(),
+      return DefaultLayout(
+          title: "${dateTime.month}월 ${dateTime.day}일",
+          appBarLeading: const BackArrowLeading(),
           backgroundColor: AppColors.blue1,
-          child: Center(
-            child: CircularProgressIndicator(),
+          child: const Center(
+            child: CircularProgressIndicator(
+              color: AppColors.blueMain,
+            ),
           ));
     }
     if (detail is ReportDetailFailed) {
-      return const DefaultLayout(
-          title: "8월 19일",
-          appBarLeading: BackArrowLeading(),
+      return DefaultLayout(
+          title: "${dateTime.month}월 ${dateTime.day}일",
+          appBarLeading: const BackArrowLeading(),
           backgroundColor: AppColors.blue1,
-          child: Center(
+          child: const Center(
             child: Text("리포트를 불러오지 못했습니다."),
           ));
     } else {
       final result = detail as ReportDetailModel;
+      Map<String, dynamic> newEmotions = result.emotions!.toJson();
+      List sortedEmotions = newEmotions.entries.toList()
+        ..sort((a, b) => b.value.compareTo(a.value));
+
       return DefaultLayout(
-          title: "8월 19일",
+          title: "${dateTime.month}월 ${dateTime.day}일",
           appBarLeading: const BackArrowLeading(),
           backgroundColor: AppColors.blue1,
           child: SingleChildScrollView(
@@ -74,12 +85,12 @@ class _ReportDetailState extends ConsumerState<ReportDetail> {
               children: [
                 Container(
                   padding: const EdgeInsets.fromLTRB(20, 26, 0, 26),
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.only(
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.only(
                       bottomLeft: Radius.circular(19),
                       bottomRight: Radius.circular(19),
                     ),
-                    color: Colors.white,
+                    color: theme.appColors.seedColor,
                   ),
                   width: double.infinity,
                   child: Column(
@@ -106,71 +117,55 @@ class _ReportDetailState extends ConsumerState<ReportDetail> {
                       SizedBox(
                         height: 100,
                         child: ListView(
-                            scrollDirection: Axis.horizontal,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    right: 7, top: 5, bottom: 5),
-                                child: EmotionCard(
-                                  emotionPercentage:
-                                      result.emotions!.comfortablePercentage!,
-                                  emotionType: EmotionType.comfortable,
-                                ),
+                          scrollDirection: Axis.horizontal,
+                          children: sortedEmotions.map((entry) {
+                            EmotionType? emotionType;
+
+                            switch (entry.key) {
+                              case 'comfortable_percentage':
+                                emotionType = EmotionType.comfortable;
+                                break;
+                              case 'happy_percentage':
+                                emotionType = EmotionType.happiness;
+                                break;
+                              case 'sad_percentage':
+                                emotionType = EmotionType.sadness;
+                                break;
+                              case 'joyful_percentage':
+                                emotionType = EmotionType.excitement;
+                                break;
+                              case 'annoyed_percentage':
+                                emotionType = EmotionType.pain;
+                                break;
+                              case 'lethargic_percentage':
+                                emotionType = EmotionType.noFun;
+                                break;
+                              default:
+                                emotionType = null;
+                            }
+
+                            if (emotionType == null) {
+                              return const SizedBox.shrink();
+                            }
+
+                            return Padding(
+                              padding: const EdgeInsets.only(
+                                  right: 7, top: 5, bottom: 5),
+                              child: EmotionCard(
+                                emotionPercentage: entry.value,
+                                emotionType: emotionType,
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    right: 7, top: 5, bottom: 5),
-                                child: EmotionCard(
-                                  emotionPercentage:
-                                      result.emotions!.happyPercentage!,
-                                  emotionType: EmotionType.happiness,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    right: 7, top: 5, bottom: 5),
-                                child: EmotionCard(
-                                  emotionPercentage:
-                                      result.emotions!.sadPercentage!,
-                                  emotionType: EmotionType.sadness,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    right: 7, top: 5, bottom: 5),
-                                child: EmotionCard(
-                                  emotionPercentage:
-                                      result.emotions!.joyfulPercentage!,
-                                  emotionType: EmotionType.excitement,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    right: 7, top: 5, bottom: 5),
-                                child: EmotionCard(
-                                  emotionPercentage:
-                                      result.emotions!.annoyedPercentage!,
-                                  emotionType: EmotionType.pain,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    right: 7, top: 5, bottom: 5),
-                                child: EmotionCard(
-                                  emotionPercentage:
-                                      result.emotions!.lethargicPercentage!,
-                                  emotionType: EmotionType.noFun,
-                                ),
-                              )
-                            ]),
+                            );
+                          }).toList(),
+                        ),
                       )
                     ],
                   ),
                 ),
                 const Padding(padding: EdgeInsets.only(top: 10)),
                 Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
+                  decoration: BoxDecoration(
+                    color: theme.appColors.seedColor,
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(20.0),
@@ -205,8 +200,8 @@ class _ReportDetailState extends ConsumerState<ReportDetail> {
                 ),
                 const Padding(padding: EdgeInsets.only(top: 10)),
                 Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
+                  decoration: BoxDecoration(
+                    color: theme.appColors.seedColor,
                   ),
                   width: double.infinity,
                   height: 274,
@@ -224,19 +219,7 @@ class _ReportDetailState extends ConsumerState<ReportDetail> {
                             ),
                             Row(
                               children: [
-                                SvgPicture.asset(
-                                  "assets/svg/icon/sharingDiary.svg",
-                                  colorFilter: ColorFilter.mode(
-                                      theme.appColors.iconBook,
-                                      BlendMode.srcIn),
-                                ),
                                 const SizedBox(width: 7),
-                                SvgPicture.asset(
-                                  'assets/svg/icon/upload.svg',
-                                  colorFilter: ColorFilter.mode(
-                                      theme.appColors.iconBook,
-                                      BlendMode.srcIn),
-                                ),
                                 const SizedBox(width: 5),
                               ],
                             ),
@@ -253,7 +236,8 @@ class _ReportDetailState extends ConsumerState<ReportDetail> {
                                     ? BoxDecoration(
                                         image: DecorationImage(
                                             image: NetworkImage(
-                                                result.drawingDiary!.imageUrl!),
+                                              result.drawingDiary!.imageUrl!,
+                                            ),
                                             fit: BoxFit.cover),
                                         borderRadius: BorderRadius.circular(8),
                                       )
@@ -267,7 +251,7 @@ class _ReportDetailState extends ConsumerState<ReportDetail> {
                                             decoration: BoxDecoration(
                                                 borderRadius:
                                                     BorderRadius.circular(8),
-                                                color: const Color(0xFF191919)
+                                                color: AppColors.blackgray
                                                     .withOpacity(0.87)),
                                           ),
                                           const SizedBox(
@@ -290,8 +274,8 @@ class _ReportDetailState extends ConsumerState<ReportDetail> {
                 ),
                 const Padding(padding: EdgeInsets.only(top: 10)),
                 Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
+                  decoration: BoxDecoration(
+                    color: theme.appColors.seedColor,
                   ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -379,8 +363,8 @@ class _ReportDetailState extends ConsumerState<ReportDetail> {
                 ),
                 const Padding(padding: EdgeInsets.only(top: 10)),
                 Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
+                  decoration: BoxDecoration(
+                    color: theme.appColors.seedColor,
                   ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -405,8 +389,8 @@ class _ReportDetailState extends ConsumerState<ReportDetail> {
                               physics: const NeverScrollableScrollPhysics(),
                               crossAxisCount: 2,
                               shrinkWrap: true,
-                              children:
-                                  List.generate(result.images!.length, (index) {
+                              children: List.generate(
+                                  result.images!.take(4).length, (index) {
                                 return Container(
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(13),

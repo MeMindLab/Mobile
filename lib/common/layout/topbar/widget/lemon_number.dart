@@ -4,13 +4,26 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/provider/lemon_provider.dart';
 
-class LemonNumberWidget extends ConsumerWidget {
+class LemonNumberWidget extends ConsumerStatefulWidget {
   const LemonNumberWidget({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<LemonNumberWidget> createState() => _LemonNumberWidgetState();
+}
+
+class _LemonNumberWidgetState extends ConsumerState<LemonNumberWidget> {
+  @override
+  void initState() {
+    super.initState();
+    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+    //   await ref.read(lemonStateNotifierProvider.notifier).lemonInit();
+    // });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final state = ref.watch(lemonStateNotifierProvider);
     return Row(
       mainAxisSize: MainAxisSize.min,

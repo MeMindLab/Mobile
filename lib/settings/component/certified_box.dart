@@ -3,7 +3,6 @@ import 'package:me_mind/common/constant/font_sizes.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 
-// 인증완료, 미인증 컴포넌트
 class CertifiedBox extends StatelessWidget {
   bool isCertified;
 

@@ -1,22 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:me_mind/chat/view/s_chat.dart';
-import 'package:me_mind/chat/view/s_trash.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/view/splash_screen.dart';
-import 'package:me_mind/settings/view/s_setting.dart';
-import 'package:me_mind/settings/view/s_withdraw_screen.dart';
-import 'package:me_mind/user/view/s_signin.dart';
-import 'package:me_mind/user/view/s_signup_welcome.dart';
-import 'package:me_mind/user/view/signup_screen.dart';
-import 'package:me_mind/diary/view/s_diary.dart';
-import 'package:me_mind/report/view/f_search.dart';
-import 'package:me_mind/report/view/s_report.dart';
-import 'package:me_mind/report/view/s_report_detail.dart';
-import 'package:me_mind/report/view/s_report_month.dart';
-import 'package:me_mind/report/view/s_report_search.dart';
-import 'package:me_mind/screen/main/s_main.dart';
 import 'common/theme/custom_theme_app.dart';
 import 'common/theme/custom_theme_holder.dart';
 

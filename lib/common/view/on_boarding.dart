@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/font_sizes.dart';
@@ -35,6 +36,9 @@ class OnBoardingScreen extends StatelessWidget {
                   'assets/image/onboarding/page1.png',
                   height: MediaQuery.of(context).size.height * 0.32,
                 ),
+                Align(
+                    alignment: const Alignment(0.295, -0.82),
+                    child: Image.asset("assets/image/onboarding/hi.png")),
               ]),
             ),
             const SizedBox(
@@ -78,6 +82,11 @@ class OnBoardingScreen extends StatelessWidget {
                     height: MediaQuery.of(context).size.height * 0.3,
                   ),
                 ),
+                // SvgPicture.asset(
+                //   "assets/svg/onboarding/onboarding4.svg",
+                //   height: MediaQuery.of(context).size.height * 0.32,
+                //   fit: BoxFit.contain,
+                // ),
                 Image.asset(
                   'assets/image/onboarding/page2.png',
                   height: MediaQuery.of(context).size.height * 0.32,
@@ -107,49 +116,54 @@ class OnBoardingScreen extends StatelessWidget {
       ),
     ];
 
-    return IntroductionScreen(
-      pages: pages,
-      done: Text(
-        "NEXT",
-        style: FontSizes.getContentStyle().copyWith(
-          color: AppColors.gray9,
-        ),
-      ),
-      onDone: () {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) => const OnBoardingLastScreen(),
-          ),
-        );
+    return WillPopScope(
+      onWillPop: () async {
+        return false;
       },
-      onSkip: () {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) => const OnBoardingLastScreen(),
+      child: IntroductionScreen(
+        pages: pages,
+        done: Text(
+          "NEXT",
+          style: FontSizes.getContentStyle().copyWith(
+            color: AppColors.gray9,
           ),
-        );
-      },
-      nextFlex: 0,
-      next: Text(
-        'NEXT',
-        style: FontSizes.getContentStyle().copyWith(
-          color: AppColors.gray9,
         ),
-      ),
-      showSkipButton: true,
-      globalBackgroundColor: Color(0xffF1F3F8),
-      skipOrBackFlex: 0,
-      skip: Text(
-        'SKIP',
-        style: FontSizes.getContentStyle().copyWith(
-          color: AppColors.gray9,
+        onDone: () {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) => const OnBoardingLastScreen(),
+            ),
+          );
+        },
+        onSkip: () {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) => const OnBoardingLastScreen(),
+            ),
+          );
+        },
+        nextFlex: 0,
+        next: Text(
+          'NEXT',
+          style: FontSizes.getContentStyle().copyWith(
+            color: AppColors.gray9,
+          ),
         ),
+        showSkipButton: true,
+        globalBackgroundColor: AppColors.blue1,
+        skipOrBackFlex: 0,
+        skip: Text(
+          'SKIP',
+          style: FontSizes.getContentStyle().copyWith(
+            color: AppColors.gray9,
+          ),
+        ),
+        dotsDecorator: const DotsDecorator(
+          color: AppColors.gray3,
+          activeColor: AppColors.blueMain,
+        ),
+        curve: Curves.bounceOut,
       ),
-      dotsDecorator: const DotsDecorator(
-        color: Color(0xFFCCCCCC),
-        activeColor: Color(0xFFA9D0FF),
-      ),
-      curve: Curves.bounceOut,
     );
   }
 }
@@ -165,6 +179,6 @@ PageDecoration getPageDecoration(ThemeData theme) {
       color: AppColors.gray9,
     ),
     imageFlex: 2,
-    pageColor: Color(0xffF1F3F8),
+    pageColor: AppColors.blue1,
   );
 }

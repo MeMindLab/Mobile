@@ -51,7 +51,7 @@ class _SettingUserInfoState extends State<SubscribePage> {
                       const SizedBox(
                         height: 29,
                       ),
-                      SubscribeBox(
+                      const SubscribeBox(
                         imagePath: "assets/image/icon/subscribe.png",
                         title: "일기봇 캐릭터 바꾸기",
                         subTitle: "AI 일기봇과 나눈 대화를 7가지 감정에 기반하여 분석해볼 수 있어요",
@@ -59,7 +59,7 @@ class _SettingUserInfoState extends State<SubscribePage> {
                       const SizedBox(
                         height: 15,
                       ),
-                      SubscribeBox(
+                      const SubscribeBox(
                         imagePath: "assets/image/icon/subscribe.png",
                         title: "일기봇 캐릭터 바꾸기",
                         subTitle: "AI 일기봇과 나눈 대화를 7가지 감정에 기반하여 분석해볼 수 있어요",
@@ -67,7 +67,7 @@ class _SettingUserInfoState extends State<SubscribePage> {
                       const SizedBox(
                         height: 15,
                       ),
-                      SubscribeBox(
+                      const SubscribeBox(
                         imagePath: "assets/image/icon/subscribe.png",
                         title: "일기봇 캐릭터 바꾸기",
                         subTitle: "AI 일기봇과 나눈 대화를 7가지 감정에 기반하여 분석해볼 수 있어요",
