@@ -208,32 +208,6 @@ class _SettingState extends ConsumerState<Settings> {
                         height: 65,
                         content: ListTile(
                           onTap: () {
-                            Navigator.pushReplacement(
-                                context,
-                                PageRouteBuilder(
-                                  pageBuilder: ((BuildContext context,
-                                          Animation<double> animation1,
-                                          Animation<double> animation2) =>
-                                      const SettingTheme()),
-                                  transitionDuration: Duration.zero,
-                                  reverseTransitionDuration: Duration.zero,
-                                ));
-                          },
-                          title: Text(
-                            "테마 설정",
-                            style: FontSizes.getHeadline2Style()
-                                .copyWith(color: theme.appColors.iconButton),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      SettingMenu(
-                        subscribe: false,
-                        height: 65,
-                        content: ListTile(
-                          onTap: () {
                             Navigator.push(
                                 context,
                                 PageRouteBuilder(

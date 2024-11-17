@@ -26,36 +26,35 @@ class SignUpViewModel {
     required bool isAdvertise,
     required bool isAppPush,
   }) async {
-    // final SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (isAppPush) {
+      String today = DateFormat("yyyy년 MM월 dd일").format(DateTime.now());
+      await BottomSheets(
+          context: context,
+          bodies: BottomSheetContent(
+              title: "광고성 정보 수신동의 처리 결과",
+              body: "전송자 : memind\n일시 : $today\n내용 : 수신동의 처리 완료",
+              action: RoundedButton(
+                text: "확인",
+                onPressed: () {
+                  isTrue = true;
+                  Navigator.pop(context);
+                },
+              ))).show();
+    }
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    // if (isAppPush) {
-    //   String today = DateFormat("yyyy년 MM월 dd일").format(DateTime.now());
-    //   await BottomSheets(
-    //       context: context,
-    //       bodies: BottomSheetContent(
-    //           title: "광고성 정보 수신동의 처리 결과",
-    //           body: "전송자 : memind\n일시 : $today\n내용 : 수신동의 처리 완료",
-    //           action: RoundedButton(
-    //             text: "확인",
-    //             onPressed: () {
-    //               isTrue = true;
-    //               Navigator.pop(context);
-    //             },
-    //           ))).show();
-    // }
-    // if (isTrue != true && isAppPush) return;
-    // if (isAppPush) {
-    //   var permissionStatus =
-    //       await DevicePermission().accessNotification(context: context);
+    if (isAppPush) {
+      var permissionStatus =
+          await DevicePermission().accessNotification(context: context);
 
-    //   if (permissionStatus == PermissionStatus.denied) {
-    //     Navigator.of(context).pushReplacement(MaterialPageRoute(
-    //         builder: (context) => SignUpScreen(isOnBoarding: false)));
-    //     return;
-    //   }
-    //   await prefs.setBool('adverTisingAccept', isAdvertise);
-    //   await prefs.setBool('appPushAccept', isAppPush);
-    // }
+      if (permissionStatus == PermissionStatus.denied) {
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) => SignUpScreen(isOnBoarding: false)));
+        return;
+      }
+      await prefs.setBool('adverTisingAccept', isAdvertise);
+      await prefs.setBool('appPushAccept', isAppPush);
+    }
 
     final result =
         await SignupService().signup(email, nickname, password, referral);
@@ -80,6 +79,9 @@ class SignUpViewModel {
         errorNameText = "이미 존재하는 닉네임입니다";
       } else if (result["message"] == "Referrer not found") {
         errorReferralText = "잘못된 추천인 코드입니다";
+      } else if (result["message"] ==
+          "Nickname must be between 3 and 10 characters") {
+        errorNameText = "닉네임은 3글자 이상 10글자 이하입니다";
       }
 
       return {

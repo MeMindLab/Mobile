@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:me_mind/common/constant/constant.dart';
+import 'package:me_mind/user/model/user_signup_model.dart';
 
 class SignupService {
   Future<dynamic> signup(
@@ -20,16 +21,22 @@ class SignupService {
     final dio = Dio();
     Response response;
     dio.options.headers.clear();
-    dio.options.headers.addAll(
-        {'accept': 'application/json', "Content-Type": 'application/json'});
+    dio.options.headers.addAll({
+      'accept': 'application/json',
+      "Content-Type": 'application/json; charset=utf-8',
+    });
 
     try {
       print(data);
-      response = await dio.post(url, data: jsonEncode(data));
+      var response = await dio.post(url, data: jsonEncode(data));
       print(response);
+      final result = UserSignUpModel.fromJson(response.data);
+
+      // return result;
 
       return {"success": true};
     } on DioException catch (e) {
+      // return e.response!.data["detail"];
       return {"success": false, "message": e.response!.data["detail"]};
     }
   }
