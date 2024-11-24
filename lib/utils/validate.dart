@@ -18,9 +18,9 @@ class CheckValidate {
 
   String? validateName(String value) {
     if (value.isEmpty) {
-      return '닉네임은 최소 2글자 이상입니다';
+      return '닉네임은 최소 3글자 이상입니다';
     } else {
-      if (value.length < 2) {
+      if (value.length < 3) {
         return "닉네임은 최소 2글자 이상입니다";
       } else {
         return null;

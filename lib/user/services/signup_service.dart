@@ -21,9 +21,10 @@ class SignupService {
     final dio = Dio();
     Response response;
     dio.options.headers.clear();
+
     dio.options.headers.addAll({
       'accept': 'application/json',
-      "Content-Type": 'application/json; charset=utf-8',
+      "Content-Type": 'application/json',
     });
 
     try {
@@ -36,6 +37,7 @@ class SignupService {
 
       return {"success": true};
     } on DioException catch (e) {
+      print(e);
       // return e.response!.data["detail"];
       return {"success": false, "message": e.response!.data["detail"]};
     }
