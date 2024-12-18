@@ -57,5 +57,7 @@
     	<string>camera</string>
 		<key>UIStatusBarHidden</key>
 		<false/>
+		<key>GADApplicationIdentifier</key>
+		<string>ios ca-app-pub-6226753002068195~3108207230</string>
 	</dict>
 </plist>
