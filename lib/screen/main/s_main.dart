@@ -28,7 +28,7 @@ class MainScreen extends ConsumerStatefulWidget {
 class _MainScreenState extends ConsumerState<MainScreen> {
   final GlobalKey webViewKey = GlobalKey();
 
-  Uri myUrl = Uri.parse("https://main--memind.netlify.app/");
+  Uri myUrl = Uri.parse("https://memind.netlify.app/");
   InAppWebViewController? webViewController;
 
   late final PullToRefreshController pullToRefreshController;
