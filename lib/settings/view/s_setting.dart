@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:me_mind/chat/provider/chat_provider.dart';
 import 'package:me_mind/common/constant/app_colors.dart';
 import 'package:me_mind/common/constant/constant.dart';
@@ -11,6 +12,7 @@ import 'package:me_mind/common/layout/topbar/widget/back_arrow.dart';
 import 'package:me_mind/common/layout/topbar/widget/lemon_number.dart';
 import 'package:me_mind/common/provider/lemon_provider.dart';
 import 'package:me_mind/common/provider/user_provider.dart';
+import 'package:me_mind/common/services/admob_service.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 import 'package:me_mind/common/utils/dialog_manager.dart';
@@ -38,16 +40,48 @@ class Settings extends ConsumerStatefulWidget {
 
 class _SettingState extends ConsumerState<Settings> {
   final dio = Dio();
-
+  InterstitialAd? _interstitialAd;
   @override
   void initState() {
     super.initState();
+    _createInterstitialAd();
   }
 
   @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
+  }
+
+  void _createInterstitialAd() {
+    InterstitialAd.load(
+        adUnitId: AdMobService.interstitialAdUnitId!,
+        request: const AdRequest(),
+        adLoadCallback: InterstitialAdLoadCallback(
+          onAdLoaded: (ad) => _interstitialAd = ad,
+          onAdFailedToLoad: (error) {
+            print(error);
+            _interstitialAd = null;
+          },
+        ));
+  }
+
+  void _showInterstitialAd() {
+    if (_interstitialAd != null) {
+      _interstitialAd!.fullScreenContentCallback =
+          FullScreenContentCallback(onAdDismissedFullScreenContent: (ad) {
+        ad.dispose();
+      }, onAdFailedToShowFullScreenContent: (ad, error) {
+        ad.dispose();
+        _createInterstitialAd();
+      });
+      _interstitialAd!.show();
+      _interstitialAd = null;
+    }
+  }
+
+  Future<void> onUserInfoPressed() async {
+    _showInterstitialAd();
   }
 
   @override
@@ -175,7 +209,8 @@ class _SettingState extends ConsumerState<Settings> {
                         subscribe: false,
                         height: 65,
                         content: ListTile(
-                          onTap: () {
+                          onTap: () async {
+                            await onUserInfoPressed();
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
