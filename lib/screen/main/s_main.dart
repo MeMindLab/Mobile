@@ -28,7 +28,7 @@ class MainScreen extends ConsumerStatefulWidget {
 class _MainScreenState extends ConsumerState<MainScreen> {
   final GlobalKey webViewKey = GlobalKey();
 
-  Uri myUrl = Uri.parse("https://main--memind.netlify.app/");
+  Uri myUrl = Uri.parse("https://memind.netlify.app/");
   InAppWebViewController? webViewController;
 
   late final PullToRefreshController pullToRefreshController;
@@ -55,9 +55,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
         await storage.write(key: ACCESS_TOKEN, value: response.accessToken);
         await storage.write(key: REFRESH_TOKEN, value: response.refreshToken);
 
-        await controller.evaluateJavascript(
-            source:
-                """
+        await controller.evaluateJavascript(source: """
                       window.flutter_inappwebview.callHandler('tokenExpired').then(function(token) {
                         window.receivedToken = token;
                         console.log("Token received from Flutter: " + token);
@@ -109,7 +107,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
       backgroundColor: AppColors.blue1,
       bottomNavigationBar: const RootTab(),
       appBarBgColor: AppColors.blue1,
-      appBarActions: [LemonNumberWidget()],
+      appBarActions: const [LemonNumberWidget()],
       isappBarImage: true,
       title: "로고",
       child: WillPopScope(
@@ -216,9 +214,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                               debugPrint("토큰 전송");
                               return token;
                             });
-                        await controller.evaluateJavascript(
-                            source:
-                                """
+                        await controller.evaluateJavascript(source: """
                           window.flutter_inappwebview.callHandler('requestToken').then(function(token) {
                             window.receivedToken = token;
                             console.log("Token received from Flutter: " + token);
