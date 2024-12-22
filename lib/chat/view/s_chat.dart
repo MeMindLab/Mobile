@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:me_mind/chat/component/chat_message_tile.dart';
 import 'package:me_mind/chat/component/chat_mic.dart';
@@ -22,6 +23,7 @@ import 'package:me_mind/common/layout/default_layout.dart';
 import 'package:me_mind/common/layout/topbar/widget/back_arrow.dart';
 import 'package:me_mind/common/provider/lemon_provider.dart';
 import 'package:me_mind/common/provider/user_provider.dart';
+import 'package:me_mind/common/services/admob_service.dart';
 import 'package:me_mind/common/theme/custom_theme.dart';
 import 'package:me_mind/common/theme/custom_theme_holder.dart';
 import 'package:me_mind/common/utils/dialog_manager.dart';
@@ -56,6 +58,7 @@ class _ChatState extends ConsumerState<Chat> {
   bool dialog3 = false;
   bool dialog4 = false;
   int chatImageCount = 0;
+  InterstitialAd? _interstitialAd;
 
   void chatContentChange(String msg) {
     setState(() {
@@ -66,6 +69,41 @@ class _ChatState extends ConsumerState<Chat> {
   @override
   void initState() {
     super.initState();
+    _createInterstitialAd();
+    Future.delayed(const Duration(seconds: 2), () async {
+      await onUserInfoPressed();
+    });
+  }
+
+  void _createInterstitialAd() {
+    InterstitialAd.load(
+        adUnitId: AdMobService.interstitialAdUnitId!,
+        request: const AdRequest(),
+        adLoadCallback: InterstitialAdLoadCallback(
+          onAdLoaded: (ad) => _interstitialAd = ad,
+          onAdFailedToLoad: (error) {
+            print(error);
+            _interstitialAd = null;
+          },
+        ));
+  }
+
+  void _showInterstitialAd() {
+    if (_interstitialAd != null) {
+      _interstitialAd!.fullScreenContentCallback =
+          FullScreenContentCallback(onAdDismissedFullScreenContent: (ad) {
+        ad.dispose();
+      }, onAdFailedToShowFullScreenContent: (ad, error) {
+        ad.dispose();
+        _createInterstitialAd();
+      });
+      _interstitialAd!.show();
+      _interstitialAd = null;
+    }
+  }
+
+  Future<void> onUserInfoPressed() async {
+    _showInterstitialAd();
   }
 
   @override

@@ -44,44 +44,12 @@ class _SettingState extends ConsumerState<Settings> {
   @override
   void initState() {
     super.initState();
-    _createInterstitialAd();
   }
 
   @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-  }
-
-  void _createInterstitialAd() {
-    InterstitialAd.load(
-        adUnitId: AdMobService.interstitialAdUnitId!,
-        request: const AdRequest(),
-        adLoadCallback: InterstitialAdLoadCallback(
-          onAdLoaded: (ad) => _interstitialAd = ad,
-          onAdFailedToLoad: (error) {
-            print(error);
-            _interstitialAd = null;
-          },
-        ));
-  }
-
-  void _showInterstitialAd() {
-    if (_interstitialAd != null) {
-      _interstitialAd!.fullScreenContentCallback =
-          FullScreenContentCallback(onAdDismissedFullScreenContent: (ad) {
-        ad.dispose();
-      }, onAdFailedToShowFullScreenContent: (ad, error) {
-        ad.dispose();
-        _createInterstitialAd();
-      });
-      _interstitialAd!.show();
-      _interstitialAd = null;
-    }
-  }
-
-  Future<void> onUserInfoPressed() async {
-    _showInterstitialAd();
   }
 
   @override
@@ -210,7 +178,6 @@ class _SettingState extends ConsumerState<Settings> {
                         height: 65,
                         content: ListTile(
                           onTap: () async {
-                            await onUserInfoPressed();
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
