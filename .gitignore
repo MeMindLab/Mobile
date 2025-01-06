@@ -46,3 +46,9 @@ app.*.map.json
 key.properties
 **/*.keystore
 **/*.jks
+
+# FVM Version Cache
+.fvm/
+.fvm/flutter_sdk
+
+.vscode/
