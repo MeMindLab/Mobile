@@ -27,7 +27,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace "com.example.me_mind"
+    namespace "com.me_mind_me_lab.me_mind"
     compileSdkVersion flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 
